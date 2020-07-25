@@ -1,0 +1,15 @@
+#!/bin/bash
+set -eu
+
+readonly NAMESPACE=hadoop-sandbox
+
+kubectl \
+  apply \
+  --kustomize=kubernetes \
+  --selector="component in (namespace,package)" \
+  --wait=true
+kubectl --namespace=${NAMESPACE} wait job --all=true --for="condition=complete" --timeout=180s
+kubectl \
+  apply \
+  --kustomize kubernetes \
+  --selector "component in (config,env,hdfs,yarn,mapreduce,hive,client)"

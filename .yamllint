@@ -1,0 +1,10 @@
+extends: default
+rules:
+  document-start: disable
+  indentation:
+    spaces: 2
+    indent-sequences: false
+  line-length:
+    max: 100
+    ignore: |
+      kubernetes/base/client/pod.yaml

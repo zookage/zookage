@@ -1,0 +1,8 @@
+#!/bin/bash
+set -eu
+
+readonly bin_dir=$(cd $(dirname $0); pwd)
+
+for pod in `${bin_dir}/kubectl get pod -o name`; do
+  ${bin_dir}/kubectl logs ${pod} --all-containers=true | sed -e "s@^@${pod}: @g"
+done

@@ -1,0 +1,6 @@
+#!/bin/bash
+set -eu
+
+readonly bin_dir=$(cd $(dirname $0); pwd)
+
+${bin_dir}/kubectl exec -it hadoop-sandbox-client /bin/bash

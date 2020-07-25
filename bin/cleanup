@@ -1,0 +1,7 @@
+#!/bin/bash
+set -u
+
+kubectl delete --kustomize=kubernetes --now
+kubectl wait namespace/hadoop-sandbox --for=delete --timeout=600s 2> /dev/null
+
+echo "All resources have been cleaned up."
