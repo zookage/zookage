@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hdfs-datanode
+spec:
+  selector:
+    matchLabels: {}
+  serviceName: hdfs-datanode
+  replicas: 3
+  template:
+    spec:
+      initContainers:
+      - name: await-namenode
+        image: hadoop-sandbox-main
+        args:
+        - hdfs-path-ready
+        - /
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        securityContext:
+          runAsUser: 1002
+          runAsGroup: 1000
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+        - name: package-hadoop
+          mountPath: /opt/hadoop
+      containers:
+      - name: datanode
+        image: hadoop-sandbox-main
+        args:
+        - hdfs-datanode
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        readinessProbe:
+          tcpSocket:
+            port: 9866
+        securityContext:
+          runAsUser: 1002
+          runAsGroup: 1000
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+        - name: mnt
+          mountPath: /mnt
+        - name: package-hadoop
+          mountPath: /opt/hadoop
+      volumes:
+      - name: hadoop-conf
+        configMap:
+          name: hadoop-conf
+          items:
+          - key: core-site.xml
+            path: core-site.xml
+          - key: hadoop-metrics2.properties
+            path: hadoop-metrics2.properties
+          - key: hdfs-site.xml
+            path: hdfs-site.xml
+          - key: log4j.properties
+            path: log4j.properties
+      - name: mnt
+        emptyDir: {}
+      - name: package-hadoop
+        persistentVolumeClaim:
+          claimName: package-hadoop
+  volumeClaimTemplates: []

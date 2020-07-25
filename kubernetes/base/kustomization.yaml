@@ -1,0 +1,11 @@
+bases:
+- package
+- config
+- env
+- hdfs
+- yarn
+- mapreduce
+- hive
+- client
+commonLabels:
+  owner: hadoop-sandbox

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: yarn-timelineserver
+spec:
+  selector:
+    matchLabels: {}
+  serviceName: yarn-timelineserver
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: timelineserver
+        image: hadoop-sandbox-main
+        args:
+        - yarn-timelineserver
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        readinessProbe:
+          tcpSocket:
+            port: 10200
+        securityContext:
+          runAsUser: 1003
+          runAsGroup: 1000
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+        - name: mnt
+          mountPath: /mnt
+        - name: package-hadoop
+          mountPath: /opt/hadoop
+      volumes:
+      - name: hadoop-conf
+        configMap:
+          name: hadoop-conf
+          items:
+          - key: core-site.xml
+            path: core-site.xml
+          - key: hadoop-metrics2.properties
+            path: hadoop-metrics2.properties
+          - key: log4j.properties
+            path: log4j.properties
+          - key: yarn-site.xml
+            path: yarn-site.xml
+      - name: mnt
+        emptyDir: {}
+      - name: package-hadoop
+        persistentVolumeClaim:
+          claimName: package-hadoop
+  volumeClaimTemplates: []

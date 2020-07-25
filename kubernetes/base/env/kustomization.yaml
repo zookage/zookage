@@ -1,0 +1,22 @@
+commonLabels:
+  component: env
+configMapGenerator:
+- name: hadoop-env
+  literals:
+  - HADOOP_HOME=/opt/hadoop
+  - HADOOP_CONF_DIR=/etc/hadoop/conf
+  - HADOOP_LOG_DIR=/var/log/hadoop
+- name: httpfs-env
+  literals:
+  - HTTPFS_TEMP=/var/tmp/httpfs
+  - HADOOP_LOG_DIR=/var/log/httpfs
+  # for Hadoop 2.x
+  - HTTPFS_LOG=/var/log/httpfs
+  - HTTPFS_SILENT=false
+  - HTTPFS_CONFIG=/etc/hadoop/conf
+  - CATALINA_BASE=/var/opt/catalina/tomcat
+- name: hive-env
+  literals:
+  - HIVE_HOME=/opt/hive
+  - HIVE_CONF_DIR=/etc/hive/conf
+  - HADOOP_OPTS=-Dderby.system.home=/tmp/derby

@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: package-hadoop
+spec:
+  template:
+    spec:
+      containers:
+      - name: hadoop-sandbox-hadoop
+        image: hadoop-sandbox-hadoop
+        command:
+        - /bin/bash
+        args:
+        - -c
+        - "rm -rf /mnt/hadoop-sandbox/hadoop && cp -R /opt/hadoop /mnt/hadoop-sandbox/hadoop"
+        volumeMounts:
+        - name: package-home
+          mountPath: /mnt/hadoop-sandbox
+      restartPolicy: Never
+      volumes:
+      - name: package-home
+        hostPath:
+          path: /opt/hadoop-sandbox

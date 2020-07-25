@@ -1,0 +1,15 @@
+namespace: hadoop-sandbox
+bases:
+- base
+resources:
+- namespace.yaml
+images:
+- name: hadoop-sandbox-hadoop
+  newName: hadoopsandbox/hadoop-sandbox-hadoop
+  newTag: "3.3.0-001"
+- name: hadoop-sandbox-hive
+  newName: hadoopsandbox/hadoop-sandbox-hive
+  newTag: "3.1.2-guava-27.0-jre-001"
+- name: hadoop-sandbox-main
+  newName: hadoopsandbox/hadoop-sandbox-main
+  newTag: "master"

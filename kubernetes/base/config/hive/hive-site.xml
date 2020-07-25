@@ -1,0 +1,14 @@
+<configuration>
+  <property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:derby:/mnt/hive/metastore;databaseName=metastore_db;create=true</value>
+  </property>
+  <property>
+    <name>hive.metastore.uris</name>
+    <value>thrift://hive-metastore-0.hive-metastore:9083</value>
+  </property>
+  <property>
+    <name>datanucleus.autoStartMechanismMode</name>
+    <value>ignored</value>
+  </property>
+</configuration>

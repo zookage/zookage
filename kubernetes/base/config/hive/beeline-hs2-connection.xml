@@ -1,0 +1,14 @@
+<configuration>
+  <property>
+    <name>beeline.hs2.connection.hosts</name>
+    <value>hive-hiveserver2:10000</value>
+  </property>
+  <property>
+    <name>beeline.hs2.connection.user</name>
+    <value>sandbox</value>
+  </property>
+  <property>
+    <name>beeline.hs2.connection.password</name>
+    <value>dummy</value>
+  </property>
+</configuration>

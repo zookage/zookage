@@ -1,0 +1,7 @@
+bases:
+- namenode
+- mkdir
+- datanode
+- httpfs
+commonLabels:
+  component: hdfs

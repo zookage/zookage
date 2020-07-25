@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hadoop-sandbox-package-hive
+spec:
+  accessModes:
+  - ReadOnlyMany
+  capacity:
+    storage: 512Mi
+  hostPath:
+    path: /opt/hadoop-sandbox/hive
+  storageClassName: hadoop-sandbox-package-hive

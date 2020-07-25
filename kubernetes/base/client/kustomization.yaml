@@ -1,0 +1,5 @@
+resources:
+- pod.yaml
+commonLabels:
+  component: client
+  tier: client

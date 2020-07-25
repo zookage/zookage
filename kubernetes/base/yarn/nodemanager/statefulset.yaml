@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: yarn-nodemanager
+spec:
+  selector:
+    matchLabels: {}
+  serviceName: yarn-nodemanager
+  replicas: 3
+  template:
+    spec:
+      initContainers:
+      - name: await-resourcemanager
+        image: hadoop-sandbox-main
+        args:
+        - http-ready
+        - http://yarn-resourcemanager-0.yarn-resourcemanager:8088
+      containers:
+      - name: nodemanager
+        image: hadoop-sandbox-main
+        args:
+        - yarn-nodemanager
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        readinessProbe:
+          tcpSocket:
+            port: 8041
+        securityContext:
+          runAsUser: 1003
+          runAsGroup: 1000
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+        - name: mnt
+          mountPath: /mnt
+        - name: package-hadoop
+          mountPath: /opt/hadoop
+      volumes:
+      - name: hadoop-conf
+        configMap:
+          name: hadoop-conf
+          items:
+          - key: core-site.xml
+            path: core-site.xml
+          - key: hadoop-metrics2.properties
+            path: hadoop-metrics2.properties
+          - key: log4j.properties
+            path: log4j.properties
+          - key: yarn-site.xml
+            path: yarn-site.xml
+      - name: mnt
+        emptyDir: {}
+      - name: package-hadoop
+        persistentVolumeClaim:
+          claimName: package-hadoop
+  volumeClaimTemplates: []

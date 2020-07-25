@@ -1,0 +1,19 @@
+commonLabels:
+  component: config
+configMapGenerator:
+- name: hadoop-conf
+  files:
+  - hadoop/capacity-scheduler.xml
+  - hadoop/core-site.xml
+  - hadoop/hadoop-metrics2.properties
+  - hadoop/hdfs-site.xml
+  - hadoop/httpfs-log4j.properties
+  - hadoop/httpfs-signature.secret
+  - hadoop/httpfs-site.xml
+  - hadoop/log4j.properties
+  - hadoop/mapred-site.xml
+  - hadoop/yarn-site.xml
+- name: hive-conf
+  files:
+  - hive/beeline-hs2-connection.xml
+  - hive/hive-site.xml

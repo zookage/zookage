@@ -1,0 +1,5 @@
+bases:
+- hadoop
+- hive
+commonLabels:
+  component: package

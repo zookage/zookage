@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hive-metastore
+spec:
+  selector:
+    matchLabels: {}
+  serviceName: hive-metastore
+  replicas: 1
+  template:
+    spec:
+      initContainers:
+      - name: init-schema
+        image: hadoop-sandbox-main
+        args:
+        - hive-metastore-init-schema
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        - configMapRef:
+            name: hive-env
+        securityContext:
+          runAsUser: 1006
+          runAsGroup: 1006
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+        - name: hive-conf
+          mountPath: /etc/hive/conf
+        - name: mnt
+          mountPath: /mnt
+        - name: package-hadoop
+          mountPath: /opt/hadoop
+        - name: package-hive
+          mountPath: /opt/hive
+      containers:
+      - name: metastore
+        image: hadoop-sandbox-main
+        args:
+        - hive-metastore
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        - configMapRef:
+            name: hive-env
+        readinessProbe:
+          tcpSocket:
+            port: 9083
+        securityContext:
+          runAsUser: 1006
+          runAsGroup: 1006
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+        - name: hive-conf
+          mountPath: /etc/hive/conf
+        - name: mnt
+          mountPath: /mnt
+        - name: package-hadoop
+          mountPath: /opt/hadoop
+        - name: package-hive
+          mountPath: /opt/hive
+      volumes:
+      - name: hadoop-conf
+        configMap:
+          name: hadoop-conf
+          items:
+          - key: core-site.xml
+            path: core-site.xml
+          - key: log4j.properties
+            path: log4j.properties
+      - name: hive-conf
+        configMap:
+          name: hive-conf
+          items:
+          - key: hive-site.xml
+            path: hive-site.xml
+      - name: mnt
+        emptyDir: {}
+      - name: package-hadoop
+        persistentVolumeClaim:
+          claimName: package-hadoop
+      - name: package-hive
+        persistentVolumeClaim:
+          claimName: package-hive
+  volumeClaimTemplates: []

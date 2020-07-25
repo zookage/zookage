@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hdfs-httpfs
+spec:
+  type: LoadBalancer
+  selector: {}
+  ports:
+  - name: http
+    port: 14000

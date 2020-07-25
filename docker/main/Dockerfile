@@ -1,0 +1,28 @@
+# syntax=docker/dockerfile:experimental
+FROM openjdk:8
+
+RUN apt update \
+  && apt install -y curl less vim \
+  && groupadd --gid 1000 hadoop \
+  && groupadd --gid 1001 sandbox \
+  && useradd --create-home --uid 1001 --gid sandbox sandbox \
+  && groupadd --gid 1002 hdfs \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1002 --gid hdfs --groups hadoop hdfs \
+  && groupadd --gid 1003 yarn \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1003 --gid yarn --groups hadoop yarn \
+  && groupadd --gid 1004 mapred \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1004 --gid mapred --groups hadoop mapred \
+  && groupadd --gid 1005 httpfs \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1005 --gid httpfs httpfs \
+  && groupadd --gid 1006 hive \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1006 --gid hive hive \
+  && mkdir /var/log/hadoop \
+  && chown root:hadoop /var/log/hadoop \
+  && chmod 775 /var/log/hadoop \
+  && mkdir /var/log/httpfs \
+  && chown httpfs:httpfs /var/log/httpfs
+
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+
+USER sandbox
+ENTRYPOINT ["entrypoint.sh"]
