@@ -22,6 +22,19 @@ RUN apt update \
   && mkdir /var/log/httpfs \
   && chown httpfs:httpfs /var/log/httpfs
 
+RUN curl \
+    --location \
+    --output /opt/gohdfs-v2.1.1-linux-amd64.tar.gz \
+    https://github.com/colinmarc/hdfs/releases/download/v2.1.1/gohdfs-v2.1.1-linux-amd64.tar.gz \
+  && tar \
+    --strip-components=1 \
+    --directory=/usr/local/bin \
+    -zxvf \
+    /opt/gohdfs-v2.1.1-linux-amd64.tar.gz \
+    gohdfs-v2.1.1-linux-amd64/hdfs \
+  && mv /usr/local/bin/hdfs /usr/local/bin/gohdfs \
+  && rm -rf /opt/gohdfs-v2.1.1-linux-amd64.tar.gz
+
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 USER sandbox

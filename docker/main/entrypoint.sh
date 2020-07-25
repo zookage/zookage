@@ -7,7 +7,7 @@ if [ $# -eq 0 ]; then
 fi
 
 function await_path() {
-  until ${HADOOP_HOME}/bin/hdfs dfs -ls $1; do
+  until gohdfs ls $1 2> /dev/null; do
     sleep 1
   done
 }
@@ -55,30 +55,30 @@ elif [ "${command}" == "hdfs-path-ready" ]; then
   exit 0
 elif [ "${command}" == "hdfs-mkdir" ]; then
   await_path /
-  ${HADOOP_HOME}/bin/hdfs dfs -mkdir -p hdfs:///tmp
-  ${HADOOP_HOME}/bin/hdfs dfs -chmod 1777 hdfs:///tmp
+  gohdfs mkdir -p hdfs:///tmp
+  gohdfs chmod 1777 hdfs:///tmp
 
-  ${HADOOP_HOME}/bin/hdfs dfs -mkdir -p hdfs:///tmp/logs
-  ${HADOOP_HOME}/bin/hdfs dfs -chown yarn:yarn hdfs:///tmp/logs
-  ${HADOOP_HOME}/bin/hdfs dfs -chmod 1777 hdfs:///tmp/logs
+  gohdfs mkdir -p hdfs:///tmp/logs
+  gohdfs chown yarn:yarn hdfs:///tmp/logs
+  gohdfs chmod 1777 hdfs:///tmp/logs
 
-  ${HADOOP_HOME}/bin/hdfs dfs -mkdir -p hdfs:///user
+  gohdfs mkdir -p hdfs:///user
 
-  ${HADOOP_HOME}/bin/hdfs dfs -mkdir -p hdfs:///user/sandbox
-  ${HADOOP_HOME}/bin/hdfs dfs -chown sandbox:sandbox hdfs:///user/sandbox
-  ${HADOOP_HOME}/bin/hdfs dfs -chmod 700 hdfs:///user/sandbox
+  gohdfs mkdir -p hdfs:///user/sandbox
+  gohdfs chown sandbox:sandbox hdfs:///user/sandbox
+  gohdfs chmod 700 hdfs:///user/sandbox
 
-  ${HADOOP_HOME}/bin/hdfs dfs -mkdir -p /user/history
-  ${HADOOP_HOME}/bin/hdfs dfs -chown mapred:hadoop /user/history
-  ${HADOOP_HOME}/bin/hdfs dfs -chmod -R 1777 /user/history
+  gohdfs mkdir -p /user/history
+  gohdfs chown mapred:hadoop /user/history
+  gohdfs chmod -R 1777 /user/history
 
-  ${HADOOP_HOME}/bin/hdfs dfs -mkdir -p hdfs:///user/hive
-  ${HADOOP_HOME}/bin/hdfs dfs -chown hive:hive hdfs:///user/hive
-  ${HADOOP_HOME}/bin/hdfs dfs -chmod 755 hdfs:///user/hive
+  gohdfs mkdir -p hdfs:///user/hive
+  gohdfs chown hive:hive hdfs:///user/hive
+  gohdfs chmod 755 hdfs:///user/hive
 
-  ${HADOOP_HOME}/bin/hdfs dfs -mkdir -p hdfs:///user/hive/warehouse
-  ${HADOOP_HOME}/bin/hdfs dfs -chown hive:hive hdfs:///user/hive/warehouse
-  ${HADOOP_HOME}/bin/hdfs dfs -chmod 1777 hdfs:///user/hive/warehouse
+  gohdfs mkdir -p hdfs:///user/hive/warehouse
+  gohdfs chown hive:hive hdfs:///user/hive/warehouse
+  gohdfs chmod 1777 hdfs:///user/hive/warehouse
   exit 0
 elif [ "${command}" == "yarn-resourcemanager" ]; then
   ${HADOOP_HOME}/bin/yarn resourcemanager
