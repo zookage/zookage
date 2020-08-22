@@ -12,4 +12,4 @@ kubectl --namespace=${NAMESPACE} wait job --all=true --for="condition=complete" 
 kubectl \
   apply \
   --kustomize kubernetes \
-  --selector "component in (config,env,hdfs,yarn,mapreduce,hive,client)"
+  --selector "component in (config,env,hdfs,yarn,tez,mapreduce,hive,client)"

@@ -1,0 +1,34 @@
+<configuration>
+  <property>
+    <name>tez.lib.uris</name>
+    <value>hdfs:///apps/tez/tez-minimal.tar.gz</value>
+  </property>
+  <property>
+    <name>tez.use.cluster.hadoop-libs</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>tez.am.shuffle.auxiliary-service.id</name>
+    <value>tez_shuffle</value>
+  </property>
+  <property>
+    <name>tez.history.logging.service.class</name>
+    <value>org.apache.tez.dag.history.logging.ats.ATSHistoryLoggingService</value>
+  </property>
+  <property>
+    <name>tez.tez-ui.history-url.base</name>
+    <value>http://tez-ui.hadoop-sandbox:9999/tez-ui/</value>
+  </property>
+  <property>
+    <name>tez.runtime.convert.user-payload.to.history-text</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>tez.am.resource.memory.mb</name>
+    <value>512</value>
+  </property>
+  <property>
+    <name>tez.task.resource.memory.mb</name>
+    <value>512</value>
+  </property>
+</configuration>

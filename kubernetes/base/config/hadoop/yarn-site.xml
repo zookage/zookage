@@ -13,7 +13,11 @@
   </property>
   <property>
     <name>yarn.nodemanager.aux-services</name>
-    <value>mapreduce_shuffle</value>
+    <value>mapreduce_shuffle,tez_shuffle</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.aux-services.tez_shuffle.class</name>
+    <value>org.apache.tez.auxservices.ShuffleHandler</value>
   </property>
   <property>
     <name>yarn.nodemanager.env-whitelist</name>
@@ -48,6 +52,10 @@
     <value>${hadoop.tmp.dir}/userlogs</value>
   </property>
   <property>
+    <name>yarn.timeline-service.enabled</name>
+    <value>true</value>
+  </property>
+  <property>
     <name>yarn.timeline-service.hostname</name>
     <value>yarn-timelineserver-0.yarn-timelineserver</value>
   </property>
@@ -56,7 +64,7 @@
     <value>0.0.0.0</value>
   </property>
   <property>
-    <name>yarn.timeline-service.enabled</name>
+    <name>yarn.timeline-service.http-cross-origin.enabled</name>
     <value>true</value>
   </property>
   <property>

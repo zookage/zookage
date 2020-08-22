@@ -8,3 +8,4 @@ rules:
     max: 100
     ignore: |
       kubernetes/base/client/pod.yaml
+      kubernetes/base/package/tez/job.yaml

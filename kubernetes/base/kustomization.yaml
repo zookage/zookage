@@ -4,6 +4,7 @@ bases:
 - env
 - hdfs
 - yarn
+- tez
 - mapreduce
 - hive
 - client

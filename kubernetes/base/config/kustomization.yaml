@@ -17,3 +17,6 @@ configMapGenerator:
   files:
   - hive/beeline-hs2-connection.xml
   - hive/hive-site.xml
+- name: tez-conf
+  files:
+  - tez/tez-site.xml

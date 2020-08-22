@@ -16,6 +16,8 @@ RUN apt update \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1005 --gid httpfs httpfs \
   && groupadd --gid 1006 hive \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1006 --gid hive hive \
+  && groupadd --gid 1007 tez \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1007 --gid tez tez \
   && mkdir /var/log/hadoop \
   && chown root:hadoop /var/log/hadoop \
   && chmod 775 /var/log/hadoop \

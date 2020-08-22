@@ -70,7 +70,7 @@ elif [ "${command}" == "hdfs-mkdir" ]; then
 
   gohdfs mkdir -p /user/history
   gohdfs chown mapred:hadoop /user/history
-  gohdfs chmod -R 1777 /user/history
+  gohdfs chmod 1777 /user/history
 
   gohdfs mkdir -p hdfs:///user/hive
   gohdfs chown hive:hive hdfs:///user/hive
@@ -101,6 +101,17 @@ elif [ "${command}" == "hive-metastore" ]; then
   exit 0
 elif [ "${command}" == "hive-hiveserver2" ]; then
   ${HIVE_HOME}/bin/hiveserver2
+  exit 0
+elif [ "${command}" == "tez-deploy" ]; then
+  await_path /
+  TARGET_DIR=hdfs:///apps/tez
+  TAR_FILENAME=tez-minimal.tar.gz
+  gohdfs mkdir -p ${TARGET_DIR}
+  # `gohdfs put` can not be atomic
+  until ${HADOOP_HOME}/bin/hdfs dfs -copyFromLocal /opt/tez/share/${TAR_FILENAME} ${TARGET_DIR}/${TAR_FILENAME}; do
+    sleep 1
+  done
+  gohdfs chown -R tez:tez ${TARGET_DIR}
   exit 0
 elif [ "${command}" == "http-ready" ]; then
   await_http $2

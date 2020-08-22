@@ -18,6 +18,11 @@ spec:
             name: hadoop-env
         - configMapRef:
             name: hive-env
+        - configMapRef:
+            name: tez-env
+        env:
+        - name: HADOOP_CLASSPATH
+          value: $(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*
         readinessProbe:
           tcpSocket:
             port: 10000
@@ -29,10 +34,14 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: hive-conf
           mountPath: /etc/hive/conf
+        - name: tez-conf
+          mountPath: /etc/tez/conf
         - name: package-hadoop
           mountPath: /opt/hadoop
         - name: package-hive
           mountPath: /opt/hive
+        - name: package-tez
+          mountPath: /opt/tez
       volumes:
       - name: hadoop-conf
         configMap:
@@ -52,9 +61,18 @@ spec:
           items:
           - key: hive-site.xml
             path: hive-site.xml
+      - name: tez-conf
+        configMap:
+          name: tez-conf
+          items:
+          - key: tez-site.xml
+            path: tez-site.xml
       - name: package-hadoop
         persistentVolumeClaim:
           claimName: package-hadoop
       - name: package-hive
         persistentVolumeClaim:
           claimName: package-hive
+      - name: package-tez
+        persistentVolumeClaim:
+          claimName: package-tez

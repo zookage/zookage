@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tez-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {}
+  template:
+    spec:
+      initContainers:
+      - name: put-tez-ui
+        image: hadoop-sandbox-main
+        command:
+        - /bin/bash
+        args:
+        - -c
+        - "cp /opt/tez/share/tez-ui.war /usr/local/tomcat/webapps"
+        volumeMounts:
+        - name: webapps
+          mountPath: /usr/local/tomcat/webapps
+        - name: package-tez
+          mountPath: /opt/tez
+      containers:
+      - name: tez-ui
+        image: tomcat:9.0.37-jdk8-openjdk
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+        securityContext:
+          runAsUser: 1007
+          runAsGroup: 1007
+        volumeMounts:
+        - name: webapps
+          mountPath: /usr/local/tomcat/webapps
+        - name: package-tez
+          mountPath: /opt/tez
+      volumes:
+      - name: webapps
+        emptyDir: {}
+      - name: package-tez
+        persistentVolumeClaim:
+          claimName: package-tez

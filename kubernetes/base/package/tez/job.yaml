@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: package-tez
+spec:
+  template:
+    spec:
+      containers:
+      - name: hadoop-sandbox-tez
+        image: hadoop-sandbox-tez
+        command:
+        - /bin/bash
+        args:
+        - -c
+        - "rm -rf /mnt/hadoop-sandbox/tez && cp -R /opt/tez /mnt/hadoop-sandbox/tez && rm /mnt/hadoop-sandbox/tez/lib/hadoop-mapreduce-client-*"
+        volumeMounts:
+        - name: package-home
+          mountPath: /mnt/hadoop-sandbox
+      restartPolicy: Never
+      volumes:
+      - name: package-home
+        hostPath:
+          path: /opt/hadoop-sandbox

@@ -15,9 +15,13 @@ spec:
         name: hadoop-env
     - configMapRef:
         name: hive-env
+    - configMapRef:
+        name: tez-env
     env:
     - name: PATH
       value: $(HIVE_HOME)/bin:$(HADOOP_HOME)/bin:/usr/local/openjdk-8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    - name: HADOOP_CLASSPATH
+      value: $(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*
     securityContext:
       runAsUser: 1001
       runAsGroup: 1001
@@ -26,10 +30,14 @@ spec:
       mountPath: /etc/hadoop/conf
     - name: hive-conf
       mountPath: /etc/hive/conf
+    - name: tez-conf
+      mountPath: /etc/tez/conf
     - name: package-hadoop
       mountPath: /opt/hadoop
     - name: package-hive
       mountPath: /opt/hive
+    - name: package-tez
+      mountPath: /opt/tez
     workingDir: /home/sandbox
   volumes:
   - name: hadoop-conf
@@ -50,9 +58,18 @@ spec:
       items:
       - key: beeline-hs2-connection.xml
         path: beeline-hs2-connection.xml
+  - name: tez-conf
+    configMap:
+      name: tez-conf
+      items:
+      - key: tez-site.xml
+        path: tez-site.xml
   - name: package-hadoop
     persistentVolumeClaim:
       claimName: package-hadoop
   - name: package-hive
     persistentVolumeClaim:
       claimName: package-hive
+  - name: package-tez
+    persistentVolumeClaim:
+      claimName: package-tez
