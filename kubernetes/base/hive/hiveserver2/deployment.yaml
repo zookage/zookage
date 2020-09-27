@@ -59,6 +59,8 @@ spec:
         configMap:
           name: hive-conf
           items:
+          - key: hive-log4j2.properties
+            path: hive-log4j2.properties
           - key: hive-site.xml
             path: hive-site.xml
       - name: tez-conf
