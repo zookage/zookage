@@ -8,6 +8,13 @@ spec:
     matchLabels: {}
   template:
     spec:
+      initContainers:
+      - name: await-metastore
+        image: hadoop-sandbox-main
+        args:
+        - tcp-ready
+        - hive-metastore-0.hive-metastore
+        - "9083"
       containers:
       - name: hiveserver2
         image: hadoop-sandbox-main

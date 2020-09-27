@@ -2,7 +2,7 @@
 FROM openjdk:8
 
 RUN apt update \
-  && apt install -y curl less vim \
+  && apt install -y curl less netcat vim \
   && groupadd --gid 1000 hadoop \
   && groupadd --gid 1001 sandbox \
   && useradd --create-home --uid 1001 --gid sandbox sandbox \

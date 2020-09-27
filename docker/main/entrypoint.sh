@@ -18,6 +18,12 @@ function await_http() {
   done
 }
 
+function await_tcp() {
+  until nc -v -w 1 $1 $2; do
+    sleep 1
+  done
+}
+
 function is_hadoop2() {
   readonly hadoop_version=$(${HADOOP_HOME}/bin/hdfs version | head -n 1)
   if [[ ${hadoop_version} == "Hadoop 2."* ]]; then
@@ -115,6 +121,9 @@ elif [ "${command}" == "tez-deploy" ]; then
   exit 0
 elif [ "${command}" == "http-ready" ]; then
   await_http $2
+  exit 0
+elif [ "${command}" == "tcp-ready" ]; then
+  await_tcp $2 $3
   exit 0
 fi
 
