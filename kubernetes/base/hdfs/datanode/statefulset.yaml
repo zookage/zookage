@@ -6,6 +6,7 @@ spec:
   selector:
     matchLabels: {}
   serviceName: hdfs-datanode
+  podManagementPolicy: Parallel
   replicas: 3
   template:
     spec:

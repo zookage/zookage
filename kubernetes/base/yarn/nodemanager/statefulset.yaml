@@ -6,6 +6,7 @@ spec:
   selector:
     matchLabels: {}
   serviceName: yarn-nodemanager
+  podManagementPolicy: Parallel
   replicas: 3
   template:
     spec:
