@@ -12,7 +12,7 @@ spec:
         - /bin/bash
         args:
         - -c
-        - "rm -rf /mnt/hadoop-sandbox/hive && cp -R /opt/hive /mnt/hadoop-sandbox/hive"
+        - "rm -rf /mnt/hadoop-sandbox/hive && cp -R /opt/hive /mnt/hadoop-sandbox/hive && rm /mnt/hadoop-sandbox/hive/lib/log4j-slf4j-impl*"
         volumeMounts:
         - name: package-home
           mountPath: /mnt/hadoop-sandbox

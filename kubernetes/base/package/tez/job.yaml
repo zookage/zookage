@@ -12,7 +12,7 @@ spec:
         - /bin/bash
         args:
         - -c
-        - "rm -rf /mnt/hadoop-sandbox/tez && cp -R /opt/tez /mnt/hadoop-sandbox/tez && rm /mnt/hadoop-sandbox/tez/lib/hadoop-mapreduce-client-*"
+        - "rm -rf /mnt/hadoop-sandbox/tez && cp -R /opt/tez /mnt/hadoop-sandbox/tez && rm /mnt/hadoop-sandbox/tez/lib/slf4j-* && rm /mnt/hadoop-sandbox/tez/lib/hadoop-mapreduce-client-*"
         volumeMounts:
         - name: package-home
           mountPath: /mnt/hadoop-sandbox
