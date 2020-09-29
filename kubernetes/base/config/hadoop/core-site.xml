@@ -8,6 +8,10 @@
     <value>/mnt/hadoop</value>
   </property>
   <property>
+    <name>hadoop.http.temp.dir</name>
+    <value>/tmp/hadoop</value>
+  </property>
+  <property>
     <name>fs.trash.interval</name>
     <value>60</value>
   </property>
