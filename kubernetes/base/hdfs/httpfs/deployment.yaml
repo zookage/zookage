@@ -53,6 +53,8 @@ spec:
           mountPath: /mnt
         - name: package-hadoop
           mountPath: /opt/hadoop
+        - name: httpfs-tmp
+          mountPath: /var/tmp/httpfs
       volumes:
       - name: catalina
         emptyDir: {}
@@ -77,3 +79,5 @@ spec:
       - name: package-hadoop
         persistentVolumeClaim:
           claimName: package-hadoop
+      - name: httpfs-tmp
+        emptyDir: {}
