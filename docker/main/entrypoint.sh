@@ -86,12 +86,10 @@ elif [ "${command}" == "yarn-timelineserver" ]; then
 elif [ "${command}" == "mapreduce-historyserver" ]; then
   ${HADOOP_HOME}/bin/mapred historyserver
   exit 0
-elif [ "${command}" == "hive-metastore-init-schema" ]; then
+elif [ "${command}" == "hive-metastore" ]; then
   rm -rf /mnt/hive/metastore
   ${HIVE_HOME}/bin/schematool -initSchema -dbType derby
   hdfs_mkdir /user/hive/warehouse hive:hive 1777
-  exit 0
-elif [ "${command}" == "hive-metastore" ]; then
   ${HIVE_HOME}/bin/hive --service metastore
   exit 0
 elif [ "${command}" == "hive-hiveserver2" ]; then

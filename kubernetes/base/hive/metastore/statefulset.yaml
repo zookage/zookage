@@ -9,30 +9,6 @@ spec:
   replicas: 1
   template:
     spec:
-      initContainers:
-      - name: init-schema
-        image: hadoop-sandbox-main
-        args:
-        - hive-metastore-init-schema
-        envFrom:
-        - configMapRef:
-            name: hadoop-env
-        - configMapRef:
-            name: hive-env
-        securityContext:
-          runAsUser: 1006
-          runAsGroup: 1006
-        volumeMounts:
-        - name: hadoop-conf
-          mountPath: /etc/hadoop/conf
-        - name: hive-conf
-          mountPath: /etc/hive/conf
-        - name: mnt
-          mountPath: /mnt
-        - name: package-hadoop
-          mountPath: /opt/hadoop
-        - name: package-hive
-          mountPath: /opt/hive
       containers:
       - name: metastore
         image: hadoop-sandbox-main
