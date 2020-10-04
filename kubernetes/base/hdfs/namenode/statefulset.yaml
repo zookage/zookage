@@ -17,6 +17,9 @@ spec:
         envFrom:
         - configMapRef:
             name: hadoop-env
+        readinessProbe:
+          tcpSocket:
+            port: 9820
         securityContext:
           runAsUser: 1002
           runAsGroup: 1000
