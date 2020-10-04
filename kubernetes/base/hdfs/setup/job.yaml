@@ -25,10 +25,6 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
-        - name: mnt
-          mountPath: /mnt
-        - name: package-hadoop
-          mountPath: /opt/hadoop
       restartPolicy: Never
       volumes:
       - name: hadoop-conf
