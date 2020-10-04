@@ -9,12 +9,11 @@ spec:
   template:
     spec:
       initContainers:
-      - name: await-metastore
+      - name: wait-for-metastore
         image: hadoop-sandbox-main
         args:
-        - tcp-ready
-        - hive-metastore-0.hive-metastore
-        - "9083"
+        - wait-for-rollout
+        - statefulset/hive-metastore
       containers:
       - name: hiveserver2
         image: hadoop-sandbox-main

@@ -11,11 +11,11 @@ spec:
   template:
     spec:
       initContainers:
-      - name: await-resourcemanager
+      - name: wait-for-resourcemanager
         image: hadoop-sandbox-main
         args:
-        - http-ready
-        - http://yarn-resourcemanager-0.yarn-resourcemanager:8088
+        - wait-for-rollout
+        - statefulset/yarn-resourcemanager
       containers:
       - name: nodemanager
         image: hadoop-sandbox-main

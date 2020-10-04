@@ -6,20 +6,12 @@ if [ $# -eq 0 ]; then
   exit 0
 fi
 
+function wait_for_rollout() {
+  kubectl rollout status $1
+}
+
 function await_path() {
   until gohdfs ls $1 2> /dev/null; do
-    sleep 1
-  done
-}
-
-function await_http() {
-  until curl $1; do
-    sleep 1
-  done
-}
-
-function await_tcp() {
-  until nc -v -w 1 $1 $2; do
     sleep 1
   done
 }
@@ -109,7 +101,6 @@ elif [ "${command}" == "hive-hiveserver2" ]; then
   ${HIVE_HOME}/bin/hiveserver2
   exit 0
 elif [ "${command}" == "tez-deploy" ]; then
-  await_path /
   TARGET_DIR=hdfs:///apps/tez
   TAR_FILENAME=tez-minimal.tar.gz
   gohdfs mkdir -p ${TARGET_DIR}
@@ -119,11 +110,8 @@ elif [ "${command}" == "tez-deploy" ]; then
   done
   gohdfs chown -R tez:tez ${TARGET_DIR}
   exit 0
-elif [ "${command}" == "http-ready" ]; then
-  await_http $2
-  exit 0
-elif [ "${command}" == "tcp-ready" ]; then
-  await_tcp $2 $3
+elif [ "${command}" == "wait-for-rollout" ]; then
+  wait_for_rollout $2
   exit 0
 fi
 

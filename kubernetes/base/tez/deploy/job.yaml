@@ -5,6 +5,12 @@ metadata:
 spec:
   template:
     spec:
+      initContainers:
+      - name: wait-for-datanode
+        image: hadoop-sandbox-main
+        args:
+        - wait-for-rollout
+        - statefulset/hdfs-datanode
       containers:
       - name: deploy
         image: hadoop-sandbox-main

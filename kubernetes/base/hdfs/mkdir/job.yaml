@@ -6,22 +6,11 @@ spec:
   template:
     spec:
       initContainers:
-      - name: await-namenode
+      - name: wait-for-namenode
         image: hadoop-sandbox-main
         args:
-        - hdfs-path-ready
-        - /
-        envFrom:
-        - configMapRef:
-            name: hadoop-env
-        securityContext:
-          runAsUser: 1002
-          runAsGroup: 1000
-        volumeMounts:
-        - name: hadoop-conf
-          mountPath: /etc/hadoop/conf
-        - name: package-hadoop
-          mountPath: /opt/hadoop
+        - wait-for-rollout
+        - statefulset/hdfs-namenode
       containers:
       - name: mkdir
         image: hadoop-sandbox-main

@@ -26,6 +26,11 @@ RUN apt update \
 
 RUN curl \
     --location \
+    --output /usr/local/bin/kubectl \
+    https://storage.googleapis.com/kubernetes-release/release/v1.19.2/bin/linux/amd64/kubectl \
+  && chmod 755 /usr/local/bin/kubectl \
+  && curl \
+    --location \
     --output /opt/gohdfs-v2.1.1-linux-amd64.tar.gz \
     https://github.com/colinmarc/hdfs/releases/download/v2.1.1/gohdfs-v2.1.1-linux-amd64.tar.gz \
   && tar \
