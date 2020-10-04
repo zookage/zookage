@@ -31,4 +31,8 @@
     <name>tez.task.resource.memory.mb</name>
     <value>512</value>
   </property>
+  <property>
+    <name>tez.staging-dir</name>
+    <value>/tmp/${user.name}/staging</value>
+  </property>
 </configuration>
