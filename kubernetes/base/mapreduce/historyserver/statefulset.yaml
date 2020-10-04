@@ -10,22 +10,11 @@ spec:
   template:
     spec:
       initContainers:
-      - name: await-directory
+      - name: wait-for-history-dir
         image: hadoop-sandbox-main
         args:
-        - hdfs-path-ready
-        - /user/history
-        envFrom:
-        - configMapRef:
-            name: hadoop-env
-        volumeMounts:
-        - name: hadoop-conf
-          mountPath: /etc/hadoop/conf
-        - name: package-hadoop
-          mountPath: /opt/hadoop
-        securityContext:
-          runAsUser: 1004
-          runAsGroup: 1000
+        - wait-for-job
+        - hdfs-setup
       containers:
       - name: historyserver
         image: hadoop-sandbox-main

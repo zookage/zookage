@@ -6,14 +6,12 @@ if [ $# -eq 0 ]; then
   exit 0
 fi
 
-function wait_for_rollout() {
-  kubectl rollout status $1
+function wait_for_job() {
+  kubectl wait job/$1 --for="condition=complete" --timeout=3600s
 }
 
-function await_path() {
-  until gohdfs ls $1 2> /dev/null; do
-    sleep 1
-  done
+function wait_for_rollout() {
+  kubectl rollout status $1
 }
 
 function hdfs_mkdir() {
@@ -64,9 +62,6 @@ elif [ "${command}" == "hdfs-httpfs" ]; then
     ${HADOOP_HOME}/bin/hdfs httpfs
   fi
   exit 0
-elif [ "${command}" == "hdfs-path-ready" ]; then
-  await_path $2
-  exit 0
 elif [ "${command}" == "hdfs-setup" ]; then
   hdfs_mkdir /apps hdfs:supergroup 755
   hdfs_mkdir /apps/tez tez:tez 755
@@ -109,7 +104,9 @@ elif [ "${command}" == "tez-deploy" ]; then
   until ${HADOOP_HOME}/bin/hdfs dfs -copyFromLocal /opt/tez/share/${TAR_FILENAME} ${TARGET_DIR}/${TAR_FILENAME}; do
     sleep 1
   done
-  gohdfs chown -R tez:tez ${TARGET_DIR}/${TAR_FILENAME}
+  exit 0
+elif [ "${command}" == "wait-for-job" ]; then
+  wait_for_job $2
   exit 0
 elif [ "${command}" == "wait-for-rollout" ]; then
   wait_for_rollout $2

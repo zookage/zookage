@@ -6,6 +6,11 @@ spec:
   template:
     spec:
       initContainers:
+      - name: wait-for-apps-dir
+        image: hadoop-sandbox-main
+        args:
+        - wait-for-job
+        - hdfs-setup
       - name: wait-for-datanode
         image: hadoop-sandbox-main
         args:
