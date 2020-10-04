@@ -16,8 +16,24 @@ function await_path() {
   done
 }
 
+function hdfs_mkdir() {
+  local -r directory=$1
+  until gohdfs mkdir -p hdfs://${directory} 2> /dev/null; do
+    echo "Failed to mkdir ${directory}. Retrying..."
+    sleep 1
+  done
+  until gohdfs chown $2 hdfs://${directory} 2> /dev/null; do
+    echo "Failed to chown ${directory}. Retrying..."
+    sleep 1
+  done
+  until gohdfs chmod $3 hdfs://${directory} 2> /dev/null; do
+    echo "Failed to chmod ${directory}. Retrying..."
+    sleep 1
+  done
+}
+
 function is_hadoop2() {
-  readonly hadoop_version=$(${HADOOP_HOME}/bin/hdfs version | head -n 1)
+  local -r hadoop_version=$(${HADOOP_HOME}/bin/hdfs version | head -n 1)
   if [[ ${hadoop_version} == "Hadoop 2."* ]]; then
     return 0
   else
@@ -51,32 +67,17 @@ elif [ "${command}" == "hdfs-httpfs" ]; then
 elif [ "${command}" == "hdfs-path-ready" ]; then
   await_path $2
   exit 0
-elif [ "${command}" == "hdfs-mkdir" ]; then
-  await_path /
-  gohdfs mkdir -p hdfs:///tmp
-  gohdfs chmod 1777 hdfs:///tmp
+elif [ "${command}" == "hdfs-setup" ]; then
+  hdfs_mkdir /apps hdfs:supergroup 755
+  hdfs_mkdir /apps/tez tez:tez 755
 
-  gohdfs mkdir -p hdfs:///tmp/logs
-  gohdfs chown yarn:yarn hdfs:///tmp/logs
-  gohdfs chmod 1777 hdfs:///tmp/logs
+  hdfs_mkdir /tmp hdfs:supergroup 1777
+  hdfs_mkdir /tmp/logs yarn:yarn 1777
 
-  gohdfs mkdir -p hdfs:///user
-
-  gohdfs mkdir -p hdfs:///user/sandbox
-  gohdfs chown sandbox:sandbox hdfs:///user/sandbox
-  gohdfs chmod 700 hdfs:///user/sandbox
-
-  gohdfs mkdir -p /user/history
-  gohdfs chown mapred:hadoop /user/history
-  gohdfs chmod 1777 /user/history
-
-  gohdfs mkdir -p hdfs:///user/hive
-  gohdfs chown hive:hive hdfs:///user/hive
-  gohdfs chmod 755 hdfs:///user/hive
-
-  gohdfs mkdir -p hdfs:///user/hive/warehouse
-  gohdfs chown hive:hive hdfs:///user/hive/warehouse
-  gohdfs chmod 1777 hdfs:///user/hive/warehouse
+  hdfs_mkdir /user hdfs:supergroup 755
+  hdfs_mkdir /user/sandbox sandbox:sandbox 700
+  hdfs_mkdir /user/history mapred:hadoop 755
+  hdfs_mkdir /user/hive hive:hive 751
   exit 0
 elif [ "${command}" == "yarn-resourcemanager" ]; then
   ${HADOOP_HOME}/bin/yarn resourcemanager
@@ -93,6 +94,7 @@ elif [ "${command}" == "mapreduce-historyserver" ]; then
 elif [ "${command}" == "hive-metastore-init-schema" ]; then
   rm -rf /mnt/hive/metastore
   ${HIVE_HOME}/bin/schematool -initSchema -dbType derby
+  hdfs_mkdir /user/hive/warehouse hive:hive 1777
   exit 0
 elif [ "${command}" == "hive-metastore" ]; then
   ${HIVE_HOME}/bin/hive --service metastore
@@ -103,12 +105,11 @@ elif [ "${command}" == "hive-hiveserver2" ]; then
 elif [ "${command}" == "tez-deploy" ]; then
   TARGET_DIR=hdfs:///apps/tez
   TAR_FILENAME=tez-minimal.tar.gz
-  gohdfs mkdir -p ${TARGET_DIR}
   # `gohdfs put` can not be atomic
   until ${HADOOP_HOME}/bin/hdfs dfs -copyFromLocal /opt/tez/share/${TAR_FILENAME} ${TARGET_DIR}/${TAR_FILENAME}; do
     sleep 1
   done
-  gohdfs chown -R tez:tez ${TARGET_DIR}
+  gohdfs chown -R tez:tez ${TARGET_DIR}/${TAR_FILENAME}
   exit 0
 elif [ "${command}" == "wait-for-rollout" ]; then
   wait_for_rollout $2

@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: hdfs-mkdir
+  name: hdfs-setup
 spec:
   template:
     spec:
@@ -12,10 +12,10 @@ spec:
         - wait-for-rollout
         - statefulset/hdfs-namenode
       containers:
-      - name: mkdir
+      - name: setup
         image: hadoop-sandbox-main
         args:
-        - hdfs-mkdir
+        - hdfs-setup
         envFrom:
         - configMapRef:
             name: hadoop-env
