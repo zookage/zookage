@@ -2,6 +2,7 @@
 set -eu
 
 source ./docker/prepare.sh HADOOP_SOURCE_DIR
+source ./docker/prepare-maven.sh
 
 docker build \
   --tag ${DOCKER_IMAGE_NAME_PREFIX}/hadoop-build:${image_tag} \
@@ -19,6 +20,7 @@ fi
 docker build \
   --tag ${DOCKER_IMAGE_NAME_PREFIX}/hadoop-sandbox-hadoop:${image_tag} \
   --build-arg hadoop_build_image=${DOCKER_IMAGE_NAME_PREFIX}/hadoop-build:${image_tag} \
+  --build-arg clean=${clean} \
   --build-arg active_profiles=${active_profiles} \
   --file ./docker/hadoop/Dockerfile \
   ${HADOOP_SOURCE_DIR}
