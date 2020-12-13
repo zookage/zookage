@@ -1,5 +1,8 @@
 # syntax=docker/dockerfile:experimental
-FROM maven:3.6.3-jdk-8 AS builder
+ARG maven_image
+ARG openjdk_image
+
+FROM ${maven_image} AS builder
 
 ARG clean
 
@@ -14,6 +17,6 @@ RUN --mount=type=cache,id=hadoop-sandbox-m2,target=/root/.m2 \
     ./packaging/target/apache-hive-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-bin/apache-hive-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-bin \
     ./packaging/target/hive
 
-FROM openjdk:8
+FROM ${openjdk_image}
 
 COPY --from=builder /root/hive/packaging/target/hive /opt/hive

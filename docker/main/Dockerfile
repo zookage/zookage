@@ -1,5 +1,7 @@
 # syntax=docker/dockerfile:experimental
-FROM openjdk:8
+ARG openjdk_image
+
+FROM ${openjdk_image}
 
 RUN apt update \
   && apt install -y curl less netcat vim \

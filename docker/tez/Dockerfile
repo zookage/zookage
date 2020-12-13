@@ -1,5 +1,7 @@
 # syntax=docker/dockerfile:experimental
 ARG tez_build_image
+ARG openjdk_image
+
 FROM ${tez_build_image} AS builder
 
 ARG clean
@@ -32,6 +34,6 @@ RUN --mount=type=cache,id=hadoop-sandbox-m2,target=/root/.m2 \
     /root/tez/tez-plugins/tez-aux-services/target/tez-aux-services-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).jar \
     apache-tez-bin/share/tez-aux-services.jar
 
-FROM openjdk:8
+FROM ${openjdk_image}
 
 COPY --from=builder /root/tez/apache-tez-bin /opt/tez

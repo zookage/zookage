@@ -1,5 +1,7 @@
 # syntax=docker/dockerfile:experimental
 ARG hadoop_build_image
+ARG openjdk_image
+
 FROM ${hadoop_build_image} AS builder
 
 ARG clean
@@ -23,6 +25,6 @@ RUN --mount=type=cache,target=/home/hadoop-build/.m2,uid=999,gid=999 \
     ./hadoop-dist/target/hadoop-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout) \
     ./hadoop-dist/target/hadoop
 
-FROM openjdk:8
+FROM ${openjdk_image}
 
 COPY --chown=root:root --from=builder /home/hadoop-build/hadoop/hadoop-dist/target/hadoop /opt/hadoop
