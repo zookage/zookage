@@ -8,7 +8,7 @@ kubectl \
   --kustomize=kubernetes \
   --selector="component in (namespace,package)" \
   --wait=true
-kubectl --namespace=${NAMESPACE} wait job --all=true --for="condition=complete" --timeout=180s
+kubectl --namespace=${NAMESPACE} wait job --all=true --for="condition=complete" --timeout=1800s
 kubectl \
   apply \
   --kustomize kubernetes \
