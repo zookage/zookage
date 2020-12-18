@@ -12,10 +12,6 @@
     <value>/tmp/hadoop</value>
   </property>
   <property>
-    <name>fs.trash.interval</name>
-    <value>60</value>
-  </property>
-  <property>
     <name>hadoop.proxyuser.httpfs.hosts</name>
     <value>*</value>
   </property>
