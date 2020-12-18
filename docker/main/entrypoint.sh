@@ -102,6 +102,7 @@ elif [ "${command}" == "tez-deploy" ]; then
   until ${HADOOP_HOME}/bin/hdfs dfs -copyFromLocal /opt/tez/share/${TAR_FILENAME} ${TARGET_DIR}/${TAR_FILENAME}; do
     sleep 1
   done
+  gohdfs chown tez:tez ${TARGET_DIR}/${TAR_FILENAME}
   exit 0
 elif [ "${command}" == "wait-for-job" ]; then
   wait_for_job $2
