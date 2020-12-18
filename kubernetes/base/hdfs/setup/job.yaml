@@ -37,6 +37,3 @@ spec:
             path: log4j.properties
       - name: mnt
         emptyDir: {}
-      - name: package-hadoop
-        persistentVolumeClaim:
-          claimName: package-hadoop
