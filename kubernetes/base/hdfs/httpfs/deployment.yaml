@@ -42,8 +42,8 @@ spec:
           tcpSocket:
             port: 14000
         securityContext:
-          runAsUser: 1005
-          runAsGroup: 1005
+          runAsUser: 1014
+          runAsGroup: 1014
         volumeMounts:
         - name: catalina
           mountPath: /var/opt/catalina

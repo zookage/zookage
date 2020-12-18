@@ -31,8 +31,8 @@ spec:
           tcpSocket:
             port: 8041
         securityContext:
-          runAsUser: 1003
-          runAsGroup: 1000
+          runAsUser: 1012
+          runAsGroup: 1010
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf

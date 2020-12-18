@@ -27,8 +27,8 @@ spec:
           tcpSocket:
             port: 10020
         securityContext:
-          runAsUser: 1004
-          runAsGroup: 1000
+          runAsUser: 1013
+          runAsGroup: 1010
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf

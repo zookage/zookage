@@ -5,21 +5,21 @@ FROM ${openjdk_image}
 
 RUN apt update \
   && apt install -y curl less netcat vim \
-  && groupadd --gid 1000 hadoop \
-  && groupadd --gid 1001 sandbox \
-  && useradd --create-home --uid 1001 --gid sandbox sandbox \
-  && groupadd --gid 1002 hdfs \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1002 --gid hdfs --groups hadoop hdfs \
-  && groupadd --gid 1003 yarn \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1003 --gid yarn --groups hadoop yarn \
-  && groupadd --gid 1004 mapred \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1004 --gid mapred --groups hadoop mapred \
-  && groupadd --gid 1005 httpfs \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1005 --gid httpfs httpfs \
-  && groupadd --gid 1006 hive \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1006 --gid hive hive \
-  && groupadd --gid 1007 tez \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1007 --gid tez tez \
+  && groupadd --gid 1000 sandbox \
+  && useradd --create-home --uid 1000 --gid sandbox sandbox \
+  && groupadd --gid 1010 hadoop \
+  && groupadd --gid 1011 hdfs \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1011 --gid hdfs --groups hadoop hdfs \
+  && groupadd --gid 1012 yarn \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1012 --gid yarn --groups hadoop yarn \
+  && groupadd --gid 1013 mapred \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1013 --gid mapred --groups hadoop mapred \
+  && groupadd --gid 1014 httpfs \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1014 --gid httpfs httpfs \
+  && groupadd --gid 1020 hive \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1020 --gid hive hive \
+  && groupadd --gid 1030 tez \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1030 --gid tez tez \
   && mkdir /var/log/hadoop \
   && chown root:hadoop /var/log/hadoop \
   && chmod 775 /var/log/hadoop \
