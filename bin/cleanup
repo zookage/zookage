@@ -1,7 +1,14 @@
 #!/bin/bash
 set -u
 
-kubectl delete --kustomize=kubernetes --now
-kubectl wait namespace/hadoop-sandbox --for=delete --timeout=600s 2> /dev/null
+readonly NAMESPACE=hadoop-sandbox
 
-echo "All resources have been cleaned up."
+kubectl get namespace ${NAMESPACE} &> /dev/null
+
+if [ $? -eq 0 ]; then
+  kubectl delete --kustomize=kubernetes --now
+  kubectl wait namespace/${NAMESPACE} --for=delete --timeout=600s 2> /dev/null
+  echo "Cleaned up all resources."
+else
+  echo "namespace/${NAMESPACE} is not found."
+fi
