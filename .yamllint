@@ -7,6 +7,6 @@ rules:
   line-length:
     max: 100
     ignore: |
-      kubernetes/base/client/pod.yaml
+      kubernetes/base/client/statefulset.yaml
       kubernetes/base/package/hive/job.yaml
       kubernetes/base/package/tez/job.yaml
