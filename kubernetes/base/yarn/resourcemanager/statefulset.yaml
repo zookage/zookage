@@ -30,6 +30,7 @@ spec:
           mountPath: /mnt
         - name: package-hadoop
           mountPath: /opt/hadoop
+      terminationGracePeriodSeconds: 5
       volumes:
       - name: hadoop-conf
         configMap:

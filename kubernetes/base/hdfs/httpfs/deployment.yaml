@@ -55,6 +55,7 @@ spec:
           mountPath: /opt/hadoop
         - name: httpfs-tmp
           mountPath: /var/tmp/httpfs
+      terminationGracePeriodSeconds: 5
       volumes:
       - name: catalina
         emptyDir: {}

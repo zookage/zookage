@@ -42,6 +42,7 @@ spec:
           mountPath: /opt/hadoop
         - name: package-tez
           mountPath: /opt/tez
+      terminationGracePeriodSeconds: 5
       volumes:
       - name: hadoop-conf
         configMap:

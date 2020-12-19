@@ -48,6 +48,7 @@ spec:
           mountPath: /opt/hive
         - name: package-tez
           mountPath: /opt/tez
+      terminationGracePeriodSeconds: 5
       volumes:
       - name: hadoop-conf
         configMap:

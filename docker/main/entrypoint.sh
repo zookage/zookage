@@ -43,11 +43,9 @@ readonly command=$1
 
 if [ "${command}" == "hdfs-namenode" ]; then
   ${HADOOP_HOME}/bin/hdfs namenode -format -force
-  ${HADOOP_HOME}/bin/hdfs namenode
-  exit 0
+  exec ${HADOOP_HOME}/bin/hdfs namenode
 elif [ "${command}" == "hdfs-datanode" ]; then
-  ${HADOOP_HOME}/bin/hdfs datanode
-  exit 0
+  exec ${HADOOP_HOME}/bin/hdfs datanode
 elif [ "${command}" == "hdfs-httpfs-prepare" ]; then
   if is_hadoop2; then
     # Use the root user.
@@ -57,11 +55,10 @@ elif [ "${command}" == "hdfs-httpfs-prepare" ]; then
   exit 0
 elif [ "${command}" == "hdfs-httpfs" ]; then
   if is_hadoop2; then
-    ${HADOOP_HOME}/sbin/httpfs.sh run
+    exec ${HADOOP_HOME}/sbin/httpfs.sh run
   else
-    ${HADOOP_HOME}/bin/hdfs httpfs
+    exec ${HADOOP_HOME}/bin/hdfs httpfs
   fi
-  exit 0
 elif [ "${command}" == "hdfs-setup" ]; then
   hdfs_mkdir /apps hdfs:supergroup 755
   hdfs_mkdir /apps/tez tez:tez 755
@@ -75,26 +72,20 @@ elif [ "${command}" == "hdfs-setup" ]; then
   hdfs_mkdir /user/hive hive:hive 751
   exit 0
 elif [ "${command}" == "yarn-resourcemanager" ]; then
-  ${HADOOP_HOME}/bin/yarn resourcemanager
-  exit 0
+  exec ${HADOOP_HOME}/bin/yarn resourcemanager
 elif [ "${command}" == "yarn-nodemanager" ]; then
-  ${HADOOP_HOME}/bin/yarn nodemanager
-  exit 0
+  exec ${HADOOP_HOME}/bin/yarn nodemanager
 elif [ "${command}" == "yarn-timelineserver" ]; then
-  ${HADOOP_HOME}/bin/yarn timelineserver
-  exit 0
+  exec ${HADOOP_HOME}/bin/yarn timelineserver
 elif [ "${command}" == "mapreduce-historyserver" ]; then
-  ${HADOOP_HOME}/bin/mapred historyserver
-  exit 0
+  exec ${HADOOP_HOME}/bin/mapred historyserver
 elif [ "${command}" == "hive-metastore" ]; then
   rm -rf /mnt/hive/metastore
   ${HIVE_HOME}/bin/schematool -initSchema -dbType derby
   hdfs_mkdir /user/hive/warehouse hive:hive 1777
-  ${HIVE_HOME}/bin/hive --service metastore
-  exit 0
+  exec ${HIVE_HOME}/bin/hive --service metastore
 elif [ "${command}" == "hive-hiveserver2" ]; then
-  ${HIVE_HOME}/bin/hiveserver2
-  exit 0
+  exec ${HIVE_HOME}/bin/hiveserver2
 elif [ "${command}" == "tez-deploy" ]; then
   TARGET_DIR=hdfs:///apps/tez
   TAR_FILENAME=tez-minimal.tar.gz
