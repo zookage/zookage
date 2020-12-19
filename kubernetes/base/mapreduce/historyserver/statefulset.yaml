@@ -41,15 +41,6 @@ spec:
       - name: hadoop-conf
         configMap:
           name: hadoop-conf
-          items:
-          - key: core-site.xml
-            path: core-site.xml
-          - key: hadoop-metrics2.properties
-            path: hadoop-metrics2.properties
-          - key: log4j.properties
-            path: log4j.properties
-          - key: mapred-site.xml
-            path: mapred-site.xml
       - name: mnt
         emptyDir: {}
       - name: package-hadoop

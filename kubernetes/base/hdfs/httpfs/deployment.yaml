@@ -62,19 +62,6 @@ spec:
       - name: hadoop-conf
         configMap:
           name: hadoop-conf
-          items:
-          - key: core-site.xml
-            path: core-site.xml
-          - key: hdfs-site.xml
-            path: hdfs-site.xml
-          - key: httpfs-log4j.properties
-            path: httpfs-log4j.properties
-          - key: httpfs-signature.secret
-            path: httpfs-signature.secret
-          - key: httpfs-site.xml
-            path: httpfs-site.xml
-          - key: log4j.properties
-            path: log4j.properties
       - name: mnt
         emptyDir: {}
       - name: package-hadoop
