@@ -1,5 +1,5 @@
 resources:
-- pod.yaml
+- statefulset.yaml
 commonLabels:
   component: client
   tier: client
