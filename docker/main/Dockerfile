@@ -29,7 +29,7 @@ RUN apt update \
 RUN curl \
     --location \
     --output /usr/local/bin/kubectl \
-    https://storage.googleapis.com/kubernetes-release/release/v1.19.2/bin/linux/amd64/kubectl \
+    https://storage.googleapis.com/kubernetes-release/release/v1.19.3/bin/linux/amd64/kubectl \
   && chmod 755 /usr/local/bin/kubectl \
   && curl \
     --location \
