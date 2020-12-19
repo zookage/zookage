@@ -1,8 +1,15 @@
 namespace: hadoop-sandbox
 bases:
 - base
+- base/hdfs
+- base/yarn
+- base/tez
+- base/mapreduce
+- base/client
 resources:
 - namespace.yaml
+commonLabels:
+  owner: hadoop-sandbox
 images:
 - name: hadoop-sandbox-hadoop
   newName: ghcr.io/hadoop-sandbox/hadoop-sandbox-hadoop
