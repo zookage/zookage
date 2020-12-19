@@ -3,4 +3,4 @@ set -eu
 
 readonly NAMESPACE=hadoop-sandbox
 
-kubectl --namespace ${NAMESPACE} ${@}
+kubectl --namespace ${NAMESPACE} "${@}"

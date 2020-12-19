@@ -2,13 +2,12 @@
 set -u
 
 readonly NAMESPACE=hadoop-sandbox
-readonly bin_dir=$(cd $(dirname $0); pwd)
+readonly bin_dir=$(cd "$(dirname "$0")"; pwd)
 
-kubectl get namespace ${NAMESPACE} &> /dev/null
-if [ $? -eq 0 ]; then
-  read -p "Scrap the current namespace? [y/N]: " scrap
+if kubectl get namespace ${NAMESPACE} &> /dev/null; then
+  read -r -p "Scrap the current namespace? [y/N]: " scrap
   case "$scrap" in
-    y|Y|yes ) ${bin_dir}/cleanup;;
+    y|Y|yes ) "${bin_dir}/cleanup";;
     n|N|no|"" ) ;;
     * ) echo "Please input y or n"; exit 1;;
   esac
