@@ -15,4 +15,4 @@ images:
   newTag: "0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty"
 - name: hadoop-sandbox-main
   newName: ghcr.io/hadoop-sandbox/hadoop-sandbox-main
-  newTag: "master"
+  newTag: "main"
