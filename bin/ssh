@@ -1,0 +1,7 @@
+#!/bin/bash
+set -eu
+
+readonly bin_dir=$(cd $(dirname $0); pwd)
+readonly pod=${1:-hadoop-sandbox-client}
+
+${bin_dir}/kubectl exec -it ${pod} -- /bin/bash
