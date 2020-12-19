@@ -5,6 +5,7 @@ bases:
 - base/yarn
 - base/tez
 - base/mapreduce
+- base/hive
 - base/client
 resources:
 - namespace.yaml
