@@ -1,10 +1,14 @@
 # syntax=docker/dockerfile:experimental
 ARG openjdk_image
 
+# hadolint ignore=DL3006
 FROM ${openjdk_image}
 
-RUN apt update \
-  && apt install -y curl less netcat vim \
+# hadolint ignore=DL3008
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends curl less netcat vim \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* \
   && groupadd --gid 1000 sandbox \
   && useradd --create-home --uid 1000 --gid sandbox sandbox \
   && groupadd --gid 1010 hadoop \

@@ -2,6 +2,7 @@
 ARG tez_build_image
 ARG openjdk_image
 
+# hadolint ignore=DL3006
 FROM ${tez_build_image} AS builder
 
 ARG clean
@@ -16,24 +17,25 @@ RUN --mount=type=cache,id=hadoop-sandbox-m2,target=/root/.m2 \
     -Dmaven.javadoc.skip=true \
   && mkdir apache-tez-bin \
   && tar -C apache-tez-bin \
-    -zxvf /root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-minimal.tar.gz \
+    -zxvf "/root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-minimal.tar.gz" \
   && mkdir tmp-tez-full \
   && tar -C tmp-tez-full \
-    -zxvf /root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).tar.gz \
+    -zxvf "/root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).tar.gz" \
   && cp tmp-tez-full/LICENSE* apache-tez-bin/ \
   && cp tmp-tez-full/NOTICE* apache-tez-bin/ \
   && rm -rf tmp-tez-full \
   && mkdir apache-tez-bin/share \
-  && cp /root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-minimal.tar.gz \
+  && cp "/root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-minimal.tar.gz" \
     apache-tez-bin/share/tez-minimal.tar.gz \
-  && cp /root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).tar.gz \
+  && cp "/root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).tar.gz" \
     apache-tez-bin/share/tez.tar.gz \
-  && cp apache-tez-bin/tez-ui-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).war \
+  && cp "apache-tez-bin/tez-ui-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).war" \
     apache-tez-bin/share/tez-ui.war \
   && cp \
-    /root/tez/tez-plugins/tez-aux-services/target/tez-aux-services-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).jar \
+    "/root/tez/tez-plugins/tez-aux-services/target/tez-aux-services-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).jar" \
     apache-tez-bin/share/tez-aux-services.jar
 
+# hadolint ignore=DL3006
 FROM ${openjdk_image}
 
 COPY --from=builder /root/tez/apache-tez-bin /opt/tez
