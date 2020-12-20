@@ -16,11 +16,15 @@ spec:
         args:
         - wait-for-rollout
         - statefulset/hdfs-datanode
-      containers:
-      - name: deploy
+      - name: upload
         image: hadoop-sandbox-main
+        command:
+        - /opt/hadoop/bin/hdfs
         args:
-        - tez-deploy
+        - dfs
+        - -copyFromLocal
+        - /opt/tez/share/tez-minimal.tar.gz
+        - hdfs:///apps/tez/tez-minimal.tar.gz
         envFrom:
         - configMapRef:
             name: hadoop-env
@@ -34,6 +38,24 @@ spec:
           mountPath: /opt/hadoop
         - name: package-tez
           mountPath: /opt/tez
+      containers:
+      - name: chown
+        image: hadoop-sandbox-main
+        command:
+        - gohdfs
+        args:
+        - chown
+        - tez:tez
+        - hdfs:///apps/tez/tez-minimal.tar.gz
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        securityContext:
+          runAsUser: 1011
+          runAsGroup: 1010
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
       restartPolicy: Never
       volumes:
       - name: hadoop-conf

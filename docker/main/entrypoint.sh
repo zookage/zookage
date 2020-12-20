@@ -67,15 +67,6 @@ elif [ "${command}" == "hdfs-setup" ]; then
   hdfs_mkdir /user/hive hive:hive 751
   hdfs_mkdir /user/hive/warehouse hive:hive 1777
   exit 0
-elif [ "${command}" == "tez-deploy" ]; then
-  TARGET_DIR=hdfs:///apps/tez
-  TAR_FILENAME=tez-minimal.tar.gz
-  # `gohdfs put` can not be atomic
-  until "${HADOOP_HOME}/bin/hdfs" dfs -copyFromLocal /opt/tez/share/${TAR_FILENAME} ${TARGET_DIR}/${TAR_FILENAME}; do
-    sleep 1
-  done
-  gohdfs chown tez:tez ${TARGET_DIR}/${TAR_FILENAME}
-  exit 0
 elif [ "${command}" == "wait-for-job" ]; then
   wait_for_job "$2"
   exit 0
