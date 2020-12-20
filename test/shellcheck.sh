@@ -14,4 +14,4 @@ docker \
   run \
   --rm \
   -v "${base_dir}:/mnt" "koalaman/shellcheck-alpine:${SHELLCHECK_VERSION}" \
-  sh -c "shellcheck -x /mnt/**/*.sh"
+  sh -c "find /mnt -name '*.sh' | xargs shellcheck -x"
