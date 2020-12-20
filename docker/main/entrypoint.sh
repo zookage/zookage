@@ -41,12 +41,7 @@ function is_hadoop2() {
 
 readonly command=$1
 
-if [ "${command}" == "hdfs-namenode" ]; then
-  "${HADOOP_HOME}/bin/hdfs" namenode -format -force
-  exec "${HADOOP_HOME}/bin/hdfs" namenode
-elif [ "${command}" == "hdfs-datanode" ]; then
-  exec "${HADOOP_HOME}/bin/hdfs" datanode
-elif [ "${command}" == "hdfs-httpfs-prepare" ]; then
+if [ "${command}" == "hdfs-httpfs-prepare" ]; then
   if is_hadoop2; then
     # Use the root user.
     cp -R "${HADOOP_HOME}/share/hadoop/httpfs/tomcat" "${CATALINA_BASE}"
@@ -57,7 +52,7 @@ elif [ "${command}" == "hdfs-httpfs" ]; then
   if is_hadoop2; then
     exec "${HADOOP_HOME}/sbin/httpfs.sh" run
   else
-    exec "${HADOOP_HOME}/bin/hdfs httpfs"
+    exec "${HADOOP_HOME}/bin/hdfs" httpfs
   fi
 elif [ "${command}" == "hdfs-setup" ]; then
   hdfs_mkdir /apps hdfs:supergroup 755
@@ -70,22 +65,8 @@ elif [ "${command}" == "hdfs-setup" ]; then
   hdfs_mkdir /user/sandbox sandbox:sandbox 700
   hdfs_mkdir /user/history mapred:hadoop 755
   hdfs_mkdir /user/hive hive:hive 751
-  exit 0
-elif [ "${command}" == "yarn-resourcemanager" ]; then
-  exec "${HADOOP_HOME}/bin/yarn" resourcemanager
-elif [ "${command}" == "yarn-nodemanager" ]; then
-  exec "${HADOOP_HOME}/bin/yarn" nodemanager
-elif [ "${command}" == "yarn-timelineserver" ]; then
-  exec "${HADOOP_HOME}/bin/yarn" timelineserver
-elif [ "${command}" == "mapreduce-historyserver" ]; then
-  exec "${HADOOP_HOME}/bin/mapred" historyserver
-elif [ "${command}" == "hive-metastore" ]; then
-  rm -rf /mnt/hive/metastore
-  "${HIVE_HOME}/bin/schematool" -initSchema -dbType derby
   hdfs_mkdir /user/hive/warehouse hive:hive 1777
-  exec "${HIVE_HOME}/bin/hive" --service metastore
-elif [ "${command}" == "hive-hiveserver2" ]; then
-  exec "${HIVE_HOME}/bin/hiveserver2"
+  exit 0
 elif [ "${command}" == "tez-deploy" ]; then
   TARGET_DIR=hdfs:///apps/tez
   TAR_FILENAME=tez-minimal.tar.gz

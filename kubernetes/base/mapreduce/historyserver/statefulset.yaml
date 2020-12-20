@@ -18,8 +18,10 @@ spec:
       containers:
       - name: historyserver
         image: hadoop-sandbox-main
+        command:
+        - /opt/hadoop/bin/mapred
         args:
-        - mapreduce-historyserver
+        - historyserver
         envFrom:
         - configMapRef:
             name: hadoop-env

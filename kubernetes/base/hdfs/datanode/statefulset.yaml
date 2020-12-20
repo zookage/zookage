@@ -14,13 +14,15 @@ spec:
       - name: wait-for-namenode
         image: hadoop-sandbox-main
         args:
-        - wait-for-rollout
-        - statefulset/hdfs-namenode
+        - wait-for-job
+        - hdfs-setup
       containers:
       - name: datanode
         image: hadoop-sandbox-main
+        command:
+        - /opt/hadoop/bin/hdfs
         args:
-        - hdfs-datanode
+        - datanode
         envFrom:
         - configMapRef:
             name: hadoop-env

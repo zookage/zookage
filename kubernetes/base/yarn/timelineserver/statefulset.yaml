@@ -12,8 +12,10 @@ spec:
       containers:
       - name: timelineserver
         image: hadoop-sandbox-main
+        command:
+        - /opt/hadoop/bin/yarn
         args:
-        - yarn-timelineserver
+        - timelineserver
         envFrom:
         - configMapRef:
             name: hadoop-env

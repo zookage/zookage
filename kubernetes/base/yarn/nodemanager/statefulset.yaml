@@ -19,8 +19,10 @@ spec:
       containers:
       - name: nodemanager
         image: hadoop-sandbox-main
+        command:
+        - /opt/hadoop/bin/yarn
         args:
-        - yarn-nodemanager
+        - nodemanager
         envFrom:
         - configMapRef:
             name: hadoop-env

@@ -17,8 +17,8 @@ spec:
       containers:
       - name: hiveserver2
         image: hadoop-sandbox-main
-        args:
-        - hive-hiveserver2
+        command:
+        - /opt/hive/bin/hiveserver2
         envFrom:
         - configMapRef:
             name: hadoop-env

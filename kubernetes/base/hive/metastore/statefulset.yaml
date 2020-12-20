@@ -9,11 +9,60 @@ spec:
   replicas: 1
   template:
     spec:
+      initContainers:
+      - name: cleanup
+        image: hadoop-sandbox-main
+        command:
+        - rm
+        args:
+        - -rf
+        - /mnt/hive/metastore
+        securityContext:
+          runAsUser: 1020
+          runAsGroup: 1020
+        volumeMounts:
+        - name: mnt
+          mountPath: /mnt
+      - name: init-schema
+        image: hadoop-sandbox-main
+        command:
+        - /opt/hive/bin/schematool
+        args:
+        - -initSchema
+        - -dbType
+        - derby
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        - configMapRef:
+            name: hive-env
+        securityContext:
+          runAsUser: 1020
+          runAsGroup: 1020
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+        - name: hive-conf
+          mountPath: /etc/hive/conf
+        - name: mnt
+          mountPath: /mnt
+        - name: package-hadoop
+          mountPath: /opt/hadoop
+        - name: package-hive
+          mountPath: /opt/hive
+      - name: wait-for-namenode
+        image: hadoop-sandbox-main
+        args:
+        - wait-for-job
+        - hdfs-setup
       containers:
       - name: metastore
         image: hadoop-sandbox-main
+        command:
+        - /opt/hive/bin/hive
         args:
-        - hive-metastore
+        - --service
+        - metastore
         envFrom:
         - configMapRef:
             name: hadoop-env

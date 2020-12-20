@@ -9,11 +9,35 @@ spec:
   replicas: 1
   template:
     spec:
+      initContainers:
+      - name: format
+        image: hadoop-sandbox-main
+        command:
+        - /opt/hadoop/bin/hdfs
+        args:
+        - namenode
+        - -format
+        - -force
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        securityContext:
+          runAsUser: 1011
+          runAsGroup: 1010
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+        - name: mnt
+          mountPath: /mnt
+        - name: package-hadoop
+          mountPath: /opt/hadoop
       containers:
       - name: namenode
         image: hadoop-sandbox-main
+        command:
+        - /opt/hadoop/bin/hdfs
         args:
-        - hdfs-namenode
+        - namenode
         envFrom:
         - configMapRef:
             name: hadoop-env
