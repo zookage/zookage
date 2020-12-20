@@ -2,8 +2,7 @@
 set -eu
 
 if [ $# -eq 0 ]; then
-  /bin/bash
-  exit 0
+  exec /bin/bash
 fi
 
 function wait_for_job() {
