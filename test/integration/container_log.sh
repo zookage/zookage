@@ -6,8 +6,8 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
 check_errors () {
   ! "${base_dir}/bin/logs" | grep ERROR \
-    | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: Table default.mofu_tez not found' \
-    | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: Table default.mofu_mr not found'
+    | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: .*mofu_tez not found' \
+    | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: .*mofu_mr not found'
 }
 
 check_warnings () {
@@ -16,6 +16,8 @@ check_warnings () {
     | grep -v 'pod/hdfs-namenode-.* conf.Configuration: No unit for' \
     | grep -v 'pod/hdfs-namenode-.* hdfs.DFSUtilClient: Namenode for null remains unresolved for ID null' \
     | grep -v 'pod/hdfs-datanode-.* conf.Configuration: No unit for' \
+    | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow BlockReceiver write data to disk cost' \
+    | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow PacketResponder send ack to upstream took' \
     | grep -v 'aaa datanode.DataNode: Slow BlockReceiver write packet to mirror took' \
     | grep -v 'pod/hdfs-httpfs-.* log4j:WARN' \
     | grep -v 'pod/hdfs-httpfs-.* \[SetPropertiesRule\]{Server/Service/Engine/Host} Setting property' \
