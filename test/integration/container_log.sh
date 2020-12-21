@@ -18,6 +18,7 @@ check_warnings () {
     | grep -v 'pod/hdfs-datanode-.* conf.Configuration: No unit for' \
     | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow BlockReceiver write data to disk cost' \
     | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow PacketResponder send ack to upstream took' \
+    | grep -v 'pod/hdfs-datanode-.* impl.FsDatasetImpl: Lock held time above threshold' \
     | grep -v 'aaa datanode.DataNode: Slow BlockReceiver write packet to mirror took' \
     | grep -v 'pod/hdfs-httpfs-.* log4j:WARN' \
     | grep -v 'pod/hdfs-httpfs-.* \[SetPropertiesRule\]{Server/Service/Engine/Host} Setting property' \
@@ -25,6 +26,7 @@ check_warnings () {
     | grep -v 'pod/yarn-nodemanager-.* nodemanager.DefaultContainerExecutor: Exit code from container' \
     | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find container" \
     | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find app" \
+    | grep -v 'pod/yarn-nodemanager-.* nodemanager.DefaultContainerExecutor: delete returned false for path' \
     | grep -v 'pod/tez-ui-.* Creation of SecureRandom instance for session ID generation using \[SHA1PRNG\] took' \
     | grep -v 'pod/hive-metastore-.* nodemanager.DefaultContainerExecutor: Exit code from' \
     | grep -v 'pod/hive-metastore-.* Failed to create directory: /home/hive/.beeline' \
