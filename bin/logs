@@ -3,6 +3,15 @@ set -eu
 
 readonly bin_dir=$(cd "$(dirname "$0")"; pwd)
 
-for pod in $("${bin_dir}/kubectl" get pod -o name); do
+logs () {
+  local -r pod=$1
   "${bin_dir}/kubectl" logs "${pod}" --all-containers=true | sed -e "s@^@${pod}: @g"
-done
+}
+
+if [ $# -eq 0 ]; then
+  for pod in $("${bin_dir}/kubectl" get pod -o name); do
+    logs "${pod}"
+  done
+else
+  logs "$1"
+fi
