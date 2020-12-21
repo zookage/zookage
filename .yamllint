@@ -8,5 +8,5 @@ rules:
     max: 100
     ignore: |
       kubernetes/base/client/statefulset.yaml
-      kubernetes/base/package/hive/job.yaml
-      kubernetes/base/package/tez/job.yaml
+      kubernetes/base/common/package/hive/job.yaml
+      kubernetes/base/common/package/tez/job.yaml

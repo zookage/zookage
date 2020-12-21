@@ -2,3 +2,5 @@ bases:
 - package
 - config
 - env
+resources:
+- namespace.yaml
