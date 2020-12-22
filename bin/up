@@ -7,7 +7,7 @@ readonly bin_dir=$(cd "$(dirname "$0")"; pwd)
 if kubectl get namespace ${NAMESPACE} &> /dev/null; then
   read -r -p "Scrap the current namespace? [y/N]: " scrap
   case "$scrap" in
-    y|Y|yes ) "${bin_dir}/cleanup";;
+    y|Y|yes ) "${bin_dir}/down";;
     n|N|no|"" ) ;;
     * ) echo "Please input y or n"; exit 1;;
   esac
@@ -20,5 +20,9 @@ kubectl \
   --kustomize=kubernetes \
   --selector="component in (namespace,package)" \
   --wait=true
-kubectl --namespace=${NAMESPACE} wait job --all=true --for="condition=complete" --timeout=1800s
+"${bin_dir}/kubectl" wait job --all=true --for="condition=complete" --timeout=1800s
 kubectl apply --kustomize kubernetes
+"${bin_dir}/kubectl" wait pod --all=true --for=condition=Ready --selector="tier!=job" --timeout=1800s
+
+echo
+echo "All resources are ready!"

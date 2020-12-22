@@ -6,7 +6,9 @@ readonly NAMESPACE=hadoop-sandbox
 if kubectl get namespace ${NAMESPACE} &> /dev/null; then
   kubectl delete --kustomize=kubernetes --now
   kubectl wait namespace/${NAMESPACE} --for=delete --timeout=600s 2> /dev/null
-  echo "Cleaned up all resources."
+  echo
+  echo "Shut down all resources."
 else
+  echo
   echo "namespace/${NAMESPACE} is not found."
 fi
