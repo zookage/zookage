@@ -9,7 +9,7 @@ logs () {
 }
 
 if [ $# -eq 0 ]; then
-  for pod in $("${bin_dir}/kubectl" get pod -o name); do
+  for pod in $("${bin_dir}/kubectl" get pods -o name); do
     logs "${pod}"
   done
 else
