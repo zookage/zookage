@@ -1,6 +1,6 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: hadoop-sandbox
+  name: zookage
   labels:
     component: namespace

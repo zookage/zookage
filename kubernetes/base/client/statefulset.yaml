@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: hadoop-sandbox-client
+  name: zookage-client
 spec:
   selector:
     matchLabels: {}
-  serviceName: hadoop-sandbox-client
+  serviceName: zookage-client
   replicas: 1
   template:
     spec:
       containers:
       - name: main
-        image: hadoop-sandbox-main
+        image: zookage-main
         args:
         - sleep
         - inf
@@ -43,7 +43,7 @@ spec:
           mountPath: /opt/hive
         - name: package-tez
           mountPath: /opt/tez
-        workingDir: /home/sandbox
+        workingDir: /home/zookage
       terminationGracePeriodSeconds: 0
       volumes:
       - name: hadoop-conf

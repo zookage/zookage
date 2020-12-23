@@ -10,7 +10,7 @@ spec:
     spec:
       initContainers:
       - name: httpfs-prepare
-        image: hadoop-sandbox-main
+        image: zookage-main
         args:
         - hdfs-httpfs-prepare
         envFrom:
@@ -30,7 +30,7 @@ spec:
           mountPath: /opt/hadoop
       containers:
       - name: httpfs
-        image: hadoop-sandbox-main
+        image: zookage-main
         args:
         - hdfs-httpfs
         envFrom:

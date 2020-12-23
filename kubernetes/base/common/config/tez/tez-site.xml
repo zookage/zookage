@@ -17,7 +17,7 @@
   </property>
   <property>
     <name>tez.tez-ui.history-url.base</name>
-    <value>http://tez-ui.hadoop-sandbox:9999/tez-ui/</value>
+    <value>http://tez-ui.zookage:9999/tez-ui/</value>
   </property>
   <property>
     <name>tez.runtime.convert.user-payload.to.history-text</name>

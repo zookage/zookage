@@ -28,7 +28,7 @@ docker build \
   "${HADOOP_SOURCE_DIR}/dev-support/docker"
 
 docker build \
-  --tag "${DOCKER_IMAGE_NAME_PREFIX}/hadoop-sandbox-hadoop:${image_tag}" \
+  --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-hadoop:${image_tag}" \
   --build-arg "hadoop_build_image=${DOCKER_IMAGE_NAME_PREFIX}/hadoop-build:${image_tag}" \
   --build-arg "openjdk_image=${OPENJDK_8_IMAGE}" \
   --build-arg "clean=${clean}" \

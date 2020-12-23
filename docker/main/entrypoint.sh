@@ -61,7 +61,7 @@ elif [ "${command}" == "hdfs-setup" ]; then
   hdfs_mkdir /tmp/logs yarn:yarn 1777
 
   hdfs_mkdir /user hdfs:supergroup 755
-  hdfs_mkdir /user/sandbox sandbox:sandbox 700
+  hdfs_mkdir /user/zookage zookage:zookage 700
   hdfs_mkdir /user/history mapred:hadoop 755
   hdfs_mkdir /user/hive hive:hive 751
   hdfs_mkdir /user/hive/warehouse hive:hive 1777

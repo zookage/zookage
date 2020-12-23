@@ -9,7 +9,7 @@ ARG clean
 
 WORKDIR /root/hive
 COPY . .
-RUN --mount=type=cache,id=hadoop-sandbox-m2,target=/root/.m2 \
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   mvn --threads 1C ${clean} install \
     -Pdist \
     -DskipTests \

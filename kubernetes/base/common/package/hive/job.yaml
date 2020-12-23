@@ -6,18 +6,18 @@ spec:
   template:
     spec:
       containers:
-      - name: hadoop-sandbox-hive
-        image: hadoop-sandbox-hive
+      - name: zookage-hive
+        image: zookage-hive
         command:
         - /bin/bash
         args:
         - -c
-        - "rm -rf /mnt/hadoop-sandbox/hive && cp -R /opt/hive /mnt/hadoop-sandbox/hive && rm /mnt/hadoop-sandbox/hive/lib/log4j-slf4j-impl*"
+        - "rm -rf /mnt/zookage/hive && cp -R /opt/hive /mnt/zookage/hive && rm /mnt/zookage/hive/lib/log4j-slf4j-impl*"
         volumeMounts:
         - name: package-home
-          mountPath: /mnt/hadoop-sandbox
+          mountPath: /mnt/zookage
       restartPolicy: Never
       volumes:
       - name: package-home
         hostPath:
-          path: /opt/hadoop-sandbox
+          path: /opt/zookage

@@ -1,6 +1,6 @@
 #!/bin/bash
 set -eu
 
-readonly NAMESPACE=hadoop-sandbox
+readonly NAMESPACE=zookage
 
 kubectl --namespace ${NAMESPACE} "${@}"

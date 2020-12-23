@@ -1,4 +1,4 @@
-# hadoop-sandbox
+# ZooKage
 
 ## Compatibility
 

@@ -12,13 +12,13 @@ spec:
     spec:
       initContainers:
       - name: wait-for-namenode
-        image: hadoop-sandbox-main
+        image: zookage-main
         args:
         - wait-for-job
         - hdfs-setup
       containers:
       - name: datanode
-        image: hadoop-sandbox-main
+        image: zookage-main
         command:
         - /opt/hadoop/bin/hdfs
         args:

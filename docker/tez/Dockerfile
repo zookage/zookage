@@ -9,7 +9,7 @@ ARG clean
 
 WORKDIR /root/tez
 COPY . .
-RUN --mount=type=cache,id=hadoop-sandbox-m2,target=/root/.m2 \
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   mvn ${clean} package \
     -Ptools \
     -Dallow.root.build \

@@ -1,6 +1,6 @@
-namespace: hadoop-sandbox
+namespace: zookage
 commonLabels:
-  owner: hadoop-sandbox
+  owner: zookage
 bases:
 - base/common
 - base/hdfs
@@ -10,15 +10,15 @@ bases:
 - base/hive
 - base/client
 images:
-- name: hadoop-sandbox-hadoop
-  newName: ghcr.io/hadoop-sandbox/hadoop-sandbox-hadoop
+- name: zookage-hadoop
+  newName: ghcr.io/zookage/zookage-hadoop
   newTag: "3.1.4"
-- name: hadoop-sandbox-hive
-  newName: ghcr.io/hadoop-sandbox/hadoop-sandbox-hive
+- name: zookage-hive
+  newName: ghcr.io/zookage/zookage-hive
   newTag: "3.1.2-guava-27.0-jre"
-- name: hadoop-sandbox-tez
-  newName: ghcr.io/hadoop-sandbox/hadoop-sandbox-tez
+- name: zookage-tez
+  newName: ghcr.io/zookage/zookage-tez
   newTag: "0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty"
-- name: hadoop-sandbox-main
-  newName: ghcr.io/hadoop-sandbox/hadoop-sandbox-main
+- name: zookage-main
+  newName: ghcr.io/zookage/zookage-main
   newTag: "main"

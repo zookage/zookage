@@ -11,7 +11,7 @@ spec:
     spec:
       initContainers:
       - name: format
-        image: hadoop-sandbox-main
+        image: zookage-main
         command:
         - /opt/hadoop/bin/hdfs
         args:
@@ -33,7 +33,7 @@ spec:
           mountPath: /opt/hadoop
       containers:
       - name: namenode
-        image: hadoop-sandbox-main
+        image: zookage-main
         command:
         - /opt/hadoop/bin/hdfs
         args:

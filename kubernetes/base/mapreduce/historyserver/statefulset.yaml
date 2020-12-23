@@ -11,13 +11,13 @@ spec:
     spec:
       initContainers:
       - name: wait-for-history-dir
-        image: hadoop-sandbox-main
+        image: zookage-main
         args:
         - wait-for-job
         - hdfs-setup
       containers:
       - name: historyserver
-        image: hadoop-sandbox-main
+        image: zookage-main
         command:
         - /opt/hadoop/bin/mapred
         args:

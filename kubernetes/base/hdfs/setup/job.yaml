@@ -7,13 +7,13 @@ spec:
     spec:
       initContainers:
       - name: wait-for-namenode
-        image: hadoop-sandbox-main
+        image: zookage-main
         args:
         - wait-for-rollout
         - statefulset/hdfs-namenode
       containers:
       - name: setup
-        image: hadoop-sandbox-main
+        image: zookage-main
         args:
         - hdfs-setup
         envFrom:

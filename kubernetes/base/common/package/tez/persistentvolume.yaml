@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: hadoop-sandbox-package-tez
+  name: zookage-package-tez
 spec:
   accessModes:
   - ReadOnlyMany
   capacity:
     storage: 1Gi
   hostPath:
-    path: /opt/hadoop-sandbox/tez
-  storageClassName: hadoop-sandbox-package-tez
+    path: /opt/zookage/tez
+  storageClassName: zookage-package-tez

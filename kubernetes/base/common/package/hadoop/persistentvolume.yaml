@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: hadoop-sandbox-package-hadoop
+  name: zookage-package-hadoop
 spec:
   accessModes:
   - ReadOnlyMany
   capacity:
     storage: 1Gi
   hostPath:
-    path: /opt/hadoop-sandbox/hadoop
-  storageClassName: hadoop-sandbox-package-hadoop
+    path: /opt/zookage/hadoop
+  storageClassName: zookage-package-hadoop

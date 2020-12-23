@@ -9,8 +9,8 @@ RUN apt-get update \
   && apt-get install -y --no-install-recommends curl less netcat vim \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
-  && groupadd --gid 1000 sandbox \
-  && useradd --create-home --uid 1000 --gid sandbox sandbox \
+  && groupadd --gid 1000 zookage \
+  && useradd --create-home --uid 1000 --gid zookage zookage \
   && groupadd --gid 1010 hadoop \
   && groupadd --gid 1011 hdfs \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1011 --gid hdfs --groups hadoop hdfs \
@@ -50,5 +50,5 @@ RUN curl \
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
-USER sandbox
+USER zookage
 ENTRYPOINT ["entrypoint.sh"]

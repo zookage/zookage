@@ -5,7 +5,7 @@
   </property>
   <property>
     <name>beeline.hs2.connection.user</name>
-    <value>sandbox</value>
+    <value>zookage</value>
   </property>
   <property>
     <name>beeline.hs2.connection.password</name>

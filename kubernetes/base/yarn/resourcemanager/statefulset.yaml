@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: resourcemanager
-        image: hadoop-sandbox-main
+        image: zookage-main
         command:
         - /opt/hadoop/bin/yarn
         args:
