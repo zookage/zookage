@@ -19,7 +19,8 @@ check_warnings () {
     | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow BlockReceiver write data to disk cost' \
     | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow PacketResponder send ack to upstream took' \
     | grep -v 'pod/hdfs-datanode-.* impl.FsDatasetImpl: Lock held time above threshold' \
-    | grep -v 'aaa datanode.DataNode: Slow BlockReceiver write packet to mirror took' \
+    | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow BlockReceiver write packet to mirror took' \
+    | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow flushOrSync took' \
     | grep -v 'pod/hdfs-httpfs-.* log4j:WARN' \
     | grep -v 'pod/hdfs-httpfs-.* \[SetPropertiesRule\]{Server/Service/Engine/Host} Setting property' \
     | grep -v 'pod/hdfs-httpfs-.* Creation of SecureRandom instance for session ID generation using \[SHA1PRNG\] took' \
