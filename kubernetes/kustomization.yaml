@@ -11,14 +11,14 @@ bases:
 - base/client
 images:
 - name: zookage-hadoop
-  newName: ghcr.io/zookage/zookage-hadoop
+  newName: zookage/zookage-hadoop
   newTag: "3.1.4"
 - name: zookage-hive
-  newName: ghcr.io/zookage/zookage-hive
+  newName: zookage/zookage-hive
   newTag: "3.1.2-guava-27.0-jre"
 - name: zookage-tez
-  newName: ghcr.io/zookage/zookage-tez
+  newName: zookage/zookage-tez
   newTag: "0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty"
 - name: zookage-main
-  newName: ghcr.io/zookage/zookage-main
+  newName: zookage/zookage-main
   newTag: "main"
