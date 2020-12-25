@@ -7,17 +7,17 @@ spec:
     spec:
       initContainers:
       - name: wait-for-apps-dir
-        image: zookage-main
+        image: zookage-util
         args:
         - wait-for-job
         - hdfs-setup
       - name: wait-for-datanode
-        image: zookage-main
+        image: zookage-util
         args:
         - wait-for-rollout
         - statefulset/hdfs-datanode
       - name: upload
-        image: zookage-main
+        image: zookage-util
         command:
         - /opt/hadoop/bin/hdfs
         args:
@@ -40,7 +40,7 @@ spec:
           mountPath: /opt/tez
       containers:
       - name: chown
-        image: zookage-main
+        image: zookage-util
         command:
         - gohdfs
         args:

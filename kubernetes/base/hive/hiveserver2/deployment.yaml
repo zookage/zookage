@@ -10,13 +10,13 @@ spec:
     spec:
       initContainers:
       - name: wait-for-metastore
-        image: zookage-main
+        image: zookage-util
         args:
         - wait-for-rollout
         - statefulset/hive-metastore
       containers:
       - name: hiveserver2
-        image: zookage-main
+        image: zookage-util
         command:
         - /opt/hive/bin/hiveserver2
         envFrom:

@@ -19,6 +19,6 @@ images:
 - name: zookage-tez
   newName: zookage/zookage-tez
   newTag: "0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty"
-- name: zookage-main
-  newName: zookage/zookage-main
+- name: zookage-util
+  newName: zookage/zookage-util
   newTag: "main"

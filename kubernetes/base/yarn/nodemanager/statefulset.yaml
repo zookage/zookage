@@ -12,13 +12,13 @@ spec:
     spec:
       initContainers:
       - name: wait-for-resourcemanager
-        image: zookage-main
+        image: zookage-util
         args:
         - wait-for-rollout
         - statefulset/yarn-resourcemanager
       containers:
       - name: nodemanager
-        image: zookage-main
+        image: zookage-util
         command:
         - /opt/hadoop/bin/yarn
         args:

@@ -10,7 +10,7 @@ spec:
     spec:
       initContainers:
       - name: httpfs-prepare
-        image: zookage-main
+        image: zookage-util
         args:
         - hdfs-httpfs-prepare
         envFrom:
@@ -30,7 +30,7 @@ spec:
           mountPath: /opt/hadoop
       containers:
       - name: httpfs
-        image: zookage-main
+        image: zookage-util
         args:
         - hdfs-httpfs
         envFrom:

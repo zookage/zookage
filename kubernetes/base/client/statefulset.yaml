@@ -10,8 +10,8 @@ spec:
   template:
     spec:
       containers:
-      - name: main
-        image: zookage-main
+      - name: sleep
+        image: zookage-util
         args:
         - sleep
         - inf

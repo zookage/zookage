@@ -11,7 +11,7 @@ spec:
     spec:
       initContainers:
       - name: cleanup
-        image: zookage-main
+        image: zookage-util
         command:
         - rm
         args:
@@ -24,7 +24,7 @@ spec:
         - name: mnt
           mountPath: /mnt
       - name: init-schema
-        image: zookage-main
+        image: zookage-util
         command:
         - /opt/hive/bin/schematool
         args:
@@ -51,13 +51,13 @@ spec:
         - name: package-hive
           mountPath: /opt/hive
       - name: wait-for-namenode
-        image: zookage-main
+        image: zookage-util
         args:
         - wait-for-job
         - hdfs-setup
       containers:
       - name: metastore
-        image: zookage-main
+        image: zookage-util
         command:
         - /opt/hive/bin/hive
         args:
