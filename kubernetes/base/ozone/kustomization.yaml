@@ -1,0 +1,8 @@
+bases:
+- om
+- scm
+- datanode
+- s3g
+- recon
+commonLabels:
+  component: ozone

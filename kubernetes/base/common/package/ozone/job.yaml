@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: package-ozone
+spec:
+  template:
+    spec:
+      containers:
+      - name: zookage-ozone
+        image: zookage-ozone
+        command:
+        - /bin/bash
+        args:
+        - -c
+        - "rm -rf /mnt/zookage/ozone && cp -R /opt/ozone /mnt/zookage/ozone"
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+        volumeMounts:
+        - name: package-home
+          mountPath: /mnt/zookage
+      restartPolicy: Never
+      volumes:
+      - name: package-home
+        hostPath:
+          path: /opt/zookage

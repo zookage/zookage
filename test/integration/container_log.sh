@@ -13,6 +13,7 @@ check_errors () {
 check_warnings () {
   # shellcheck disable=SC2016
   ! "${base_dir}/bin/logs" | grep WARN \
+    | grep -v 'pod/.*: WARNING: .* does not exist. Creating.' \
     | grep -v 'pod/hdfs-namenode-.* conf.Configuration: No unit for' \
     | grep -v 'pod/hdfs-namenode-.* hdfs.DFSUtilClient: Namenode for null remains unresolved for ID null' \
     | grep -v 'pod/hdfs-datanode-.* conf.Configuration: No unit for' \
@@ -37,7 +38,9 @@ check_warnings () {
     | grep -v 'pod/hive-hiveserver2-.* Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions.' \
     | grep -v 'pod/hive-hiveserver2-.* server.HiveServer2: No policy provider found, skip creating PrivilegeSynchonizer' \
     | grep -v 'pod/hive-hiveserver2-.* mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed' \
-    | grep -v 'pod/hive-hiveserver2-.* mapreduce.Counters: Group org.apache.hadoop.mapred.Task$Counter is deprecated'
+    | grep -v 'pod/hive-hiveserver2-.* mapreduce.Counters: Group org.apache.hadoop.mapred.Task$Counter is deprecated' \
+    | grep -v 'pod/ozone-scm-.* pipeline.PipelinePlacementPolicy: Pipeline creation failed due to no sufficient healthy datanodes' \
+    | grep -v 'WARNING: A HTTP GET method, .*, should not consume any entity.'
 }
 
 "${integration_dir}/divider.sh" "Start fetching errors of all containers"

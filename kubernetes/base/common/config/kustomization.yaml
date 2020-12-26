@@ -18,6 +18,15 @@ configMapGenerator:
   - hive/beeline-hs2-connection.xml
   - hive/hive-log4j2.properties
   - hive/hive-site.xml
+- name: ozone-conf
+  files:
+  - ozone/dn-audit-log4j2.properties
+  - ozone/hadoop-metrics2.properties
+  - ozone/log4j.properties
+  - ozone/log4j2.properties
+  - ozone/om-audit-log4j2.properties
+  - ozone/ozone-site.xml
+  - ozone/scm-audit-log4j2.properties
 - name: tez-conf
   files:
   - tez/tez-site.xml

@@ -24,6 +24,8 @@ RUN apt-get update \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1020 --gid hive hive \
   && groupadd --gid 1030 tez \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1030 --gid tez tez \
+  && groupadd --gid 1040 ozone \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1040 --gid ozone ozone \
   && mkdir /var/log/hadoop \
   && chown root:hadoop /var/log/hadoop \
   && chmod 775 /var/log/hadoop \

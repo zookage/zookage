@@ -20,6 +20,11 @@ configMapGenerator:
   - HIVE_HOME=/opt/hive
   - HIVE_CONF_DIR=/etc/hive/conf
   - HADOOP_OPTS=-Dderby.system.home=/tmp/derby
+- name: ozone-env
+  literals:
+  - HADOOP_OZONE_HOME=/opt/ozone
+  - HADOOP_CONF_DIR=/etc/ozone/conf
+  - HADOOP_LOG_DIR=/mnt/logs
 - name: tez-env
   literals:
   - TEZ_JARS=/opt/tez

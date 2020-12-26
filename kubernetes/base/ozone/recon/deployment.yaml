@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ozone-recon
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {}
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-scm
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/ozone-scm
+      containers:
+      - name: recon
+        image: zookage-ozone
+        command:
+        - /opt/ozone/bin/ozone
+        args:
+        - recon
+        envFrom:
+        - configMapRef:
+            name: ozone-env
+        readinessProbe:
+          tcpSocket:
+            port: 9888
+        securityContext:
+          runAsUser: 1040
+          runAsGroup: 1040
+        volumeMounts:
+        - name: ozone-conf
+          mountPath: /etc/ozone/conf
+        - name: mnt
+          mountPath: /mnt
+      terminationGracePeriodSeconds: 5
+      volumes:
+      - name: ozone-conf
+        configMap:
+          name: ozone-conf
+      - name: mnt
+        emptyDir: {}

@@ -21,10 +21,12 @@ spec:
         - configMapRef:
             name: hive-env
         - configMapRef:
+            name: ozone-env
+        - configMapRef:
             name: tez-env
         env:
         - name: PATH
-          value: $(HIVE_HOME)/bin:$(HADOOP_HOME)/bin:/usr/local/openjdk-8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+          value: $(HADOOP_OZONE_HOME)/bin:$(HIVE_HOME)/bin:$(HADOOP_HOME)/bin:/usr/local/openjdk-8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         - name: HADOOP_CLASSPATH
           value: $(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*
         securityContext:
@@ -35,12 +37,16 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: hive-conf
           mountPath: /etc/hive/conf
+        - name: ozone-conf
+          mountPath: /etc/ozone/conf
         - name: tez-conf
           mountPath: /etc/tez/conf
         - name: package-hadoop
           mountPath: /opt/hadoop
         - name: package-hive
           mountPath: /opt/hive
+        - name: package-ozone
+          mountPath: /opt/ozone
         - name: package-tez
           mountPath: /opt/tez
         workingDir: /home/zookage
@@ -52,6 +58,9 @@ spec:
       - name: hive-conf
         configMap:
           name: hive-conf
+      - name: ozone-conf
+        configMap:
+          name: ozone-conf
       - name: tez-conf
         configMap:
           name: tez-conf
@@ -61,6 +70,9 @@ spec:
       - name: package-hive
         persistentVolumeClaim:
           claimName: package-hive
+      - name: package-ozone
+        persistentVolumeClaim:
+          claimName: package-ozone
       - name: package-tez
         persistentVolumeClaim:
           claimName: package-tez

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+  <property>
+    <name>ozone.metadata.dirs</name>
+    <value>/mnt/ozone</value>
+  </property>
+  <property>
+    <name>ozone.om.db.dirs</name>
+    <value>/mnt/ozone</value>
+  </property>
+  <property>
+    <name>ozone.scm.db.dirs</name>
+    <value>/mnt/ozone</value>
+  </property>
+  <property>
+    <name>dfs.container.ratis.datanode.storage.dir</name>
+    <value>/mnt/ozone</value>
+  </property>
+  <property>
+    <name>ozone.recon.db.dir</name>
+    <value>/mnt/ozone</value>
+  </property>
+  <property>
+    <name>ozone.recon.om.db.dir</name>
+    <value>/mnt/ozone</value>
+  </property>
+  <property>
+    <name>ozone.recon.scm.db.dirs</name>
+    <value>/mnt/ozone</value>
+  </property>
+  <property>
+    <name>ozone.scm.names</name>
+    <value>ozone-scm-0.ozone-scm</value>
+  </property>
+</configuration>

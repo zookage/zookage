@@ -1,6 +1,7 @@
 bases:
 - hadoop
 - hive
+- ozone
 - tez
 commonLabels:
   component: package
