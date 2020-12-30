@@ -23,12 +23,7 @@ RUN apt-get update \
   && groupadd --gid 1020 hive \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1020 --gid hive hive \
   && groupadd --gid 1030 tez \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1030 --gid tez tez \
-  && mkdir /var/log/hadoop \
-  && chown root:hadoop /var/log/hadoop \
-  && chmod 775 /var/log/hadoop \
-  && mkdir /var/log/httpfs \
-  && chown httpfs:httpfs /var/log/httpfs
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1030 --gid tez tez
 
 RUN curl \
     --location \

@@ -5,13 +5,13 @@ configMapGenerator:
   literals:
   - HADOOP_HOME=/opt/hadoop
   - HADOOP_CONF_DIR=/etc/hadoop/conf
-  - HADOOP_LOG_DIR=/var/log/hadoop
+  - HADOOP_LOG_DIR=/mnt/log
 - name: httpfs-env
   literals:
   - HTTPFS_TEMP=/var/tmp/httpfs
-  - HADOOP_LOG_DIR=/var/log/httpfs
+  - HADOOP_LOG_DIR=/mnt/log
   # for Hadoop 2.x
-  - HTTPFS_LOG=/var/log/httpfs
+  - HTTPFS_LOG=/mnt/log
   - HTTPFS_SILENT=false
   - HTTPFS_CONFIG=/etc/hadoop/conf
   - CATALINA_BASE=/var/opt/catalina/tomcat

@@ -13,6 +13,7 @@ check_errors () {
 check_warnings () {
   # shellcheck disable=SC2016
   ! "${base_dir}/bin/logs" | grep WARN \
+    | grep -v 'WARNING: .* does not exist. Creating.' \
     | grep -v 'pod/hdfs-namenode-.* conf.Configuration: No unit for' \
     | grep -v 'pod/hdfs-namenode-.* hdfs.DFSUtilClient: Namenode for null remains unresolved for ID null' \
     | grep -v 'pod/hdfs-datanode-.* conf.Configuration: No unit for' \
