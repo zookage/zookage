@@ -2,5 +2,5 @@ resources:
 - statefulset.yaml
 - service.yaml
 commonLabels:
-  component: client
-  tier: client
+  service: historyserver
+  tier: backend

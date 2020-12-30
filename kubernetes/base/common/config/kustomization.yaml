@@ -18,6 +18,11 @@ configMapGenerator:
   - hive/beeline-hs2-connection.xml
   - hive/hive-log4j2.properties
   - hive/hive-site.xml
+- name: spark-conf
+  files:
+  - spark/log4j.properties
+  - spark/spark-defaults.conf
+  - spark/spark-env.sh
 - name: tez-conf
   files:
   - tez/tez-site.xml

@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: package-spark
+spec:
+  template:
+    spec:
+      containers:
+      - name: zookage-spark
+        image: zookage-spark
+        command:
+        - /bin/bash
+        args:
+        - -c
+        - "rm -rf /mnt/zookage/spark && cp -R /opt/spark /mnt/zookage/spark"
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+        volumeMounts:
+        - name: package-home
+          mountPath: /mnt/zookage
+      restartPolicy: Never
+      volumes:
+      - name: package-home
+        hostPath:
+          path: /opt/zookage

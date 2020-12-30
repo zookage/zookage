@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: zookage-package-spark
+spec:
+  accessModes:
+  - ReadOnlyMany
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: /opt/zookage/spark
+  storageClassName: zookage-package-spark
