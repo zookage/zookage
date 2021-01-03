@@ -20,6 +20,11 @@ configMapGenerator:
   - HIVE_HOME=/opt/hive
   - HIVE_CONF_DIR=/etc/hive/conf
   - HADOOP_OPTS=-Dderby.system.home=/tmp/derby
+- name: spark-env
+  literals:
+  - SPARK_HOME=/opt/spark
+  - SPARK_CONF_DIR=/etc/spark/conf
+  - LD_LIBRARY_PATH=/opt/hadoop/lib/native
 - name: tez-env
   literals:
   - TEZ_JARS=/opt/tez

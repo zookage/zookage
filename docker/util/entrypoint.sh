@@ -65,6 +65,8 @@ elif [ "${command}" == "hdfs-setup" ]; then
   hdfs_mkdir /user/history mapred:hadoop 755
   hdfs_mkdir /user/hive hive:hive 751
   hdfs_mkdir /user/hive/warehouse hive:hive 1777
+  hdfs_mkdir /user/spark spark:spark 755
+  hdfs_mkdir /user/spark/applicationHistory spark:spark 1777
   exit 0
 elif [ "${command}" == "wait-for-job" ]; then
   wait_for_job "$2"

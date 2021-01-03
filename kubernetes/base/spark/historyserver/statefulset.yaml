@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: spark-historyserver
+spec:
+  selector:
+    matchLabels: {}
+  serviceName: spark-historyserver
+  replicas: 1
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-spark-dir
+        image: zookage-util
+        args:
+        - wait-for-job
+        - hdfs-setup
+      containers:
+      - name: historyserver
+        image: zookage-spark
+        command:
+        - /opt/spark/bin/spark-class
+        args:
+        - org.apache.spark.deploy.history.HistoryServer
+        envFrom:
+        - configMapRef:
+            name: spark-env
+        readinessProbe:
+          tcpSocket:
+            port: 18080
+        volumeMounts:
+        - name: spark-conf
+          mountPath: /etc/spark/conf
+        - name: mnt
+          mountPath: /mnt
+        - name: package-hadoop
+          mountPath: /opt/hadoop
+      terminationGracePeriodSeconds: 5
+      volumes:
+      - name: hadoop-conf
+        configMap:
+          name: hadoop-conf
+      - name: spark-conf
+        configMap:
+          name: spark-conf
+      - name: mnt
+        emptyDir: {}
+      - name: package-hadoop
+        persistentVolumeClaim:
+          claimName: package-hadoop
+  volumeClaimTemplates: []

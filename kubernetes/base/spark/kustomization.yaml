@@ -1,0 +1,4 @@
+bases:
+- historyserver
+commonLabels:
+  component: spark

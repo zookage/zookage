@@ -88,6 +88,7 @@ You can access web UIs via `localhost`. Note that this feature is unstable and y
 * [YARN-UI V2](http://localhost:8088/ui2/)
 * [YARN Timeline Server](http://localhost:8188/applicationhistory)
 * [MapReduce History Server](http://localhost:19888/jobhistory)
+* [Spark History Server](http://localhost:18080/)
 * [Tez UI](http://localhost:9999/tez-ui/)
 * [HiveServer2](http://localhost:10002/)
 
