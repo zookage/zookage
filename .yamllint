@@ -4,6 +4,8 @@ rules:
   indentation:
     spaces: 2
     indent-sequences: false
+  truthy:
+    check-keys: false
   line-length:
     max: 100
     ignore: |
