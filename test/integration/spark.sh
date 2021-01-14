@@ -3,8 +3,6 @@ set -eu
 
 readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
 
-readonly spark_version=$1
-echo "Spark version = ${spark_version}"
 "${integration_dir}/divider.sh" "Start running a Spark job"
 
 "${integration_dir}/run.sh" gohdfs rm -rf /user/zookage/spark-wordcount-input
