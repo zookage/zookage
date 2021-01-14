@@ -3,5 +3,6 @@ bases:
 - hive
 - spark
 - tez
+- zookeeper
 commonLabels:
   component: package

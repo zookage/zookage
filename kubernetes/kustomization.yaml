@@ -3,6 +3,7 @@ commonLabels:
   owner: zookage
 bases:
 - base/common
+- base/zookeeper
 - base/hdfs
 - base/yarn
 - base/spark
@@ -23,6 +24,9 @@ images:
 - name: zookage-tez
   newName: zookage/zookage-tez
   newTag: "0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty"
+- name: zookage-zookeeper
+  newName: zookage/zookage-zookeeper
+  newTag: "3.6.2"
 - name: zookage-util
   newName: zookage/zookage-util
   newTag: "0.1.1"

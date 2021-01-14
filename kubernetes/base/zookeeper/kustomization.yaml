@@ -1,0 +1,4 @@
+bases:
+- server
+commonLabels:
+  component: zookeeper

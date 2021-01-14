@@ -29,3 +29,7 @@ configMapGenerator:
   literals:
   - TEZ_JARS=/opt/tez
   - TEZ_CONF_DIR=/etc/tez/conf
+- name: zookeeper-env
+  literals:
+  - ZOOCFGDIR=/etc/zookeeper/conf
+  - ZOO_LOG_DIR=/mnt/log
