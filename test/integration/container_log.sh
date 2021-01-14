@@ -38,7 +38,12 @@ check_warnings () {
     | grep -v 'pod/hive-hiveserver2-.* Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions.' \
     | grep -v 'pod/hive-hiveserver2-.* server.HiveServer2: No policy provider found, skip creating PrivilegeSynchonizer' \
     | grep -v 'pod/hive-hiveserver2-.* mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed' \
-    | grep -v 'pod/hive-hiveserver2-.* mapreduce.Counters: Group org.apache.hadoop.mapred.Task$Counter is deprecated'
+    | grep -v 'pod/hive-hiveserver2-.* mapreduce.Counters: Group org.apache.hadoop.mapred.Task$Counter is deprecated' \
+    | grep -v 'pod/zookeeper-server-.* \[main:ContextHandler@.*\] - .* contextPath ends with' \
+    | grep -v 'pod/zookeeper-server-.* \[main:ContextHandler@.*\] - Empty contextPath' \
+    | grep -v 'pod/zookeeper-server-.* \[main:ConstraintSecurityHandler@.*\] - .* has uncovered http methods for path:' \
+    | grep -v 'pod/zookeeper-server-.* \[QuorumConnectionThread-.*:QuorumCnxManager@.*\] - Cannot open channel to' \
+    | grep -v 'pod/zookeeper-server-.* \[LeaderConnector-zookeeper-server-.*:Learner$LeaderConnector@.*\] - Unexpected exception, tries='
 }
 
 "${integration_dir}/divider.sh" "Start fetching errors of all containers"

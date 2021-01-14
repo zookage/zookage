@@ -8,6 +8,7 @@ ZooKage provides a sandbox environment to launch a set of components inhabiting 
 * Apache Hive
 * Apache Spark
 * Apache Tez
+* Apache ZooKeeper
 
 ## Requirements
 
@@ -121,11 +122,11 @@ Please put the image tag in [kustomization.yaml](https://github.com/zookage/zook
 
 ZooKage provides the following images.
 
-| Hadoop | Hive | Tez | Spark |
-|-|-|-|-|
-| 2.10.1 | 2.3.7 | 0.9.2 | 3.0.1 |
-| 3.1.4 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.1 |
-| 3.2.1 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19 | 3.0.1 |
+| Hadoop | Hive | Tez | Spark | ZooKeeper |
+|-|-|-|-|-|
+| 2.10.1 | 2.3.7 | 0.9.2 | 3.0.1 | 3.6.2 |
+| 3.1.4 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.1 | | 3.6.2 |
+| 3.2.1 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19 | 3.0.1 | 3.6.2 |
 
 ## Tips
 

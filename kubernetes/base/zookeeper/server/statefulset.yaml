@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zookeeper-server
+spec:
+  selector:
+    matchLabels: {}
+  serviceName: zookeeper-server
+  podManagementPolicy: Parallel
+  replicas: 3
+  template:
+    spec:
+      initContainers:
+      - name: init
+        image: zookage-zookeeper
+        command:
+        - /bin/bash
+        args:
+        - -c
+        - "/opt/zookeeper/bin/zkServer-initialize.sh --configfile=$(ZOOCFGDIR)/zoo.cfg --myid=$(( ${POD_NAME##*-} + 1 ))"
+        envFrom:
+        - configMapRef:
+            name: zookeeper-env
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        securityContext:
+          runAsUser: 1050
+          runAsGroup: 1050
+        volumeMounts:
+        - name: zookeeper-conf
+          mountPath: /etc/zookeeper/conf
+        - name: mnt
+          mountPath: /mnt
+      containers:
+      - name: server
+        image: zookage-zookeeper
+        command:
+        - /opt/zookeeper/bin/zkServer.sh
+        args:
+        - start-foreground
+        envFrom:
+        - configMapRef:
+            name: zookeeper-env
+        readinessProbe:
+          exec:
+            command:
+            - /opt/zookeeper/bin/zkServer.sh
+            - status
+        securityContext:
+          runAsUser: 1050
+          runAsGroup: 1050
+        volumeMounts:
+        - name: zookeeper-conf
+          mountPath: /etc/zookeeper/conf
+        - name: mnt
+          mountPath: /mnt
+      terminationGracePeriodSeconds: 5
+      volumes:
+      - name: zookeeper-conf
+        configMap:
+          name: zookeeper-conf
+      - name: mnt
+        emptyDir: {}
+  volumeClaimTemplates: []

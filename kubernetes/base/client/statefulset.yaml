@@ -24,6 +24,8 @@ spec:
             name: spark-env
         - configMapRef:
             name: tez-env
+        - configMapRef:
+            name: zookeeper-env
         env:
         - name: PATH
           value: $(HIVE_HOME)/bin:$(SPARK_HOME)/bin:$(HADOOP_HOME)/bin:/usr/local/openjdk-8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -41,6 +43,8 @@ spec:
           mountPath: /etc/spark/conf
         - name: tez-conf
           mountPath: /etc/tez/conf
+        - name: zookeeper-conf
+          mountPath: /etc/zookeeper/conf
         - name: package-hadoop
           mountPath: /opt/hadoop
         - name: package-hive
@@ -49,6 +53,8 @@ spec:
           mountPath: /opt/spark
         - name: package-tez
           mountPath: /opt/tez
+        - name: package-zookeeper
+          mountPath: /opt/zookeeper
         workingDir: /home/zookage
       terminationGracePeriodSeconds: 0
       volumes:
@@ -64,6 +70,9 @@ spec:
       - name: tez-conf
         configMap:
           name: tez-conf
+      - name: zookeeper-conf
+        configMap:
+          name: zookeeper-conf
       - name: package-hadoop
         persistentVolumeClaim:
           claimName: package-hadoop
@@ -76,4 +85,7 @@ spec:
       - name: package-tez
         persistentVolumeClaim:
           claimName: package-tez
+      - name: package-zookeeper
+        persistentVolumeClaim:
+          claimName: package-zookeeper
   volumeClaimTemplates: []

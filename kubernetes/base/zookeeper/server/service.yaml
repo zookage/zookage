@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper-server
+spec:
+  type: LoadBalancer
+  selector: {}
+  publishNotReadyAddresses: true
+  ports:
+  - name: client
+    port: 2181

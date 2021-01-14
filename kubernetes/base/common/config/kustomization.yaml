@@ -26,3 +26,7 @@ configMapGenerator:
 - name: tez-conf
   files:
   - tez/tez-site.xml
+- name: zookeeper-conf
+  files:
+  - zookeeper/log4j.properties
+  - zookeeper/zoo.cfg
