@@ -18,6 +18,9 @@ readonly test_dir=$(cd "$(dirname "$0")"; pwd)
 "${test_dir}/integration/divider.sh" "Test Hive on MR"
 "${test_dir}/integration/hive_on_mr.sh"
 
+"${test_dir}/integration/divider.sh" "Test ZooKeeper"
+"${test_dir}/integration/zookeeper.sh"
+
 "${test_dir}/integration/divider.sh" "Test servers"
 "${test_dir}/integration/container_log.sh"
 
