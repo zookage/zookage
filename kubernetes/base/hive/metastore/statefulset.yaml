@@ -11,20 +11,17 @@ spec:
     spec:
       initContainers:
       - name: cleanup
-        image: zookage-util
+        image: zookage-hive
         command:
         - rm
         args:
         - -rf
         - /mnt/hive/metastore
-        securityContext:
-          runAsUser: 1020
-          runAsGroup: 1020
         volumeMounts:
         - name: mnt
           mountPath: /mnt
       - name: init-schema
-        image: zookage-util
+        image: zookage-hive
         command:
         - /opt/hive/bin/schematool
         args:
@@ -36,9 +33,6 @@ spec:
             name: hadoop-env
         - configMapRef:
             name: hive-env
-        securityContext:
-          runAsUser: 1020
-          runAsGroup: 1020
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
@@ -48,8 +42,6 @@ spec:
           mountPath: /mnt
         - name: package-hadoop
           mountPath: /opt/hadoop
-        - name: package-hive
-          mountPath: /opt/hive
       - name: wait-for-namenode
         image: zookage-util
         args:
@@ -57,7 +49,7 @@ spec:
         - hdfs-setup
       containers:
       - name: metastore
-        image: zookage-util
+        image: zookage-hive
         command:
         - /opt/hive/bin/hive
         args:
@@ -71,9 +63,6 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 9083
-        securityContext:
-          runAsUser: 1020
-          runAsGroup: 1020
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
@@ -83,8 +72,6 @@ spec:
           mountPath: /mnt
         - name: package-hadoop
           mountPath: /opt/hadoop
-        - name: package-hive
-          mountPath: /opt/hive
       terminationGracePeriodSeconds: 5
       volumes:
       - name: hadoop-conf
@@ -98,7 +85,4 @@ spec:
       - name: package-hadoop
         persistentVolumeClaim:
           claimName: package-hadoop
-      - name: package-hive
-        persistentVolumeClaim:
-          claimName: package-hive
   volumeClaimTemplates: []

@@ -16,8 +16,9 @@ spec:
         args:
         - wait-for-rollout
         - statefulset/hdfs-datanode
+      containers:
       - name: upload
-        image: zookage-util
+        image: zookage-hadoop
         command:
         - /opt/hadoop/bin/hdfs
         args:
@@ -28,34 +29,14 @@ spec:
         envFrom:
         - configMapRef:
             name: hadoop-env
-        securityContext:
-          runAsUser: 1011
-          runAsGroup: 1010
+        env:
+        - name: HADOOP_USER_NAME
+          value: tez
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
-        - name: package-hadoop
-          mountPath: /opt/hadoop
         - name: package-tez
           mountPath: /opt/tez
-      containers:
-      - name: chown
-        image: zookage-util
-        command:
-        - gohdfs
-        args:
-        - chown
-        - tez:tez
-        - hdfs:///apps/tez/tez-minimal.tar.gz
-        envFrom:
-        - configMapRef:
-            name: hadoop-env
-        securityContext:
-          runAsUser: 1011
-          runAsGroup: 1010
-        volumeMounts:
-        - name: hadoop-conf
-          mountPath: /etc/hadoop/conf
       restartPolicy: Never
       volumes:
       - name: hadoop-conf
@@ -63,9 +44,6 @@ spec:
           name: hadoop-conf
       - name: mnt
         emptyDir: {}
-      - name: package-hadoop
-        persistentVolumeClaim:
-          claimName: package-hadoop
       - name: package-tez
         persistentVolumeClaim:
           claimName: package-tez

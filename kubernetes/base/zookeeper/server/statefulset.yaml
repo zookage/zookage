@@ -26,9 +26,6 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        securityContext:
-          runAsUser: 1050
-          runAsGroup: 1050
         volumeMounts:
         - name: zookeeper-conf
           mountPath: /etc/zookeeper/conf
@@ -49,9 +46,6 @@ spec:
             command:
             - /opt/zookeeper/bin/zkServer.sh
             - status
-        securityContext:
-          runAsUser: 1050
-          runAsGroup: 1050
         volumeMounts:
         - name: zookeeper-conf
           mountPath: /etc/zookeeper/conf

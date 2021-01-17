@@ -18,7 +18,7 @@ spec:
         - statefulset/yarn-resourcemanager
       containers:
       - name: nodemanager
-        image: zookage-util
+        image: zookage-hadoop
         command:
         - /opt/hadoop/bin/yarn
         args:
@@ -40,8 +40,6 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: mnt
           mountPath: /mnt
-        - name: package-hadoop
-          mountPath: /opt/hadoop
         - name: package-spark
           mountPath: /opt/spark
         - name: package-tez
@@ -53,9 +51,6 @@ spec:
           name: hadoop-conf
       - name: mnt
         emptyDir: {}
-      - name: package-hadoop
-        persistentVolumeClaim:
-          claimName: package-hadoop
       - name: package-spark
         persistentVolumeClaim:
           claimName: package-spark

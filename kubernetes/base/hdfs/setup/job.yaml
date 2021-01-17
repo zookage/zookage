@@ -19,9 +19,9 @@ spec:
         envFrom:
         - configMapRef:
             name: hadoop-env
-        securityContext:
-          runAsUser: 1011
-          runAsGroup: 1010
+        env:
+        - name: HADOOP_USER_NAME
+          value: hdfs
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf

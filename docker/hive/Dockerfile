@@ -22,3 +22,6 @@ RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
 FROM ${openjdk_image}
 
 COPY --from=builder /root/hive/packaging/target/hive /opt/hive
+RUN groupadd --gid 1020 hive \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1020 --gid hive hive
+USER hive:hive

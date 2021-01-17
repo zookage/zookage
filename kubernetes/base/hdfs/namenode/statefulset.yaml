@@ -6,12 +6,13 @@ spec:
   selector:
     matchLabels: {}
   serviceName: hdfs-namenode
+  podManagementPolicy: Parallel
   replicas: 1
   template:
     spec:
       initContainers:
       - name: format
-        image: zookage-util
+        image: zookage-hadoop
         command:
         - /opt/hadoop/bin/hdfs
         args:
@@ -29,11 +30,9 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: mnt
           mountPath: /mnt
-        - name: package-hadoop
-          mountPath: /opt/hadoop
       containers:
       - name: namenode
-        image: zookage-util
+        image: zookage-hadoop
         command:
         - /opt/hadoop/bin/hdfs
         args:
@@ -52,8 +51,6 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: mnt
           mountPath: /mnt
-        - name: package-hadoop
-          mountPath: /opt/hadoop
       terminationGracePeriodSeconds: 5
       volumes:
       - name: hadoop-conf
@@ -61,7 +58,4 @@ spec:
           name: hadoop-conf
       - name: mnt
         emptyDir: {}
-      - name: package-hadoop
-        persistentVolumeClaim:
-          claimName: package-hadoop
   volumeClaimTemplates: []

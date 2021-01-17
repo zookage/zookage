@@ -31,9 +31,6 @@ spec:
           value: $(HIVE_HOME)/bin:$(SPARK_HOME)/bin:$(HADOOP_HOME)/bin:/usr/local/openjdk-8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         - name: HADOOP_CLASSPATH
           value: $(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*
-        securityContext:
-          runAsUser: 1000
-          runAsGroup: 1000
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf

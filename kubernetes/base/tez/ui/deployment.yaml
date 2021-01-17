@@ -14,9 +14,6 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 8080
-        securityContext:
-          runAsUser: 1030
-          runAsGroup: 1030
         volumeMounts:
         - name: package-tez
           mountPath: /opt/tez
