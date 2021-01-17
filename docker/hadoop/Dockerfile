@@ -30,3 +30,12 @@ RUN --mount=type=cache,target=/home/hadoop-build/.m2,uid=999,gid=999 \
 FROM ${openjdk_image}
 
 COPY --chown=root:root --from=builder /home/hadoop-build/hadoop/hadoop-dist/target/hadoop /opt/hadoop
+RUN groupadd --gid 1010 hadoop \
+  && groupadd --gid 1011 hdfs \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1011 --gid hdfs --groups hadoop hdfs \
+  && groupadd --gid 1012 yarn \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1012 --gid yarn --groups hadoop yarn \
+  && groupadd --gid 1013 mapred \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1013 --gid mapred --groups hadoop mapred \
+  && groupadd --gid 1014 httpfs \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1014 --gid httpfs httpfs

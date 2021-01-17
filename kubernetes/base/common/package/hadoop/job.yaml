@@ -13,6 +13,9 @@ spec:
         args:
         - -c
         - "rm -rf /mnt/zookage/hadoop && cp -R /opt/hadoop /mnt/zookage/hadoop"
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
         volumeMounts:
         - name: package-home
           mountPath: /mnt/zookage

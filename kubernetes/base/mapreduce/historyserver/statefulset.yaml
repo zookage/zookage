@@ -17,7 +17,7 @@ spec:
         - hdfs-setup
       containers:
       - name: historyserver
-        image: zookage-util
+        image: zookage-hadoop
         command:
         - /opt/hadoop/bin/mapred
         args:
@@ -36,8 +36,6 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: mnt
           mountPath: /mnt
-        - name: package-hadoop
-          mountPath: /opt/hadoop
       terminationGracePeriodSeconds: 5
       volumes:
       - name: hadoop-conf
@@ -45,7 +43,4 @@ spec:
           name: hadoop-conf
       - name: mnt
         emptyDir: {}
-      - name: package-hadoop
-        persistentVolumeClaim:
-          claimName: package-hadoop
   volumeClaimTemplates: []

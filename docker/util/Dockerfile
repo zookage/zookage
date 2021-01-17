@@ -10,20 +10,7 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && groupadd --gid 1000 zookage \
-  && useradd --create-home --uid 1000 --gid zookage zookage \
-  && groupadd --gid 1010 hadoop \
-  && groupadd --gid 1011 hdfs \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1011 --gid hdfs --groups hadoop hdfs \
-  && groupadd --gid 1012 yarn \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1012 --gid yarn --groups hadoop yarn \
-  && groupadd --gid 1013 mapred \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1013 --gid mapred --groups hadoop mapred \
-  && groupadd --gid 1014 httpfs \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1014 --gid httpfs httpfs \
-  && groupadd --gid 1020 hive \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1020 --gid hive hive \
-  && groupadd --gid 1030 tez \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1030 --gid tez tez
+  && useradd --create-home --uid 1000 --gid zookage zookage
 
 RUN curl \
     --location \
@@ -45,5 +32,5 @@ RUN curl \
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
-USER zookage
+USER zookage:zookage
 ENTRYPOINT ["entrypoint.sh"]

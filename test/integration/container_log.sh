@@ -43,7 +43,12 @@ check_warnings () {
     | grep -v 'pod/zookeeper-server-.* \[main:ContextHandler@.*\] - Empty contextPath' \
     | grep -v 'pod/zookeeper-server-.* \[main:ConstraintSecurityHandler@.*\] - .* has uncovered http methods for path:' \
     | grep -v 'pod/zookeeper-server-.* \[QuorumConnectionThread-.*:QuorumCnxManager@.*\] - Cannot open channel to' \
-    | grep -v 'pod/zookeeper-server-.* \[LeaderConnector-zookeeper-server-.*:Learner$LeaderConnector@.*\] - Unexpected exception, tries='
+    | grep -v 'pod/zookeeper-server-.* \[LeaderConnector-zookeeper-server-.*:Learner$LeaderConnector@.*\] - Unexpected exception, tries=' \
+    | grep -v 'pod/zookeeper-server-.* \[RecvWorker:.*:QuorumCnxManager$RecvWorker@.*\] - Connection broken for' \
+    | grep -v 'pod/zookeeper-server-.* \[RecvWorker:.*:QuorumCnxManager$RecvWorker@.*\] - Interrupting SendWorker thread from RecvWorker.' \
+    | grep -v 'pod/zookeeper-server-.* \[SendWorker:.*:QuorumCnxManager$SendWorker@.*\] - Exception when using channel: for' \
+    | grep -v 'pod/zookeeper-server-.* \[SendWorker:.*:QuorumCnxManager$SendWorker@.*\] - Send worker leaving thread' \
+    | grep -v 'pod/zookeeper-server-.* \[SendWorker:.*:QuorumCnxManager$SendWorker@.*\] - Interrupted while waiting for message on queue'
 }
 
 "${integration_dir}/divider.sh" "Start fetching errors of all containers"

@@ -13,6 +13,9 @@ spec:
         args:
         - -c
         - "rm -rf /mnt/zookage/tez && cp -R /opt/tez /mnt/zookage/tez && rm /mnt/zookage/tez/lib/slf4j-* && rm /mnt/zookage/tez/lib/hadoop-mapreduce-client-*"
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
         volumeMounts:
         - name: package-home
           mountPath: /mnt/zookage
