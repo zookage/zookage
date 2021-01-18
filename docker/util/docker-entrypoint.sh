@@ -13,31 +13,9 @@ function wait_for_rollout() {
   kubectl rollout status "$1"
 }
 
-function is_hadoop2() {
-  local -r hadoop_version=$("${HADOOP_HOME}/bin/hdfs" version | head -n 1)
-  if [[ ${hadoop_version} == "Hadoop 2."* ]]; then
-    return 0
-  else
-    return 1
-  fi
-}
-
 readonly command=$1
 
-if [ "${command}" == "hdfs-httpfs-prepare" ]; then
-  if is_hadoop2; then
-    # Use the root user.
-    cp -R "${HADOOP_HOME}/share/hadoop/httpfs/tomcat" "${CATALINA_BASE}"
-    chown -R httpfs:httpfs "${CATALINA_BASE}"
-  fi
-  exit 0
-elif [ "${command}" == "hdfs-httpfs" ]; then
-  if is_hadoop2; then
-    exec "${HADOOP_HOME}/sbin/httpfs.sh" run
-  else
-    exec "${HADOOP_HOME}/bin/hdfs" httpfs
-  fi
-elif [ "${command}" == "wait-for-job" ]; then
+if [ "${command}" == "wait-for-job" ]; then
   wait_for_job "$2"
   exit 0
 elif [ "${command}" == "wait-for-rollout" ]; then
