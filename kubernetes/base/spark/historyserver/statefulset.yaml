@@ -10,11 +10,11 @@ spec:
   template:
     spec:
       initContainers:
-      - name: wait-for-spark-dir
+      - name: wait-for-history-dir
         image: zookage-util
         args:
         - wait-for-job
-        - hdfs-setup
+        - spark-mkdir
       containers:
       - name: historyserver
         image: zookage-spark

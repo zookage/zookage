@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: yarn-mkdir
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-parent-dir
+        image: zookage-util
+        args:
+        - wait-for-job
+        - hdfs-mkdir
+      containers:
+      - name: mkdir-logs
+        image: zookage-util
+        args:
+        - hdfs-mkdir
+        - /tmp/logs
+        - yarn:yarn
+        - "1777"
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        env:
+        - name: HADOOP_USER_NAME
+          value: hdfs
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+      restartPolicy: Never
+      volumes:
+      - name: hadoop-conf
+        configMap:
+          name: hadoop-conf
+      - name: mnt
+        emptyDir: {}

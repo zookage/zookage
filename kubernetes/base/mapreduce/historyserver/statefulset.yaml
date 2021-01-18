@@ -14,7 +14,7 @@ spec:
         image: zookage-util
         args:
         - wait-for-job
-        - hdfs-setup
+        - mapreduce-mkdir
       containers:
       - name: historyserver
         image: zookage-hadoop

@@ -14,8 +14,8 @@ spec:
       - name: wait-for-namenode
         image: zookage-util
         args:
-        - wait-for-job
-        - hdfs-setup
+        - wait-for-rollout
+        - statefulset/hdfs-namenode
       containers:
       - name: datanode
         image: zookage-hadoop

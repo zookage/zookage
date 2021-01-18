@@ -1,6 +1,6 @@
 bases:
 - namenode
-- setup
+- mkdir
 - datanode
 - httpfs
 commonLabels:

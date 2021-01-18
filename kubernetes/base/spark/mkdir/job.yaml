@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: tez-deploy
+  name: spark-mkdir
 spec:
   template:
     spec:
@@ -11,12 +11,12 @@ spec:
         args:
         - wait-for-job
         - hdfs-mkdir
-      - name: mkdir-tez
+      - name: mkdir-spark
         image: zookage-util
         args:
         - hdfs-mkdir
-        - /apps/tez
-        - tez:tez
+        - /user/spark
+        - spark:spark
         - "755"
         envFrom:
         - configMapRef:
@@ -27,32 +27,23 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
-      - name: wait-for-datanode
+      containers:
+      - name: mkdir-history
         image: zookage-util
         args:
-        - wait-for-rollout
-        - statefulset/hdfs-datanode
-      containers:
-      - name: upload
-        image: zookage-hadoop
-        command:
-        - /opt/hadoop/bin/hdfs
-        args:
-        - dfs
-        - -copyFromLocal
-        - /opt/tez/share/tez-minimal.tar.gz
-        - hdfs:///apps/tez/tez-minimal.tar.gz
+        - hdfs-mkdir
+        - /user/spark/applicationHistory
+        - spark:spark
+        - "1777"
         envFrom:
         - configMapRef:
             name: hadoop-env
         env:
         - name: HADOOP_USER_NAME
-          value: tez
+          value: hdfs
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
-        - name: package-tez
-          mountPath: /opt/tez
       restartPolicy: Never
       volumes:
       - name: hadoop-conf
@@ -60,6 +51,3 @@ spec:
           name: hadoop-conf
       - name: mnt
         emptyDir: {}
-      - name: package-tez
-        persistentVolumeClaim:
-          claimName: package-tez

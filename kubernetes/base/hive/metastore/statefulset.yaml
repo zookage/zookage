@@ -42,11 +42,11 @@ spec:
           mountPath: /mnt
         - name: package-hadoop
           mountPath: /opt/hadoop
-      - name: wait-for-namenode
+      - name: wait-for-warehouse-dir
         image: zookage-util
         args:
         - wait-for-job
-        - hdfs-setup
+        - hive-mkdir
       containers:
       - name: metastore
         image: zookage-hive
