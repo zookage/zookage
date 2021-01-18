@@ -9,10 +9,13 @@ spec:
   template:
     spec:
       initContainers:
-      - name: httpfs-prepare
-        image: zookage-util
+      - name: httpfs-cp-tomcat
+        image: zookage-hadoop
+        command:
+        - /bin/bash
         args:
-        - hdfs-httpfs-prepare
+        - -c
+        - '$(HADOOP_HOME)/bin/hdfs version | grep "Hadoop 2." && cp -R "$(HADOOP_HOME)/share/hadoop/httpfs/tomcat" "$(CATALINA_BASE)" || true'
         envFrom:
         - configMapRef:
             name: hadoop-env
@@ -22,17 +25,38 @@ spec:
           runAsUser: 0
           runAsGroup: 0
         volumeMounts:
-        - name: catalina
-          mountPath: /var/opt/catalina
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
-        - name: package-hadoop
-          mountPath: /opt/hadoop
+        - name: mnt
+          mountPath: /mnt
+      - name: httpfs-chown-tomcat
+        image: zookage-hadoop
+        command:
+        - /bin/bash
+        args:
+        - -c
+        - '$(HADOOP_HOME)/bin/hdfs version | grep "Hadoop 2." && chown -R httpfs:httpfs "$(CATALINA_BASE)" || true'
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        - configMapRef:
+            name: httpfs-env
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+        - name: mnt
+          mountPath: /mnt
       containers:
       - name: httpfs
-        image: zookage-util
+        image: zookage-hadoop
+        command:
+        - /bin/bash
         args:
-        - hdfs-httpfs
+        - -c
+        - '$(HADOOP_HOME)/bin/hdfs version | grep "Hadoop 2." && "$(HADOOP_HOME)/sbin/httpfs.sh" run || "$(HADOOP_HOME)/bin/hdfs" httpfs'
         envFrom:
         - configMapRef:
             name: hadoop-env
@@ -45,27 +69,14 @@ spec:
           runAsUser: 1014
           runAsGroup: 1014
         volumeMounts:
-        - name: catalina
-          mountPath: /var/opt/catalina
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: mnt
           mountPath: /mnt
-        - name: package-hadoop
-          mountPath: /opt/hadoop
-        - name: httpfs-tmp
-          mountPath: /var/tmp/httpfs
       terminationGracePeriodSeconds: 5
       volumes:
-      - name: catalina
-        emptyDir: {}
       - name: hadoop-conf
         configMap:
           name: hadoop-conf
       - name: mnt
-        emptyDir: {}
-      - name: package-hadoop
-        persistentVolumeClaim:
-          claimName: package-hadoop
-      - name: httpfs-tmp
         emptyDir: {}

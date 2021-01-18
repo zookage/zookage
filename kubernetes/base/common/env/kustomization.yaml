@@ -8,13 +8,13 @@ configMapGenerator:
   - HADOOP_LOG_DIR=/mnt/log
 - name: httpfs-env
   literals:
-  - HTTPFS_TEMP=/var/tmp/httpfs
+  - HTTPFS_TEMP=/mnt/tmp
   - HADOOP_LOG_DIR=/mnt/log
   # for Hadoop 2.x
   - HTTPFS_LOG=/mnt/log
   - HTTPFS_SILENT=false
   - HTTPFS_CONFIG=/etc/hadoop/conf
-  - CATALINA_BASE=/var/opt/catalina/tomcat
+  - CATALINA_BASE=/mnt/catalina
 - name: hive-env
   literals:
   - HIVE_HOME=/opt/hive

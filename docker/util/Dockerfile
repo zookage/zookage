@@ -30,7 +30,7 @@ RUN curl \
   && mv /usr/local/bin/hdfs /usr/local/bin/gohdfs \
   && rm -rf /opt/gohdfs-v2.1.1-linux-amd64.tar.gz
 
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY docker-entrypoint.sh /usr/local/bin/
 
 USER zookage:zookage
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["docker-entrypoint.sh"]
