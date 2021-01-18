@@ -1,4 +1,5 @@
 bases:
+- mkdir
 - historyserver
 commonLabels:
   component: spark

@@ -1,4 +1,5 @@
 resources:
+- job.yaml
 - statefulset.yaml
 - service.yaml
 commonLabels:

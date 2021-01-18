@@ -1,22 +1,23 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: tez-deploy
+  name: hdfs-mkdir
 spec:
   template:
     spec:
       initContainers:
-      - name: wait-for-parent-dir
+      - name: wait-for-namenode
         image: zookage-util
         args:
-        - wait-for-job
-        - hdfs-mkdir
-      - name: mkdir-tez
+        - wait-for-rollout
+        - statefulset/hdfs-namenode
+      containers:
+      - name: mkdir-apps
         image: zookage-util
         args:
         - hdfs-mkdir
-        - /apps/tez
-        - tez:tez
+        - /apps
+        - hdfs:supergroup
         - "755"
         envFrom:
         - configMapRef:
@@ -27,32 +28,38 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
-      - name: wait-for-datanode
+      - name: mkdir-tmp
         image: zookage-util
         args:
-        - wait-for-rollout
-        - statefulset/hdfs-datanode
-      containers:
-      - name: upload
-        image: zookage-hadoop
-        command:
-        - /opt/hadoop/bin/hdfs
-        args:
-        - dfs
-        - -copyFromLocal
-        - /opt/tez/share/tez-minimal.tar.gz
-        - hdfs:///apps/tez/tez-minimal.tar.gz
+        - hdfs-mkdir
+        - /tmp
+        - hdfs:supergroup
+        - "1777"
         envFrom:
         - configMapRef:
             name: hadoop-env
         env:
         - name: HADOOP_USER_NAME
-          value: tez
+          value: hdfs
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
-        - name: package-tez
-          mountPath: /opt/tez
+      - name: mkdir-user
+        image: zookage-util
+        args:
+        - hdfs-mkdir
+        - /user
+        - hdfs:supergroup
+        - "755"
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        env:
+        - name: HADOOP_USER_NAME
+          value: hdfs
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
       restartPolicy: Never
       volumes:
       - name: hadoop-conf
@@ -60,6 +67,3 @@ spec:
           name: hadoop-conf
       - name: mnt
         emptyDir: {}
-      - name: package-tez
-        persistentVolumeClaim:
-          claimName: package-tez

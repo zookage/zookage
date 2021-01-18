@@ -1,4 +1,5 @@
 bases:
+- mkdir
 - metastore
 - hiveserver2
 commonLabels:

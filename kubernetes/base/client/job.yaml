@@ -1,21 +1,24 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: hdfs-setup
+  name: client-mkdir
 spec:
   template:
     spec:
       initContainers:
-      - name: wait-for-namenode
+      - name: wait-for-parent-dir
         image: zookage-util
         args:
-        - wait-for-rollout
-        - statefulset/hdfs-namenode
+        - wait-for-job
+        - hdfs-mkdir
       containers:
-      - name: setup
+      - name: mkdir-zookage
         image: zookage-util
         args:
-        - hdfs-setup
+        - hdfs-mkdir
+        - /user/zookage
+        - zookage:zookage
+        - "700"
         envFrom:
         - configMapRef:
             name: hadoop-env

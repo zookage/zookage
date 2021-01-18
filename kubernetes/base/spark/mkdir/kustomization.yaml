@@ -1,0 +1,5 @@
+resources:
+- job.yaml
+commonLabels:
+  service: mkdir
+  tier: job

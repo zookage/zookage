@@ -1,4 +1,5 @@
 bases:
+- mkdir
 - resourcemanager
 - nodemanager
 - timelineserver
