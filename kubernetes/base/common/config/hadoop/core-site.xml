@@ -1,7 +1,11 @@
 <configuration>
   <property>
     <name>fs.defaultFS</name>
-    <value>hdfs://hdfs-namenode-0.hdfs-namenode:9820</value>
+    <value>hdfs://zookage</value>
+  </property>
+  <property>
+    <name>ha.zookeeper.quorum</name>
+    <value>zookeeper-server-0.zookeeper-server:2181,zookeeper-server-1.zookeeper-server:2181,zookeeper-server-2.zookeeper-server:2181</value>
   </property>
   <property>
     <name>hadoop.tmp.dir</name>

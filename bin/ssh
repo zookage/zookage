@@ -3,5 +3,9 @@ set -eu
 
 readonly bin_dir=$(cd "$(dirname "$0")"; pwd)
 readonly pod=${1:-zookage-client-0}
-
-"${bin_dir}/kubectl" exec -it "${pod}" -- /bin/bash
+if [ $# -eq 2 ]; then
+  readonly container=$2
+  "${bin_dir}/kubectl" exec -it "${pod}" -c "${container}" -- /bin/bash
+else
+  "${bin_dir}/kubectl" exec -it "${pod}" -- /bin/bash
+fi

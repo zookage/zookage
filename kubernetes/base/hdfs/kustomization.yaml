@@ -1,4 +1,5 @@
 bases:
+- journalnode
 - namenode
 - mkdir
 - datanode

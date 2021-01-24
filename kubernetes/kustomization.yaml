@@ -14,19 +14,21 @@ bases:
 images:
 - name: zookage-hadoop
   newName: zookage/zookage-hadoop
-  newTag: "3.1.4"
+  newTag: "test"
 - name: zookage-hive
   newName: zookage/zookage-hive
-  newTag: "3.1.2-guava-27.0-jre"
+  newTag: "test"
 - name: zookage-spark
   newName: zookage/zookage-spark
   newTag: "3.0.1"
 - name: zookage-tez
   newName: zookage/zookage-tez
-  newTag: "0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty"
+  newTag: "test"
 - name: zookage-zookeeper
   newName: zookage/zookage-zookeeper
   newTag: "3.6.2"
 - name: zookage-util
   newName: zookage/zookage-util
-  newTag: "0.1.1"
+  newTag: "test"
+patchesStrategicMerge:
+- patches/ha/hdfs.yaml
