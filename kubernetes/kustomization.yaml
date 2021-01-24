@@ -31,4 +31,5 @@ images:
   newName: zookage/zookage-util
   newTag: "test"
 patchesStrategicMerge:
-- patches/ha/hdfs.yaml
+# Make HDFS highly available
+# - patches/ha/hdfs.yaml
