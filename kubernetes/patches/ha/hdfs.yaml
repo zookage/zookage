@@ -1,16 +1,25 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  name: hdfs-journalnode
+spec:
+  replicas: 3
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
   name: hdfs-namenode
 spec:
-  selector:
-    matchLabels: {}
-  serviceName: hdfs-namenode
-  replicas: 1
+  replicas: 2
   template:
     spec:
       initContainers:
-      - name: format
+      - name: wait-for-zookeeper
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/zookeeper-server
+      - name: format-zookeeper
         image: zookage-hadoop
         command:
         - /bin/bash
@@ -19,9 +28,7 @@ spec:
         - |
           index=${POD_NAME##*-}
           if [[ "$index" -eq 0 ]]; then
-            /opt/hadoop/bin/hdfs namenode -format -force
-          else
-            /opt/hadoop/bin/hdfs namenode -bootstrapStandby -force
+            /opt/hadoop/bin/hdfs zkfc -formatZK
           fi
         envFrom:
         - configMapRef:
@@ -39,19 +46,21 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: mnt
           mountPath: /mnt
+      - name: wait-for-journalnode
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/hdfs-journalnode
       containers:
-      - name: namenode
+      - name: zkfc
         image: zookage-hadoop
         command:
         - /opt/hadoop/bin/hdfs
         args:
-        - namenode
+        - zkfc
         envFrom:
         - configMapRef:
             name: hadoop-env
-        readinessProbe:
-          tcpSocket:
-            port: 9820
         securityContext:
           runAsUser: 1011
           runAsGroup: 1010
@@ -60,11 +69,3 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: mnt
           mountPath: /mnt
-      terminationGracePeriodSeconds: 5
-      volumes:
-      - name: hadoop-conf
-        configMap:
-          name: hadoop-conf
-      - name: mnt
-        emptyDir: {}
-  volumeClaimTemplates: []

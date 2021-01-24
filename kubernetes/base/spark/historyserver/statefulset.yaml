@@ -24,11 +24,15 @@ spec:
         - org.apache.spark.deploy.history.HistoryServer
         envFrom:
         - configMapRef:
+            name: hadoop-env
+        - configMapRef:
             name: spark-env
         readinessProbe:
           tcpSocket:
             port: 18080
         volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
         - name: spark-conf
           mountPath: /etc/spark/conf
         - name: mnt

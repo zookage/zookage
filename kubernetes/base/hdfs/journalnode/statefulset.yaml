@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hdfs-journalnode
+spec:
+  selector:
+    matchLabels: {}
+  serviceName: hdfs-journalnode
+  podManagementPolicy: Parallel
+  replicas: 0
+  template:
+    spec:
+      containers:
+      - name: journalnode
+        image: zookage-hadoop
+        command:
+        - $(HADOOP_HOME)/bin/hdfs
+        args:
+        - journalnode
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        readinessProbe:
+          tcpSocket:
+            port: 8485
+        securityContext:
+          runAsUser: 1011
+          runAsGroup: 1010
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+        - name: mnt
+          mountPath: /mnt
+      terminationGracePeriodSeconds: 5
+      volumes:
+      - name: hadoop-conf
+        configMap:
+          name: hadoop-conf
+      - name: mnt
+        emptyDir: {}
+  volumeClaimTemplates: []

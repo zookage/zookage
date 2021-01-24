@@ -15,7 +15,10 @@ check_warnings () {
   ! "${base_dir}/bin/logs" | grep WARN \
     | grep -v 'WARNING: .* does not exist. Creating.' \
     | grep -v 'pod/hdfs-namenode-.* conf.Configuration: No unit for' \
-    | grep -v 'pod/hdfs-namenode-.* hdfs.DFSUtilClient: Namenode for null remains unresolved for ID null' \
+    | grep -v 'pod/hdfs-namenode-.* hdfs.DFSUtilClient: Namenode for .* remains unresolved for ID' \
+    | grep -v 'pod/hdfs-namenode-.* ha.HealthMonitor: Transport-level exception trying to monitor health of NameNode' \
+    | grep -v 'pod/hdfs-namenode-.* ha.ActiveStandbyElector: Ignoring stale result from old client with sessionId' \
+    | grep -v 'pod/hdfs-namenode-.* ha.EditLogTailer: Edit log tailer interrupted' \
     | grep -v 'pod/hdfs-datanode-.* conf.Configuration: No unit for' \
     | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow BlockReceiver write data to disk cost' \
     | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow PacketResponder send ack to upstream took' \
@@ -25,6 +28,8 @@ check_warnings () {
     | grep -v 'pod/hdfs-httpfs-.* log4j:WARN' \
     | grep -v 'pod/hdfs-httpfs-.* \[SetPropertiesRule\]{Server/Service/Engine/Host} Setting property' \
     | grep -v 'pod/hdfs-httpfs-.* Creation of SecureRandom instance for session ID generation using \[SHA1PRNG\] took' \
+    | grep -v 'pod/hdfs-journalnode-.* common.Storage: Storage directory .* does not exist' \
+    | grep -v 'pod/hdfs-journalnode-.* server.JournalNodeSyncer: Journal at .* has no edit logs' \
     | grep -v 'pod/yarn-nodemanager-.* nodemanager.DefaultContainerExecutor: Exit code from container' \
     | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find container" \
     | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find app" \
@@ -48,7 +53,8 @@ check_warnings () {
     | grep -v 'pod/zookeeper-server-.* \[RecvWorker:.*:QuorumCnxManager$RecvWorker@.*\] - Interrupting SendWorker thread from RecvWorker.' \
     | grep -v 'pod/zookeeper-server-.* \[SendWorker:.*:QuorumCnxManager$SendWorker@.*\] - Exception when using channel: for' \
     | grep -v 'pod/zookeeper-server-.* \[SendWorker:.*:QuorumCnxManager$SendWorker@.*\] - Send worker leaving thread' \
-    | grep -v 'pod/zookeeper-server-.* \[SendWorker:.*:QuorumCnxManager$SendWorker@.*\] - Interrupted while waiting for message on queue'
+    | grep -v 'pod/zookeeper-server-.* \[SendWorker:.*:QuorumCnxManager$SendWorker@.*\] - Interrupted while waiting for message on queue' \
+    | grep -v 'pod/zookeeper-server-.* \[QuorumPeer\[.*\].*:Follower@.*\] - Got zxid .* expected .*'
 }
 
 "${integration_dir}/divider.sh" "Start fetching errors of all containers"
