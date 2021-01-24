@@ -28,6 +28,7 @@ spec:
             name: zookeeper-env
         env:
         - name: PATH
+          # yamllint disable-line rule:line-length
           value: $(HIVE_HOME)/bin:$(SPARK_HOME)/bin:$(HADOOP_HOME)/bin:/usr/local/openjdk-8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         - name: HADOOP_CLASSPATH
           value: $(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*

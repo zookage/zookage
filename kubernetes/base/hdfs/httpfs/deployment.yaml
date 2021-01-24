@@ -15,27 +15,12 @@ spec:
         - /bin/bash
         args:
         - -c
-        - '$(HADOOP_HOME)/bin/hdfs version | grep "Hadoop 2." && cp -R "$(HADOOP_HOME)/share/hadoop/httpfs/tomcat" "$(CATALINA_BASE)" || true'
-        envFrom:
-        - configMapRef:
-            name: hadoop-env
-        - configMapRef:
-            name: httpfs-env
-        securityContext:
-          runAsUser: 0
-          runAsGroup: 0
-        volumeMounts:
-        - name: hadoop-conf
-          mountPath: /etc/hadoop/conf
-        - name: mnt
-          mountPath: /mnt
-      - name: httpfs-chown-tomcat
-        image: zookage-hadoop
-        command:
-        - /bin/bash
-        args:
-        - -c
-        - '$(HADOOP_HOME)/bin/hdfs version | grep "Hadoop 2." && chown -R httpfs:httpfs "$(CATALINA_BASE)" || true'
+        - |
+          readonly hadoop_version=$("${HADOOP_HOME}/bin/hdfs" version | head -n 1)
+          if [[ "${hadoop_version}" == "Hadoop 2."* ]]; then
+            cp -R "${HADOOP_HOME}/share/hadoop/httpfs/tomcat" "${CATALINA_BASE}"
+            chown -R httpfs:httpfs "${CATALINA_BASE}"
+          fi
         envFrom:
         - configMapRef:
             name: hadoop-env
@@ -56,7 +41,13 @@ spec:
         - /bin/bash
         args:
         - -c
-        - '$(HADOOP_HOME)/bin/hdfs version | grep "Hadoop 2." && "$(HADOOP_HOME)/sbin/httpfs.sh" run || "$(HADOOP_HOME)/bin/hdfs" httpfs'
+        - |
+          readonly hadoop_version=$("${HADOOP_HOME}/bin/hdfs" version | head -n 1)
+          if [[ "${hadoop_version}" == "Hadoop 2."* ]]; then
+            "${HADOOP_HOME}/sbin/httpfs.sh" run
+          else
+            "${HADOOP_HOME}/bin/hdfs" httpfs
+          fi
         envFrom:
         - configMapRef:
             name: hadoop-env

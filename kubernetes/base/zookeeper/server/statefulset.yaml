@@ -17,7 +17,9 @@ spec:
         - /bin/bash
         args:
         - -c
-        - "/opt/zookeeper/bin/zkServer-initialize.sh --configfile=$(ZOOCFGDIR)/zoo.cfg --myid=$(( ${POD_NAME##*-} + 1 ))"
+        - |
+          readonly myid=$(( ${POD_NAME##*-} + 1 ))
+          /opt/zookeeper/bin/zkServer-initialize.sh "--configfile=${ZOOCFGDIR}/zoo.cfg" "--myid=${myid}"
         envFrom:
         - configMapRef:
             name: zookeeper-env

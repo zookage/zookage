@@ -7,10 +7,4 @@ rules:
   truthy:
     check-keys: false
   line-length:
-    max: 100
-    ignore: |
-      kubernetes/base/client/statefulset.yaml
-      kubernetes/base/common/package/hive/job.yaml
-      kubernetes/base/common/package/tez/job.yaml
-      kubernetes/base/hdfs/httpfs/deployment.yaml
-      kubernetes/base/zookeeper/server/statefulset.yaml
+    max: 120
