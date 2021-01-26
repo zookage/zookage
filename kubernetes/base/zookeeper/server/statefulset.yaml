@@ -43,6 +43,9 @@ spec:
         envFrom:
         - configMapRef:
             name: zookeeper-env
+        resources:
+          limits:
+            cpu: 100m
         readinessProbe:
           exec:
             command:
