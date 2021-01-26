@@ -19,9 +19,9 @@ spec:
         - |
           index=${POD_NAME##*-}
           if [[ "$index" -eq 0 ]]; then
-            /opt/hadoop/bin/hdfs namenode -format -force
+            "${HADOOP_HOME}/bin/hdfs" namenode -format -force
           else
-            /opt/hadoop/bin/hdfs namenode -bootstrapStandby -force
+            "${HADOOP_HOME}/bin/hdfs" namenode -bootstrapStandby -force
           fi
         envFrom:
         - configMapRef:
@@ -43,7 +43,7 @@ spec:
       - name: namenode
         image: zookage-hadoop
         command:
-        - /opt/hadoop/bin/hdfs
+        - $(HADOOP_HOME)/bin/hdfs
         args:
         - namenode
         envFrom:

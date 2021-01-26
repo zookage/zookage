@@ -18,7 +18,7 @@ spec:
       - name: hiveserver2
         image: zookage-hive
         command:
-        - /opt/hive/bin/hiveserver2
+        - $(HIVE_HOME)/bin/hiveserver2
         envFrom:
         - configMapRef:
             name: hadoop-env

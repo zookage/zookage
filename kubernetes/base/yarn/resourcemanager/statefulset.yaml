@@ -13,7 +13,7 @@ spec:
       - name: resourcemanager
         image: zookage-hadoop
         command:
-        - /opt/hadoop/bin/yarn
+        - $(HADOOP_HOME)/bin/yarn
         args:
         - resourcemanager
         envFrom:
