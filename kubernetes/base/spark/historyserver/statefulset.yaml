@@ -19,7 +19,7 @@ spec:
       - name: historyserver
         image: zookage-spark
         command:
-        - /opt/spark/bin/spark-class
+        - $(SPARK_HOME)/bin/spark-class
         args:
         - org.apache.spark.deploy.history.HistoryServer
         envFrom:

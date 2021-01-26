@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-SPARK_DIST_CLASSPATH=$(/opt/hadoop/bin/hadoop classpath)
+SPARK_DIST_CLASSPATH=$("${HADOOP_HOME}/bin/hadoop" classpath)
 export SPARK_DIST_CLASSPATH

@@ -23,7 +23,7 @@ spec:
       - name: init-schema
         image: zookage-hive
         command:
-        - /opt/hive/bin/schematool
+        - $(HIVE_HOME)/bin/schematool
         args:
         - -initSchema
         - -dbType
@@ -51,7 +51,7 @@ spec:
       - name: metastore
         image: zookage-hive
         command:
-        - /opt/hive/bin/hive
+        - $(HIVE_HOME)/bin/schematool
         args:
         - --service
         - metastore

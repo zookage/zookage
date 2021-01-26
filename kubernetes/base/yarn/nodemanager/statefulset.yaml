@@ -20,7 +20,7 @@ spec:
       - name: nodemanager
         image: zookage-hadoop
         command:
-        - /opt/hadoop/bin/yarn
+        - $(HADOOP_HOME)/bin/yarn
         args:
         - nodemanager
         envFrom:

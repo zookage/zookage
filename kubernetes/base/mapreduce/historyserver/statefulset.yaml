@@ -19,7 +19,7 @@ spec:
       - name: historyserver
         image: zookage-hadoop
         command:
-        - /opt/hadoop/bin/mapred
+        - $(HADOOP_HOME)/bin/mapred
         args:
         - historyserver
         envFrom:

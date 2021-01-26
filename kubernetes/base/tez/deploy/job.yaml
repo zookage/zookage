@@ -36,7 +36,7 @@ spec:
       - name: upload
         image: zookage-hadoop
         command:
-        - /opt/hadoop/bin/hdfs
+        - $(HADOOP_HOME)/bin/hdfs
         args:
         - dfs
         - -copyFromLocal
