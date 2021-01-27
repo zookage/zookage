@@ -11,30 +11,16 @@ spec:
         args:
         - wait-for-job
         - hdfs-mkdir
-      - name: mkdir-spark
-        image: zookage-util
-        args:
-        - hdfs-mkdir
-        - /user/spark
-        - spark:spark
-        - "755"
-        envFrom:
-        - configMapRef:
-            name: hadoop-env
-        env:
-        - name: HADOOP_USER_NAME
-          value: hdfs
-        volumeMounts:
-        - name: hadoop-conf
-          mountPath: /etc/hadoop/conf
       containers:
-      - name: mkdir-history
+      - name: mkdir
         image: zookage-util
+        command:
+        - /bin/bash
         args:
-        - hdfs-mkdir
-        - /user/spark/applicationHistory
-        - spark:spark
-        - "1777"
+        - -c
+        - |
+          docker-entrypoint.sh hdfs-mkdir /user/spark spark:spark 755
+          docker-entrypoint.sh hdfs-mkdir /user/spark/applicationHistory spark:spark 1777
         envFrom:
         - configMapRef:
             name: hadoop-env

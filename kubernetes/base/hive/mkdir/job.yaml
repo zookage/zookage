@@ -11,30 +11,16 @@ spec:
         args:
         - wait-for-job
         - hdfs-mkdir
-      - name: mkdir-hive
-        image: zookage-util
-        args:
-        - hdfs-mkdir
-        - /user/hive
-        - hive:hive
-        - "751"
-        envFrom:
-        - configMapRef:
-            name: hadoop-env
-        env:
-        - name: HADOOP_USER_NAME
-          value: hdfs
-        volumeMounts:
-        - name: hadoop-conf
-          mountPath: /etc/hadoop/conf
       containers:
-      - name: mkdir-warehouse
+      - name: mkdir
         image: zookage-util
+        command:
+        - /bin/bash
         args:
-        - hdfs-mkdir
-        - /user/hive/warehouse
-        - hive:hive
-        - "1777"
+        - -c
+        - |
+          docker-entrypoint.sh hdfs-mkdir /user/hive hive:hive 751
+          docker-entrypoint.sh hdfs-mkdir /user/hive/warehouse hive:hive 1777
         envFrom:
         - configMapRef:
             name: hadoop-env
