@@ -12,45 +12,16 @@ spec:
         - wait-for-rollout
         - statefulset/hdfs-namenode
       containers:
-      - name: mkdir-apps
+      - name: mkdir
         image: zookage-util
+        command:
+        - /bin/bash
         args:
-        - hdfs-mkdir
-        - /apps
-        - hdfs:supergroup
-        - "755"
-        envFrom:
-        - configMapRef:
-            name: hadoop-env
-        env:
-        - name: HADOOP_USER_NAME
-          value: hdfs
-        volumeMounts:
-        - name: hadoop-conf
-          mountPath: /etc/hadoop/conf
-      - name: mkdir-tmp
-        image: zookage-util
-        args:
-        - hdfs-mkdir
-        - /tmp
-        - hdfs:supergroup
-        - "1777"
-        envFrom:
-        - configMapRef:
-            name: hadoop-env
-        env:
-        - name: HADOOP_USER_NAME
-          value: hdfs
-        volumeMounts:
-        - name: hadoop-conf
-          mountPath: /etc/hadoop/conf
-      - name: mkdir-user
-        image: zookage-util
-        args:
-        - hdfs-mkdir
-        - /user
-        - hdfs:supergroup
-        - "755"
+        - -c
+        - |
+          docker-entrypoint.sh hdfs-mkdir /apps hdfs:supergroup 755
+          docker-entrypoint.sh hdfs-mkdir /tmp hdfs:supergroup 1777
+          docker-entrypoint.sh hdfs-mkdir /user hdfs:supergroup 755
         envFrom:
         - configMapRef:
             name: hadoop-env
