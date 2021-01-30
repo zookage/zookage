@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: yarn-resourcemanager
+spec:
+  replicas: 2
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-zookeeper
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/zookeeper-server
