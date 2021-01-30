@@ -6,6 +6,7 @@ spec:
   selector:
     matchLabels: {}
   serviceName: yarn-resourcemanager
+  podManagementPolicy: Parallel
   replicas: 1
   template:
     spec:
@@ -21,7 +22,7 @@ spec:
             name: hadoop-env
         readinessProbe:
           tcpSocket:
-            port: 8032
+            port: 8033
         securityContext:
           runAsUser: 1012
           runAsGroup: 1010

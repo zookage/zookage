@@ -1,11 +1,41 @@
 <configuration>
   <property>
+    <name>yarn.resourcemanager.cluster-id</name>
+    <value>zookage</value>
+  </property>
+  <property>
     <name>yarn.resourcemanager.hostname</name>
     <value>yarn-resourcemanager-0.yarn-resourcemanager</value>
   </property>
   <property>
     <name>yarn.resourcemanager.bind-host</name>
     <value>0.0.0.0</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.ha.enabled</name>
+    <value>false</value>
+    <!-- For HA -->
+    <!--<value>true</value>-->
+  </property>
+  <property>
+    <name>yarn.resourcemanager.ha.rm-ids</name>
+    <value>resourcemanager-0,resourcemanager-1</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.hostname.resourcemanager-0</name>
+    <value>yarn-resourcemanager-0.yarn-resourcemanager</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.hostname.resourcemanager-1</name>
+    <value>yarn-resourcemanager-1.yarn-resourcemanager</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.webapp.address.resourcemanager-0</name>
+    <value>yarn-resourcemanager-0.yarn-resourcemanager:8088</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.webapp.address.resourcemanager-1</name>
+    <value>yarn-resourcemanager-1.yarn-resourcemanager:8088</value>
   </property>
   <property>
     <name>yarn.nodemanager.address</name>
