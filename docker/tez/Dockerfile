@@ -9,7 +9,12 @@ ARG clean
 
 WORKDIR /root/tez
 COPY . .
-RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+RUN \
+  --mount=type=cache,target=/root/.cache/bower \
+  --mount=type=cache,target=/root/.cache/yarn \
+  --mount=type=cache,target=/root/.config \
+  --mount=type=cache,target=/root/.local \
+  --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   mvn ${clean} package \
     -Ptools \
     -Dallow.root.build \

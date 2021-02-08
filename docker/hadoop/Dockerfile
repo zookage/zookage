@@ -16,7 +16,11 @@ USER hadoop-build:hadoop-build
 WORKDIR /home/hadoop-build/hadoop
 
 COPY --chown=hadoop-build:hadoop-build . .
-RUN --mount=type=cache,target=/home/hadoop-build/.m2,uid=999,gid=999 \
+RUN \
+  --mount=type=cache,target=/home/hadoop-build/.cache,uid=999,gid=999 \
+  --mount=type=cache,target=/home/hadoop-build/.config,uid=999,gid=999 \
+  --mount=type=cache,target=/home/hadoop-build/.local,uid=999,gid=999 \
+  --mount=type=cache,target=/home/hadoop-build/.m2,uid=999,gid=999 \
   mvn ${clean} package \
     -P${active_profiles} \
     -DskipTests \
