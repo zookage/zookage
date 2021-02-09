@@ -1,8 +1,0 @@
-# Make the IP address of a zookage-client resolvable from a Spark job
-apiVersion: v1
-kind: Service
-metadata:
-  name: zookage-client
-spec:
-  clusterIP: None
-  selector: {}

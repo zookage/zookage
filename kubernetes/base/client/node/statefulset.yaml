@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: zookage-client
+  name: zookage-client-node
 spec:
   selector:
     matchLabels: {}
-  serviceName: zookage-client
+  serviceName: zookage-client-node
   replicas: 1
   template:
     spec:
