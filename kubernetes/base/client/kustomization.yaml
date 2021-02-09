@@ -1,7 +1,5 @@
-resources:
-- job.yaml
-- statefulset.yaml
-- service.yaml
+bases:
+- mkdir
+- node
 commonLabels:
   component: client
-  tier: client

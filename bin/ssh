@@ -2,7 +2,7 @@
 set -eu
 
 readonly bin_dir=$(cd "$(dirname "$0")"; pwd)
-readonly pod=${1:-zookage-client-0}
+readonly pod=${1:-zookage-client-node-0}
 if [ $# -eq 2 ]; then
   readonly container=$2
   "${bin_dir}/kubectl" exec -it "${pod}" -c "${container}" -- /bin/bash
