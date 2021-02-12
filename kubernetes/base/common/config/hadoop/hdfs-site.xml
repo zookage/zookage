@@ -4,58 +4,63 @@
     <value>zookage</value>
   </property>
   <property>
-    <name>dfs.ha.namenodes.zookage</name>
-    <value>namenode-0</value>
-    <!-- For HA -->
-    <!--<value>namenode-0,namenode-1</value>-->
-  </property>
-  <property>
-    <name>dfs.ha.automatic-failover.enabled</name>
-    <value>false</value>
-    <!-- For HA -->
-    <!--<value>true</value>-->
-  </property>
-  <property>
-    <name>dfs.ha.fencing.methods</name>
-    <value>shell(true)</value>
-  </property>
-  <property>
-    <name>dfs.client.failover.proxy.provider.zookage</name>
-    <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
-  </property>
-  <property>
-    <name>dfs.namenode.rpc-bind-host</name>
-    <value>0.0.0.0</value>
-  </property>
-  <property>
     <name>dfs.namenode.rpc-address.zookage.namenode-0</name>
-    <value>hdfs-namenode-0.hdfs-namenode:9820</value>
-  </property>
-  <property>
-    <name>dfs.namenode.rpc-address.zookage.namenode-1</name>
-    <value>hdfs-namenode-1.hdfs-namenode:9820</value>
+    <value>hdfs-namenode-0.hdfs-namenode:8020</value>
   </property>
   <property>
     <name>dfs.namenode.http-address.zookage.namenode-0</name>
     <value>hdfs-namenode-0.hdfs-namenode:9870</value>
   </property>
   <property>
-    <name>dfs.namenode.http-address.zookage.namenode-1</name>
-    <value>hdfs-namenode-1.hdfs-namenode:9870</value>
+    <name>dfs.client.failover.proxy.provider.zookage</name>
+    <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+  </property>
+
+  <!-- ### For non-HA ### -->
+  <property>
+    <name>dfs.ha.namenodes.zookage</name>
+    <value>namenode-0</value>
+  </property>
+  <!-- ### For non-HA ### -->
+
+  <!-- ### For HA ###
+  <property>
+    <name>dfs.ha.namenodes.zookage</name>
+    <value>namenode-0,namenode-1</value>
   </property>
   <property>
-    <name>dfs.namenode.name.dir</name>
-    <value>file://${hadoop.tmp.dir}/dfs/nn1,file://${hadoop.tmp.dir}/dfs/nn2</value>
+    <name>dfs.ha.automatic-failover.enabled</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>dfs.ha.fencing.methods</name>
+    <value>shell(true)</value>
   </property>
   <property>
     <name>dfs.namenode.shared.edits.dir</name>
-    <value></value>
-    <!-- For HA -->
-    <!--<value>qjournal://hdfs-journalnode-0.hdfs-journalnode:8485;hdfs-journalnode-1.hdfs-journalnode:8485;hdfs-journalnode-2.hdfs-journalnode:8485/zookage</value>-->
+    <value>qjournal://hdfs-journalnode-0.hdfs-journalnode:8485;hdfs-journalnode-1.hdfs-journalnode:8485;hdfs-journalnode-2.hdfs-journalnode:8485/zookage</value>
   </property>
   <property>
     <name>dfs.journalnode.edits.dir</name>
     <value>${hadoop.tmp.dir}/dfs/journal</value>
+  </property>
+  <property>
+    <name>dfs.namenode.rpc-address.zookage.namenode-1</name>
+    <value>hdfs-namenode-1.hdfs-namenode:8020</value>
+  </property>
+  <property>
+    <name>dfs.namenode.http-address.zookage.namenode-1</name>
+    <value>hdfs-namenode-1.hdfs-namenode:9870</value>
+  </property>
+  ### For HA ### -->
+
+  <property>
+    <name>dfs.namenode.rpc-bind-host</name>
+    <value>0.0.0.0</value>
+  </property>
+  <property>
+    <name>dfs.namenode.name.dir</name>
+    <value>file://${hadoop.tmp.dir}/dfs/nn1,file://${hadoop.tmp.dir}/dfs/nn2</value>
   </property>
   <property>
     <name>dfs.namenode.acls.enabled</name>
@@ -65,6 +70,7 @@
     <name>dfs.namenode.datanode.registration.ip-hostname-check</name>
     <value>false</value>
   </property>
+
   <!-- Use the default ports of 3.x -->
   <property>
     <name>dfs.namenode.secondary.http-address</name>

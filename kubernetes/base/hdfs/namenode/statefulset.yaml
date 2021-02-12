@@ -51,7 +51,7 @@ spec:
             name: hadoop-env
         readinessProbe:
           tcpSocket:
-            port: 9820
+            port: 8020
         securityContext:
           runAsUser: 1011
           runAsGroup: 1010
