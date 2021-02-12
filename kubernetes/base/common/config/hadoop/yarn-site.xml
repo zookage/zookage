@@ -1,21 +1,15 @@
 <configuration>
-  <property>
-    <name>yarn.resourcemanager.cluster-id</name>
-    <value>zookage</value>
-  </property>
+  <!-- ### For non-HA ### -->
   <property>
     <name>yarn.resourcemanager.hostname</name>
     <value>yarn-resourcemanager-0.yarn-resourcemanager</value>
   </property>
-  <property>
-    <name>yarn.resourcemanager.bind-host</name>
-    <value>0.0.0.0</value>
-  </property>
+  <!-- ### For non-HA ### -->
+
+  <!-- ### For HA ###
   <property>
     <name>yarn.resourcemanager.ha.enabled</name>
-    <value>false</value>
-    <!-- For HA -->
-    <!--<value>true</value>-->
+    <value>true</value>
   </property>
   <property>
     <name>yarn.resourcemanager.ha.rm-ids</name>
@@ -37,6 +31,21 @@
     <name>yarn.resourcemanager.webapp.address.resourcemanager-1</name>
     <value>yarn-resourcemanager-1.yarn-resourcemanager:8088</value>
   </property>
+  ### For HA ### -->
+
+  <property>
+    <name>yarn.resourcemanager.cluster-id</name>
+    <value>zookage</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.bind-host</name>
+    <value>0.0.0.0</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.system-metrics-publisher.enabled</name>
+    <value>true</value>
+  </property>
+
   <property>
     <name>yarn.nodemanager.address</name>
     <value>${yarn.nodemanager.hostname}:8041</value>
@@ -58,20 +67,8 @@
     <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME</value>
   </property>
   <property>
-    <name>yarn.acl.enable</name>
-    <value>true</value>
-  </property>
-  <property>
-    <name>yarn.webapp.ui2.enable</name>
-    <value>true</value>
-  </property>
-  <property>
-    <name>yarn.log-aggregation-enable</name>
-    <value>true</value>
-  </property>
-  <property>
-    <name>yarn.scheduler.minimum-allocation-mb</name>
-    <value>128</value>
+    <name>yarn.nodemanager.log-dirs</name>
+    <value>${hadoop.tmp.dir}/userlogs</value>
   </property>
   <property>
     <name>yarn.nodemanager.resource.memory-mb</name>
@@ -81,10 +78,7 @@
     <name>yarn.nodemanager.vmem-pmem-ratio</name>
     <value>10.0</value>
   </property>
-  <property>
-    <name>yarn.nodemanager.log-dirs</name>
-    <value>${hadoop.tmp.dir}/userlogs</value>
-  </property>
+
   <property>
     <name>yarn.timeline-service.enabled</name>
     <value>true</value>
@@ -102,11 +96,24 @@
     <value>true</value>
   </property>
   <property>
-    <name>yarn.resourcemanager.system-metrics-publisher.enabled</name>
+    <name>yarn.timeline-service.generic-application-history.enabled</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <name>yarn.acl.enable</name>
     <value>true</value>
   </property>
   <property>
-    <name>yarn.timeline-service.generic-application-history.enabled</name>
+    <name>yarn.webapp.ui2.enable</name>
     <value>true</value>
+  </property>
+  <property>
+    <name>yarn.log-aggregation-enable</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>yarn.scheduler.minimum-allocation-mb</name>
+    <value>128</value>
   </property>
 </configuration>

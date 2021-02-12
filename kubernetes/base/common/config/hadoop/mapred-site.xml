@@ -11,6 +11,7 @@
     <name>mapreduce.reduce.memory.mb</name>
     <value>512</value>
   </property>
+
   <property>
     <name>yarn.app.mapreduce.am.resource.mb</name>
     <value>512</value>
