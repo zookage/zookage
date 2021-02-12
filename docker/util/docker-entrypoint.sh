@@ -5,21 +5,18 @@ if [ $# -eq 0 ]; then
   exec /bin/bash
 fi
 
-function wait_for_job() {
-  kubectl wait "job/$1" --for="condition=complete" --timeout=3600s
-}
-
-function wait_for_rollout() {
-  kubectl rollout status "$1"
-}
-
 readonly command=$1
 
 if [ "${command}" == "wait-for-job" ]; then
-  wait_for_job "$2"
-  exit 0
+  exec kubectl wait "job/$2" --for="condition=complete" --timeout=3600s
 elif [ "${command}" == "wait-for-rollout" ]; then
-  wait_for_rollout "$2"
+  exec kubectl rollout status "$2"
+elif [ "${command}" == "wait-for-dns" ]; then
+  hostname=$2
+  until nslookup "${hostname}"; do
+    echo "Failed to resolve ${hostname}"
+    sleep 1
+  done
   exit 0
 elif [ "${command}" == "hdfs-mkdir" ]; then
   readonly directory=$2
