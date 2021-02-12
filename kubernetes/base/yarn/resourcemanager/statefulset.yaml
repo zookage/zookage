@@ -10,6 +10,17 @@ spec:
   replicas: 1
   template:
     spec:
+      initContainers:
+      - name: wait-for-dns
+        image: zookage-util
+        args:
+        - wait-for-dns
+        - $(POD_NAME).yarn-resourcemanager
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
       containers:
       - name: resourcemanager
         image: zookage-hadoop

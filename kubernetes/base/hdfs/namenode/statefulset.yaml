@@ -10,6 +10,16 @@ spec:
   template:
     spec:
       initContainers:
+      - name: wait-for-dns
+        image: zookage-util
+        args:
+        - wait-for-dns
+        - $(POD_NAME).hdfs-namenode
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
       - name: format
         image: zookage-hadoop
         command:

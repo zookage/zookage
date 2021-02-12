@@ -6,7 +6,7 @@ FROM ${openjdk_image}
 
 # hadolint ignore=DL3008
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends curl less netcat vim \
+  && apt-get install -y --no-install-recommends curl dnsutils less netcat vim \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && groupadd --gid 1000 zookage \
