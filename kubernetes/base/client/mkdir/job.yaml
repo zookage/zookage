@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: zookage-client-mkdir
+  name: client-mkdir
 spec:
   template:
     spec:

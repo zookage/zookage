@@ -36,11 +36,11 @@ All resources are ready!
 
 ### Log in to a client container
 
-With `./bin/ssh`, you can ssh into `zookage-client-node`, which has command-line tools such as `hdfs`, `yarn`, `beeline`, and so on.
+With `./bin/ssh`, you can ssh into `client-node`, which has command-line tools such as `hdfs`, `yarn`, `beeline`, and so on.
 
 ```
 $ ./bin/ssh
-zookage@zookage-client-node-0:~$
+zookage@client-node-0:~$
 ```
 
 ### Submit a job
@@ -48,7 +48,7 @@ zookage@zookage-client-node-0:~$
 On the container, you can run any commands.
 
 ```
-zookage@zookage-client-node-0:~$ beeline
+zookage@client-node-0:~$ beeline
 ...
 0: jdbc:hive2://hive-hiveserver2:10000/defaul> SELECT 1;
 ...
@@ -82,7 +82,7 @@ Several utilities are available.
     * Delete resources created by ZooKage
 * `./bin/ssh`
     * Log in to the given pod
-    * Without any arguments, you will ssh into `zookage-client-node`
+    * Without any arguments, you will ssh into `client-node`
 * `./bin/logs`
     * View logs of the given pod
     * Without any arguments, you can fetch all logs of all containers
@@ -147,10 +147,10 @@ hdfs-datanode-2                     1/1     Running     0          7m19s
 
 `./bin/kubectl port-forward {pod name} {local port}:{container port}` enables a local process to connect to a container.
 
-For example, you can access port 8000 on `zookage-client-node-0` via port 5005 on your local machine.
+For example, you can access port 8000 on `client-node-0` via port 5005 on your local machine.
 
 ```
-$ ./bin/kubectl port-forward zookage-client-node-0 5005:8000
+$ ./bin/kubectl port-forward client-node-0 5005:8000
 Forwarding from 127.0.0.1:5005 -> 8000
 Forwarding from [::1]:5005 -> 8000
 ```

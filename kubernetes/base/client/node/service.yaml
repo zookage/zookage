@@ -1,8 +1,8 @@
-# Make the IP address of a zookage-client-node resolvable from a Spark job
+# Make the IP address of a client-node resolvable from a Spark job
 apiVersion: v1
 kind: Service
 metadata:
-  name: zookage-client-node
+  name: client-node
 spec:
   clusterIP: None
   selector: {}
