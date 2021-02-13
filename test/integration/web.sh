@@ -7,8 +7,10 @@ check () {
   local -r response=$(curl -o /dev/null -w '%{http_code}' -s "${url}")
   echo "${url} returned ${response}"
   echo
-  if [ "$response" != 200 ]; then
-    exit 1
+  if [ "$response" = 200 ] || [ "$response" = 307 ]; then
+    return 0
+  else
+    return 1
   fi
 }
 
