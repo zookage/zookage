@@ -3,7 +3,7 @@ commonLabels:
   owner: zookage
 bases:
 - base/common
-- base/zookeeper
+# - base/zookeeper
 - base/hdfs
 - base/yarn
 - base/spark
@@ -14,22 +14,22 @@ bases:
 images:
 - name: zookage-hadoop
   newName: zookage/zookage-hadoop
-  newTag: "test"
+  newTag: "3.2.2-zookage-0.2"
 - name: zookage-hive
   newName: zookage/zookage-hive
-  newTag: "test"
+  newTag: "3.1.2-guava-27.0-jre-zookage-0.2"
 - name: zookage-spark
   newName: zookage/zookage-spark
-  newTag: "3.0.1"
+  newTag: "3.0.1-zookage-0.2"
 - name: zookage-tez
   newName: zookage/zookage-tez
-  newTag: "test"
+  newTag: "0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty-zookage-0.2"
 - name: zookage-zookeeper
   newName: zookage/zookage-zookeeper
-  newTag: "3.6.2"
+  newTag: "3.6.2-zookage-0.2"
 - name: zookage-util
   newName: zookage/zookage-util
-  newTag: "test"
+  newTag: "0.2.0"
 patchesStrategicMerge:
 ### High Availability ###
 # - patches/ha/hdfs.yaml

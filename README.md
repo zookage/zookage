@@ -13,7 +13,9 @@ ZooKage provides a sandbox environment to launch a set of components inhabiting 
 ## Requirements
 
 * macOS is supported
-* [Docker Desktop](https://www.docker.com/products/docker-desktop) with [8GB RAM](https://docs.docker.com/docker-for-mac/)
+* [Docker Desktop](https://www.docker.com/products/docker-desktop)
+* [Enough RAM](https://docs.docker.com/docker-for-mac/)
+    * e.g. 8GB for HDFS, YARN, Hive, and Tez
 * [Kubernetes is enabled](https://docs.docker.com/get-started/orchestration/)
 
 ## Getting Started
@@ -23,7 +25,7 @@ ZooKage provides a sandbox environment to launch a set of components inhabiting 
 Just run the following command.
 
 ```
-$ git clone --branch v0.1.1 git@github.com:zookage/zookage.git
+$ git clone --branch v0.2.0 git@github.com:zookage/zookage.git
 $ cd zookage
 $ ./bin/up
 namespace/zookage created
@@ -120,13 +122,13 @@ Please put the image tag in [kustomization.yaml](https://github.com/zookage/zook
 
 ## Compatibility
 
-ZooKage provides the following images.
+ZooKage provides the following images. Every image has the postfix `-zookage-0.2`, e.g. `3.2.2-zookage-0.2`.
 
 | Hadoop | Hive | Tez | Spark | ZooKeeper |
 |-|-|-|-|-|
-| 2.10.1 | 2.3.7 | 0.9.2 | 3.0.1 | 3.6.2 |
-| 3.1.4 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.1 | | 3.6.2 |
-| 3.2.1 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19 | 3.0.1 | 3.6.2 |
+| 2.10.1 | 2.3.8 | 0.9.2 | 3.0.1 | 3.6.2 |
+| 3.1.4 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.1 | 3.6.2 |
+| 3.2.2 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.1 | 3.6.2 |
 
 ## Tips
 
@@ -153,4 +155,45 @@ For example, you can access port 8000 on `client-node-0` via port 5005 on your l
 $ ./bin/kubectl port-forward client-node-0 5005:8000
 Forwarding from 127.0.0.1:5005 -> 8000
 Forwarding from [::1]:5005 -> 8000
+```
+
+### HA Setup
+
+You can apply HA configurations with a few changes.
+
+Note that this feature is NOT designed to deploy a production-ready cluster. This is for a developer who wants to test HA features on a local machine.
+
+First, enable `patches/ha/{component}.yaml` in [kustomization.yaml](https://github.com/zookage/zookage/blob/main/kubernetes/kustomization.yaml).
+
+```
+patchesStrategicMerge:
+### High Availability ###
+- patches/ha/hdfs.yaml
+- patches/ha/yarn.yaml
+```
+
+Second, edit the configuration files for components which need HA setup.
+
+You should comment out non-HA configurations and introduce HA configurations.
+
+```
+<configuration>
+  <!-- ### For non-HA ###
+  <property>
+    <name>yarn.resourcemanager.hostname</name>
+    <value>yarn-resourcemanager-0.yarn-resourcemanager</value>
+  </property>
+  ### For non-HA ### -->
+
+  <!-- ### For HA ### -->
+  <property>
+    <name>yarn.resourcemanager.ha.enabled</name>
+    <value>true</value>
+  </property>
+  ...
+  <property>
+    <name>yarn.resourcemanager.webapp.address.resourcemanager-1</name>
+    <value>yarn-resourcemanager-1.yarn-resourcemanager:8088</value>
+  </property>
+  <!-- ### For HA ### -->
 ```
