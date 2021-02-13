@@ -5,9 +5,12 @@ readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
 readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
 check_errors () {
+  # shellcheck disable=SC2016
   ! "${base_dir}/bin/logs" | grep ERROR \
     | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: .*mofu_tez not found' \
-    | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: .*mofu_mr not found'
+    | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: .*mofu_mr not found' \
+    | grep -v 'pod/zookeeper-server-.* \[LeaderConnector-zookeeper-server-.*:Learner$LeaderConnector@.*\] - Unexpected exception' \
+    | grep -v 'pod/zookeeper-server-.* \[LeaderConnector-zookeeper-server-.*:Learner$LeaderConnector@.*\] - Failed connect to'
 }
 
 check_warnings () {
@@ -15,6 +18,7 @@ check_warnings () {
   ! "${base_dir}/bin/logs" | grep WARN \
     | grep -v 'WARNING: .* does not exist. Creating.' \
     | grep -v 'pod/hdfs-namenode-.* conf.Configuration: No unit for' \
+    | grep -v 'pod/hdfs-namenode-.* hdfs.DFSUtilClient: Namenode for .* remains unresolved for ID' \
     | grep -v 'pod/hdfs-namenode-.* ha.HealthMonitor: Transport-level exception trying to monitor health of NameNode' \
     | grep -v 'pod/hdfs-namenode-.* ha.ActiveStandbyElector: Ignoring stale result from old client with sessionId' \
     | grep -v 'pod/hdfs-namenode-.* ha.EditLogTailer: Edit log tailer interrupted' \
@@ -46,7 +50,11 @@ check_warnings () {
     | grep -v 'pod/zookeeper-server-.* \[main:ContextHandler@.*\] - .* contextPath ends with' \
     | grep -v 'pod/zookeeper-server-.* \[main:ContextHandler@.*\] - Empty contextPath' \
     | grep -v 'pod/zookeeper-server-.* \[main:ConstraintSecurityHandler@.*\] - .* has uncovered http methods for path:' \
-    | grep -v 'pod/zookeeper-server-.* \[QuorumConnectionThread-.*:QuorumCnxManager@.*\] - Cannot open channel to'
+    | grep -v 'pod/zookeeper-server-.* \[QuorumConnectionThread-.*:QuorumCnxManager@.*\] - Cannot open channel to' \
+    | grep -v 'pod/zookeeper-server-.* \[LeaderConnector-zookeeper-server-.*:Learner$LeaderConnector@.*\] - Unexpected exception' \
+    | grep -v 'pod/zookeeper-server-.* \[QuorumPeer.*:Follower@.*\] - Exception when following the leader' \
+    | grep -v 'pod/zookeeper-server-.* \[QuorumPeer.*:QuorumPeer@.*\] - PeerState set to LOOKING' \
+    | grep -v 'pod/zookeeper-server-.* \[QuorumPeer.*:Follower@.*\] - Got zxid .* expected .*'
 }
 
 "${integration_dir}/divider.sh" "Start fetching errors of all containers"
