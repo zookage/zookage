@@ -20,7 +20,7 @@ images:
   newTag: "3.1.2-guava-27.0-jre-zookage-0.2"
 - name: zookage-spark
   newName: zookage/zookage-spark
-  newTag: "3.0.1-zookage-0.2"
+  newTag: "3.0.2-zookage-0.2"
 - name: zookage-tez
   newName: zookage/zookage-tez
   newTag: "0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty-zookage-0.2"
