@@ -6,6 +6,12 @@ configMapGenerator:
   - HADOOP_HOME=/opt/hadoop
   - HADOOP_CONF_DIR=/etc/hadoop/conf
   - HADOOP_LOG_DIR=/mnt/log
+- name: hbase-env
+  literals:
+  - HBASE_HOME=/opt/hbase
+  - HBASE_CONF_DIR=/etc/hbase/conf
+  - HBASE_SECURITY_LOGGER=INFO,console
+  - HBASE_ZNODE_FILE=/mnt/hbase.znode
 - name: httpfs-env
   literals:
   - HTTPFS_TEMP=/mnt/tmp

@@ -1,0 +1,6 @@
+bases:
+- mkdir
+- master
+- regionserver
+commonLabels:
+  component: hbase

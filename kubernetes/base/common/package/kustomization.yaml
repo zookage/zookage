@@ -1,5 +1,6 @@
 bases:
 - hadoop
+- hbase
 - hive
 - spark
 - tez

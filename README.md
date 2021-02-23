@@ -5,6 +5,7 @@ ZooKage provides a sandbox environment to launch a set of components inhabiting 
 ## Supported components
 
 * Apache Hadoop(HDFS, YARN, MapReduce)
+* Apache HBase
 * Apache Hive
 * Apache Spark
 * Apache Tez
@@ -103,6 +104,7 @@ You can access web UIs via `localhost`. Note that this feature is unstable and y
 * [Spark History Server](http://localhost:18080/)
 * [Tez UI](http://localhost:9999/tez-ui/)
 * [HiveServer2](http://localhost:10002/)
+* [HBase Master](http://localhost:16010/master-status)
 
 ## Build your image
 
@@ -124,11 +126,11 @@ Please put the image tag in [kustomization.yaml](https://github.com/zookage/zook
 
 ZooKage provides the following images. Every image has the postfix `-zookage-0.2`, e.g. `3.2.2-zookage-0.2`.
 
-| [Hadoop](https://hub.docker.com/r/zookage/zookage-hadoop) | [Hive](https://hub.docker.com/r/zookage/zookage-hive) | [Tez](https://hub.docker.com/r/zookage/zookage-tez) | [Spark](https://hub.docker.com/r/zookage/zookage-spark) | [ZooKeeper](https://hub.docker.com/r/zookage/zookage-zookeeper) |
-|-|-|-|-|-|
-| 2.10.1 | 2.3.8 | 0.9.2 | 3.0.2 | 3.6.2 |
-| 3.1.4 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.2 | 3.6.2 |
-| 3.2.2 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.2 | 3.6.2 |
+| [Hadoop](https://hub.docker.com/r/zookage/zookage-hadoop) | [Hive](https://hub.docker.com/r/zookage/zookage-hive) | [Tez](https://hub.docker.com/r/zookage/zookage-tez) | [Spark](https://hub.docker.com/r/zookage/zookage-spark) | [ZooKeeper](https://hub.docker.com/r/zookage/zookage-zookeeper) | [HBase](https://hub.docker.com/r/zookage/zookage-hbase) |
+|-|-|-|-|-|-|
+| 2.10.1 | 2.3.8 | 0.9.2 | 3.0.2 | 3.6.2 | 2.4.1 |
+| 3.1.4 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.2 | 3.6.2 | 2.4.1 |
+| 3.2.2 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.2 | 3.6.2 | 2.4.1 |
 
 ## Tips
 

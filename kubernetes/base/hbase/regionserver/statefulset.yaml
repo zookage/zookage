@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hbase-regionserver
+spec:
+  selector:
+    matchLabels: {}
+  serviceName: hbase-regionserver
+  podManagementPolicy: Parallel
+  replicas: 2
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-master
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/hbase-master
+      containers:
+      - name: regionserver
+        image: zookage-hbase
+        command:
+        - $(HBASE_HOME)/bin/hbase
+        args:
+        - regionserver
+        - start
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        - configMapRef:
+            name: hbase-env
+        env:
+        - name: HBASE_CLASSPATH
+          value: $(HADOOP_CONF_DIR)
+        readinessProbe:
+          tcpSocket:
+            port: 16020
+        securityContext:
+          runAsUser: 1060
+          runAsGroup: 1060
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+        - name: hbase-conf
+          mountPath: /etc/hbase/conf
+        - name: mnt
+          mountPath: /mnt
+        - name: package-hadoop
+          mountPath: /opt/hadoop
+      terminationGracePeriodSeconds: 5
+      volumes:
+      - name: hadoop-conf
+        configMap:
+          name: hadoop-conf
+      - name: hbase-conf
+        configMap:
+          name: hbase-conf
+      - name: mnt
+        emptyDir: {}
+      - name: package-hadoop
+        persistentVolumeClaim:
+          claimName: package-hadoop
+  volumeClaimTemplates: []
