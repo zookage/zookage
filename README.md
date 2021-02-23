@@ -166,7 +166,7 @@ Note that this feature is NOT designed to deploy a production-ready cluster. Thi
 First, enable `patches/ha/{component}.yaml` in [kustomization.yaml](https://github.com/zookage/zookage/blob/main/kubernetes/kustomization.yaml).
 
 ```
-patchesStrategicMerge:
+patches:
 ### High Availability ###
 - patches/ha/hdfs.yaml
 - patches/ha/yarn.yaml
