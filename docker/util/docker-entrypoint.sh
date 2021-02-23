@@ -12,9 +12,8 @@ if [ "${command}" == "wait-for-job" ]; then
 elif [ "${command}" == "wait-for-rollout" ]; then
   exec kubectl rollout status "$2"
 elif [ "${command}" == "wait-for-dns" ]; then
-  hostname=$2
-  until nslookup "${hostname}"; do
-    echo "Failed to resolve ${hostname}"
+  fqdn=$(hostname --fqdn)
+  until host "${fqdn}"; do
     sleep 1
   done
   exit 0

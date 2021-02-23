@@ -15,12 +15,6 @@ spec:
         image: zookage-util
         args:
         - wait-for-dns
-        - $(POD_NAME).zookeeper-server
-        env:
-        - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
       - name: init
         image: zookage-zookeeper
         command:
