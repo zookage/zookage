@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hbase-mkdir
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-namenode
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/hdfs-namenode
+      containers:
+      - name: mkdir-root
+        image: zookage-util
+        args:
+        - hdfs-mkdir
+        - /hbase
+        - hbase:hbase
+        - "711"
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        env:
+        - name: HADOOP_USER_NAME
+          value: hdfs
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+      restartPolicy: Never
+      volumes:
+      - name: hadoop-conf
+        configMap:
+          name: hadoop-conf
+      - name: mnt
+        emptyDir: {}
