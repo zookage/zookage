@@ -30,7 +30,7 @@ images:
 - name: zookage-util
   newName: zookage/zookage-util
   newTag: "0.2.0"
-patchesStrategicMerge:
+patches:
 ### High Availability ###
 # - patches/ha/hdfs.yaml
 # - patches/ha/yarn.yaml
