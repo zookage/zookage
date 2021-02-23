@@ -54,7 +54,10 @@ check_warnings () {
     | grep -v 'pod/zookeeper-server-.* \[LeaderConnector-zookeeper-server-.*:Learner$LeaderConnector@.*\] - Unexpected exception' \
     | grep -v 'pod/zookeeper-server-.* \[QuorumPeer.*:Follower@.*\] - Exception when following the leader' \
     | grep -v 'pod/zookeeper-server-.* \[QuorumPeer.*:QuorumPeer@.*\] - PeerState set to LOOKING' \
-    | grep -v 'pod/zookeeper-server-.* \[QuorumPeer.*:Follower@.*\] - Got zxid .* expected .*'
+    | grep -v 'pod/zookeeper-server-.* \[QuorumPeer.*:Follower@.*\] - Got zxid .* expected .*' \
+    | grep -v "pod/hbase-master-.* snapshot.SnapshotManager: Couldn't delete working snapshot directory" \
+    | grep -v 'pod/hbase-master-.* assignment.AssignmentManager: No servers available; cannot place' \
+    | grep -v 'pod/hbase-master-.* procedure.RSProcedureDispatcher: Waiting a little before retrying'
 }
 
 "${integration_dir}/divider.sh" "Start fetching errors of all containers"
