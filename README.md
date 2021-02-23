@@ -124,7 +124,7 @@ Please put the image tag in [kustomization.yaml](https://github.com/zookage/zook
 
 ZooKage provides the following images. Every image has the postfix `-zookage-0.2`, e.g. `3.2.2-zookage-0.2`.
 
-| [Hadoop](https://hub.docker.com/repository/docker/zookage/zookage-hadoop) | [Hive](https://hub.docker.com/repository/docker/zookage/zookage-hive) | [Tez](https://hub.docker.com/repository/docker/zookage/zookage-tez) | [Spark](https://hub.docker.com/repository/docker/zookage/zookage-spark) | [ZooKeeper](https://hub.docker.com/repository/docker/zookage/zookage-zookeeper) |
+| [Hadoop](https://hub.docker.com/r/zookage/zookage-hadoop) | [Hive](https://hub.docker.com/r/zookage/zookage-hive) | [Tez](https://hub.docker.com/r/zookage/zookage-tez) | [Spark](https://hub.docker.com/r/zookage/zookage-spark) | [ZooKeeper](https://hub.docker.com/r/zookage/zookage-zookeeper) |
 |-|-|-|-|-|
 | 2.10.1 | 2.3.8 | 0.9.2 | 3.0.2 | 3.6.2 |
 | 3.1.4 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.2 | 3.6.2 |
