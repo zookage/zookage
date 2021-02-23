@@ -5,16 +5,20 @@ bases:
 - base/common
 # - base/zookeeper
 - base/hdfs
+# - base/hbase
 - base/yarn
-- base/spark
+# - base/spark
 - base/tez
-- base/mapreduce
+# - base/mapreduce
 - base/hive
 - base/client
 images:
 - name: zookage-hadoop
   newName: zookage/zookage-hadoop
   newTag: "3.2.2-zookage-0.2"
+- name: zookage-hbase
+  newName: zookage/zookage-hbase
+  newTag: "2.4.1-zookage-0.2"
 - name: zookage-hive
   newName: zookage/zookage-hive
   newTag: "3.1.2-guava-27.0-jre-zookage-0.2"
