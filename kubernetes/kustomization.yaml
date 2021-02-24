@@ -33,7 +33,7 @@ images:
   newTag: "3.6.2-zookage-0.2"
 - name: zookage-util
   newName: zookage/zookage-util
-  newTag: "test"
+  newTag: "0.2.1"
 patches:
 ### High Availability ###
 # - patches/ha/hdfs.yaml
