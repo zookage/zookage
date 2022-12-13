@@ -2,5 +2,6 @@ bases:
 - package
 - config
 - env
+- role
 resources:
 - namespace.yaml
