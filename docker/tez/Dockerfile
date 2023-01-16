@@ -34,7 +34,7 @@ RUN \
     apache-tez-bin/share/tez-minimal.tar.gz \
   && cp "/root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).tar.gz" \
     apache-tez-bin/share/tez.tar.gz \
-  && cp "apache-tez-bin/tez-ui-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).war" \
+  && cp "tez-ui/target/tez-ui-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).war" \
     apache-tez-bin/share/tez-ui.war \
   && cp \
     "/root/tez/tez-plugins/tez-aux-services/target/tez-aux-services-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).jar" \
