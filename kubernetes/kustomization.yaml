@@ -18,7 +18,7 @@ images:
   newTag: "3.3.1-zookage-0.2"
 - name: zookage-hbase
   newName: zookage/zookage-hbase
-  newTag: "2.4.1-zookage-0.2"
+  newTag: "2.5.3-hadoop-3.3.1-zookage-0.2"
 - name: zookage-hive
   newName: zookage/zookage-hive
   newTag: "3.1.2-guava-27.0-jre-zookage-0.2"
