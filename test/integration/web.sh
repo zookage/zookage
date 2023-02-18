@@ -15,7 +15,7 @@ check () {
 }
 
 check "http://localhost:14000/webhdfs/v1/?op=liststatus&user.name=zookage"
-check "http://localhost:9870/"
+check "http://localhost:9870/dfshealth.html"
 check "http://localhost:8088/cluster"
 check "http://localhost:8088/ui2/"
 check "http://localhost:8188/applicationhistory"
