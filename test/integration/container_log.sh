@@ -58,7 +58,9 @@ check_warnings () {
     | grep -v 'pod/zookeeper-server-.* \[NIOWorkerThread-.*:NIOServerCnxn@.*\] - Unexpected exception' \
     | grep -v "pod/hbase-master-.* snapshot.SnapshotManager: Couldn't delete working snapshot directory" \
     | grep -v 'pod/hbase-master-.* assignment.AssignmentManager: No servers available; cannot place' \
-    | grep -v 'pod/hbase-master-.* procedure.RSProcedureDispatcher: Waiting a little before retrying'
+    | grep -v 'pod/hbase-master-.* procedure.RSProcedureDispatcher: Waiting a little before retrying' \
+    | grep -v 'pod/hbase-master-.* internal.Errors: The following warnings have been detected: WARNING: The (sub)resource method getBaseMetrics in' \
+    | grep -v 'pod/hbase-master-.* region.MasterRegion: failed to clean up initializing flag'
 }
 
 "${integration_dir}/divider.sh" "Start fetching errors of all containers"
