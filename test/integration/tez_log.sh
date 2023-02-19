@@ -26,7 +26,9 @@ echo "No error is found."
     | grep -v '|app.DAGAppMaster|: Failed to delete tez scratch data dir' \
     | grep -v '|objectinspector.StandardStructObjectInspector|: Trying to access' \
     | grep -v '|objectinspector.StandardStructObjectInspector|: ignoring similar errors' \
-    | grep -v '|rm.YarnTaskSchedulerService|: Held container expected to be not null for a non-AM-released container'
+    | grep -v '|rm.YarnTaskSchedulerService|: Held container expected to be not null for a non-AM-released container' \
+    | grep -v 'does not have description. Please annotate the class with' \
+    | grep -v '|exec.FunctionRegistry|: iceberg_bucket function could not be registered'
 "
 "${integration_dir}/divider.sh" "Finished checking warnings of a Tez job"
 echo "No warning is found."

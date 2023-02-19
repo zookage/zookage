@@ -15,4 +15,16 @@
     <name>hive.execution.engine</name>
     <value>tez</value>
   </property>
+  <property>
+    <name>hive.tez.container.size</name>
+    <value>512</value>
+  </property>
+  <property>
+    <name>hive.tez.cpu.vcores</name>
+    <value>1</value>
+  </property>
+  <property>
+    <name>hikaricp.leakDetectionThreshold</name>
+    <value>600000</value>
+  </property>
 </configuration>
