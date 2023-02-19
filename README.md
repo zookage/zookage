@@ -131,7 +131,7 @@ ZooKage provides the following images. Every image has the postfix `-zookage-0.2
 | 2.10.1 | 2.3.8 | 0.9.2 | 3.0.2, 3.1.1 | 3.6.2 | 2.4.1 |
 | 3.1.4 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.2, 3.1.1 | 3.6.2 | 2.4.1 |
 | 3.2.2 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.2, 3.1.1 | 3.6.2 | 2.4.1 |
-| 3.3.1 | N/A | N/A | 3.0.2, 3.1.1 | 3.6.2 | 2.5.3-hadoop-3.3.1 |
+| 3.3.1 | 4.0.0-alpha-2 | 0.10.2 | 3.0.2, 3.1.1 | 3.6.2 | 2.5.3-hadoop-3.3.1 |
 
 ## Tips
 
