@@ -11,7 +11,7 @@ WORKDIR /root/hive
 COPY . .
 RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   mvn --threads 1C ${clean} install \
-    -Pdist \
+    -Pdist,iceberg \
     -DskipTests \
     -Dmaven.javadoc.skip=true \
   && mv \
