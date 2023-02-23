@@ -100,4 +100,9 @@
     <name>dfs.datanode.ipc.address</name>
     <value>0.0.0.0:9867</value>
   </property>
+
+  <property>
+    <name>dfs.webhdfs.rest-csrf.enabled</name>
+    <value>true</value>
+  </property>
 </configuration>
