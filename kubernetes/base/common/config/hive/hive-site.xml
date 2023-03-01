@@ -31,4 +31,13 @@
     <name>hikaricp.leakDetectionThreshold</name>
     <value>600000</value>
   </property>
+
+  <property>
+    <name>metastore.compactor.initiator.on</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>metastore.compactor.worker.threads</name>
+    <value>1</value>
+  </property>
 </configuration>
