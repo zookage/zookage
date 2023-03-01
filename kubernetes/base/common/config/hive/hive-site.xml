@@ -12,6 +12,10 @@
     <value>ignored</value>
   </property>
   <property>
+    <name>hive.reloadable.aux.jars.path</name>
+    <value>/mnt</value>
+  </property>
+  <property>
     <name>hive.execution.engine</name>
     <value>tez</value>
   </property>
