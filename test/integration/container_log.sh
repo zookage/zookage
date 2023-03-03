@@ -28,6 +28,8 @@ check_warnings () {
     | grep -v 'pod/hdfs-datanode-.* impl.FsDatasetImpl: Lock held time above threshold' \
     | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow BlockReceiver write packet to mirror took' \
     | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow flushOrSync took' \
+    `# HDFS-16347` \
+    | grep -v 'pod/hdfs-datanode-.* datanode.DirectoryScanner: dfs.datanode.directoryscan.throttle.limit.ms.per.sec set to value above 1000 ms/sec' \
     | grep -v 'pod/hdfs-httpfs-.* log4j:WARN' \
     | grep -v 'pod/hdfs-httpfs-.* \[SetPropertiesRule\]{Server/Service/Engine/Host} Setting property' \
     | grep -v 'pod/hdfs-httpfs-.* Creation of SecureRandom instance for session ID generation using \[SHA1PRNG\] took' \
@@ -47,6 +49,12 @@ check_warnings () {
     | grep -v 'pod/hive-hiveserver2-.* server.HiveServer2: No policy provider found, skip creating PrivilegeSynchonizer' \
     | grep -v 'pod/hive-hiveserver2-.* mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed' \
     | grep -v 'pod/hive-hiveserver2-.* mapreduce.Counters: Group org.apache.hadoop.mapred.Task$Counter is deprecated' \
+    `# Needs TX` \
+    | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: Cannot get a table snapshot for' \
+    `# https://github.com/apache/datasketches-hive/pull/66` \
+    | grep -v 'pod/hive-hiveserver2-.* exec.FunctionRegistry: UDF Class org.apache.hive.org.apache.datasketches.hive' \
+    `# HIVE-27120` \
+    | grep -v 'pod/hive-hiveserver2-.* conf.HiveConf: HiveConf of name hive.internal.ss.authz.settings.applied.marker does not exist' \
     | grep -v 'pod/zookeeper-server-.* \[main:ContextHandler@.*\] - .* contextPath ends with' \
     | grep -v 'pod/zookeeper-server-.* \[main:ContextHandler@.*\] - Empty contextPath' \
     | grep -v 'pod/zookeeper-server-.* \[main:ConstraintSecurityHandler@.*\] - .* has uncovered http methods for path:' \
@@ -56,11 +64,12 @@ check_warnings () {
     | grep -v 'pod/zookeeper-server-.* \[QuorumPeer.*:QuorumPeer@.*\] - PeerState set to LOOKING' \
     | grep -v 'pod/zookeeper-server-.* \[QuorumPeer.*:Follower@.*\] - Got zxid .* expected .*' \
     | grep -v 'pod/zookeeper-server-.* \[NIOWorkerThread-.*:NIOServerCnxn@.*\] - Unexpected exception' \
+    | grep -v 'pod/hbase-master-.* region.MasterRegion: failed to clean up initializing flag' \
     | grep -v "pod/hbase-master-.* snapshot.SnapshotManager: Couldn't delete working snapshot directory" \
     | grep -v 'pod/hbase-master-.* assignment.AssignmentManager: No servers available; cannot place' \
     | grep -v 'pod/hbase-master-.* procedure.RSProcedureDispatcher: Waiting a little before retrying' \
-    | grep -v 'pod/hbase-master-.* internal.Errors: The following warnings have been detected: WARNING: The (sub)resource method getBaseMetrics in' \
-    | grep -v 'pod/hbase-master-.* region.MasterRegion: failed to clean up initializing flag'
+    `# HBASE-27655` \
+    | grep -v 'pod/hbase-master-.* internal.Errors: The following warnings have been detected: WARNING: The (sub)resource method getBaseMetrics in'
 }
 
 "${integration_dir}/divider.sh" "Start fetching errors of all containers"
