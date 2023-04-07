@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ozone-om
+spec:
+  type: LoadBalancer
+  selector: {}
+  publishNotReadyAddresses: true
+  ports:
+  - name: om
+    port: 9862
+  - name: http
+    port: 9874

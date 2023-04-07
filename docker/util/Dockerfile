@@ -28,7 +28,14 @@ RUN curl \
     /opt/gohdfs-v2.1.1-linux-amd64.tar.gz \
     gohdfs-v2.1.1-linux-amd64/hdfs \
   && mv /usr/local/bin/hdfs /usr/local/bin/gohdfs \
-  && rm -rf /opt/gohdfs-v2.1.1-linux-amd64.tar.gz
+  && rm -rf /opt/gohdfs-v2.1.1-linux-amd64.tar.gz \
+  && curl \
+    --output /opt/aws.zip \
+    https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip \
+  && unzip -d /opt /opt/aws.zip \
+  && /opt/aws/install \
+  && rm /opt/aws.zip \
+  && rm -rf /opt/aws
 
 COPY docker-entrypoint.sh /usr/local/bin/
 

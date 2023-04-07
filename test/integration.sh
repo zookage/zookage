@@ -27,6 +27,9 @@ readonly test_dir=$(cd "$(dirname "$0")"; pwd)
 "${test_dir}/integration/divider.sh" "Test HBase"
 "${test_dir}/integration/hbase.sh"
 
+"${test_dir}/integration/divider.sh" "Test Ozone"
+"${test_dir}/integration/ozone.sh"
+
 "${test_dir}/integration/divider.sh" "Test servers"
 "${test_dir}/integration/container_log.sh"
 

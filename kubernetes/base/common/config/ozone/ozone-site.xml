@@ -1,0 +1,75 @@
+<configuration>
+  <property>
+    <name>ozone.metadata.dirs</name>
+    <value>/mnt/ozone</value>
+  </property>
+
+  <property>
+    <name>ozone.scm.block.client.address</name>
+    <value>ozone-scm-0.ozone-scm</value>
+  </property>
+  <property>
+    <name>ozone.scm.client.address</name>
+    <value>ozone-scm-0.ozone-scm</value>
+  </property>
+  <property>
+    <name>ozone.scm.names</name>
+    <value>ozone-scm-0.ozone-scm</value>
+  </property>
+  <property>
+    <name>ozone.scm.db.dirs</name>
+    <value>/mnt/ozone/scm/db</value>
+  </property>
+  <property>
+    <name>ozone.scm.ha.ratis.storage.dir</name>
+    <value>/mnt/ozone/scm/ha/ratis/storage</value>
+  </property>
+
+  <property>
+    <name>ozone.om.address</name>
+    <value>ozone-om-0.ozone-om:9862</value>
+  </property>
+  <property>
+    <name>ozone.om.db.dirs</name>
+    <value>/mnt/ozone/om/db</value>
+  </property>
+  <property>
+    <name>ozone.om.ratis.storage.dir</name>
+    <value>/mnt/ozone/om/ratis/storage</value>
+  </property>
+  <property>
+    <name>ozone.om.ratis.snapshot.dir</name>
+    <value>/mnt/ozone/om/ratis/snapshot</value>
+  </property>
+
+  <property>
+    <name>ozone.scm.datanode.id.dir</name>
+    <value>/mnt/ozone/datanode/id</value>
+  </property>
+  <property>
+    <name>dfs.container.ratis.datanode.storage.dir</name>
+    <value>/mnt/ozone/datanode/ratis</value>
+  </property>
+
+  <property>
+    <name>ozone.recon.address</name>
+    <value>ozone-recon-0.ozone-recon:9891</value>
+  </property>
+  <property>
+    <name>ozone.recon.db.dir</name>
+    <value>/mnt/ozone/recon/db</value>
+  </property>
+  <property>
+    <name>ozone.recon.scm.db.dirs</name>
+    <value>/mnt/ozone/recon/scm/db</value>
+  </property>
+  <property>
+    <name>ozone.recon.om.db.dir</name>
+    <value>/mnt/ozone/recon/om/db</value>
+  </property>
+
+  <property>
+    <name>hadoop.http.authentication.signature.secret.file</name>
+    <value>/etc/ozone/conf/http_secret</value>
+  </property>
+</configuration>

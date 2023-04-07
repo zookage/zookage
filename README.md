@@ -7,6 +7,7 @@ ZooKage provides a sandbox environment to launch a set of components inhabiting 
 * Apache Hadoop(HDFS, YARN, MapReduce)
 * Apache HBase
 * Apache Hive
+* Apache Ozone
 * Apache Spark
 * Apache Tez
 * Apache ZooKeeper
@@ -97,6 +98,9 @@ Several utilities are available.
 You can access web UIs via `localhost`. Note that this feature is unstable and you may sometimes have to restart a Kubernetes cluster to recover access.
 
 * [HDFS](http://localhost:9870/)
+* [Ozone Manager](http://localhost:9874/#!/)
+* [Ozone SCM](http://localhost:9876/#!/)
+* [Ozone Recon](http://localhost:9888/#/Overview)
 * [YARN ResourceManager](http://localhost:8088/cluster)
 * [YARN-UI V2](http://localhost:8088/ui2/)
 * [YARN Timeline Server](http://localhost:8188/applicationhistory)
@@ -126,12 +130,12 @@ Please put the image tag in [kustomization.yaml](https://github.com/zookage/zook
 
 ZooKage provides the following images. Every image has the postfix `-zookage-0.2`, e.g. `3.2.2-zookage-0.2`.
 
-| [Hadoop](https://hub.docker.com/r/zookage/zookage-hadoop) | [Hive](https://hub.docker.com/r/zookage/zookage-hive) | [Tez](https://hub.docker.com/r/zookage/zookage-tez) | [Spark](https://hub.docker.com/r/zookage/zookage-spark) | [ZooKeeper](https://hub.docker.com/r/zookage/zookage-zookeeper) | [HBase](https://hub.docker.com/r/zookage/zookage-hbase) |
-|-|-|-|-|-|-|
-| 2.10.1 | 2.3.8 | 0.9.2 | 3.0.2, 3.1.1 | 3.6.2 | 2.4.1 |
-| 3.1.4 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.2, 3.1.1 | 3.6.2 | 2.4.1 |
-| 3.2.2 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.2, 3.1.1 | 3.6.2 | 2.4.1 |
-| 3.3.1 | 4.0.0-alpha-2 | 0.10.2 | 3.0.2, 3.1.1 | 3.6.2 | 2.5.3-hadoop-3.3.1 |
+| [Hadoop](https://hub.docker.com/r/zookage/zookage-hadoop) | [Hive](https://hub.docker.com/r/zookage/zookage-hive) | [Tez](https://hub.docker.com/r/zookage/zookage-tez) | [Spark](https://hub.docker.com/r/zookage/zookage-spark) | [ZooKeeper](https://hub.docker.com/r/zookage/zookage-zookeeper) | [HBase](https://hub.docker.com/r/zookage/zookage-hbase) | [Ozone](https://hub.docker.com/r/zookage/zookage-ozone) |
+|-|-|-|-|-|-|-|
+| 2.10.1 | 2.3.8 | 0.9.2 | 3.0.2, 3.1.1 | 3.6.2 | 2.4.1 | 1.3.0 |
+| 3.1.4 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.2, 3.1.1 | 3.6.2 | 2.4.1 | 1.3.0 |
+| 3.2.2 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.2, 3.1.1 | 3.6.2 | 2.4.1 | 1.3.0 |
+| 3.3.1 | 4.0.0-alpha-2 | 0.10.2 | 3.0.2, 3.1.1 | 3.6.2 | 2.5.3-hadoop-3.3.1 | 1.3.0 |
 
 ## Tips
 

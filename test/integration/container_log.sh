@@ -10,7 +10,8 @@ check_errors () {
     | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: .*mofu_tez not found' \
     | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: .*mofu_mr not found' \
     | grep -v 'pod/zookeeper-server-.* \[LeaderConnector-zookeeper-server-.*:Learner$LeaderConnector@.*\] - Unexpected exception' \
-    | grep -v 'pod/zookeeper-server-.* \[LeaderConnector-zookeeper-server-.*:Learner$LeaderConnector@.*\] - Failed connect to'
+    | grep -v 'pod/zookeeper-server-.* \[LeaderConnector-zookeeper-server-.*:Learner$LeaderConnector@.*\] - Failed connect to' \
+    | grep -v 'pod/ozone-scm-.* scm.SCMCommonPlacementPolicy: Unable to find enough nodes that meet the space requirement of'
 }
 
 check_warnings () {
@@ -69,7 +70,21 @@ check_warnings () {
     | grep -v 'pod/hbase-master-.* assignment.AssignmentManager: No servers available; cannot place' \
     | grep -v 'pod/hbase-master-.* procedure.RSProcedureDispatcher: Waiting a little before retrying' \
     `# HBASE-27655` \
-    | grep -v 'pod/hbase-master-.* internal.Errors: The following warnings have been detected: WARNING: The (sub)resource method getBaseMetrics in'
+    | grep -v 'pod/hbase-master-.* internal.Errors: The following warnings have been detected: WARNING: The (sub)resource method getBaseMetrics in' \
+    `# Maybe HDDS-8257` \
+    | grep -v 'pod/ozone-recon-.* managed.ManagedRocksObjectUtils: RocksIterator is not closed properly' \
+    `# HDDS-8357` \
+    | grep -v 'pod/ozone-recon-.* http.HttpRequestLog: Jetty request log can only be enabled using Log4j' \
+    `# Initialization` \
+    | grep -v 'pod/ozone-scm-.* ha.SequenceIdGenerator: Failed to allocate a batch for localId, expected lastId is 0, actual lastId is' \
+    `# Maybe, this happens on initialization` \
+    | grep -v 'pod/ozone-scm-.* balancer.ContainerBalancer: Could not find persisted configuration for ContainerBalancer when checking if ContainerBalancer should run. ContainerBalancer should not run now.' \
+    `# HDDS-6569` \
+    | grep -v "pod/ozone-scm-.* events.EventQueue: No event handler registered for event TypedEvent{payloadType=SafeModeStatus, name='Safe mode status'}" \
+    `# HDDS-8354` \
+    | grep -v 'pod/ozone-s3g-.* WARNING: The following warnings have been detected: WARNING: A HTTP GET method, public javax.ws.rs.core.Response org.apache.hadoop.ozone.s3.endpoint.ObjectEndpoint.get(java.lang.String,java.lang.String,java.lang.String,int,java.lang.String,java.io.InputStream) throws java.io.IOException,org.apache.hadoop.ozone.s3.exception.OS3Exception, should not consume any entity.' \
+    `# HDDS-8395` \
+    | grep -v 'ozone-s3g-.* impl.MetricsSystemImpl: S3Gateway metrics system already initialized!'
 }
 
 "${integration_dir}/divider.sh" "Start fetching errors of all containers"

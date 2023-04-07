@@ -2,6 +2,7 @@ bases:
 - hadoop
 - hbase
 - hive
+- ozone
 - spark
 - tez
 - zookeeper

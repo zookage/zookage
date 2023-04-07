@@ -23,6 +23,21 @@ configMapGenerator:
   - hive/beeline-hs2-connection.xml
   - hive/hive-log4j2.properties
   - hive/hive-site.xml
+- name: ozone-conf
+  files:
+  - ozone/dn-audit-log4j2.properties
+  - ozone/hadoop-metrics2-hddsdatanode.properties
+  - ozone/hadoop-metrics2-ozonemanager.properties
+  - ozone/hadoop-metrics2-recon.properties
+  - ozone/hadoop-metrics2-s3gateway.properties
+  - ozone/hadoop-metrics2-storagecontainermanager.properties
+  - ozone/hadoop-metrics2-xceiverclientmetrics.properties
+  - ozone/http_secret
+  - ozone/log4j.properties
+  - ozone/om-audit-log4j2.properties
+  - ozone/ozone-site.xml
+  - ozone/s3g-audit-log4j2.properties
+  - ozone/scm-audit-log4j2.properties
 - name: spark-conf
   files:
   - spark/log4j.properties
