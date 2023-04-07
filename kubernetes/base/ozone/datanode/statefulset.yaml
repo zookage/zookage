@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ozone-datanode
+spec:
+  selector:
+    matchLabels: {}
+  serviceName: ozone-datanode
+  podManagementPolicy: Parallel
+  replicas: 3
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-scm
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/ozone-scm
+      - name: wait-for-recon
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/ozone-recon
+      containers:
+      - name: datanode
+        image: zookage-ozone
+        command:
+        - /opt/ozone/bin/ozone
+        args:
+        - datanode
+        envFrom:
+        - configMapRef:
+            name: ozone-env
+        volumeMounts:
+        - name: ozone-conf
+          mountPath: /etc/ozone/conf
+        - name: mnt
+          mountPath: /mnt
+      terminationGracePeriodSeconds: 5
+      volumes:
+      - name: ozone-conf
+        configMap:
+          name: ozone-conf
+      - name: mnt
+        emptyDir: {}
+  volumeClaimTemplates: []

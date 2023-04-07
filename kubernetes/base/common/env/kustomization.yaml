@@ -1,6 +1,10 @@
 commonLabels:
   component: env
 configMapGenerator:
+- name: aws-env
+  literals:
+  - AWS_ACCESS_KEY_ID=dummy
+  - AWS_SECRET_ACCESS_KEY=dummy
 - name: hadoop-env
   literals:
   - HADOOP_HOME=/opt/hadoop
@@ -26,6 +30,13 @@ configMapGenerator:
   - HIVE_HOME=/opt/hive
   - HIVE_CONF_DIR=/etc/hive/conf
   - HADOOP_OPTS=-Dderby.system.home=/tmp/derby
+- name: ozone-env
+  literals:
+  - OZONE_HOME=/opt/ozone
+  - OZONE_CONF_DIR=/etc/ozone/conf
+  - OZONE_LOG_DIR=/mnt/log
+  # yamllint disable-line rule:line-length
+  - OZONE_OPTS=-XX:ParallelGCThreads=1 -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled
 - name: spark-env
   literals:
   - SPARK_HOME=/opt/spark

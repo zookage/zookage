@@ -1,0 +1,5 @@
+resources:
+- statefulset.yaml
+commonLabels:
+  service: datanode
+  tier: backend

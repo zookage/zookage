@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ozone-s3g
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {}
+  template:
+    spec:
+      containers:
+      - name: s3g
+        image: zookage-ozone
+        command:
+        - /opt/ozone/bin/ozone
+        args:
+        - s3g
+        envFrom:
+        - configMapRef:
+            name: ozone-env
+        volumeMounts:
+        - name: ozone-conf
+          mountPath: /etc/ozone/conf
+        - name: mnt
+          mountPath: /mnt
+      terminationGracePeriodSeconds: 5
+      volumes:
+      - name: ozone-conf
+        configMap:
+          name: ozone-conf
+      - name: mnt
+        emptyDir: {}

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ozone-recon
+spec:
+  type: LoadBalancer
+  selector: {}
+  publishNotReadyAddresses: true
+  ports:
+  - name: http
+    port: 9888
+  - name: rpc
+    port: 9891

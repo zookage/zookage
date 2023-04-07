@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ozone-om
+spec:
+  selector:
+    matchLabels: {}
+  serviceName: ozone-om
+  podManagementPolicy: Parallel
+  replicas: 1
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-scm
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/ozone-scm
+      - name: om-init
+        image: zookage-ozone
+        command:
+        - /opt/ozone/bin/ozone
+        args:
+        - om
+        - --init
+        envFrom:
+        - configMapRef:
+            name: ozone-env
+        volumeMounts:
+        - name: ozone-conf
+          mountPath: /etc/ozone/conf
+        - name: mnt
+          mountPath: /mnt
+      containers:
+      - name: om
+        image: zookage-ozone
+        command:
+        - /opt/ozone/bin/ozone
+        args:
+        - om
+        envFrom:
+        - configMapRef:
+            name: ozone-env
+        volumeMounts:
+        - name: ozone-conf
+          mountPath: /etc/ozone/conf
+        - name: mnt
+          mountPath: /mnt
+      terminationGracePeriodSeconds: 5
+      volumes:
+      - name: ozone-conf
+        configMap:
+          name: ozone-conf
+      - name: mnt
+        emptyDir: {}
+  volumeClaimTemplates: []

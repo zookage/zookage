@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ozone-scm
+spec:
+  type: LoadBalancer
+  selector: {}
+  publishNotReadyAddresses: true
+  ports:
+  - name: scm-block-client
+    port: 9863
+  - name: scm-client
+    port: 9860
+  - name: http
+    port: 9876
