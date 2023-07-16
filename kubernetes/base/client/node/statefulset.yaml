@@ -31,13 +31,17 @@ spec:
         - configMapRef:
             name: tez-env
         - configMapRef:
+            name: trino-env
+        - configMapRef:
             name: zookeeper-env
         env:
+        - name: HADOOP_USER_NAME
+          value: hdfs
         - name: HADOOP_CLASSPATH
           value: $(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*
         - name: PATH
           # yamllint disable-line rule:line-length
-          value: $(HBASE_HOME)/bin:$(HIVE_HOME)/bin:$(OZONE_HOME)/bin:$(SPARK_HOME)/bin:$(HADOOP_HOME)/bin:/usr/local/openjdk-8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+          value: $(TRINO_HOME)/trino-cli/bin:$(HBASE_HOME)/bin:$(HIVE_HOME)/bin:$(OZONE_HOME)/bin:$(SPARK_HOME)/bin:$(HADOOP_HOME)/bin:/usr/local/openjdk-8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
@@ -51,6 +55,9 @@ spec:
           mountPath: /etc/spark/conf
         - name: tez-conf
           mountPath: /etc/tez/conf
+        - name: trino-conf
+          mountPath: /etc/trino/conf/cli.properties
+          subPath: cli.properties
         - name: zookeeper-conf
           mountPath: /etc/zookeeper/conf
         - name: package-hadoop
@@ -65,6 +72,8 @@ spec:
           mountPath: /opt/spark
         - name: package-tez
           mountPath: /opt/tez
+        - name: package-trino
+          mountPath: /opt/trino
         - name: package-zookeeper
           mountPath: /opt/zookeeper
         workingDir: /home/zookage
@@ -88,6 +97,9 @@ spec:
       - name: tez-conf
         configMap:
           name: tez-conf
+      - name: trino-conf
+        configMap:
+          name: trino-conf
       - name: zookeeper-conf
         configMap:
           name: zookeeper-conf
@@ -109,6 +121,9 @@ spec:
       - name: package-tez
         persistentVolumeClaim:
           claimName: package-tez
+      - name: package-trino
+        persistentVolumeClaim:
+          claimName: package-trino
       - name: package-zookeeper
         persistentVolumeClaim:
           claimName: package-zookeeper

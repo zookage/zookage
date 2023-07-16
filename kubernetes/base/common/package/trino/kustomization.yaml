@@ -1,0 +1,6 @@
+resources:
+- job.yaml
+- persistentvolume.yaml
+- persistentvolumeclaim.yaml
+commonLabels:
+  tier: job

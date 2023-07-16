@@ -30,8 +30,14 @@ readonly test_dir=$(cd "$(dirname "$0")"; pwd)
 "${test_dir}/integration/divider.sh" "Test Ozone"
 "${test_dir}/integration/ozone.sh"
 
-"${test_dir}/integration/divider.sh" "Test servers"
-"${test_dir}/integration/container_log.sh"
+"${test_dir}/integration/divider.sh" "Test Trino"
+"${test_dir}/integration/trino.sh"
+
+"${test_dir}/integration/divider.sh" "Test error logs"
+"${test_dir}/integration/container_error.sh"
+
+"${test_dir}/integration/divider.sh" "Test warning logs"
+"${test_dir}/integration/container_warn.sh"
 
 echo
 echo "All integration tests have passed."

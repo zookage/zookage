@@ -5,6 +5,7 @@ bases:
 - ozone
 - spark
 - tez
+- trino
 - zookeeper
 commonLabels:
   component: package

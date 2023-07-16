@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: package-trino
+spec:
+  template:
+    spec:
+      containers:
+      - name: zookage-trino
+        image: zookage-trino
+        command:
+        - /bin/bash
+        args:
+        - -c
+        - |
+          rm -rf /mnt/zookage/trino
+          mkdir /mnt/zookage/trino
+          cp -R /opt/trino/trino-cli /mnt/zookage/trino/trino-cli
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+        volumeMounts:
+        - name: package-home
+          mountPath: /mnt/zookage
+      restartPolicy: Never
+      volumes:
+      - name: package-home
+        hostPath:
+          path: /opt/zookage

@@ -1,0 +1,5 @@
+bases:
+- coordinator
+- worker
+commonLabels:
+  component: trino
