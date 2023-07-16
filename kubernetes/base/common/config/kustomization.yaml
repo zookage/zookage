@@ -46,6 +46,18 @@ configMapGenerator:
 - name: tez-conf
   files:
   - tez/tez-site.xml
+- name: trino-catalog
+  files:
+  - trino/catalog/hive.properties
+  - trino/catalog/tpcds.properties
+- name: trino-conf
+  files:
+  - trino/cli.properties
+  - trino/config-coordinator.properties
+  - trino/config-worker.properties
+  - trino/jvm.config
+  - trino/log.properties
+  - trino/node.properties
 - name: zookeeper-conf
   files:
   - zookeeper/log4j.properties

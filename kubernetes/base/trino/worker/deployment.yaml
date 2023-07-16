@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trino-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {}
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-discovery-service
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/trino-coordinator
+      containers:
+      - name: worker
+        image: zookage-trino
+        command:
+        - $(TRINO_HOME)/trino-server/bin/launcher
+        args:
+        - --etc-dir=/etc/trino/conf
+        - --config=/etc/trino/conf/config-worker.properties
+        - -Dnode.id=$(POD_NAME)
+        - run
+        envFrom:
+        - configMapRef:
+            name: trino-env
+        env:
+        - name: HADOOP_USER_NAME
+          value: hive
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+        - name: trino-catalog
+          mountPath: /etc/trino/catalog
+        - name: trino-conf
+          mountPath: /etc/trino/conf
+        - name: mnt
+          mountPath: /mnt
+      terminationGracePeriodSeconds: 5
+      volumes:
+      - name: hadoop-conf
+        configMap:
+          name: hadoop-conf
+      - name: trino-catalog
+        configMap:
+          name: trino-catalog
+      - name: trino-conf
+        configMap:
+          name: trino-conf
+      - name: mnt
+        emptyDir: {}

@@ -12,6 +12,7 @@ bases:
 - base/tez
 # - base/mapreduce
 - base/hive
+- base/trino
 - base/client
 images:
 - name: zookage-hadoop
@@ -32,6 +33,9 @@ images:
 - name: zookage-tez
   newName: zookage/zookage-tez
   newTag: "0.10.2-zookage-0.2"
+- name: zookage-trino
+  newName: zookage/zookage-trino
+  newTag: "413-zookage-0.2"
 - name: zookage-zookeeper
   newName: zookage/zookage-zookeeper
   newTag: "3.6.2-zookage-0.2"

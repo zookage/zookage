@@ -46,6 +46,10 @@ configMapGenerator:
   literals:
   - TEZ_JARS=/opt/tez
   - TEZ_CONF_DIR=/etc/tez/conf
+- name: trino-env
+  literals:
+  - TRINO_HOME=/opt/trino
+  - TRINO_CONFIG=/etc/trino/conf/cli.properties
 - name: zookeeper-env
   literals:
   - ZOOCFGDIR=/etc/zookeeper/conf
