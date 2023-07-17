@@ -77,6 +77,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   `# HDDS-8395` \
   | grep -v 'ozone-s3g-.* impl.MetricsSystemImpl: S3Gateway metrics system already initialized!' \
   | grep -v 'pod/trino-coordinator-.*' \
-  | grep -v 'pod/trino-worker-.*'
+  | grep -v 'pod/trino-worker-.*' \
+  || true
 
 "${integration_dir}/divider.sh" "Finished fetching warnings of all containers"
