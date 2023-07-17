@@ -12,7 +12,7 @@ resources:
 - base/tez
 # - base/mapreduce
 - base/hive
-- base/trino
+# - base/trino
 - base/client
 images:
 - name: zookage-hadoop
@@ -42,7 +42,8 @@ images:
 - name: zookage-util
   newName: zookage/zookage-util
   newTag: "0.2.2"
-patches:
+# patches doesn't support multiple entries in a single file yet
+patchesStrategicMerge:
 ### High Availability ###
 # - patches/ha/hdfs.yaml
 # - patches/ha/yarn.yaml
