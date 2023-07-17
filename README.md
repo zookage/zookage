@@ -11,6 +11,7 @@ ZooKage provides a sandbox environment to launch a set of components inhabiting 
 * Apache Spark
 * Apache Tez
 * Apache ZooKeeper
+* Trino
 
 ## Requirements
 
@@ -129,12 +130,11 @@ Please put the image tag in [kustomization.yaml](https://github.com/zookage/zook
 
 ## Compatibility
 
-ZooKage provides the following images. Every image has the postfix `-zookage-0.2`, e.g. `3.2.2-zookage-0.2`.
+ZooKage supports the following combinations. Every image has the postfix `-zookage-0.2`, e.g. `3.3.1-zookage-0.2`.
 
 | [Hadoop](https://hub.docker.com/r/zookage/zookage-hadoop) | [Hive](https://hub.docker.com/r/zookage/zookage-hive) | [Tez](https://hub.docker.com/r/zookage/zookage-tez) | [Spark](https://hub.docker.com/r/zookage/zookage-spark) | [ZooKeeper](https://hub.docker.com/r/zookage/zookage-zookeeper) | [HBase](https://hub.docker.com/r/zookage/zookage-hbase) | [Ozone](https://hub.docker.com/r/zookage/zookage-ozone) | [Trino](https://hub.docker.com/r/zookage/zookage-trino) |
 |-|-|-|-|-|-|-|-|
 | 2.10.1 | 2.3.8 | 0.9.2 | 3.0.2, 3.1.1 | 3.6.2 | 2.4.1 | 1.3.0 | N/A |
-| 3.1.4 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.2, 3.1.1 | 3.6.2 | 2.4.1 | 1.3.0 | N/A |
 | 3.2.2 | 3.1.2-guava-27.0-jre | 0.9.2-guava-27.0-jre-jersey-1.19-servlet-api-3.1.0-without-jetty | 3.0.2, 3.1.1 | 3.6.2 | 2.4.1 | 1.3.0 | 413 |
 | 3.3.1 | 4.0.0-alpha-2 | 0.10.2 | 3.4.1 | 3.6.2 | 2.5.3-hadoop-3.3.1 | 1.3.0 | N/A |
 
