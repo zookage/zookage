@@ -1,7 +1,7 @@
 namespace: zookage
 commonLabels:
   owner: zookage
-bases:
+resources:
 - base/common
 # - base/zookeeper
 - base/hdfs
