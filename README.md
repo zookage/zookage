@@ -68,7 +68,7 @@ zookage@client-node-0:~$ beeline
 
 ### Components and versions
 
-Changing [kustomization.yaml](https://github.com/zookage/zookage/blob/main/kubernetes/kustomization.yaml), you can include/exclude any components in `bases` and specify their versions in `images`.
+Changing [kustomization.yaml](https://github.com/zookage/zookage/blob/main/kubernetes/kustomization.yaml), you can include/exclude any components in `resources` and specify their versions in `images`.
 
 You should also check [Compatibility](https://github.com/zookage/zookage#compatibility) and pick up a valid combination.
 

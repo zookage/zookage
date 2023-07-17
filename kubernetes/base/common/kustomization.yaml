@@ -1,7 +1,6 @@
-bases:
+resources:
+- namespace.yaml
 - package
 - config
 - env
 - role
-resources:
-- namespace.yaml
