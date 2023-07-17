@@ -24,7 +24,10 @@ RUN \
     -Pkubernetes \
     -Psparkr \
     -Pscala-2.12 \
-    -Phadoop-provided
+    -Phadoop-provided \
+    -Phive \
+    -Phive-thriftserver \
+    -Pconnect
 
 # hadolint ignore=DL3006
 FROM ${openjdk_image}

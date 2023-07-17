@@ -7,7 +7,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 "${integration_dir}/divider.sh" "Start fetching warnings of all containers"
 
 # shellcheck disable=SC2016
-! "${base_dir}/bin/logs" | grep WARN \
+"${base_dir}/bin/logs" | grep WARN \
   | grep -v 'WARNING: .* does not exist. Creating.' \
   | grep -v 'pod/hdfs-namenode-.* conf.Configuration: No unit for' \
   | grep -v 'pod/hdfs-namenode-.* hdfs.DFSUtilClient: Namenode for .* remains unresolved for ID' \
@@ -80,4 +80,3 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/trino-worker-.*'
 
 "${integration_dir}/divider.sh" "Finished fetching warnings of all containers"
-echo "No warning is found."
