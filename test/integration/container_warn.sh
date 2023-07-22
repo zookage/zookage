@@ -76,8 +76,17 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/ozone-s3g-.* WARNING: The following warnings have been detected: WARNING: A HTTP GET method, public javax.ws.rs.core.Response org.apache.hadoop.ozone.s3.endpoint.ObjectEndpoint.get(java.lang.String,java.lang.String,java.lang.String,int,java.lang.String,java.io.InputStream) throws java.io.IOException,org.apache.hadoop.ozone.s3.exception.OS3Exception, should not consume any entity.' \
   `# HDDS-8395` \
   | grep -v 'ozone-s3g-.* impl.MetricsSystemImpl: S3Gateway metrics system already initialized!' \
-  | grep -v 'pod/trino-coordinator-.*' \
-  | grep -v 'pod/trino-worker-.*' \
+  `# Container security` \
+  | grep -v 'pod/trino-coordinator-.* # WARNING: Unable to attach Serviceability Agent' \
+  `# Jersey warning` \
+  | grep -v 'pod/trino-coordinator-.* registered in SERVER runtime does not implement any provider interfaces applicable' \
+  | grep -v 'pod/trino-coordinator-.* of type io.trino.execution.resourcegroups.ResourceGroupManager<?>' \
+  `# https://github.com/trinodb/trino/pull/18374` \
+  | grep -v 'pod/trino-coordinator-.* getRoot in io.trino.server.ui.WebUiStaticResource contains empty path annotation' \
+  `# Container security` \
+  | grep -v 'pod/trino-worker-.* # WARNING: Unable to attach Serviceability Agent' \
+  `# Jersey warning` \
+  | grep -v 'pod/trino-worker-.* registered in SERVER runtime does not implement any provider interfaces applicable' \
   || true
 
 "${integration_dir}/divider.sh" "Finished fetching warnings of all containers"
