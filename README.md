@@ -28,7 +28,7 @@ ZooKage provides a sandbox environment to launch a set of components inhabiting 
 Just run the following command.
 
 ```
-$ git clone --branch v0.2.3 git@github.com:zookage/zookage.git
+$ git clone --branch v0.2.4 git@github.com:zookage/zookage.git
 $ cd zookage
 $ ./bin/up
 namespace/zookage created
