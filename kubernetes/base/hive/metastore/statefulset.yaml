@@ -57,6 +57,8 @@ spec:
         - metastore
         envFrom:
         - configMapRef:
+            name: aws-env
+        - configMapRef:
             name: hadoop-env
         - configMapRef:
             name: hive-env

@@ -21,6 +21,8 @@ spec:
         - $(HIVE_HOME)/bin/hiveserver2
         envFrom:
         - configMapRef:
+            name: aws-env
+        - configMapRef:
             name: hadoop-env
         - configMapRef:
             name: hive-env

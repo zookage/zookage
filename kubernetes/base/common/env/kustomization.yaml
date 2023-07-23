@@ -10,6 +10,7 @@ configMapGenerator:
   - HADOOP_HOME=/opt/hadoop
   - HADOOP_CONF_DIR=/etc/hadoop/conf
   - HADOOP_LOG_DIR=/mnt/log
+  - HADOOP_OPTIONAL_TOOLS=hadoop-aws
 - name: hbase-env
   literals:
   - HBASE_HOME=/opt/hbase
