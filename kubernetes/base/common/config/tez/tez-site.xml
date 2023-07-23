@@ -8,6 +8,10 @@
     <value>true</value>
   </property>
   <property>
+    <name>tez.cluster.additional.classpath.prefix</name>
+    <value>/opt/hadoop/share/hadoop/tools/lib/*</value>
+  </property>
+  <property>
     <name>tez.am.shuffle.auxiliary-service.id</name>
     <value>tez_shuffle</value>
   </property>
@@ -39,5 +43,14 @@
   <property>
     <name>tez.runtime.transfer.data-via-events.enabled</name>
     <value>false</value>
+  </property>
+
+  <property>
+    <name>tez.am.launch.env</name>
+    <value>AWS_ACCESS_KEY_ID=dummy,AWS_SECRET_ACCESS_KEY=dummy</value>
+  </property>
+  <property>
+    <name>tez.task.launch.env</name>
+    <value>AWS_ACCESS_KEY_ID=dummy,AWS_SECRET_ACCESS_KEY=dummy</value>
   </property>
 </configuration>
