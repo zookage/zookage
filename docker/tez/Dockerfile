@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:experimental
 ARG tez_build_image
-ARG openjdk_image
+ARG jdk_image
 
 # hadolint ignore=DL3006
 FROM ${tez_build_image} AS builder
@@ -41,7 +41,7 @@ RUN \
     apache-tez-bin/share/tez-aux-services.jar
 
 # hadolint ignore=DL3006
-FROM ${openjdk_image}
+FROM ${jdk_image}
 
 COPY --from=builder /root/tez/apache-tez-bin /opt/tez
 RUN groupadd --gid 1030 tez \

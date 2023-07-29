@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:experimental
 ARG maven_image
-ARG openjdk_image
+ARG jdk_image
 
 # hadolint ignore=DL3006
 FROM ${maven_image} AS builder
@@ -35,7 +35,7 @@ RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
     ./apache-zookeeper-bin
 
 # hadolint ignore=DL3006
-FROM ${openjdk_image}
+FROM ${jdk_image}
 
 COPY --from=builder /root/zookeeper/apache-zookeeper-bin /opt/zookeeper
 RUN groupadd --gid 1050 zookeeper \

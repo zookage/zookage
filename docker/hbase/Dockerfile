@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:experimental
 ARG maven_image
-ARG openjdk_image
+ARG jdk_image
 
 # hadolint ignore=DL3006
 FROM ${maven_image} AS builder
@@ -28,7 +28,7 @@ RUN \
     "./hbase-assembly/target/hbase-client"
 
 # hadolint ignore=DL3006
-FROM ${openjdk_image}
+FROM ${jdk_image}
 
 COPY --from=builder /root/hbase/hbase-assembly/target/hbase /opt/hbase
 COPY --from=builder /root/hbase/hbase-assembly/target/hbase-client /opt/hbase-client

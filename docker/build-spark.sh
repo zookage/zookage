@@ -13,6 +13,6 @@ docker build \
 docker build \
   --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-spark:${image_tag}" \
   --build-arg "spark_rm_image=${DOCKER_IMAGE_NAME_PREFIX}/spark-rm:${image_tag}" \
-  --build-arg "openjdk_image=${OPENJDK_8_IMAGE}" \
+  --build-arg "jdk_image=${JDK_8_IMAGE}" \
   --file ./docker/spark/Dockerfile \
   "${SPARK_SOURCE_DIR}"

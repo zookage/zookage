@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:experimental
 ARG maven_image
-ARG openjdk_image
+ARG jdk_image
 
 # hadolint ignore=DL3006
 FROM ${maven_image} AS builder
@@ -16,7 +16,7 @@ RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
     ./hadoop-ozone/dist/target/ozone
 
 # hadolint ignore=DL3006
-FROM ${openjdk_image}
+FROM ${jdk_image}
 
 COPY --from=builder /root/ozone/hadoop-ozone/dist/target/ozone /opt/ozone
 RUN groupadd --gid 1070 ozone \

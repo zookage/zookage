@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:experimental
 ARG maven_image
-ARG openjdk_image
+ARG jdk_image
 
 # hadolint ignore=DL3006
 FROM ${maven_image} AS builder
@@ -19,7 +19,7 @@ RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
     ./packaging/target/hive
 
 # hadolint ignore=DL3006
-FROM ${openjdk_image}
+FROM ${jdk_image}
 
 COPY --from=builder /root/hive/packaging/target/hive /opt/hive
 RUN groupadd --gid 1020 hive \

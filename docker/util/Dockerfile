@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:experimental
-ARG openjdk_image
+ARG jdk_image
 
 # hadolint ignore=DL3006
-FROM ${openjdk_image}
+FROM ${jdk_image}
 
 # hadolint ignore=DL3008
 RUN apt-get update \
