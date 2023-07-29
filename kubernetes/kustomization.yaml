@@ -2,19 +2,22 @@ namespace: zookage
 commonLabels:
   owner: zookage
 resources:
+- base/client
 - base/common
-# - base/zookeeper
-- base/hdfs
 # - base/hbase
-- base/yarn
+- base/hdfs
+- base/hive
+# - base/mapreduce
 # - base/ozone
 # - base/spark
 - base/tez
-# - base/mapreduce
-- base/hive
 # - base/trino
-- base/client
+- base/yarn
+# - base/zookeeper
 images:
+- name: zookage-util
+  newName: zookage/zookage-util
+  newTag: "0.2.2"
 - name: zookage-hadoop
   newName: zookage/zookage-hadoop
   newTag: "3.2.2-zookage-0.2"
@@ -43,9 +46,6 @@ images:
 - name: zookage-zookeeper
   newName: zookage/zookage-zookeeper
   newTag: "3.6.2-zookage-0.2"
-- name: zookage-util
-  newName: zookage/zookage-util
-  newTag: "0.2.2"
 # patches doesn't support multiple entries in a single file yet
 patchesStrategicMerge:
 ### High Availability ###
