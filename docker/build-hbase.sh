@@ -11,7 +11,7 @@ read -r -p "Hadoop version: " hadoop_three_version
 docker build \
   --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-hbase:${image_tag}" \
   --build-arg "maven_image=${MAVEN_3_IMAGE}" \
-  --build-arg "openjdk_image=${OPENJDK_8_IMAGE}" \
+  --build-arg "jdk_image=${JDK_8_IMAGE}" \
   --build-arg "clean=${clean}" \
   --build-arg "hadoop_three_version=${hadoop_three_version}" \
   --file ./docker/hbase/Dockerfile \

@@ -30,7 +30,7 @@ docker build \
 docker build \
   --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-hadoop:${image_tag}" \
   --build-arg "hadoop_build_image=${DOCKER_IMAGE_NAME_PREFIX}/hadoop-build:${image_tag}" \
-  --build-arg "openjdk_image=${OPENJDK_8_IMAGE}" \
+  --build-arg "jdk_image=${JDK_8_IMAGE}" \
   --build-arg "clean=${clean}" \
   --build-arg active_profiles=${active_profiles} \
   --file ./docker/hadoop/Dockerfile \

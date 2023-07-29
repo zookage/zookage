@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:experimental
 ARG hadoop_build_image
-ARG openjdk_image
+ARG jdk_image
 
 # hadolint ignore=DL3006
 FROM ${hadoop_build_image} AS builder
@@ -31,7 +31,7 @@ RUN \
     ./hadoop-dist/target/hadoop
 
 # hadolint ignore=DL3006
-FROM ${openjdk_image}
+FROM ${jdk_image}
 
 COPY --chown=root:root --from=builder /home/hadoop-build/hadoop/hadoop-dist/target/hadoop /opt/hadoop
 RUN groupadd --gid 1010 hadoop \

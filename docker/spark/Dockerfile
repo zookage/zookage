@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:experimental
 ARG spark_rm_image
-ARG openjdk_image
+ARG jdk_image
 
 # hadolint ignore=DL3006
 FROM ${spark_rm_image} AS builder
@@ -30,7 +30,7 @@ RUN \
     -Pconnect
 
 # hadolint ignore=DL3006
-FROM ${openjdk_image}
+FROM ${jdk_image}
 
 COPY --from=builder /root/spark/dist /opt/spark
 RUN groupadd --gid 1040 spark \

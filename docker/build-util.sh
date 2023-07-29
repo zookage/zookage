@@ -8,6 +8,6 @@ source ./docker/prepare.sh ZOOKAGE_DIR
 
 docker build \
   --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-util:${image_tag}" \
-  --build-arg "openjdk_image=${OPENJDK_8_IMAGE}" \
+  --build-arg "jdk_image=${JDK_8_IMAGE}" \
   --file ./docker/util/Dockerfile \
   ./docker/util
