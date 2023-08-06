@@ -49,7 +49,9 @@ configMapGenerator:
 - name: trino-catalog
   files:
   - trino/catalog/hive.properties
+  - trino/catalog/iceberg.properties
   - trino/catalog/tpcds.properties
+  - trino/catalog/tpch.properties
 - name: trino-conf
   files:
   - trino/cli.properties
