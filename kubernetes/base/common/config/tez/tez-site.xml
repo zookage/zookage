@@ -53,4 +53,9 @@
     <name>tez.task.launch.env</name>
     <value>AWS_ACCESS_KEY_ID=dummy,AWS_SECRET_ACCESS_KEY=dummy</value>
   </property>
+
+  <property>
+    <name>hadoop.http.authentication.signer.secret.provider</name>
+    <value>random</value>
+  </property>
 </configuration>

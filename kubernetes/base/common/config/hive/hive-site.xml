@@ -40,4 +40,8 @@
     <name>metastore.compactor.worker.threads</name>
     <value>1</value>
   </property>
+  <property>
+    <name>metastore.compactor.cleaner.on</name>
+    <value>true</value>
+  </property>
 </configuration>

@@ -24,4 +24,9 @@
     <name>yarn.app.mapreduce.am.staging-dir</name>
     <value>/user</value>
   </property>
+
+  <property>
+    <name>hadoop.http.authentication.signer.secret.provider</name>
+    <value>random</value>
+  </property>
 </configuration>
