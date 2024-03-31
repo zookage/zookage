@@ -20,6 +20,8 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hdfs-datanode-.* impl.FsDatasetImpl: Lock held time above threshold' \
   | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow BlockReceiver write packet to mirror took' \
   | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow flushOrSync took' \
+  | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Problem connecting to server:' \
+  | grep -v 'pod/hdfs-datanode-.* ipc.Client: Address change detecte' \
   `# HDFS-16347` \
   | grep -v 'pod/hdfs-datanode-.* datanode.DirectoryScanner: dfs.datanode.directoryscan.throttle.limit.ms.per.sec set to value above 1000 ms/sec' \
   | grep -v 'pod/hdfs-httpfs-.* log4j:WARN' \
