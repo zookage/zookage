@@ -44,4 +44,13 @@
     <name>metastore.compactor.cleaner.on</name>
     <value>true</value>
   </property>
+
+  <property>
+    <name>hive.cbo.fallback.strategy</name>
+    <value>NEVER</value>
+  </property>
+  <property>
+    <name>hive.explain.user</name>
+    <value>false</value>
+  </property>
 </configuration>
