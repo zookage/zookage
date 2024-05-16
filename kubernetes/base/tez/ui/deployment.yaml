@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: tez-ui
-        image: tomcat:9.0.37-jdk8-openjdk
+        image: tomcat:9.0.89-jdk8-corretto-al2
         readinessProbe:
           tcpSocket:
             port: 8080
