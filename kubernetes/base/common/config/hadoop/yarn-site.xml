@@ -101,10 +101,6 @@
   </property>
 
   <property>
-    <name>yarn.acl.enable</name>
-    <value>true</value>
-  </property>
-  <property>
     <name>yarn.webapp.ui2.enable</name>
     <value>true</value>
   </property>
