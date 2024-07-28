@@ -1,5 +1,6 @@
 resources:
 - mkdir
+- postgres
 - metastore
 - hiveserver2
 commonLabels:

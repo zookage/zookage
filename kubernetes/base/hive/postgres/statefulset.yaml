@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hive-postgres
+spec:
+  selector:
+    matchLabels: {}
+  serviceName: hive-postgres
+  replicas: 1
+  template:
+    spec:
+      initContainers:
+      containers:
+      - name: server
+        image: postgres:16.3
+        securityContext:
+          runAsUser: 999
+          runAsGroup: 999
+        env:
+        - name: POSTGRES_USER
+          value: APP
+        - name: POSTGRES_PASSWORD
+          value: mine
+        - name: POSTGRES_DB
+          value: hive
+        volumeMounts:
+        - name: mnt
+          mountPath: /var/lib/postgresql
+      terminationGracePeriodSeconds: 5
+      volumes:
+      - name: mnt
+        emptyDir: {}
+  volumeClaimTemplates: []

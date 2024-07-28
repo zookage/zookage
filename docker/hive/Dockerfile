@@ -16,7 +16,11 @@ RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
     -Dmaven.javadoc.skip=true \
   && mv \
     "./packaging/target/apache-hive-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-bin/apache-hive-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-bin" \
-    ./packaging/target/hive
+    ./packaging/target/hive \
+  && mvn dependency:get "-Dartifact=org.postgresql:postgresql:$(mvn help:evaluate -Dexpression=postgres.version -q -DforceStdout)" \
+  && cp \
+    "/root/.m2/repository/org/postgresql/postgresql/$(mvn help:evaluate -Dexpression=postgres.version -q -DforceStdout)/postgresql-$(mvn help:evaluate -Dexpression=postgres.version -q -DforceStdout).jar" \
+    ./packaging/target/hive/lib
 
 # hadolint ignore=DL3006
 FROM ${jdk_image}
