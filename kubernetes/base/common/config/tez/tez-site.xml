@@ -1,15 +1,7 @@
 <configuration>
   <property>
     <name>tez.lib.uris</name>
-    <value>hdfs:///apps/tez/tez-minimal.tar.gz</value>
-  </property>
-  <property>
-    <name>tez.use.cluster.hadoop-libs</name>
-    <value>true</value>
-  </property>
-  <property>
-    <name>tez.cluster.additional.classpath.prefix</name>
-    <value>/opt/hadoop/share/hadoop/tools/lib/*</value>
+    <value>hdfs:///apps/tez/tez.tar.gz</value>
   </property>
   <property>
     <name>tez.am.shuffle.auxiliary-service.id</name>
