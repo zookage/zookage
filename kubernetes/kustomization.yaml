@@ -51,3 +51,4 @@ patches:
 # - path: patches/ha/hdfs.yaml
 # - path: patches/ha/yarn.yaml
 # - path: patches/postgres/hive.yaml
+# - path: patches/llap/hive.yaml

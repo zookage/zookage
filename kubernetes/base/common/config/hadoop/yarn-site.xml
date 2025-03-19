@@ -42,6 +42,10 @@
     <value>0.0.0.0</value>
   </property>
   <property>
+    <name>yarn.resourcemanager.placement-constraints.handler</name>
+    <value>scheduler</value>
+  </property>
+  <property>
     <name>yarn.resourcemanager.system-metrics-publisher.enabled</name>
     <value>true</value>
   </property>
@@ -72,7 +76,7 @@
   </property>
   <property>
     <name>yarn.nodemanager.resource.memory-mb</name>
-    <value>1024</value>
+    <value>2048</value>
   </property>
   <property>
     <name>yarn.nodemanager.vmem-pmem-ratio</name>
@@ -111,5 +115,10 @@
   <property>
     <name>yarn.scheduler.minimum-allocation-mb</name>
     <value>128</value>
+  </property>
+
+  <property>
+    <name>yarn.service.framework.path</name>
+    <value>/yarn-services/service-dep.tar.gz</value>
   </property>
 </configuration>
