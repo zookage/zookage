@@ -37,6 +37,10 @@
     <name>hive.tez.cpu.vcores</name>
     <value>1</value>
   </property>
+  <property>
+    <name>hive.zookeeper.quorum</name>
+    <value>zookeeper-server-0.zookeeper-server:2181,zookeeper-server-1.zookeeper-server:2181,zookeeper-server-2.zookeeper-server:2181</value>
+  </property>
 
   <property>
     <name>metastore.compactor.initiator.on</name>
@@ -59,4 +63,27 @@
     <name>hive.explain.user</name>
     <value>false</value>
   </property>
+
+  <!-- For LLAP. You also have to unset tez.am.shuffle.auxiliary-service.id
+  <property>
+    <name>hive.llap.daemon.service.hosts</name>
+    <value>@llap0</value>
+  </property>
+  <property>
+    <name>hive.execution.mode</name>
+    <value>llap</value>
+  </property>
+  <property>
+    <name>hive.server2.enable.doAs</name>
+    <value>false</value>
+  </property>
+  <property>
+    <name>hive.llap.io.enabled</name>
+    <value>false</value>
+  </property>
+  <property>
+    <name>hive.llap.execution.mode</name>
+    <value>only</value>
+  </property>
+  -->
 </configuration>

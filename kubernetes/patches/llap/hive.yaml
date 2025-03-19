@@ -1,0 +1,123 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hive-llap
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-metastore
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/hive-metastore
+      - name: mkdir-framework-path
+        image: zookage-util
+        args:
+        - hdfs-mkdir
+        - /yarn-services
+        - yarn:yarn
+        - "755"
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        env:
+        - name: HADOOP_USER_NAME
+          value: hdfs
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+      - name: wait-for-resourcemanager
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/yarn-resourcemanager
+      - name: enable-fast-launch
+        image: zookage-hadoop
+        command:
+        - $(HADOOP_HOME)/bin/yarn
+        args:
+        - application
+        - -enableFastLaunch
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        env:
+        - name: HADOOP_USER_NAME
+          value: yarn
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+      # LLAP containers create a directory in hadoop.tmp.dir somehow
+      - name: mkdir-tmp-dir
+        image: zookage-util
+        args:
+        - hdfs-mkdir
+        - /mnt
+        - hive:hive
+        - "755"
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        env:
+        - name: HADOOP_USER_NAME
+          value: hdfs
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+      - name: wait-for-tez-deploy
+        image: zookage-util
+        args:
+        - wait-for-job
+        - tez-deploy
+      containers:
+      - name: hive-llap
+        image: zookage-hive
+        command:
+        - $(HIVE_HOME)/bin/hive
+        args:
+        - --service
+        - llap
+        - --auxhbase
+        - "false"
+        - --instances
+        - "2"
+        - --name
+        - llap0
+        - --output
+        - /tmp/llap-yarn
+        - --size
+        - 2048m
+        - --xmx
+        - 512m
+        - --startImmediately
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        - configMapRef:
+            name: hive-env
+        - configMapRef:
+            name: tez-env
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+        - name: hive-conf
+          mountPath: /etc/hive/conf
+        - name: tez-conf
+          mountPath: /etc/tez/conf
+        - name: package-hadoop
+          mountPath: /opt/hadoop
+      restartPolicy: Never
+      volumes:
+      - name: hadoop-conf
+        configMap:
+          name: hadoop-conf
+      - name: hive-conf
+        configMap:
+          name: hive-conf
+      - name: tez-conf
+        configMap:
+          name: tez-conf
+      - name: package-hadoop
+        persistentVolumeClaim:
+          claimName: package-hadoop

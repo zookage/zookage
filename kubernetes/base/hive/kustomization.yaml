@@ -3,5 +3,6 @@ resources:
 - postgres
 - metastore
 - hiveserver2
+- llap
 commonLabels:
   component: hive
