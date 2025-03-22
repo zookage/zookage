@@ -85,5 +85,17 @@
     <name>hive.llap.execution.mode</name>
     <value>only</value>
   </property>
+  <property>
+    <name>hive.llap.daemon.rpc.port</name>
+    <value>15000</value>
+  </property>
+  <property>
+    <name>hive.llap.daemon.work.dirs</name>
+    <value>/mnt/llap</value>
+  </property>
+  <property>
+    <name>hive.llap.daemon.memory.per.instance.mb</name>
+    <value>1024</value>
+  </property>
   -->
 </configuration>

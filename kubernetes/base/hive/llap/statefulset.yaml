@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hive-llap
+spec:
+  selector:
+    matchLabels: {}
+  serviceName: hive-llap
+  podManagementPolicy: Parallel
+  replicas: 0
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-metastore
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/hive-metastore
+      - name: mkdir-tmp-dir
+        image: zookage-util
+        args:
+        - hdfs-mkdir
+        - /mnt
+        - hive:hive
+        - "755"
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        env:
+        - name: HADOOP_USER_NAME
+          value: hdfs
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+      - name: wait-for-dns
+        image: zookage-util
+        args:
+        - wait-for-dns
+      containers:
+      - name: llap
+        image: zookage-hive
+        command:
+        - java
+        args:
+        - -Xms512m
+        - -Xmx1024m
+        - -Dhttp.maxConnections=5
+        - -server
+        - -Djava.net.preferIPv4Stack=true
+        - -XX:+UseNUMA
+        - -XX:+UseParallelGC
+        - -Dlog4j.configurationFile=llap-daemon-log4j2.properties
+        - -classpath
+        - "/etc/hadoop/conf:/etc/hive/conf:/etc/tez/conf:/opt/hive/lib/*:/opt/tez/share/lib/*:/opt/tez/share/lib/lib/*"
+        - org.apache.hadoop.hive.llap.daemon.impl.LlapDaemon
+        env:
+        - name: LD_LIBRARY_PATH
+          value: "/opt/hadoop/lib/native"
+        readinessProbe:
+          tcpSocket:
+            port: 15000
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+        - name: hive-conf
+          mountPath: /etc/hive/conf
+        - name: tez-conf
+          mountPath: /etc/tez/conf
+        - name: mnt
+          mountPath: /mnt
+        - name: package-hadoop
+          mountPath: /opt/hadoop
+        - name: package-tez
+          mountPath: /opt/tez
+      terminationGracePeriodSeconds: 5
+      volumes:
+      - name: hadoop-conf
+        configMap:
+          name: hadoop-conf
+      - name: hive-conf
+        configMap:
+          name: hive-conf
+      - name: tez-conf
+        configMap:
+          name: tez-conf
+      - name: mnt
+        emptyDir: {}
+      - name: package-hadoop
+        persistentVolumeClaim:
+          claimName: package-hadoop
+      - name: package-tez
+        persistentVolumeClaim:
+          claimName: package-tez
+  volumeClaimTemplates: []
