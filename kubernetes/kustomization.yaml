@@ -42,7 +42,7 @@ images:
   newTag: "0.10.4-zookage-0.2"
 - name: zookage-trino
   newName: zookage/zookage-trino
-  newTag: "413-zookage-0.2"
+  newTag: "468-zookage-0.2"
 - name: zookage-zookeeper
   newName: zookage/zookage-zookeeper
   newTag: "3.6.2-zookage-0.2"

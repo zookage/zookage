@@ -8,7 +8,7 @@ source ./docker/prepare-maven.sh
 
 docker build \
   --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-trino:${image_tag}" \
-  --build-arg "jdk_image=${JDK_17_IMAGE}" \
+  --build-arg "jdk_image=${JDK_23_IMAGE}" \
   --build-arg "clean=${clean}" \
   --file ./docker/trino/Dockerfile \
   "${TRINO_SOURCE_DIR}"
