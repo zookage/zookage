@@ -1,5 +1,6 @@
 resources:
-- job.yaml
+- statefulset.yaml
+- service.yaml
 commonLabels:
   service: llap
-  tier: job
+  tier: backend
