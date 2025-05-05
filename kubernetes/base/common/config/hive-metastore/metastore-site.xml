@@ -1,0 +1,33 @@
+<configuration>
+  <!--
+  <property>
+    <name>javax.jdo.option.ConnectionDriverName</name>
+    <value>org.postgresql.Driver</value>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:postgresql://hive-postgres-0.hive-postgres:5432/hive</value>
+  </property>
+  -->
+  <property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:derby:/mnt/hive/metastore;databaseName=metastore_db;create=true</value>
+  </property>
+  <property>
+    <name>datanucleus.autoStartMechanismMode</name>
+    <value>ignored</value>
+  </property>
+
+  <property>
+    <name>metastore.compactor.initiator.on</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>metastore.compactor.worker.threads</name>
+    <value>1</value>
+  </property>
+  <property>
+    <name>metastore.compactor.cleaner.on</name>
+    <value>true</value>
+  </property>
+</configuration>
