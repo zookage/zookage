@@ -23,6 +23,10 @@ configMapGenerator:
   - hive/beeline-hs2-connection.xml
   - hive/hive-log4j2.properties
   - hive/hive-site.xml
+- name: hive-metastore-conf
+  files:
+  - hive-metastore/hive-log4j2.properties
+  - hive-metastore/metastore-site.xml
 - name: ozone-conf
   files:
   - ozone/dn-audit-log4j2.properties
