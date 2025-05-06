@@ -20,7 +20,11 @@ RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   && mvn dependency:get "-Dartifact=org.postgresql:postgresql:$(mvn help:evaluate -Dexpression=postgres.version -q -DforceStdout)" \
   && cp \
     "/root/.m2/repository/org/postgresql/postgresql/$(mvn help:evaluate -Dexpression=postgres.version -q -DforceStdout)/postgresql-$(mvn help:evaluate -Dexpression=postgres.version -q -DforceStdout).jar" \
-    ./packaging/target/hive/lib
+    ./packaging/target/hive/lib \
+  && unzip "./packaging/target/hive/lib/postgresql-$(mvn help:evaluate -Dexpression=postgres.version -q -DforceStdout).jar" "META-INF/LICENSE" "META-INF/licenses/**/LICENSE" -d /tmp/postgresql \
+  && mkdir ./packaging/target/hive/licenses/postgresql \
+  && mv /tmp/postgresql/META-INF/LICENSE ./packaging/target/hive/licenses/postgresql \
+  && mv /tmp/postgresql/META-INF/licenses ./packaging/target/hive/licenses/postgresql
 
 # hadolint ignore=DL3006
 FROM ${jdk_image}
