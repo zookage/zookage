@@ -40,6 +40,7 @@ header:
       - ".properties"
       filenames:
       - "kubernetes/base/common/config/spark/spark-defaults.conf"
+      - "kubernetes/base/common/config/zookeeper/zoo.cfg"
       comment_style_id: Hashtag
     Shell:
       extensions:
