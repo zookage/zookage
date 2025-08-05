@@ -10,11 +10,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-commonLabels:
-  component: config
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+labels:
+- includeSelectors: true
+  pairs:
+    component: config
 configMapGenerator:
-- name: hadoop-conf
-  files:
+- files:
   - hadoop/capacity-scheduler.xml
   - hadoop/core-site.xml
   - hadoop/hadoop-metrics2.properties
@@ -25,22 +28,22 @@ configMapGenerator:
   - hadoop/log4j.properties
   - hadoop/mapred-site.xml
   - hadoop/yarn-site.xml
-- name: hbase-conf
-  files:
+  name: hadoop-conf
+- files:
   - hbase/hadoop-metrics2-hbase.properties
   - hbase/hbase-site.xml
   - hbase/log4j.properties
-- name: hive-conf
-  files:
+  name: hbase-conf
+- files:
   - hive/beeline-hs2-connection.xml
   - hive/hive-log4j2.properties
   - hive/hive-site.xml
-- name: hive-metastore-conf
-  files:
+  name: hive-conf
+- files:
   - hive-metastore/hive-log4j2.properties
   - hive-metastore/metastore-site.xml
-- name: ozone-conf
-  files:
+  name: hive-metastore-conf
+- files:
   - ozone/dn-audit-log4j2.properties
   - ozone/hadoop-metrics2-hddsdatanode.properties
   - ozone/hadoop-metrics2-ozonemanager.properties
@@ -54,29 +57,30 @@ configMapGenerator:
   - ozone/ozone-site.xml
   - ozone/s3g-audit-log4j2.properties
   - ozone/scm-audit-log4j2.properties
-- name: spark-conf
-  files:
+  name: ozone-conf
+- files:
   - spark/log4j.properties
   - spark/spark-defaults.conf
   - spark/spark-env.sh
-- name: tez-conf
-  files:
+  name: spark-conf
+- files:
   - tez/tez-site.xml
-- name: trino-catalog
-  files:
+  name: tez-conf
+- files:
   - trino/catalog/hive.properties
   - trino/catalog/iceberg.properties
   - trino/catalog/tpcds.properties
   - trino/catalog/tpch.properties
-- name: trino-conf
-  files:
+  name: trino-catalog
+- files:
   - trino/cli.properties
   - trino/config-coordinator.properties
   - trino/config-worker.properties
   - trino/jvm.config
   - trino/log.properties
   - trino/node.properties
-- name: zookeeper-conf
-  files:
+  name: trino-conf
+- files:
   - zookeeper/log4j.properties
   - zookeeper/zoo.cfg
+  name: zookeeper-conf

@@ -10,27 +10,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-commonLabels:
-  component: env
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+labels:
+- includeSelectors: true
+  pairs:
+    component: env
 configMapGenerator:
-- name: aws-env
-  literals:
+- literals:
   - AWS_ACCESS_KEY_ID=dummy
   - AWS_SECRET_ACCESS_KEY=dummy
-- name: hadoop-env
-  literals:
+  name: aws-env
+- literals:
   - HADOOP_HOME=/opt/hadoop
   - HADOOP_CONF_DIR=/etc/hadoop/conf
   - HADOOP_LOG_DIR=/mnt/log
   - HADOOP_OPTIONAL_TOOLS=hadoop-aws
-- name: hbase-env
-  literals:
+  name: hadoop-env
+- literals:
   - HBASE_HOME=/opt/hbase
   - HBASE_CONF_DIR=/etc/hbase/conf
   - HBASE_SECURITY_LOGGER=INFO,console
   - HBASE_ZNODE_FILE=/mnt/hbase.znode
-- name: httpfs-env
-  literals:
+  name: hbase-env
+- literals:
   - HTTPFS_TEMP=/mnt/tmp
   - HADOOP_LOG_DIR=/mnt/log
   # for Hadoop 2.x
@@ -38,37 +41,38 @@ configMapGenerator:
   - HTTPFS_SILENT=false
   - HTTPFS_CONFIG=/etc/hadoop/conf
   - CATALINA_BASE=/mnt/catalina
-- name: hive-env
-  literals:
+  name: httpfs-env
+- literals:
   - HIVE_HOME=/opt/hive
   - HIVE_CONF_DIR=/etc/hive/conf
-- name: hive-metastore-env
-  literals:
+  name: hive-env
+- literals:
   - HIVE_HOME=/opt/hive
   - HIVE_CONF_DIR=/etc/hive/conf
   - HADOOP_OPTS=-Dderby.system.home=/tmp/derby
-- name: ozone-env
-  literals:
+  name: hive-metastore-env
+- literals:
   - OZONE_HOME=/opt/ozone
   - OZONE_CONF_DIR=/etc/ozone/conf
   - OZONE_LOG_DIR=/mnt/log
   # yamllint disable-line rule:line-length
   - OZONE_OPTS=-XX:ParallelGCThreads=1 -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled
-- name: spark-env
-  literals:
+  name: ozone-env
+- literals:
   - SPARK_HOME=/opt/spark
   - SPARK_CONF_DIR=/etc/spark/conf
   - LD_LIBRARY_PATH=/opt/hadoop/lib/native
-- name: tez-env
-  literals:
+  name: spark-env
+- literals:
   - TEZ_JARS=/opt/tez
   - TEZ_CONF_DIR=/etc/tez/conf
   - HADOOP_USER_CLASSPATH_FIRST="true"
-- name: trino-env
-  literals:
+  name: tez-env
+- literals:
   - TRINO_HOME=/opt/trino
   - TRINO_CONFIG=/etc/trino/conf/cli.properties
-- name: zookeeper-env
-  literals:
+  name: trino-env
+- literals:
   - ZOOCFGDIR=/etc/zookeeper/conf
   - ZOO_LOG_DIR=/mnt/log
+  name: zookeeper-env
