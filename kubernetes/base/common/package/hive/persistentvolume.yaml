@@ -20,5 +20,5 @@ spec:
   capacity:
     storage: 512Mi
   hostPath:
-    path: /opt/zookage/hive
+    path: /var/lib/zookage/hive
   storageClassName: zookage-package-hive

@@ -20,5 +20,5 @@ spec:
   capacity:
     storage: 1Gi
   hostPath:
-    path: /opt/zookage/trino
+    path: /var/lib/zookage/trino
   storageClassName: zookage-package-trino
