@@ -20,5 +20,5 @@ spec:
   capacity:
     storage: 1Gi
   hostPath:
-    path: /opt/zookage/spark
+    path: /var/lib/zookage/spark
   storageClassName: zookage-package-spark

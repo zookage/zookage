@@ -20,5 +20,5 @@ spec:
   capacity:
     storage: 1Gi
   hostPath:
-    path: /opt/zookage/hadoop
+    path: /var/lib/zookage/hadoop
   storageClassName: zookage-package-hadoop
