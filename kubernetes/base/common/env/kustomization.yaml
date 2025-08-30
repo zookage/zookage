@@ -55,8 +55,7 @@ configMapGenerator:
   - OZONE_HOME=/opt/ozone
   - OZONE_CONF_DIR=/etc/ozone/conf
   - OZONE_LOG_DIR=/mnt/log
-  # yamllint disable-line rule:line-length
-  - OZONE_OPTS=-XX:ParallelGCThreads=1 -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled
+  - OZONE_OPTS=-Dnative.lib.tmp.dir=/tmp
   name: ozone-env
 - literals:
   - SPARK_HOME=/opt/spark
