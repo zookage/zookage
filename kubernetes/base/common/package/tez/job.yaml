@@ -27,10 +27,6 @@ spec:
         - |
           rm -rf /mnt/zookage/tez
           cp -R /opt/tez /mnt/zookage/tez
-          rm /mnt/zookage/tez/lib/slf4j-*
-          rm /mnt/zookage/tez/lib/hadoop-mapreduce-client-*
-          mkdir /mnt/zookage/tez/share/lib
-          tar -C /mnt/zookage/tez/share/lib -zxvf /mnt/zookage/tez/share/tez.tar.gz
         securityContext:
           runAsUser: 0
           runAsGroup: 0

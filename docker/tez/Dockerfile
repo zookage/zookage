@@ -27,7 +27,7 @@ RUN \
   --mount=type=cache,target=/root/.config \
   --mount=type=cache,target=/root/.local \
   --mount=type=cache,id=zookage-m2,target=/root/.m2 \
-  mvn ${clean} package \
+  mvn ${clean} install \
     -Ptools \
     -Dallow.root.build \
     -DskipTests \
@@ -42,8 +42,6 @@ RUN \
   && cp tmp-tez-full/NOTICE* apache-tez-bin/ \
   && rm -rf tmp-tez-full \
   && mkdir apache-tez-bin/share \
-  && cp "/root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-minimal.tar.gz" \
-    apache-tez-bin/share/tez-minimal.tar.gz \
   && cp "/root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).tar.gz" \
     apache-tez-bin/share/tez.tar.gz \
   && cp "tez-ui/target/tez-ui-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).war" \
