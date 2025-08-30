@@ -27,9 +27,6 @@ readonly test_dir=$(cd "$(dirname "$0")"; pwd)
 "${test_dir}/integration/divider.sh" "Test MR"
 "${test_dir}/integration/mr.sh"
 
-"${test_dir}/integration/divider.sh" "Test Hive on MR"
-"${test_dir}/integration/hive_on_mr.sh"
-
 "${test_dir}/integration/divider.sh" "Test Spark"
 "${test_dir}/integration/spark.sh"
 

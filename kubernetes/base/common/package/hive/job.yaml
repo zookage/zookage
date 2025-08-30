@@ -27,7 +27,6 @@ spec:
         - |
           rm -rf /mnt/zookage/hive
           cp -R /opt/hive /mnt/zookage/hive
-          rm /mnt/zookage/hive/lib/log4j-slf4j-impl*
         securityContext:
           runAsUser: 0
           runAsGroup: 0
