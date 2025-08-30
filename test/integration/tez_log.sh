@@ -40,7 +40,8 @@ echo "No error is found."
     | grep -v '|objectinspector.StandardStructObjectInspector|: ignoring similar errors' \
     | grep -v '|rm.YarnTaskSchedulerService|: Held container expected to be not null for a non-AM-released container' \
     | grep -v 'does not have description. Please annotate the class with' \
-    | grep -v '|exec.FunctionRegistry|: iceberg_bucket function could not be registered'
+    | grep -v '|exec.FunctionRegistry|: iceberg_bucket function could not be registered' \
+    | grep -v '|util.LoggingUtils|: Cannot set log4j global MDC'
 "
 "${integration_dir}/divider.sh" "Finished checking warnings of a Tez job"
 echo "No warning is found."

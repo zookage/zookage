@@ -26,7 +26,7 @@ docker build \
 docker build \
   --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-tez:${image_tag}" \
   --build-arg "tez_build_image=${DOCKER_IMAGE_NAME_PREFIX}/tez-build:${image_tag}" \
-  --build-arg "jdk_image=${JDK_8_IMAGE}" \
+  --build-arg "jdk_image=${JDK_17_IMAGE}" \
   --build-arg "clean=${clean}" \
   --file ./docker/tez/Dockerfile \
   "${TEZ_SOURCE_DIR}"
