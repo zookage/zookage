@@ -18,10 +18,18 @@ source ./docker/prepare.sh OZONE_SOURCE_DIR
 # shellcheck source=/mnt/docker/prepare-maven.sh
 source ./docker/prepare-maven.sh
 
+read -r -p "Build native libraries? [Y/n]: " native
+case "$native" in
+  y|Y|yes|"" ) native_option=-Drocks_tools_native;;
+  n|N|no ) native_option=;;
+  * ) echo "Please input y or n"; exit 1;;
+esac
+
 docker build \
   --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-ozone:${image_tag}" \
-  --build-arg "maven_image=${MAVEN_3_IMAGE}" \
-  --build-arg "jdk_image=${JDK_8_IMAGE}" \
+  --build-arg "maven_image=${MAVEN_3_JDK_21_IMAGE}" \
+  --build-arg "jdk_image=${JDK_21_IMAGE}" \
   --build-arg "clean=${clean}" \
+  --build-arg "native_option=${native_option}" \
   --file ./docker/ozone/Dockerfile \
   "${OZONE_SOURCE_DIR}"

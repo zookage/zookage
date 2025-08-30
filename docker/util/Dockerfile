@@ -18,11 +18,11 @@ FROM ${jdk_image}
 
 # hadolint ignore=DL3008
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends curl dnsutils less netcat vim \
+  && apt-get install -y --no-install-recommends curl dnsutils less unzip vim \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
-  && groupadd --gid 1000 zookage \
-  && useradd --create-home --uid 1000 --gid zookage zookage
+  && groupadd --gid 1001 zookage \
+  && useradd --create-home --uid 1001 --gid zookage zookage
 
 RUN curl \
     --location \

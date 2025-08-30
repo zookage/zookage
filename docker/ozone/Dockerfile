@@ -18,11 +18,20 @@ ARG jdk_image
 FROM ${maven_image} AS builder
 
 ARG clean
+ARG native_option
 
 WORKDIR /root/ozone
 COPY . .
+# hadolint ignore=DL3008,DL3015
+RUN \
+  apt-get update \
+  && apt-get install -y cmake g++ patch \
+  && rm -rf /var/lib/apt/lists/*
+
 RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
-  mvn --threads 1C ${clean} package -DskipTests=true \
+  mvn --threads 1C ${clean} install ${native_option} \
+    -Dmaven.javadoc.skip=true \
+    -DskipTests=true \
   && mv \
     "./hadoop-ozone/dist/target/ozone-$(mvn help:evaluate -Dexpression=ozone.version -q -DforceStdout)" \
     ./hadoop-ozone/dist/target/ozone

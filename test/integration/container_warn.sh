@@ -76,18 +76,14 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hbase-master-.* procedure.RSProcedureDispatcher: Waiting a little before retrying' \
   `# HBASE-27655` \
   | grep -v 'pod/hbase-master-.* internal.Errors: The following warnings have been detected: WARNING: The (sub)resource method getBaseMetrics in' \
-  `# Maybe HDDS-8257` \
-  | grep -v 'pod/ozone-recon-.* managed.ManagedRocksObjectUtils: RocksIterator is not closed properly' \
-  `# HDDS-8357` \
-  | grep -v 'pod/ozone-recon-.* http.HttpRequestLog: Jetty request log can only be enabled using Log4j' \
   `# Initialization` \
-  | grep -v 'pod/ozone-scm-.* ha.SequenceIdGenerator: Failed to allocate a batch for localId, expected lastId is 0, actual lastId is' \
-  `# Maybe, this happens on initialization` \
+  | grep -v 'pod/ozone-.*: STARTUP_MSG:' \
+  | grep -v 'pod/ozone-recon-.* scm.ReconPipelineManager: Pipeline PipelineID=.* already exists in Recon pipeline metadata' \
   | grep -v 'pod/ozone-scm-.* balancer.ContainerBalancer: Could not find persisted configuration for ContainerBalancer when checking if ContainerBalancer should run. ContainerBalancer should not run now.' \
-  `# HDDS-6569` \
-  | grep -v "pod/ozone-scm-.* events.EventQueue: No event handler registered for event TypedEvent{payloadType=SafeModeStatus, name='Safe mode status'}" \
-  `# HDDS-8354` \
-  | grep -v 'pod/ozone-s3g-.* WARNING: The following warnings have been detected: WARNING: A HTTP GET method, public javax.ws.rs.core.Response org.apache.hadoop.ozone.s3.endpoint.ObjectEndpoint.get(java.lang.String,java.lang.String,java.lang.String,int,java.lang.String,java.io.InputStream) throws java.io.IOException,org.apache.hadoop.ozone.s3.exception.OS3Exception, should not consume any entity.' \
+  | grep -v 'pod/ozone-scm-.* ha.SequenceIdGenerator: Failed to allocate a batch for localId, expected lastId is 0, actual lastId is' \
+  | grep -v 'pod/ozone-scm-.* scm.SCMCommonPlacementPolicy: Unable to find enough nodes that meet the space requirement of' \
+  `# Permission` \
+  | grep -v 'pod/ozone-om-.* helpers.OzoneAclUtil: Failed to get primary group from user .*' \
   `# HDDS-8395` \
   | grep -v 'ozone-s3g-.* impl.MetricsSystemImpl: S3Gateway metrics system already initialized!' \
   `# Container security` \

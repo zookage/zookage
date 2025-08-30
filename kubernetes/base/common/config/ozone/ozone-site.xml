@@ -38,6 +38,10 @@
     <name>ozone.scm.ha.ratis.storage.dir</name>
     <value>/mnt/ozone/scm/ha/ratis/storage</value>
   </property>
+  <property>
+    <name>ozone.scm.ha.ratis.snapshot.dir</name>
+    <value>/mnt/ozone/scm/ha/ratis/snapshot</value>
+  </property>
 
   <property>
     <name>ozone.om.address</name>
@@ -46,6 +50,10 @@
   <property>
     <name>ozone.om.db.dirs</name>
     <value>/mnt/ozone/om/db</value>
+  </property>
+  <property>
+    <name>ozone.om.snapshot.diff.db.dir</name>
+    <value>/mnt/ozone/scm/diff</value>
   </property>
   <property>
     <name>ozone.om.ratis.storage.dir</name>
@@ -80,6 +88,11 @@
   <property>
     <name>ozone.recon.om.db.dir</name>
     <value>/mnt/ozone/recon/om/db</value>
+  </property>
+
+  <property>
+    <name>ozone.http.basedir</name>
+    <value>/mnt/ozone/http</value>
   </property>
 
   <property>
