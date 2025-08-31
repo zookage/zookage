@@ -61,15 +61,14 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hive-hiveserver2-.* exec.FunctionRegistry: UDF Class org.apache.hive.org.apache.datasketches.hive' \
   `# HIVE-27120` \
   | grep -v 'pod/hive-hiveserver2-.* conf.HiveConf: HiveConf of name hive.internal.ss.authz.settings.applied.marker does not exist' \
-  | grep -v 'pod/zookeeper-server-.* \[main:ContextHandler@.*\] - .* contextPath ends with' \
-  | grep -v 'pod/zookeeper-server-.* \[main:ContextHandler@.*\] - Empty contextPath' \
-  | grep -v 'pod/zookeeper-server-.* \[main:ConstraintSecurityHandler@.*\] - .* has uncovered http methods for path:' \
-  | grep -v 'pod/zookeeper-server-.* \[QuorumConnectionThread-.*:QuorumCnxManager@.*\] - Cannot open channel to' \
-  | grep -v 'pod/zookeeper-server-.* \[LeaderConnector-zookeeper-server-.*:Learner$LeaderConnector@.*\] - Unexpected exception' \
-  | grep -v 'pod/zookeeper-server-.* \[QuorumPeer.*:Follower@.*\] - Exception when following the leader' \
-  | grep -v 'pod/zookeeper-server-.* \[QuorumPeer.*:QuorumPeer@.*\] - PeerState set to LOOKING' \
-  | grep -v 'pod/zookeeper-server-.* \[QuorumPeer.*:Follower@.*\] - Got zxid .* expected .*' \
-  | grep -v 'pod/zookeeper-server-.* \[NIOWorkerThread-.*:NIOServerCnxn@.*\] - Unexpected exception' \
+  | grep -v 'pod/zookeeper-server-.* org.eclipse.jetty.server.handler.ContextHandler .* contextPath ends with' \
+  | grep -v 'pod/zookeeper-server-.* org.eclipse.jetty.server.handler.ContextHandler -- Empty contextPath' \
+  | grep -v 'pod/zookeeper-server-.* org.eclipse.jetty.security.SecurityHandler .* has uncovered http methods for path:' \
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Cannot open channel to' \
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Learner -- Unexpected exception' \
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Learner -- Exception when following the leader' \
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumPeer -- PeerState set to LOOKING' \
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Learner -- Got zxid' \
   `# Initialization` \
   | grep -v 'pod/hbase-master-.* region.MasterRegion: failed to clean up initializing flag' \
   | grep -v 'pod/hbase-master-.* assignment.AssignmentManager: No servers available; cannot place' \
