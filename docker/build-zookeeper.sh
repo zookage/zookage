@@ -20,8 +20,8 @@ source ./docker/prepare-maven.sh
 
 docker build \
   --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-zookeeper:${image_tag}" \
-  --build-arg "maven_image=${MAVEN_3_IMAGE}" \
-  --build-arg "jdk_image=${JDK_8_IMAGE}" \
+  --build-arg "maven_image=${MAVEN_3_JDK_11_IMAGE}" \
+  --build-arg "jdk_image=${JDK_11_IMAGE}" \
   --build-arg "clean=${clean}" \
   --file ./docker/zookeeper/Dockerfile \
   "${ZOOKEEPER_SOURCE_DIR}"
