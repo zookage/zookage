@@ -23,8 +23,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: .*mofu_tez not found' \
   | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: .*mofu_mr not found' \
   | grep -v 'pod/zookeeper-server-.* \[LeaderConnector-zookeeper-server-.*:Learner$LeaderConnector@.*\] - Unexpected exception' \
-  | grep -v 'pod/zookeeper-server-.* \[LeaderConnector-zookeeper-server-.*:Learner$LeaderConnector@.*\] - Failed connect to' \
-  | grep -v 'pod/ozone-scm-.* scm.SCMCommonPlacementPolicy: Unable to find enough nodes that meet the space requirement of'
+  | grep -v 'pod/zookeeper-server-.* \[LeaderConnector-zookeeper-server-.*:Learner$LeaderConnector@.*\] - Failed connect to'
 
 "${integration_dir}/divider.sh" "Finished fetching errors of all containers"
 echo "No error is found."

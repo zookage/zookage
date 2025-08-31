@@ -32,7 +32,7 @@ configMapGenerator:
 - files:
   - hbase/hadoop-metrics2-hbase.properties
   - hbase/hbase-site.xml
-  - hbase/log4j.properties
+  - hbase/log4j2.properties
   name: hbase-conf
 - files:
   - hive/beeline-hs2-connection.xml

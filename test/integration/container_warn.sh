@@ -70,12 +70,9 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/zookeeper-server-.* \[QuorumPeer.*:QuorumPeer@.*\] - PeerState set to LOOKING' \
   | grep -v 'pod/zookeeper-server-.* \[QuorumPeer.*:Follower@.*\] - Got zxid .* expected .*' \
   | grep -v 'pod/zookeeper-server-.* \[NIOWorkerThread-.*:NIOServerCnxn@.*\] - Unexpected exception' \
+  `# Initialization` \
   | grep -v 'pod/hbase-master-.* region.MasterRegion: failed to clean up initializing flag' \
-  | grep -v "pod/hbase-master-.* snapshot.SnapshotManager: Couldn't delete working snapshot directory" \
   | grep -v 'pod/hbase-master-.* assignment.AssignmentManager: No servers available; cannot place' \
-  | grep -v 'pod/hbase-master-.* procedure.RSProcedureDispatcher: Waiting a little before retrying' \
-  `# HBASE-27655` \
-  | grep -v 'pod/hbase-master-.* internal.Errors: The following warnings have been detected: WARNING: The (sub)resource method getBaseMetrics in' \
   `# Initialization` \
   | grep -v 'pod/ozone-.*: STARTUP_MSG:' \
   | grep -v 'pod/ozone-recon-.* scm.ReconPipelineManager: Pipeline PipelineID=.* already exists in Recon pipeline metadata' \

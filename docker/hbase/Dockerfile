@@ -18,14 +18,12 @@ ARG jdk_image
 FROM ${maven_image} AS builder
 
 ARG clean
-ARG hadoop_three_version
 
 WORKDIR /root/hbase
 COPY . .
 RUN \
   --mount=type=cache,id=zookage-m2,target=/root/.m2 \
-  mvn -Dhadoop.profile=3.0 -Dhadoop-three.version=${hadoop_three_version} ${clean} install -DskipTests \
-  && mvn -Dhadoop.profile=3.0 -Dhadoop-three.version=${hadoop_three_version} install assembly:single -DskipTests -Dcheckstyle.skip=true -Prelease \
+  mvn -Dhadoop.profile=3.0 install assembly:single -DskipTests -Dcheckstyle.skip=true -Prelease \
   && tar -zxvf \
     "./hbase-assembly/target/hbase-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-bin.tar.gz" \
     --directory=./hbase-assembly/target \
