@@ -50,8 +50,7 @@ configMapGenerator:
   name: hive-env
 - literals:
   - HIVE_HOME=/opt/hive
-  - HIVE_CONF_DIR=/etc/hive/conf
-  - HADOOP_OPTS=-Dderby.system.home=/tmp/derby
+  - HIVE_CONF_DIR=/etc/hive-metastore/conf
   name: hive-metastore-env
 - literals:
   - OZONE_HOME=/opt/ozone

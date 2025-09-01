@@ -39,12 +39,20 @@
   </property>
 
   <property>
-    <name>hive.cbo.fallback.strategy</name>
-    <value>NEVER</value>
+    <name>hive.compactor.worker.threads</name>
+    <value>1</value>
   </property>
   <property>
     <name>hive.explain.user</name>
     <value>false</value>
+  </property>
+  <property>
+    <name>hive.server2.metrics.enabled</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hive.hook.proto.base-directory</name>
+    <value>/user/history/hive</value>
   </property>
 
   <!-- For LLAP. You also have to unset tez.am.shuffle.auxiliary-service.id
