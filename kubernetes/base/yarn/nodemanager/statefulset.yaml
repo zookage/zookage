@@ -40,7 +40,7 @@ spec:
             name: hadoop-env
         env:
         - name: HADOOP_CLASSPATH
-          value: "/opt/spark/yarn/*:/opt/tez/share/tez-aux-services.jar"
+          value: "/opt/tez/share/tez-aux-services.jar"
         readinessProbe:
           tcpSocket:
             port: 8041
@@ -52,8 +52,6 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: mnt
           mountPath: /mnt
-        - name: package-spark
-          mountPath: /opt/spark
         - name: package-tez
           mountPath: /opt/tez
       terminationGracePeriodSeconds: 5
@@ -63,9 +61,6 @@ spec:
           name: hadoop-conf
       - name: mnt
         emptyDir: {}
-      - name: package-spark
-        persistentVolumeClaim:
-          claimName: package-spark
       - name: package-tez
         persistentVolumeClaim:
           claimName: package-tez

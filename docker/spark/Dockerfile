@@ -31,15 +31,11 @@ RUN \
     --name zookage-spark \
     --mvn /root/spark/build/mvn \
     -B \
-    -Pmesos \
     -Pyarn \
     -Pkubernetes \
-    -Psparkr \
-    -Pscala-2.12 \
     -Phadoop-provided \
     -Phive \
-    -Phive-thriftserver \
-    -Pconnect
+    -Phive-thriftserver
 
 # hadolint ignore=DL3006
 FROM ${jdk_image}

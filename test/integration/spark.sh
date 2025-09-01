@@ -22,7 +22,7 @@ readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
 "${integration_dir}/run.sh" bash -c "
   spark-submit \
   --class org.apache.spark.examples.JavaWordCount \
-  "/opt/spark/examples/jars/spark-examples_2.12-*.jar" \
+  "/opt/spark/examples/jars/spark-examples_*.jar" \
   /user/zookage/spark-wordcount-input
 "
 "${integration_dir}/divider.sh" "Finished running a Spark job"

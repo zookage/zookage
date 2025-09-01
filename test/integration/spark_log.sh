@@ -28,7 +28,7 @@ echo "No error is found."
 
 "${integration_dir}/divider.sh" "Start checking warnings of a Spark job"
 "${integration_dir}/run.sh" bash -c "
-  ! yarn logs -applicationId '${id}' | grep 'WARN'
+  ! yarn logs -applicationId '${id}' | grep 'WARN' | grep -v 'WARNING: Using incubator modules: jdk.incubator.vector'
 "
 "${integration_dir}/divider.sh" "Finished checking warnings of a Spark job"
 echo "No warning is found."
