@@ -22,16 +22,11 @@ spec:
   template:
     spec:
       initContainers:
-      - name: cleanup
-        image: zookage-hive
-        command:
-        - rm
+      - name: wait-for-warehouse-dir
+        image: zookage-util
         args:
-        - -rf
-        - /mnt/hive/metastore
-        volumeMounts:
-        - name: mnt
-          mountPath: /mnt
+        - wait-for-job
+        - hive-mkdir
       - name: init-schema
         image: zookage-hive
         command:
@@ -39,26 +34,25 @@ spec:
         args:
         - -initSchema
         - -dbType
-        - derby
+        - postgres
         envFrom:
         - configMapRef:
             name: hadoop-env
         - configMapRef:
             name: hive-metastore-env
+        - configMapRef:
+            name: tez-env
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hive-metastore-conf
-          mountPath: /etc/hive/conf
+          mountPath: /etc/hive-metastore/conf
+        - name: tez-conf
+          mountPath: /etc/tez/conf
         - name: mnt
           mountPath: /mnt
         - name: package-hadoop
           mountPath: /opt/hadoop
-      - name: wait-for-warehouse-dir
-        image: zookage-util
-        args:
-        - wait-for-job
-        - hive-mkdir
       containers:
       - name: metastore
         image: zookage-hive
@@ -81,7 +75,7 @@ spec:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hive-metastore-conf
-          mountPath: /etc/hive/conf
+          mountPath: /etc/hive-metastore/conf
         - name: mnt
           mountPath: /mnt
         - name: package-hadoop
@@ -94,6 +88,9 @@ spec:
       - name: hive-metastore-conf
         configMap:
           name: hive-metastore-conf
+      - name: tez-conf
+        configMap:
+          name: tez-conf
       - name: mnt
         emptyDir: {}
       - name: package-hadoop

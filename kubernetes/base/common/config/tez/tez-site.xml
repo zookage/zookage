@@ -72,4 +72,8 @@
     <name>hadoop.http.authentication.signer.secret.provider</name>
     <value>random</value>
   </property>
+  <property>
+    <name>tez.history.logging.proto-base-dir</name>
+    <value>/user/history/tez</value>
+  </property>
 </configuration>

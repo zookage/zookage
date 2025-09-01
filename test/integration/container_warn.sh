@@ -45,22 +45,10 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find container" \
   | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find app" \
   | grep -v 'pod/yarn-nodemanager-.* nodemanager.DefaultContainerExecutor: delete returned false for path' \
-  | grep -v 'pod/tez-ui-.* Creation of SecureRandom instance for session ID generation using \[SHA1PRNG\] took' \
-  | grep -v 'pod/hive-metastore-.* nodemanager.DefaultContainerExecutor: Exit code from' \
-  | grep -v 'pod/hive-metastore-.* Failed to create directory: /home/hive/.beeline' \
-  | grep -v 'pod/hive-metastore-.* util.DriverDataSource: Registered driver with driverClassName=org.apache.derby.jdbc.EmbeddedDriver' \
-  | grep -v 'pod/hive-metastore-.* metastore.ObjectStore: Failed to get database' \
-  | grep -v 'pod/hive-hiveserver2-.* session.SessionState: METASTORE_FILTER_HOOK will be ignored' \
-  | grep -v 'pod/hive-hiveserver2-.* Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions.' \
-  | grep -v 'pod/hive-hiveserver2-.* server.HiveServer2: No policy provider found, skip creating PrivilegeSynchonizer' \
-  | grep -v 'pod/hive-hiveserver2-.* mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed' \
-  | grep -v 'pod/hive-hiveserver2-.* mapreduce.Counters: Group org.apache.hadoop.mapred.Task$Counter is deprecated' \
+  | grep -v 'pod/hive-hiveserver2-.* conf.HiveConf: HiveConf of name hive.cluster.id does not exist' \
+  | grep -v "pod/hive-hiveserver2-.* tez.TezConfigurationFactory: Skip adding 'tez.application.tags' to dagConf, as it's an AM scoped property" \
   `# Needs TX` \
   | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: Cannot get a table snapshot for' \
-  `# https://github.com/apache/datasketches-hive/pull/66` \
-  | grep -v 'pod/hive-hiveserver2-.* exec.FunctionRegistry: UDF Class org.apache.hive.org.apache.datasketches.hive' \
-  `# HIVE-27120` \
-  | grep -v 'pod/hive-hiveserver2-.* conf.HiveConf: HiveConf of name hive.internal.ss.authz.settings.applied.marker does not exist' \
   | grep -v 'pod/zookeeper-server-.* org.eclipse.jetty.server.handler.ContextHandler .* contextPath ends with' \
   | grep -v 'pod/zookeeper-server-.* org.eclipse.jetty.server.handler.ContextHandler -- Empty contextPath' \
   | grep -v 'pod/zookeeper-server-.* org.eclipse.jetty.security.SecurityHandler .* has uncovered http methods for path:' \
