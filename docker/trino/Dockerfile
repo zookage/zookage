@@ -26,7 +26,7 @@ RUN apt-get update \
 COPY . .
 RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   ./mvnw ${clean} install \
-    -pl '!:trino-docs,!:trino-server-rpm' \
+    -pl '!:trino-docs' \
     -DskipTests \
   && mv \
     "./client/trino-cli/target/trino-cli-$(./mvnw --quiet help:evaluate -Dexpression=project.version -DforceStdout)-executable.jar" \
