@@ -85,34 +85,14 @@
     <value>false</value>
   </property>
 
-  <!-- Use the default ports of 3.x -->
   <property>
-    <name>dfs.namenode.secondary.http-address</name>
-    <value>0.0.0.0:9868</value>
+    <name>dfs.datanode.data.dir</name>
+    <value>[DISK]file://${hadoop.tmp.dir}/dfs/dn</value>
   </property>
   <property>
-    <name>dfs.namenode.secondary.https-address</name>
-    <value>0.0.0.0:9869</value>
-  </property>
-  <property>
-    <name>dfs.namenode.https-address</name>
-    <value>0.0.0.0:9871</value>
-  </property>
-  <property>
-    <name>dfs.datanode.http.address</name>
-    <value>0.0.0.0:9864</value>
-  </property>
-  <property>
-    <name>dfs.datanode.https.address</name>
-    <value>0.0.0.0:9865</value>
-  </property>
-  <property>
-    <name>dfs.datanode.address</name>
-    <value>0.0.0.0:9866</value>
-  </property>
-  <property>
-    <name>dfs.datanode.ipc.address</name>
-    <value>0.0.0.0:9867</value>
+    <!-- HDFS-16347 -->
+    <name>dfs.datanode.directoryscan.throttle.limit.ms.per.sec</name>
+    <value>500</value>
   </property>
 
   <property>

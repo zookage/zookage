@@ -26,6 +26,8 @@ configMapGenerator:
   - HADOOP_CONF_DIR=/etc/hadoop/conf
   - HADOOP_LOG_DIR=/mnt/log
   - HADOOP_OPTIONAL_TOOLS=hadoop-aws
+  - HADOOP_CLIENT_OPTS=--add-opens=java.base/java.lang=ALL-UNNAMED
+  - HADOOP_OPTS=--add-opens=java.base/java.lang=ALL-UNNAMED
   name: hadoop-env
 - literals:
   - HBASE_HOME=/opt/hbase

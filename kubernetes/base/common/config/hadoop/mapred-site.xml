@@ -32,7 +32,7 @@
   </property>
   <property>
     <name>yarn.app.mapreduce.am.command-opts</name>
-    <value>-Xmx410m</value>
+    <value>-Xmx410m --add-opens=java.base/java.lang=ALL-UNNAMED</value>
   </property>
   <property>
     <name>yarn.app.mapreduce.am.staging-dir</name>
