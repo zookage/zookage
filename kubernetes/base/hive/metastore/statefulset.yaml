@@ -22,6 +22,11 @@ spec:
   template:
     spec:
       initContainers:
+      - name: wait-for-postgres
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/hive-postgres
       - name: wait-for-warehouse-dir
         image: zookage-util
         args:
