@@ -43,7 +43,7 @@ RUN \
   --mount=type=cache,target=/home/hadoop-build/.config,uid=999,gid=999 \
   --mount=type=cache,target=/home/hadoop-build/.local,uid=999,gid=999 \
   --mount=type=cache,target=/home/hadoop-build/.m2,uid=999,gid=999 \
-  mvn ${clean} package \
+  mvn ${clean} install \
     -P${active_profiles} \
     -DskipTests \
     -Dtar \
