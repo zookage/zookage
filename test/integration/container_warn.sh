@@ -19,12 +19,14 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 "${integration_dir}/divider.sh" "Start fetching warnings of all containers"
 
 # shellcheck disable=SC2016
-"${base_dir}/bin/logs" | grep WARN \
+! "${base_dir}/bin/logs" | grep WARN \
   | grep -v 'WARNING: .* does not exist. Creating.' \
   | grep -v 'pod/hdfs-namenode-.* hdfs.DFSUtilClient: Namenode for .* remains unresolved for ID' \
   | grep -v 'pod/hdfs-namenode-.* ha.HealthMonitor: Transport-level exception trying to monitor health of NameNode' \
   | grep -v 'pod/hdfs-namenode-.* ha.ActiveStandbyElector: Ignoring stale result from old client with sessionId' \
   | grep -v 'pod/hdfs-namenode-.* ha.EditLogTailer: Edit log tailer interrupted' \
+  | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Problem connecting to server:' \
+  | grep -v 'pod/hdfs-datanode-.* hdfs.DFSUtilClient: Namenode for zookage remains unresolved for ID' \
   | grep -v 'pod/hdfs-datanode-.* impl.FsDatasetImpl: dfsUsed file missing in' \
   | grep -v 'pod/hdfs-datanode-.* ipc.Client: Address change detected' \
   | grep -v 'pod/hdfs-httpfs-.* impl.MetricsSystemImpl: httpfs metrics system already initialized!' \
@@ -59,17 +61,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/ozone-om-.* helpers.OzoneAclUtil: Failed to get primary group from user .*' \
   `# HDDS-8395` \
   | grep -v 'ozone-s3g-.* impl.MetricsSystemImpl: S3Gateway metrics system already initialized!' \
-  `# Container security` \
-  | grep -v 'pod/trino-coordinator-.* # WARNING: Unable to attach Serviceability Agent' \
-  `# Jersey warning` \
-  | grep -v 'pod/trino-coordinator-.* registered in SERVER runtime does not implement any provider interfaces applicable' \
-  | grep -v 'pod/trino-coordinator-.* of type io.trino.execution.resourcegroups.ResourceGroupManager<?>' \
-  `# https://github.com/trinodb/trino/pull/18374` \
-  | grep -v 'pod/trino-coordinator-.* getRoot in io.trino.server.ui.WebUiStaticResource contains empty path annotation' \
-  `# Container security` \
-  | grep -v 'pod/trino-worker-.* # WARNING: Unable to attach Serviceability Agent' \
-  `# Jersey warning` \
-  | grep -v 'pod/trino-worker-.* registered in SERVER runtime does not implement any provider interfaces applicable' \
-  || true
+  | grep -v 'pod/trino-coordinator-.* WARNING: Using incubator modules: jdk.incubator.vector' \
+  | grep -v 'pod/trino-worker-.* WARNING: Using incubator modules: jdk.incubator.vector'
 
 "${integration_dir}/divider.sh" "Finished fetching warnings of all containers"
