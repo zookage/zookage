@@ -11,17 +11,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -eu
+set -u
 
-readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
+readonly integration_dir=$(cd "$(dirname "$0")" || exit; pwd)
 readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
 "${integration_dir}/divider.sh" "Start fetching errors of all containers"
 
 # shellcheck disable=SC2016
-! "${base_dir}/bin/logs" | grep ERROR \
+"${base_dir}/bin/logs" | grep ERROR \
+  | grep -v 'pod/trino-coordinator-.*	io.airlift.discovery.client.CachingServiceSelector	Cannot connect to discovery server for refresh (trino/general)' \
+  | grep -v 'pod/trino-worker-.*	io.airlift.discovery.client.CachingServiceSelector	Cannot connect to discovery server for refresh (trino/general)' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Learner -- Unexpected exception, connectToLeader exceeded' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Learner -- Failed connect to' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Exception while listening to address'
+
+# shellcheck disable=SC2181
+if [ $? -eq 0 ]; then
+  "${integration_dir}/divider.sh" "Errors are found"
+  exit 1
+fi
 
 "${integration_dir}/divider.sh" "Finished fetching errors of all containers"
