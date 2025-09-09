@@ -20,10 +20,14 @@ FROM ${maven_image} AS builder
 ARG clean
 
 WORKDIR /root/hive
+
+# hadolint ignore=DL3008
+RUN apt-get update && apt-get install -y --no-install-recommends unzip
+
 COPY . .
 RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   mvn --threads 1C ${clean} install \
-    -Pdist,iceberg \
+    -Pdist \
     -DskipTests \
     -Dmaven.javadoc.skip=true \
   && mv \
