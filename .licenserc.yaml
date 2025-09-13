@@ -32,6 +32,7 @@ header:
   - "**/*.md"
   - "LICENSE"
   - "kubernetes/base/common/config/hadoop/httpfs-signature.secret"
+  - "kubernetes/base/common/config/keycloak/realm-export.json"
   - "kubernetes/base/common/config/ozone/http_secret"
   - "kubernetes/base/common/config/trino/jvm.config"
   language:

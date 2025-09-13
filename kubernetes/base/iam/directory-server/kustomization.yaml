@@ -15,7 +15,7 @@ kind: Kustomization
 labels:
 - includeSelectors: true
   pairs:
-    service: iam-directory-server
+    service: directory-server
     tier: backend
 resources:
 - deployment.yaml

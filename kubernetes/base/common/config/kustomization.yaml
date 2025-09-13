@@ -49,6 +49,10 @@ configMapGenerator:
   - hive-metastore/metastore-site.xml
   name: hive-metastore-conf
 - files:
+  - keycloak/keycloak.conf
+  - keycloak/realm-export.json
+  name: keycloak-conf
+- files:
   - ozone/dn-audit-log4j2.properties
   - ozone/hadoop-metrics2-hddsdatanode.properties
   - ozone/hadoop-metrics2-ozonemanager.properties
