@@ -10,13 +10,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-labels:
-- includeSelectors: true
-  pairs:
-    service: metastore
-    tier: backend
-resources:
-- statefulset.yaml
-- service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: hive-metastore-postgres
+spec:
+  clusterIP: None
+  selector: {}

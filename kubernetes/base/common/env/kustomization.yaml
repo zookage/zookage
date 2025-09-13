@@ -55,8 +55,8 @@ configMapGenerator:
   - HIVE_CONF_DIR=/etc/hive/conf
   name: hive-env
 - literals:
-  - HIVE_HOME=/opt/hive
-  - HIVE_CONF_DIR=/etc/hive-metastore/conf
+  - METASTORE_HOME=/opt/hive-metastore
+  - METASTORE_CONF_DIR=/etc/hive-metastore/conf
   name: hive-metastore-env
 - literals:
   - OZONE_HOME=/opt/ozone

@@ -25,7 +25,7 @@ spec:
         image: zookage-util
         args:
         - wait-for-rollout
-        - statefulset/hive-metastore
+        - statefulset/hive-metastore-server
       containers:
       - name: hiveserver2
         image: zookage-hive

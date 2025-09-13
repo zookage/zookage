@@ -15,7 +15,7 @@
 <configuration>
   <property>
     <name>hive.metastore.uris</name>
-    <value>thrift://hive-metastore-0.hive-metastore:9083</value>
+    <value>thrift://hive-metastore-server-0.hive-metastore-server:9083</value>
   </property>
   <property>
     <name>hive.reloadable.aux.jars.path</name>
