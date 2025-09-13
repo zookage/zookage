@@ -13,11 +13,11 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: hive-postgres
+  name: hive-metastore-postgres
 spec:
   selector:
     matchLabels: {}
-  serviceName: hive-postgres
+  serviceName: hive-metastore-postgres
   replicas: 1
   template:
     spec:

@@ -13,7 +13,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: hive-mkdir
+  name: hive-metastore-mkdir
 spec:
   template:
     spec:

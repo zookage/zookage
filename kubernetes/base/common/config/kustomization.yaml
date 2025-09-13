@@ -45,7 +45,7 @@ configMapGenerator:
   - hive/hive-site.xml
   name: hive-conf
 - files:
-  - hive-metastore/hive-log4j2.properties
+  - hive-metastore/metastore-log4j2.properties
   - hive-metastore/metastore-site.xml
   name: hive-metastore-conf
 - files:

@@ -42,6 +42,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v "pod/hive-hiveserver2-.* tez.TezConfigurationFactory: Skip adding 'tez.application.tags' to dagConf, as it's an AM scoped property" \
   `# Needs TX` \
   | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: Cannot get a table snapshot for' \
+  | grep -v 'pod/hive-metastore-server-.*: WARNING: Unable to create a system terminal' \
   | grep -v 'pod/iam-directory-server-.* entry.DefaultAttribute: ERR_13207_VALUE_ALREADY_EXISTS' \
   | grep -v "pod/iam-directory-server-.* core.DefaultDirectoryService: You didn't change the admin password of directory service instance 'default'.  Please update the admin password as soon as possible to prevent a possible security breach" \
   | grep -v 'pod/zookeeper-server-.* org.eclipse.jetty.server.handler.ContextHandler .* contextPath ends with' \

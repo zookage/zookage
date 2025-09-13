@@ -13,11 +13,11 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: hive-metastore
+  name: hive-metastore-server
 spec:
   selector:
     matchLabels: {}
-  serviceName: hive-metastore
+  serviceName: hive-metastore-server
   replicas: 1
   template:
     spec:
@@ -26,16 +26,16 @@ spec:
         image: zookage-util
         args:
         - wait-for-rollout
-        - statefulset/hive-postgres
+        - statefulset/hive-metastore-postgres
       - name: wait-for-warehouse-dir
         image: zookage-util
         args:
         - wait-for-job
-        - hive-mkdir
+        - hive-metastore-mkdir
       - name: init-schema
-        image: zookage-hive
+        image: zookage-hive-metastore
         command:
-        - $(HIVE_HOME)/bin/schematool
+        - $(METASTORE_HOME)/bin/schematool
         args:
         - -initSchema
         - -dbType
@@ -60,12 +60,9 @@ spec:
           mountPath: /opt/hadoop
       containers:
       - name: metastore
-        image: zookage-hive
+        image: zookage-hive-metastore
         command:
-        - $(HIVE_HOME)/bin/hive
-        args:
-        - --service
-        - metastore
+        - $(METASTORE_HOME)/bin/start-metastore
         envFrom:
         - configMapRef:
             name: aws-env
