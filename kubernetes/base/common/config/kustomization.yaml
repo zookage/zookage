@@ -18,6 +18,11 @@ labels:
     component: config
 configMapGenerator:
 - files:
+  - directory-server/bootstrap.ldif
+  - directory-server/enable-nis-schema.ldif
+  - directory-server/log4j.properties
+  name: directory-server-conf
+- files:
   - hadoop/capacity-scheduler.xml
   - hadoop/core-site.xml
   - hadoop/hadoop-metrics2.properties
