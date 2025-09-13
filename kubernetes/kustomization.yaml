@@ -23,6 +23,7 @@ resources:
 # - base/hbase
 - base/hdfs
 - base/hive
+# - base/iam
 # - base/mapreduce
 # - base/ozone
 # - base/spark
@@ -34,6 +35,9 @@ images:
 - name: zookage-util
   newName: zookage/zookage-util
   newTag: 0.3.0
+- name: zookage-directory-server
+  newName: zookage/zookage-directory-server
+  newTag: zookage-2.0.0.AM27
 - name: zookage-hadoop
   newName: zookage/zookage-hadoop
   newTag: 3.4.1-zookage-0.3

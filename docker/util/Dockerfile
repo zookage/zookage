@@ -18,7 +18,7 @@ FROM ${jdk_image}
 
 # hadolint ignore=DL3008
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends curl dnsutils less unzip vim \
+  && apt-get install -y --no-install-recommends curl dnsutils ldap-utils less unzip vim \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && groupadd --gid 1001 zookage \
