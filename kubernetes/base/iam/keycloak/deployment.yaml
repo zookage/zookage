@@ -1,0 +1,50 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iam-keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {}
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-directory-server
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/iam-directory-server
+      containers:
+      - name: keycloak
+        image: quay.io/keycloak/keycloak:26.3.3
+        args:
+        - --config-file=/etc/keycloak/conf/keycloak.conf
+        - start
+        - --import-realm
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 9000
+        volumeMounts:
+        - name: keycloak-conf
+          mountPath: /etc/keycloak/conf/keycloak.conf
+          subPath: keycloak.conf
+        - name: keycloak-conf
+          mountPath: /opt/keycloak/data/import/realm-export.json
+          subPath: realm-export.json
+      volumes:
+      - name: keycloak-conf
+        configMap:
+          name: keycloak-conf

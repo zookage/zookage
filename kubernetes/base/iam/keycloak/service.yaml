@@ -10,17 +10,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+apiVersion: v1
+kind: Service
 metadata:
-  name: waiter
-rules:
-- apiGroups: ["apps"]
-  resources: ["statefulsets"]
-  verbs: ["get", "list"]
-- apiGroups: ["apps"]
-  resources: ["deployments"]
-  verbs: ["get", "list", "watch"]
-- apiGroups: ["batch"]
-  resources: ["jobs"]
-  verbs: ["get", "list", "watch"]
+  name: iam-keycloak
+spec:
+  type: LoadBalancer
+  selector: {}
+  ports:
+  - name: http
+    port: 8080
