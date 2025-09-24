@@ -23,9 +23,11 @@ resources:
 # - base/hbase
 - base/hdfs
 - base/hive
+- base/hive-metastore
 # - base/iam
 # - base/mapreduce
 # - base/ozone
+- base/postgres
 # - base/spark
 - base/tez
 # - base/trino
@@ -47,9 +49,15 @@ images:
 - name: zookage-hive
   newName: zookage/zookage-hive
   newTag: 4.1.0-zookage-0.3
+- name: zookage-hive-metastore
+  newName: zookage/zookage-hive-metastore
+  newTag: test
 - name: zookage-ozone
   newName: zookage/zookage-ozone
   newTag: 2.0.0-zookage-0.3
+- name: zookage-postgres
+  newName: postgres
+  newTag: '17.6'
 - name: zookage-spark
   newName: zookage/zookage-spark
   newTag: 4.0.1-zookage-0.3

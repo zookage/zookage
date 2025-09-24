@@ -19,7 +19,15 @@
   </property>
   <property>
     <name>javax.jdo.option.ConnectionURL</name>
-    <value>jdbc:postgresql://hive-metastore-postgres-0.hive-metastore-postgres:5432/hive</value>
+    <value>jdbc:postgresql://postgres-database-0.postgres-database:5432/hive</value>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionUserName</name>
+    <value>admin</value>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionPassword</name>
+    <value>pass</value>
   </property>
   <property>
     <name>hive.hook.proto.base-directory</name>
