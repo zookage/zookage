@@ -13,28 +13,26 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: hive-metastore-postgres
+  name: postgres-database
 spec:
   selector:
     matchLabels: {}
-  serviceName: hive-metastore-postgres
+  serviceName: postgres-database
   replicas: 1
   template:
     spec:
       initContainers:
       containers:
       - name: server
-        image: postgres:16.3
+        image: zookage-postgres
         securityContext:
           runAsUser: 999
           runAsGroup: 999
         env:
         - name: POSTGRES_USER
-          value: APP
+          value: admin
         - name: POSTGRES_PASSWORD
-          value: mine
-        - name: POSTGRES_DB
-          value: hive
+          value: pass
         volumeMounts:
         - name: mnt
           mountPath: /var/lib/postgresql

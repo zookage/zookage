@@ -26,7 +26,15 @@ spec:
         image: zookage-util
         args:
         - wait-for-rollout
-        - statefulset/hive-metastore-postgres
+        - statefulset/postgres-database
+      - name: create-hive-database
+        image: zookage-postgres
+        command:
+        - psql
+        args:
+        - 'postgresql://admin:pass@postgres-database-0.postgres-database:5432'
+        - -c
+        - 'CREATE DATABASE hive'
       - name: wait-for-warehouse-dir
         image: zookage-util
         args:
