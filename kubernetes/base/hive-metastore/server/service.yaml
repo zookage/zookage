@@ -17,3 +17,6 @@ metadata:
 spec:
   clusterIP: None
   selector: {}
+  ports:
+  - name: rest-catalog
+    port: 9001

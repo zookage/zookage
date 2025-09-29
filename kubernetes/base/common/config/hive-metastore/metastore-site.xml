@@ -33,4 +33,13 @@
     <name>hive.hook.proto.base-directory</name>
     <value>/user/history/hive</value>
   </property>
+
+  <property>
+    <name>metastore.catalog.servlet.port</name>
+    <value>9001</value>
+  </property>
+  <property>
+    <name>metastore.catalog.servlet.auth</name>
+    <value>none</value>
+  </property>
 </configuration>
