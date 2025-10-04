@@ -72,6 +72,8 @@ images:
   newTag: 3.9.4-zookage-0.3
 ### Extensions ###
 patches:
+# - path: patches/auth/hive-metastore.yaml
+# - path: patches/auth/trino.yaml
 # - path: patches/ha/hdfs.yaml
 # - path: patches/ha/yarn.yaml
 # - path: patches/llap/hive.yaml
