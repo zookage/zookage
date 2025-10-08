@@ -28,7 +28,7 @@ spec:
         - deployment/openldap-server
       containers:
       - name: keycloak
-        image: quay.io/keycloak/keycloak:26.3.3
+        image: zookage-keycloak
         args:
         - --config-file=/etc/keycloak/conf/keycloak.conf
         - start
