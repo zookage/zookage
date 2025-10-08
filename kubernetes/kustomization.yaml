@@ -50,6 +50,9 @@ images:
 - name: zookage-hive-metastore
   newName: zookage/zookage-hive-metastore
   newTag: test
+- name: zookage-keycloak
+  newName: zookage/zookage-keycloak
+  newTag: test
 - name: zookage-openldap
   newName: zookage/zookage-openldap
   newTag: test
