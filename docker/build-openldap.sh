@@ -1,3 +1,4 @@
+#!/bin/bash
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -10,12 +11,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-kind: Service
-metadata:
-  name: iam-directory-server
-spec:
-  selector: {}
-  ports:
-  - name: ldap
-    port: 10389
+set -eu
+
+# shellcheck disable=SC2034
+ZOOKAGE_DIR=./
+# shellcheck source=/mnt/docker/prepare.sh
+source ./docker/prepare.sh ZOOKAGE_DIR
+
+docker build \
+  --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-openldap:${image_tag}" \
+  --build-arg "ubuntu_image=${UBUNTU_IMAGE}" \
+  --file ./docker/openldap/Dockerfile \
+  ./docker/openldap

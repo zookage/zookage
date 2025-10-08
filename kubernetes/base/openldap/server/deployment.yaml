@@ -13,38 +13,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: iam-keycloak
+  name: openldap-server
 spec:
   replicas: 1
   selector:
     matchLabels: {}
   template:
     spec:
-      initContainers:
-      - name: wait-for-openldap-server
-        image: zookage-util
-        args:
-        - wait-for-rollout
-        - deployment/openldap-server
       containers:
-      - name: keycloak
-        image: quay.io/keycloak/keycloak:26.3.3
-        args:
-        - --config-file=/etc/keycloak/conf/keycloak.conf
-        - start
-        - --import-realm
+      - name: server
+        image: zookage-openldap
+        env:
+        startupProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - |
+              ldapadd -x -c \
+                -H "ldap://localhost:389" \
+                -D cn=admin,dc=example,dc=com \
+                -w admin \
+                -f /etc/openldap/conf/bootstrap.ldif
+          periodSeconds: 1
         readinessProbe:
-          httpGet:
-            path: /health/ready
-            port: 9000
+          tcpSocket:
+            port: 389
         volumeMounts:
-        - name: keycloak-conf
-          mountPath: /etc/keycloak/conf/keycloak.conf
-          subPath: keycloak.conf
-        - name: keycloak-conf
-          mountPath: /opt/keycloak/data/import/realm-export.json
-          subPath: realm-export.json
+        - name: openldap-conf
+          mountPath: /etc/openldap/conf
+      terminationGracePeriodSeconds: 5
       volumes:
-      - name: keycloak-conf
+      - name: openldap-conf
         configMap:
-          name: keycloak-conf
+          name: openldap-conf
+      - name: mnt
+        emptyDir: {}

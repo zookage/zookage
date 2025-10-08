@@ -18,11 +18,6 @@ labels:
     component: config
 configMapGenerator:
 - files:
-  - directory-server/bootstrap.ldif
-  - directory-server/enable-nis-schema.ldif
-  - directory-server/log4j.properties
-  name: directory-server-conf
-- files:
   - hadoop/capacity-scheduler.xml
   - hadoop/core-site.xml
   - hadoop/hadoop-metrics2.properties
@@ -52,6 +47,9 @@ configMapGenerator:
   - keycloak/keycloak.conf
   - keycloak/realm-export.json
   name: keycloak-conf
+- files:
+  - openldap/bootstrap.ldif
+  name: openldap-conf
 - files:
   - ozone/dn-audit-log4j2.properties
   - ozone/hadoop-metrics2-hddsdatanode.properties

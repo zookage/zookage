@@ -50,15 +50,15 @@
   </property>
   <property>
     <name>hadoop.security.group.mapping.ldap.url</name>
-    <value>ldap://iam-directory-server:10389</value>
+    <value>ldap://openldap-server:389</value>
   </property>
   <property>
     <name>hadoop.security.group.mapping.ldap.bind.user</name>
-    <value>uid=admin,ou=system</value>
+    <value>cn=admin,dc=example,dc=com</value>
   </property>
   <property>
     <name>hadoop.security.group.mapping.ldap.bind.password</name>
-    <value>secret</value>
+    <value>admin</value>
   </property>
   <property>
     <name>hadoop.security.group.mapping.ldap.userbase</name>
