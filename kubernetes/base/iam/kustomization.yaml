@@ -17,5 +17,4 @@ labels:
   pairs:
     component: iam
 resources:
-- directory-server
 - keycloak

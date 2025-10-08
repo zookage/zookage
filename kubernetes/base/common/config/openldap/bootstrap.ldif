@@ -147,17 +147,6 @@ uidNumber: 1080
 gidNumber: 1080
 homeDirectory: /home/trino
 
-dn: uid=directory-server,ou=users,dc=example,dc=com
-objectClass: top
-objectClass: inetOrgPerson
-objectClass: posixAccount
-uid: directory-server
-cn: Directory Server
-sn: Directory Server
-uidNumber: 1090
-gidNumber: 1090
-homeDirectory: /home/directory-server
-
 dn: ou=groups,dc=example,dc=com
 objectClass: top
 objectClass: organizationalUnit
@@ -245,9 +234,3 @@ objectClass: top
 objectClass: posixGroup
 cn: trino
 gidNumber: 1080
-
-dn: cn=directory-server,ou=groups,dc=example,dc=com
-objectClass: top
-objectClass: posixGroup
-cn: directory-server
-gidNumber: 1090

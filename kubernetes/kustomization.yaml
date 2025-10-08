@@ -26,6 +26,7 @@ resources:
 - base/hive-metastore
 # - base/iam
 # - base/mapreduce
+- base/openldap
 # - base/ozone
 - base/postgres
 # - base/spark
@@ -37,9 +38,6 @@ images:
 - name: zookage-util
   newName: zookage/zookage-util
   newTag: 0.3.0
-- name: zookage-directory-server
-  newName: zookage/zookage-directory-server
-  newTag: zookage-2.0.0.AM27
 - name: zookage-hadoop
   newName: zookage/zookage-hadoop
   newTag: 3.4.1-zookage-0.3
@@ -51,6 +49,9 @@ images:
   newTag: 4.1.0-zookage-0.3
 - name: zookage-hive-metastore
   newName: zookage/zookage-hive-metastore
+  newTag: test
+- name: zookage-openldap
+  newName: zookage/zookage-openldap
   newTag: test
 - name: zookage-ozone
   newName: zookage/zookage-ozone

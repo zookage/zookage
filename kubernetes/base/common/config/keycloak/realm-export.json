@@ -647,7 +647,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "secret",
+      "secret": "hive-metastore",
       "redirectUris": [
         "/*"
       ],
@@ -789,7 +789,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "secret",
+      "secret": "trino",
       "redirectUris": [
         "/*"
       ],
@@ -1929,13 +1929,13 @@
             "true"
           ],
           "bindDn": [
-            "uid=admin,ou=system"
+            "cn=admin,dc=example,dc=com"
           ],
           "usernameLDAPAttribute": [
             "uid"
           ],
           "bindCredential": [
-            "secret"
+            "admin"
           ],
           "changedSyncPeriod": [
             "60"
@@ -1950,7 +1950,7 @@
             "entryUUID"
           ],
           "connectionUrl": [
-            "ldap://iam-directory-server:10389"
+            "ldap://openldap-server:389"
           ],
           "allowKerberosAuthentication": [
             "false"

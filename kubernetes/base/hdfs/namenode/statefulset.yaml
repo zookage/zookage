@@ -55,11 +55,11 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: mnt
           mountPath: /mnt
-      - name: wait-for-directory-server
+      - name: wait-for-openldap
         image: zookage-util
         args:
         - wait-for-rollout
-        - deployment/iam-directory-server
+        - deployment/openldap-server
       containers:
       - name: namenode
         image: zookage-hadoop
