@@ -21,11 +21,142 @@ objectClass: inetOrgPerson
 objectClass: posixAccount
 uid: zookage
 cn: ZooKage
-sn: Zoo
+sn: ZooKage
 uidNumber: 1001
 gidNumber: 1001
 homeDirectory: /home/zookage
-userPassword: zookage
+
+dn: uid=hdfs,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: hdfs
+cn: HDFS
+sn: HDFS
+uidNumber: 1011
+gidNumber: 1011
+homeDirectory: /home/hdfs
+
+dn: uid=yarn,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: yarn
+cn: YARN
+sn: YARN
+uidNumber: 1012
+gidNumber: 1012
+homeDirectory: /home/yarn
+
+dn: uid=mapred,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: mapred
+cn: MapReduce
+sn: MapReduce
+uidNumber: 1013
+gidNumber: 1013
+homeDirectory: /home/mapred
+
+dn: uid=httpfs,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: httpfs
+cn: HttpFS
+sn: HttpFS
+uidNumber: 1014
+gidNumber: 1014
+homeDirectory: /home/httpfs
+
+dn: uid=hive,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: hive
+cn: Hive
+sn: Hive
+uidNumber: 1020
+gidNumber: 1020
+homeDirectory: /home/hive
+
+dn: uid=tez,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: tez
+cn: Tez
+sn: Tez
+uidNumber: 1030
+gidNumber: 1030
+homeDirectory: /home/tez
+
+dn: uid=spark,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: spark
+cn: Spark
+sn: Spark
+uidNumber: 1040
+gidNumber: 1040
+homeDirectory: /home/spark
+
+dn: uid=zookeeper,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: zookeeper
+cn: ZooKeeper
+sn: ZooKeeper
+uidNumber: 1050
+gidNumber: 1050
+homeDirectory: /home/zookeeper
+
+dn: uid=hbase,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: hbase
+cn: HBase
+sn: HBase
+uidNumber: 1060
+gidNumber: 1060
+homeDirectory: /home/hbase
+
+dn: uid=ozone,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: ozone
+cn: Ozone
+sn: Ozone
+uidNumber: 1070
+gidNumber: 1070
+homeDirectory: /home/ozone
+
+dn: uid=trino,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: trino
+cn: Trino
+sn: Trino
+uidNumber: 1080
+gidNumber: 1080
+homeDirectory: /home/trino
+
+dn: uid=directory-server,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: directory-server
+cn: Directory Server
+sn: Directory Server
+uidNumber: 1090
+gidNumber: 1090
+homeDirectory: /home/directory-server
 
 dn: ou=groups,dc=example,dc=com
 objectClass: top
@@ -37,4 +168,86 @@ objectClass: top
 objectClass: posixGroup
 cn: zookage
 gidNumber: 1001
-memberUid: zookage
+
+dn: cn=hadoop,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: hadoop
+gidNumber: 1010
+memberUid: hdfs
+memberUid: yarn
+memberUid: mapred
+memberUid: hive
+memberUid: trino
+
+dn: cn=hdfs,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: hdfs
+gidNumber: 1011
+
+dn: cn=yarn,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: yarn
+gidNumber: 1012
+
+dn: cn=mapred,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: mapred
+gidNumber: 1013
+
+dn: cn=httpfs,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: httpfs
+gidNumber: 1014
+
+dn: cn=hive,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: hive
+gidNumber: 1020
+
+dn: cn=tez,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: tez
+gidNumber: 1030
+
+dn: cn=spark,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: spark
+gidNumber: 1040
+
+dn: cn=zookeeper,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: zookeeper
+gidNumber: 1050
+
+dn: cn=hbase,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: hbase
+gidNumber: 1060
+
+dn: cn=ozone,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: ozone
+gidNumber: 1070
+
+dn: cn=trino,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: trino
+gidNumber: 1080
+
+dn: cn=directory-server,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: directory-server
+gidNumber: 1090

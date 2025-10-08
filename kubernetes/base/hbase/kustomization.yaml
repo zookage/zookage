@@ -17,6 +17,5 @@ labels:
   pairs:
     component: hbase
 resources:
-- mkdir
 - master
 - regionserver

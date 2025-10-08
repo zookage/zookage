@@ -17,7 +17,6 @@ labels:
   pairs:
     component: yarn
 resources:
-- mkdir
 - resourcemanager
 - nodemanager
 - timelineserver

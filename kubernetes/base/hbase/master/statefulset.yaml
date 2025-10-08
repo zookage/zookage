@@ -32,7 +32,7 @@ spec:
         image: zookage-util
         args:
         - wait-for-job
-        - hbase-mkdir
+        - hdfs-mkdir
       containers:
       - name: master
         image: zookage-hbase

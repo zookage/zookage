@@ -17,5 +17,4 @@ labels:
   pairs:
     component: mapreduce
 resources:
-- mkdir
 - historyserver

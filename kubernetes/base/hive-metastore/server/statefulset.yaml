@@ -39,7 +39,7 @@ spec:
         image: zookage-util
         args:
         - wait-for-job
-        - hive-metastore-mkdir
+        - hdfs-mkdir
       - name: init-schema
         image: zookage-hive-metastore
         command:

@@ -17,5 +17,4 @@ labels:
   pairs:
     component: spark
 resources:
-- mkdir
 - historyserver

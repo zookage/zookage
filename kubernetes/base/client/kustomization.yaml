@@ -17,5 +17,4 @@ labels:
   pairs:
     component: client
 resources:
-- mkdir
 - node

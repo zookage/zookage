@@ -28,22 +28,6 @@ spec:
         args:
         - wait-for-rollout
         - statefulset/hive-metastore
-      - name: mkdir-tmp-dir
-        image: zookage-util
-        args:
-        - hdfs-mkdir
-        - /mnt
-        - hive:hive
-        - "755"
-        envFrom:
-        - configMapRef:
-            name: hadoop-env
-        env:
-        - name: HADOOP_USER_NAME
-          value: hdfs
-        volumeMounts:
-        - name: hadoop-conf
-          mountPath: /etc/hadoop/conf
       - name: wait-for-dns
         image: zookage-util
         args:

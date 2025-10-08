@@ -17,7 +17,13 @@ readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
 
 "${integration_dir}/divider.sh" "Start running Trino queries"
 "${integration_dir}/run.sh" trino --execute="
-  SELECT count(*) FROM tpcds.tiny.item;
+  CREATE TABLE IF NOT EXISTS hive.default.trino_hive_test (id int);
+  INSERT INTO hive.default.trino_hive_test VALUES (1);
+  SELECT * FROM hive.default.trino_hive_test;
+
+  CREATE TABLE IF NOT EXISTS iceberg.default.trino_iceberg_test (id int);
+  INSERT INTO iceberg.default.trino_iceberg_test VALUES (1);
+  SELECT * FROM iceberg.default.trino_iceberg_test;
 "
 "${integration_dir}/divider.sh" "Finished running Trino queries"
 
