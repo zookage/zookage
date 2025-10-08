@@ -17,7 +17,7 @@ readonly NAMESPACE=zookage
 
 if kubectl get namespace ${NAMESPACE} &> /dev/null; then
   kubectl delete --kustomize=kubernetes --now
-  kubectl wait namespace/${NAMESPACE} --for=delete --timeout=600s 2> /dev/null
+  until kubectl wait namespace/${NAMESPACE} --for=delete --timeout=1s 2> /dev/null; do :; done
   echo
   echo "Shut down all resources."
 else

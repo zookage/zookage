@@ -20,7 +20,7 @@ fi
 readonly command=$1
 
 if [ "${command}" == "wait-for-job" ]; then
-  exec kubectl wait "job/$2" --for="condition=complete" --timeout=3600s
+  until kubectl wait "job/$2" --for="condition=complete" --timeout=1s; do :; done
 elif [ "${command}" == "wait-for-rollout" ]; then
   until kubectl rollout status "$2" --timeout=1s; do :; done
   exit 0
