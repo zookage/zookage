@@ -41,8 +41,6 @@ spec:
         - configMapRef:
             name: trino-env
         env:
-        - name: HADOOP_USER_NAME
-          value: hive
         - name: POD_NAME
           valueFrom:
             fieldRef:

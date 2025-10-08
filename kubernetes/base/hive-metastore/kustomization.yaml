@@ -17,5 +17,4 @@ labels:
   pairs:
     component: hive-metastore
 resources:
-- mkdir
 - server

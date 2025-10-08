@@ -26,6 +26,7 @@
     <name>hadoop.http.temp.dir</name>
     <value>/tmp/hadoop</value>
   </property>
+
   <property>
     <name>hadoop.proxyuser.httpfs.hosts</name>
     <value>*</value>
@@ -42,13 +43,46 @@
     <name>hadoop.proxyuser.hive.groups</name>
     <value>*</value>
   </property>
+
   <property>
-    <name>hadoop.user.group.static.mapping.overrides</name>
-    <value>spark=spark;zookage=zookage;</value>
+    <name>hadoop.security.group.mapping</name>
+    <value>org.apache.hadoop.security.LdapGroupsMapping</value>
   </property>
   <property>
-    <name>hadoop.security.token.service.use_ip</name>
-    <value>false</value>
+    <name>hadoop.security.group.mapping.ldap.url</name>
+    <value>ldap://iam-directory-server:10389</value>
+  </property>
+  <property>
+    <name>hadoop.security.group.mapping.ldap.bind.user</name>
+    <value>uid=admin,ou=system</value>
+  </property>
+  <property>
+    <name>hadoop.security.group.mapping.ldap.bind.password</name>
+    <value>secret</value>
+  </property>
+  <property>
+    <name>hadoop.security.group.mapping.ldap.userbase</name>
+    <value>ou=users,dc=example,dc=com</value>
+  </property>
+  <property>
+    <name>hadoop.security.group.mapping.ldap.search.filter.user</name>
+    <value>(&amp;(objectClass=posixAccount)(uid={0}))</value>
+  </property>
+  <property>
+    <name>hadoop.security.group.mapping.ldap.groupbase</name>
+    <value>ou=groups,dc=example,dc=com</value>
+  </property>
+  <property>
+    <name>hadoop.security.group.mapping.ldap.search.filter.group</name>
+    <value>(objectClass=posixGroup)</value>
+  </property>
+  <property>
+    <name>hadoop.security.group.mapping.ldap.posix.attr.uid.name</name>
+    <value>uid</value>
+  </property>
+  <property>
+    <name>hadoop.security.group.mapping.ldap.search.attr.member</name>
+    <value>memberUid</value>
   </property>
 
   <property>

@@ -18,27 +18,11 @@ spec:
   template:
     spec:
       initContainers:
-      - name: wait-for-parent-dir
+      - name: wait-for-tez-dir
         image: zookage-util
         args:
         - wait-for-job
         - hdfs-mkdir
-      - name: mkdir-tez
-        image: zookage-util
-        args:
-        - hdfs-mkdir
-        - /apps/tez
-        - tez:tez
-        - "755"
-        envFrom:
-        - configMapRef:
-            name: hadoop-env
-        env:
-        - name: HADOOP_USER_NAME
-          value: hdfs
-        volumeMounts:
-        - name: hadoop-conf
-          mountPath: /etc/hadoop/conf
       - name: wait-for-datanode
         image: zookage-util
         args:

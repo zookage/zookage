@@ -32,8 +32,18 @@ spec:
         - -c
         - |
           docker-entrypoint.sh hdfs-mkdir /apps hdfs:supergroup 755
+          docker-entrypoint.sh hdfs-mkdir /apps/tez tez:tez 755
+          docker-entrypoint.sh hdfs-mkdir /hbase hbase:hbase 711
           docker-entrypoint.sh hdfs-mkdir /tmp hdfs:supergroup 1777
+          docker-entrypoint.sh hdfs-mkdir /tmp/logs yarn:yarn 1777
+          docker-entrypoint.sh hdfs-mkdir /mnt hive:hive 755
           docker-entrypoint.sh hdfs-mkdir /user hdfs:supergroup 755
+          docker-entrypoint.sh hdfs-mkdir /user/history mapred:hadoop 755
+          docker-entrypoint.sh hdfs-mkdir /user/hive hive:hive 751
+          docker-entrypoint.sh hdfs-mkdir /user/hive/warehouse hive:hadoop 1770
+          docker-entrypoint.sh hdfs-mkdir /user/spark spark:spark 751
+          docker-entrypoint.sh hdfs-mkdir /user/spark/applicationHistory spark:spark 1777
+          docker-entrypoint.sh hdfs-mkdir /user/zookage zookage:zookage 700
         envFrom:
         - configMapRef:
             name: hadoop-env
