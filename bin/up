@@ -32,9 +32,25 @@ kubectl \
   --kustomize=kubernetes \
   --selector="component in (namespace,package)" \
   --wait=true
-"${bin_dir}/kubectl" wait job --all=true --for="condition=complete" --timeout=1800s
+until "${bin_dir}/kubectl" wait job --all=true --for="condition=complete" --timeout=1s 2> /dev/null; do :; done
+
 kubectl apply --kustomize kubernetes
-"${bin_dir}/kubectl" wait pod --all=true --for=condition=Ready --selector="tier!=job" --timeout=1800s
+previous=''
+while true; do
+  set +e
+  current=$("${bin_dir}/kubectl" wait pod --all=true --for=condition=Ready --selector="tier!=job" --timeout=1s 2> /dev/null)
+  exit_code=$?
+  set -e
+
+  if ! cmp -s <(echo "$previous") <(echo "$current"); then
+    diff <(echo "$previous") <(echo "$current") | grep -E '^> ' | sed -E 's/^> //'
+  fi
+
+  if [[ $exit_code -eq 0 ]]; then
+    break
+  fi
+  previous="$current"
+done
 
 echo
 echo "All resources are ready!"
