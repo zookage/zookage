@@ -10,13 +10,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-kind: Service
-metadata:
-  name: iam-keycloak
-spec:
-  type: LoadBalancer
-  selector: {}
-  ports:
-  - name: http
-    port: 8080
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+labels:
+- includeSelectors: true
+  pairs:
+    service: server
+    tier: backend
+resources:
+- deployment.yaml
+- service.yaml

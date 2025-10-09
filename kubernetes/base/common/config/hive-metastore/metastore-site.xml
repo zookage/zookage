@@ -48,7 +48,7 @@
   </property>
   <property>
     <name>metastore.catalog.servlet.auth.oauth2.issuer</name>
-    <value>http://iam-keycloak:8080/realms/zookage</value>
+    <value>http://keycloak-server:8080/realms/zookage</value>
   </property>
   <property>
     <name>metastore.catalog.servlet.auth.oauth2.audience</name>

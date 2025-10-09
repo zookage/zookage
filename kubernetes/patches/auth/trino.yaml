@@ -21,7 +21,7 @@ data:
     iceberg.rest-catalog.uri=http://hive-metastore-server:9001/iceberg
     iceberg.rest-catalog.view-endpoints-enabled=false
     iceberg.rest-catalog.security=OAUTH2
-    iceberg.rest-catalog.oauth2.server-uri=http://iam-keycloak:8080/realms/zookage/protocol/openid-connect/token
+    iceberg.rest-catalog.oauth2.server-uri=http://keycloak-server:8080/realms/zookage/protocol/openid-connect/token
     iceberg.rest-catalog.oauth2.credential=trino:trino
 
     fs.hadoop.enabled=true

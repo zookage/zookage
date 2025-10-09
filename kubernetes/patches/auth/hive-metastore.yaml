@@ -29,4 +29,4 @@ spec:
         image: zookage-util
         args:
         - wait-for-rollout
-        - deployment/iam-keycloak
+        - deployment/keycloak-server
