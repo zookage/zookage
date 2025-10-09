@@ -20,4 +20,4 @@ spec:
   publishNotReadyAddresses: true
   ports:
   - name: http
-    port: 8080
+    port: 8090

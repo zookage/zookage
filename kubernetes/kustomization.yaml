@@ -24,7 +24,7 @@ resources:
 - base/hdfs
 - base/hive
 - base/hive-metastore
-# - base/iam
+# - base/keycloak
 # - base/mapreduce
 - base/openldap
 # - base/ozone

@@ -15,8 +15,6 @@ kind: Kustomization
 labels:
 - includeSelectors: true
   pairs:
-    service: keycloak
-    tier: backend
+    component: keycloak
 resources:
-- deployment.yaml
-- service.yaml
+- server
