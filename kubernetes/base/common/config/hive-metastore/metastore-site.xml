@@ -30,8 +30,12 @@
     <value>pass</value>
   </property>
   <property>
+    <name>metastore.warehouse.dir</name>
+    <value>/apps/hive-warehouse</value>
+  </property>
+  <property>
     <name>hive.hook.proto.base-directory</name>
-    <value>/user/history/hive</value>
+    <value>/apps/hive-history</value>
   </property>
 
   <property>

@@ -34,9 +34,14 @@
     <name>yarn.app.mapreduce.am.command-opts</name>
     <value>-Xmx410m --add-opens=java.base/java.lang=ALL-UNNAMED</value>
   </property>
+
   <property>
-    <name>yarn.app.mapreduce.am.staging-dir</name>
-    <value>/user</value>
+    <name>mapreduce.jobhistory.intermediate-done-dir</name>
+    <value>/apps/mapred-history/done_intermediate</value>
+  </property>
+  <property>
+    <name>mapreduce.jobhistory.done-dir</name>
+    <value>/apps/mapred-history/done</value>
   </property>
 
   <property>

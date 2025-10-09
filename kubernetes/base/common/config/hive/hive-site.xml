@@ -56,7 +56,7 @@
   </property>
   <property>
     <name>hive.hook.proto.base-directory</name>
-    <value>/user/history/hive</value>
+    <value>/apps/hive-history</value>
   </property>
 
   <!-- For LLAP. You also have to unset tez.am.shuffle.auxiliary-service.id

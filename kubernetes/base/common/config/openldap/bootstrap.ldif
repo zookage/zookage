@@ -163,6 +163,7 @@ objectClass: top
 objectClass: posixGroup
 cn: hadoop
 gidNumber: 1010
+memberUid: zookage
 memberUid: hdfs
 memberUid: yarn
 memberUid: mapred

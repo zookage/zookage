@@ -74,6 +74,6 @@
   </property>
   <property>
     <name>tez.history.logging.proto-base-dir</name>
-    <value>/user/history/tez</value>
+    <value>/apps/tez-history</value>
   </property>
 </configuration>
