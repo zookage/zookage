@@ -21,7 +21,7 @@
   </property>
   <property>
     <name>hbase.rootdir</name>
-    <value>hdfs://zookage/hbase</value>
+    <value>hdfs://zookage/apps/hbase</value>
   </property>
   <property>
     <name>hbase.cluster.distributed</name>

@@ -47,8 +47,6 @@ spec:
         - configMapRef:
             name: zookeeper-env
         env:
-        - name: HADOOP_USER_NAME
-          value: hdfs
         - name: HADOOP_CLASSPATH
           value: $(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*
         - name: PATH
