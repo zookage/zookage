@@ -18,5 +18,7 @@ spec:
   type: LoadBalancer
   selector: {}
   ports:
+  - name: ipc
+    port: 10020
   - name: webapp
     port: 19888

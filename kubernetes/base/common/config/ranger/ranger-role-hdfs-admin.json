@@ -1,0 +1,9 @@
+{
+  "name": "hdfs_admin",
+  "users": [
+    {
+      "name": "hdfs",
+      "isAdmin": false
+    }
+  ]
+}

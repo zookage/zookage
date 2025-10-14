@@ -51,6 +51,10 @@
     <value>false</value>
   </property>
   <property>
+    <name>tez.staging-dir</name>
+    <value>/tmp/hive/tez/staging</value>
+  </property>
+  <property>
     <name>hive.server2.metrics.enabled</name>
     <value>true</value>
   </property>

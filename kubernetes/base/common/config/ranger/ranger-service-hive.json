@@ -1,0 +1,12 @@
+{
+  "type": "hive",
+  "name": "hive",
+  "configs": {
+    "username": "hive",
+    "password": "dummy",
+    "jdbc.driverClassName": "dummy",
+    "jdbc.url": "dummy",
+    "enable.hive.metastore.lookup": "true",
+    "hive.site.file.path": "/etc/hive/conf/hive-site.xml"
+  }
+}

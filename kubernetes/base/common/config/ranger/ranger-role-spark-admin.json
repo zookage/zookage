@@ -1,0 +1,9 @@
+{
+  "name": "spark_admin",
+  "users": [
+    {
+      "name": "spark",
+      "isAdmin": false
+    }
+  ]
+}

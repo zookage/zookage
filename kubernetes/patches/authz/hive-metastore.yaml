@@ -1,0 +1,46 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hive-metastore-env
+data:
+  METASTORE_CATALOG_SERVLET_AUTH: oauth2
+  METASTORE_SECURITY_AUTHORIZATION_MANAGER: org.apache.ranger.authorization.hive.authorizer.RangerHiveAuthorizerFactory
+  METASTORE_PRE_EVENT_LISTENERS: org.apache.hadoop.hive.ql.security.authorization.plugin.metastore.HiveMetaStoreAuthorizer
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hive-metastore-server
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-keycloak
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/keycloak-server
+      containers:
+      - name: metastore
+        env:
+        - name: METASTORE_CLASSPATH
+          value: $(METASTORE_CONF_DIR):/opt/ranger/ranger-hive-plugin/lib/*
+        volumeMounts:
+        - name: package-ranger
+          mountPath: /opt/ranger
+      volumes:
+      - name: package-ranger
+        persistentVolumeClaim:
+          claimName: package-ranger

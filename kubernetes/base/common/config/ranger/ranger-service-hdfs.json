@@ -1,0 +1,11 @@
+{
+  "type": "hdfs",
+  "name": "hdfs",
+  "configs": {
+    "username": "hdfs",
+    "password": "dummy",
+    "fs.default.name": "hdfs://zookage",
+    "hadoop.security.authentication": "simple",
+    "hadoop.security.authorization": "true"
+  }
+}

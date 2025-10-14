@@ -28,6 +28,9 @@ configMapGenerator:
   - hadoop/log4j.properties
   - hadoop/mapred-site.xml
   - hadoop/yarn-site.xml
+  - hadoop/ranger-hdfs-audit.xml
+  - hadoop/ranger-hdfs-policymgr-ssl.xml
+  - hadoop/ranger-hdfs-security.xml
   name: hadoop-conf
 - files:
   - hbase/hadoop-metrics2-hbase.properties
@@ -42,6 +45,9 @@ configMapGenerator:
 - files:
   - hive-metastore/metastore-log4j2.properties
   - hive-metastore/metastore-site.xml
+  - hive-metastore/ranger-hive-audit.xml
+  - hive-metastore/ranger-hive-policymgr-ssl.xml
+  - hive-metastore/ranger-hive-security.xml
   name: hive-metastore-conf
 - files:
   - keycloak/keycloak.conf
@@ -65,6 +71,23 @@ configMapGenerator:
   - ozone/s3g-audit-log4j2.properties
   - ozone/scm-audit-log4j2.properties
   name: ozone-conf
+- files:
+  - ranger/install.properties
+  - ranger/logback.xml
+  - ranger/ranger-admin-site.xml
+  - ranger/ranger-ugsync-site.xml
+  - ranger/ranger-role-hbase-admin.json
+  - ranger/ranger-role-hdfs-admin.json
+  - ranger/ranger-role-mapred-admin.json
+  - ranger/ranger-role-ranger-admin.json
+  - ranger/ranger-role-spark-admin.json
+  - ranger/ranger-role-tez-admin.json
+  - ranger/ranger-role-warehouse-admin.json
+  - ranger/ranger-role-yarn-admin.json
+  - ranger/ranger-service-hdfs.json
+  - ranger/ranger-service-hive.json
+  - ranger/ranger-policies.json
+  name: ranger-conf
 - files:
   - spark/log4j.properties
   - spark/spark-defaults.conf

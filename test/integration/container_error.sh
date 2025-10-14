@@ -23,6 +23,8 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hive-metastore-server-.*:   "CQ_ERROR_MESSAGE"' \
   | grep -v 'pod/hive-metastore-server-.*:   "CC_ERROR_MESSAGE"' \
   | grep -v 'pod/hive-metastore-server-.*:     "ERROR_MESSAGE" VARCHAR(2000)' \
+  | grep -v 'pod/ranger-admin-.*: could not find TAG ServiceDef..' \
+  | grep -v 'pod/ranger-admin-.*: failed to load/create serviceType' \
   | grep -v 'pod/trino-coordinator-.*	io.airlift.discovery.client.CachingServiceSelector	Cannot connect to discovery server for refresh (trino/general)' \
   | grep -v 'pod/trino-worker-.*	io.airlift.discovery.client.CachingServiceSelector	Cannot connect to discovery server for refresh (trino/general)' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Learner -- Unexpected exception, connectToLeader exceeded' \

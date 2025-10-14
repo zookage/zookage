@@ -1,0 +1,9 @@
+{
+  "name": "tez_admin",
+  "users": [
+    {
+      "name": "tez",
+      "isAdmin": false
+    }
+  ]
+}

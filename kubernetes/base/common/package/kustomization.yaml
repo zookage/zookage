@@ -21,6 +21,7 @@ resources:
 - hbase
 - hive
 - ozone
+- ranger
 - spark
 - tez
 - trino

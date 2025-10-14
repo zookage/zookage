@@ -32,7 +32,7 @@ spec:
         - name: POSTGRES_USER
           value: admin
         - name: POSTGRES_PASSWORD
-          value: pass
+          value: admin
         volumeMounts:
         - name: mnt
           mountPath: /var/lib/postgresql

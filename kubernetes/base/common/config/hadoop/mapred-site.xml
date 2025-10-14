@@ -36,12 +36,16 @@
   </property>
 
   <property>
+    <name>yarn.app.mapreduce.am.staging-dir</name>
+    <value>/tmp</value>
+  </property>
+  <property>
     <name>mapreduce.jobhistory.intermediate-done-dir</name>
-    <value>/apps/mapred-history/done_intermediate</value>
+    <value>/apps/mapred-history-intermediate</value>
   </property>
   <property>
     <name>mapreduce.jobhistory.done-dir</name>
-    <value>/apps/mapred-history/done</value>
+    <value>/apps/mapred-history</value>
   </property>
 
   <property>

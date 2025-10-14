@@ -61,6 +61,18 @@ configMapGenerator:
   - OZONE_OPTS=-Dnative.lib.tmp.dir=/tmp
   name: ozone-env
 - literals:
+  - RANGER_ADMIN_HOME=/opt/ranger/ranger-admin
+  - RANGER_ADMIN_CONF=/etc/ranger/conf
+  - RANGER_USERSYNC_HOME=/opt/ranger/ranger-usersync
+  - RANGER_USERSYNC_CONF=/etc/ranger/conf
+  - RANGER_HADOOP_CONF_DIR=/etc/hadoop/conf
+  name: ranger-env
+- literals:
+  - RANGER_ADMIN_HOME=/opt/ranger/ranger-admin
+  - RANGER_ADMIN_CONF=/etc/ranger-admin/conf
+  - RANGER_HADOOP_CONF_DIR=/etc/hadoop/conf
+  name: ranger-admin-env
+- literals:
   - SPARK_HOME=/opt/spark
   - SPARK_CONF_DIR=/etc/spark/conf
   - LD_LIBRARY_PATH=/opt/hadoop/lib/native

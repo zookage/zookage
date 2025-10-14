@@ -10,23 +10,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-kind: ConfigMap
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: hive-metastore-env
-data:
-  HIVE_METASTORE_CATALOG_SERVLET_AUTH: oauth2
----
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: hive-metastore-server
+  name: package-ranger
 spec:
   template:
     spec:
-      initContainers:
-      - name: wait-for-keycloak
-        image: zookage-util
+      containers:
+      - name: zookage-ranger
+        image: zookage-ranger
+        command:
+        - /bin/bash
         args:
-        - wait-for-rollout
-        - deployment/keycloak-server
+        - -c
+        - "rm -rf /mnt/zookage/ranger && cp -R /opt/ranger /mnt/zookage/ranger"
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+        volumeMounts:
+        - name: package-home
+          mountPath: /mnt/zookage
+      restartPolicy: Never
+      volumes:
+      - name: package-home
+        hostPath:
+          path: /var/lib/zookage

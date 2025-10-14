@@ -37,7 +37,7 @@ spec:
         - dfs
         - -copyFromLocal
         - /opt/tez/share/tez.tar.gz
-        - hdfs:///apps/tez/tez.tar.gz
+        - hdfs:///lib/tez/tez.tar.gz
         envFrom:
         - configMapRef:
             name: hadoop-env

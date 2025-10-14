@@ -21,6 +21,7 @@ echo "Check errors and warnings of ${id}"
 
 "${integration_dir}/divider.sh" "Start checking errors of a Tez job"
 "${integration_dir}/run.sh" bash -c "
+  export HADOOP_USER_NAME=hdfs
   ! yarn logs -applicationId '${id}' | grep '\[ERROR\]' \
     | grep -v '|yarn.YarnUncaughtExceptionHandler|: Thread .* threw an Exception'
 "
@@ -29,6 +30,7 @@ echo "No error is found."
 
 "${integration_dir}/divider.sh" "Start checking warnings of a Tez job"
 "${integration_dir}/run.sh" bash -c "
+  export HADOOP_USER_NAME=hdfs
   ! yarn logs -applicationId '${id}' | grep '\[WARN\]' \
     | grep -v 'Could not post history event to ATS, atsPutError=6' \
     | grep -v 'Exiting TaskReporter thread with pending queue size=' \

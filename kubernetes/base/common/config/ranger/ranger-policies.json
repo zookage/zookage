@@ -1,0 +1,732 @@
+{
+  "policies": [
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "all - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/*"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "hdfs_admin"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "root - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for root - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "apps - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for apps - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/apps"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "hbase - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for hbase - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/apps/hbase"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "hbase_admin"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "warehouse - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for Hive Warehouse - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/apps/hive-warehouse"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "warehouse_admin"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "MapReduce history intermediate root - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for MapReduce history intermediate root - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/apps/mapred-history-intermediate"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "mapred_admin"
+          ],
+          "delegateAdmin": false
+        },
+        {
+          "accesses": [
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "MapReduce history intermediate - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for MapReduce history intermediate - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/apps/mapred-history-intermediate/*"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{OWNER}"
+          ],
+          "roles": [
+            "mapred_admin"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "MapReduce history - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for MapReduce history - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/apps/mapred-history"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "mapred_admin"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "Spark history root - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for Spark history root - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/apps/spark-history"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "spark_admin"
+          ],
+          "delegateAdmin": false
+        },
+        {
+          "accesses": [
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "Spark history - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for Spark history - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/apps/spark-history/*"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{OWNER}"
+          ],
+          "roles": [
+            "spark_admin"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "Tez staging - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for Tez staging - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/apps/tez-staging/{USER}"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{USER}"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "/lib - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for lib - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/lib"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "Tez library - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for Tez library - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/lib/tez"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "tez_admin"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "Temporary root directory - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for temporary root directory - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/tmp"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "Temporary user directory - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for temporary user directory - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/tmp/{USER}"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{USER}"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "Home root directory - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for home root directory - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/user"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
+      "name": "Home directory - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for home directory - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/user/{USER}"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{USER}"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    }
+  ]
+}

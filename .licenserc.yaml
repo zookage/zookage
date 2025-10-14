@@ -29,6 +29,7 @@ header:
   paths-ignore:
   - ".idea"
   - "config"
+  - "**/*.json"
   - "**/*.md"
   - "LICENSE"
   - "kubernetes/base/common/config/hadoop/httpfs-signature.secret"

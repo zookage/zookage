@@ -1,0 +1,13 @@
+{
+  "name": "warehouse_admin",
+  "users": [
+    {
+      "name": "hive",
+      "isAdmin": false
+    },
+    {
+      "name": "trino",
+      "isAdmin": false
+    }
+  ]
+}

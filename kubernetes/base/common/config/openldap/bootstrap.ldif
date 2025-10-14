@@ -152,6 +152,13 @@ objectClass: top
 objectClass: organizationalUnit
 ou: groups
 
+dn: cn=supergroup,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: supergroup
+gidNumber: 1000
+memberUid: hdfs
+
 dn: cn=zookage,ou=groups,dc=example,dc=com
 objectClass: top
 objectClass: posixGroup

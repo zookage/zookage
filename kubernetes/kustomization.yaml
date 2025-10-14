@@ -29,6 +29,7 @@ resources:
 - base/openldap
 # - base/ozone
 - base/postgres
+# - base/ranger
 # - base/spark
 - base/tez
 # - base/trino
@@ -62,6 +63,9 @@ images:
 - name: zookage-postgres
   newName: postgres
   newTag: '17.6'
+- name: zookage-ranger
+  newName: zookage/zookage-ranger
+  newTag: zookage-2.7.0
 - name: zookage-spark
   newName: zookage/zookage-spark
   newTag: 4.0.1-zookage-0.3
@@ -76,8 +80,8 @@ images:
   newTag: 3.9.4-zookage-0.3
 ### Extensions ###
 patches:
-# - path: patches/auth/hive-metastore.yaml
-# - path: patches/auth/trino.yaml
+# - path: patches/authz/hdfs.yaml
+# - path: patches/authz/hive-metastore.yaml
 # - path: patches/ha/hdfs.yaml
 # - path: patches/ha/yarn.yaml
 # - path: patches/llap/hive.yaml
