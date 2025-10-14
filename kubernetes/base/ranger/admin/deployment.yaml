@@ -66,6 +66,7 @@ spec:
             name: ranger-env
         env:
         - name: CLASSPATH
+          # yamllint disable-line rule:line-length
           value: $(RANGER_CONF):$(RANGER_HADOOP_CONF_DIR):$(RANGER_HOME)/ranger-admin/ews/webapp/WEB-INF/classes/conf.dist:$(RANGER_HOME)/lib/*:$(RANGER_HOME)/ranger-admin/ews/lib/*:$(RANGER_HOME)/ranger-admin/ews/webapp/WEB-INF/lib/*:$(RANGER_HOME)/ranger-admin/ews/ranger_jaas/*
         readinessProbe:
           tcpSocket:

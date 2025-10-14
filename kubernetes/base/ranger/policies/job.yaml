@@ -43,7 +43,10 @@ spec:
              "http://ranger-admin:6080/service/public/v2/api/service"
           done
 
-          until curl --fail -u admin:admin --fail "http://ranger-admin:6080/service/public/v2/api/roles/user/zookage"; do :; done
+          until curl \
+            --fail \
+            -u admin:admin \
+            "http://ranger-admin:6080/service/public/v2/api/roles/user/zookage"; do :; done
           for conf in /etc//ranger/conf/ranger-role-*.json; do
             echo "Applying $conf"
             curl \
