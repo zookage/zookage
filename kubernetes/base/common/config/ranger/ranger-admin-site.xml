@@ -1,0 +1,76 @@
+<!--
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+
+<configuration>
+  <property>
+    <name>ranger.jpa.jdbc.url</name>
+    <value>jdbc:postgresql://postgres-database-0.postgres-database:5432/ranger</value>
+  </property>
+  <property>
+    <name>ranger.jpa.jdbc.user</name>
+    <value>admin</value>
+  </property>
+  <property>
+    <name>ranger.jpa.jdbc.password</name>
+    <value>admin</value>
+  </property>
+  <property>
+    <name>ranger.jpa.jdbc.dialect</name>
+    <value>org.eclipse.persistence.platform.database.PostgreSQLPlatform</value>
+  </property>
+  <property>
+    <name>ranger.jpa.audit.jdbc.dialect</name>
+    <value>org.eclipse.persistence.platform.database.PostgreSQLPlatform</value>
+  </property>
+  <property>
+    <name>ranger.jpa.jdbc.driver</name>
+    <value>org.postgresql.Driver</value>
+  </property>
+  <property>
+    <name>ranger.jpa.audit.jdbc.driver</name>
+    <value>org.postgresql.Driver</value>
+  </property>
+  <property>
+    <name>ranger.mail.enabled</name>
+    <value>false</value>
+  </property>
+  <property>
+    <name>ranger.service.host</name>
+    <value>ranger-admin</value>
+  </property>
+  <property>
+    <name>ranger.externalurl</name>
+    <value>ranger-admin</value>
+  </property>
+  <property>
+    <name>ranger.service.http.port</name>
+    <value>6080</value>
+  </property>
+  <property>
+    <name>ranger.admin.cookie.name</name>
+    <value>RANGERADMINSESSIONID</value>
+  </property>
+  <property>
+    <name>ranger.authentication.method</name>
+    <value>NONE</value>
+  </property>
+  <property>
+    <name>ranger.tomcat.work.dir</name>
+    <value>/mnt</value>
+  </property>
+  <property>
+    <name>ranger.service.store.create.embedded.service-defs</name>
+    <value>true</value>
+  </property>
+</configuration>

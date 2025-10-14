@@ -1,0 +1,78 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ranger-policies
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-admin
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/ranger-admin
+      containers:
+      - name: create-policies
+        image: zookage-util
+        command:
+        - /bin/bash
+        args:
+        - -c
+        - |
+          set -euo pipefail
+          for conf in /etc/ranger/conf/ranger-service-*.json; do
+            echo "Applying $conf"
+            curl \
+             --fail \
+             -X POST \
+             -u admin:admin \
+             -H "Content-Type: application/json" \
+             -d @"$conf" \
+             "http://ranger-admin:6080/service/public/v2/api/service"
+          done
+
+          until curl \
+            --fail \
+            -u admin:admin \
+            "http://ranger-admin:6080/service/public/v2/api/roles/user/zookage"; do :; done
+          for conf in /etc//ranger/conf/ranger-role-*.json; do
+            echo "Applying $conf"
+            curl \
+             --fail \
+             -X POST \
+             -u admin:admin \
+             -H "Content-Type: application/json" \
+             -d @"$conf" \
+             "http://ranger-admin:6080/service/public/v2/api/roles"
+          done
+
+          echo "Applying policies"
+          curl \
+           --fail \
+           -X POST \
+           -u admin:admin \
+           -H "Content-Type: multipart/form-data" \
+           -F "file=@/etc//ranger/conf/ranger-policies.json" \
+           "http://ranger-admin:6080/service/plugins/policies/importPoliciesFromFile?isOverride=true"
+        volumeMounts:
+        - name: ranger-conf
+          mountPath: /etc/ranger/conf
+      restartPolicy: Never
+      volumes:
+      - name: ranger-conf
+        configMap:
+          name: ranger-conf
+      - name: mnt
+        emptyDir: {}

@@ -1,0 +1,9 @@
+{
+  "name": "hbase_admin",
+  "users": [
+    {
+      "name": "hbase",
+      "isAdmin": false
+    }
+  ]
+}

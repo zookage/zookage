@@ -10,34 +10,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hadoop-env
+data:
+  HADOOP_SECURITY_AUTHORIZATION: "true"
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres-database
+  name: hdfs-namenode
 spec:
-  selector:
-    matchLabels: {}
-  serviceName: postgres-database
-  replicas: 1
   template:
     spec:
       initContainers:
+      - name: wait-for-ranger-setup
+        image: zookage-util
+        args:
+        - wait-for-job
+        - ranger-policies
       containers:
-      - name: server
-        image: zookage-postgres
-        securityContext:
-          runAsUser: 999
-          runAsGroup: 999
+      - name: namenode
         env:
-        - name: POSTGRES_USER
-          value: admin
-        - name: POSTGRES_PASSWORD
-          value: admin
+        - name: HADOOP_CLASSPATH
+          value: /opt/ranger/ranger-hdfs-plugin/lib/*
+        - name: HADOOP_DFS_NAMENODE_INODE_ATTRIBUTES_PROVIDER_CLASS
+          value: org.apache.ranger.authorization.hadoop.RangerHdfsAuthorizer
         volumeMounts:
-        - name: mnt
-          mountPath: /var/lib/postgresql
-      terminationGracePeriodSeconds: 5
+        - name: package-ranger
+          mountPath: /opt/ranger
       volumes:
-      - name: mnt
-        emptyDir: {}
-  volumeClaimTemplates: []
+      - name: package-ranger
+        persistentVolumeClaim:
+          claimName: package-ranger

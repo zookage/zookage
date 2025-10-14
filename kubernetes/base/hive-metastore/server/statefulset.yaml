@@ -32,7 +32,7 @@ spec:
         command:
         - psql
         args:
-        - 'postgresql://admin:pass@postgres-database-0.postgres-database:5432'
+        - 'postgresql://admin:admin@postgres-database-0.postgres-database:5432'
         - -c
         - 'CREATE DATABASE hive'
       - name: wait-for-warehouse-dir

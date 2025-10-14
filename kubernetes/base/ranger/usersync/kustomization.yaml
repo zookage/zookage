@@ -15,14 +15,8 @@ kind: Kustomization
 labels:
 - includeSelectors: true
   pairs:
-    component: package
+    service: usersync
+    tier: backend
 resources:
-- hadoop
-- hbase
-- hive
-- ozone
-- ranger
-- spark
-- tez
-- trino
-- zookeeper
+- deployment.yaml
+- service.yaml

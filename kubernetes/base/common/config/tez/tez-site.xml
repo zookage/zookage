@@ -15,7 +15,7 @@
 <configuration>
   <property>
     <name>tez.lib.uris</name>
-    <value>hdfs:///apps/tez/tez.tar.gz</value>
+    <value>hdfs:///lib/tez/tez.tar.gz</value>
   </property>
   <property>
     <name>tez.am.shuffle.auxiliary-service.id</name>
@@ -43,7 +43,7 @@
   </property>
   <property>
     <name>tez.staging-dir</name>
-    <value>/tmp/${user.name}/staging</value>
+    <value>/tmp/${user.name}/tez/staging</value>
   </property>
   <!-- TEZ-4450 -->
   <property>

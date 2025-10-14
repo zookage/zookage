@@ -10,52 +10,55 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: batch/v1
-kind: Job
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: tez-deploy
+  name: ranger-usersync
 spec:
+  replicas: 1
+  selector:
+    matchLabels: {}
   template:
     spec:
       initContainers:
-      - name: wait-for-tez-dir
-        image: zookage-util
-        args:
-        - wait-for-job
-        - hdfs-mkdir
-      - name: wait-for-datanode
+      - name: wait-for-directory-server
         image: zookage-util
         args:
         - wait-for-rollout
-        - statefulset/hdfs-datanode
-      containers:
-      - name: upload
-        image: zookage-hadoop
-        command:
-        - $(HADOOP_HOME)/bin/hdfs
+        - deployment/openldap-server
+      - name: wait-for-admin
+        image: zookage-util
         args:
-        - dfs
-        - -copyFromLocal
-        - /opt/tez/share/tez.tar.gz
-        - hdfs:///lib/tez/tez.tar.gz
+        - wait-for-rollout
+        - deployment/ranger-admin
+      containers:
+      - name: ranger-usersync
+        image: zookage-ranger
+        command:
+        - java
+        args:
+        - org.apache.ranger.authentication.UnixAuthenticationService
         envFrom:
         - configMapRef:
-            name: hadoop-env
+            name: ranger-env
         env:
-        - name: HADOOP_USER_NAME
-          value: tez
+        - name: CLASSPATH
+          # yamllint disable-line rule:line-length
+          value: $(RANGER_CONF):$(RANGER_HADOOP_CONF_DIR):$(RANGER_HOME)/ranger-usersync/conf.dist:$(RANGER_HOME)/ranger-usersync/dist/*:$(RANGER_HOME)/ranger-usersync/lib/*
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
-        - name: package-tez
-          mountPath: /opt/tez
-      restartPolicy: Never
+        - name: ranger-conf
+          mountPath: /etc/ranger/conf
+        - name: mnt
+          mountPath: /mnt
+      terminationGracePeriodSeconds: 5
       volumes:
       - name: hadoop-conf
         configMap:
           name: hadoop-conf
+      - name: ranger-conf
+        configMap:
+          name: ranger-conf
       - name: mnt
         emptyDir: {}
-      - name: package-tez
-        persistentVolumeClaim:
-          claimName: package-tez

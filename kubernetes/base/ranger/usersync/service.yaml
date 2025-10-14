@@ -10,19 +10,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-labels:
-- includeSelectors: true
-  pairs:
-    component: package
-resources:
-- hadoop
-- hbase
-- hive
-- ozone
-- ranger
-- spark
-- tez
-- trino
-- zookeeper
+apiVersion: v1
+kind: Service
+metadata:
+  name: ranger-usersync
+spec:
+  type: LoadBalancer
+  selector: {}
+  ports:
+  - name: http
+    port: 5151

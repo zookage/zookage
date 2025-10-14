@@ -32,13 +32,13 @@ kubectl \
   --kustomize=kubernetes \
   --selector="component in (namespace,package)" \
   --wait=true
-until "${bin_dir}/kubectl" wait job --all=true --for="condition=complete" --timeout=1s 2> /dev/null; do :; done
+until "${bin_dir}/kubectl" wait job --all=true --for="condition=complete" --timeout=10s 2> /dev/null; do :; done
 
 kubectl apply --kustomize kubernetes
 previous=''
 while true; do
   set +e
-  current=$("${bin_dir}/kubectl" wait pod --all=true --for=condition=Ready --selector="tier!=job" --timeout=1s 2> /dev/null)
+  current=$("${bin_dir}/kubectl" wait pod --all=true --for=condition=Ready --selector="tier!=job" --timeout=10s 2> /dev/null)
   exit_code=$?
   set -e
 

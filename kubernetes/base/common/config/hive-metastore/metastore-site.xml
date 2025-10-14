@@ -27,15 +27,28 @@
   </property>
   <property>
     <name>javax.jdo.option.ConnectionPassword</name>
-    <value>pass</value>
+    <value>admin</value>
   </property>
   <property>
     <name>metastore.warehouse.dir</name>
     <value>/apps/hive-warehouse</value>
   </property>
   <property>
+    <name>hive.metastore.warehouse.external.dir</name>
+    <value>/apps/hive-warehouse</value>
+  </property>
+  <property>
     <name>hive.hook.proto.base-directory</name>
     <value>/apps/hive-history</value>
+  </property>
+
+  <property>
+    <name>hive.security.authorization.manager</name>
+    <value>${env.METASTORE_SECURITY_AUTHORIZATION_MANAGER:-org.apache.hadoop.hive.ql.security.authorization.plugin.sqlstd.SQLStdHiveAuthorizerFactory}</value>
+  </property>
+  <property>
+    <name>metastore.pre.event.listeners</name>
+    <value>${env.METASTORE_PRE_EVENT_LISTENERS:-}</value>
   </property>
 
   <property>

@@ -15,14 +15,7 @@ kind: Kustomization
 labels:
 - includeSelectors: true
   pairs:
-    component: package
+    service: services
+    tier: job
 resources:
-- hadoop
-- hbase
-- hive
-- ozone
-- ranger
-- spark
-- tez
-- trino
-- zookeeper
+- job.yaml

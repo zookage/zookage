@@ -86,6 +86,15 @@
   </property>
 
   <property>
+    <name>dfs.permissions.ContentSummary.subAccess</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>dfs.namenode.inode.attributes.provider.class</name>
+    <value>${env.HADOOP_DFS_NAMENODE_INODE_ATTRIBUTES_PROVIDER_CLASS:-org.apache.hadoop.hdfs.server.namenode.DefaultINodeAttributesProvider}</value>
+  </property>
+
+  <property>
     <name>dfs.datanode.data.dir</name>
     <value>[DISK]file://${hadoop.tmp.dir}/dfs/dn</value>
   </property>

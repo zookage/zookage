@@ -1,3 +1,4 @@
+#!/bin/bash
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -10,19 +11,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-labels:
-- includeSelectors: true
-  pairs:
-    component: package
-resources:
-- hadoop
-- hbase
-- hive
-- ozone
-- ranger
-- spark
-- tez
-- trino
-- zookeeper
+set -eu
+
+# shellcheck source=/mnt/docker/prepare.sh
+source ./docker/prepare.sh RANGER_SOURCE_DIR
+# shellcheck source=/mnt/docker/prepare-maven.sh
+source ./docker/prepare-maven.sh
+
+docker build \
+  --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-ranger:${image_tag}" \
+  --build-arg "maven_image=${MAVEN_3_JDK_8_IMAGE}" \
+  --build-arg "jdk_image=${JDK_8_IMAGE}" \
+  --build-arg "clean=${clean}" \
+  --file ./docker/ranger/Dockerfile \
+  "${RANGER_SOURCE_DIR}"

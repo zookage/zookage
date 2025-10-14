@@ -15,14 +15,8 @@ kind: Kustomization
 labels:
 - includeSelectors: true
   pairs:
-    component: package
+    component: ranger
 resources:
-- hadoop
-- hbase
-- hive
-- ozone
-- ranger
-- spark
-- tez
-- trino
-- zookeeper
+- admin
+- policies
+- usersync

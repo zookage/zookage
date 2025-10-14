@@ -1,0 +1,9 @@
+{
+  "name": "ranger_admin",
+  "users": [
+    {
+      "name": "admin",
+      "isAdmin": true
+    }
+  ]
+}

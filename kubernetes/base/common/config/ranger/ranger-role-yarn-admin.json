@@ -1,0 +1,9 @@
+{
+  "name": "yarn_admin",
+  "users": [
+    {
+      "name": "yarn",
+      "isAdmin": false
+    }
+  ]
+}

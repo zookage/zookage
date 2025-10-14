@@ -45,6 +45,10 @@
   </property>
 
   <property>
+    <name>hadoop.security.authorization</name>
+    <value>${env.HADOOP_SECURITY_AUTHORIZATION:-false}</value>
+  </property>
+  <property>
     <name>hadoop.security.group.mapping</name>
     <value>org.apache.hadoop.security.LdapGroupsMapping</value>
   </property>

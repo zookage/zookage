@@ -34,11 +34,11 @@ spec:
           docker-entrypoint.sh hdfs-mkdir /apps hdfs:supergroup 755
           docker-entrypoint.sh hdfs-mkdir /apps/hbase hbase:hbase 711
           docker-entrypoint.sh hdfs-mkdir /apps/hive-warehouse hive:hadoop 1770
-          docker-entrypoint.sh hdfs-mkdir /apps/mapred-history mapred:mapred 755
-          docker-entrypoint.sh hdfs-mkdir /apps/mapred-history/done_intermediate mapred:mapred 1777
-          docker-entrypoint.sh hdfs-mkdir /apps/mapred-history/done mapred:mapred 750
+          docker-entrypoint.sh hdfs-mkdir /apps/mapred-history-intermediate mapred:mapred 1777
+          docker-entrypoint.sh hdfs-mkdir /apps/mapred-history mapred:mapred 750
           docker-entrypoint.sh hdfs-mkdir /apps/spark-history spark:spark 1777
-          docker-entrypoint.sh hdfs-mkdir /apps/tez tez:tez 755
+          docker-entrypoint.sh hdfs-mkdir /lib hdfs:supergroup 755
+          docker-entrypoint.sh hdfs-mkdir /lib/tez tez:tez 755
           docker-entrypoint.sh hdfs-mkdir /tmp hdfs:supergroup 1777
           docker-entrypoint.sh hdfs-mkdir /tmp/hadoop-yarn yarn:hadoop 775
           docker-entrypoint.sh hdfs-mkdir /tmp/hadoop-yarn/staging yarn:hadoop 1777

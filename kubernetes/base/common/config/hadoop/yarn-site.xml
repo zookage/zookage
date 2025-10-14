@@ -85,6 +85,14 @@
     <value>${hadoop.tmp.dir}/userlogs</value>
   </property>
   <property>
+    <name>yarn.nodemanager.remote-app-log-dir</name>
+    <value>/tmp</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.remote-app-log-dir-suffix</name>
+    <value>yarn-app-logs</value>
+  </property>
+  <property>
     <name>yarn.nodemanager.resource.memory-mb</name>
     <value>2048</value>
   </property>

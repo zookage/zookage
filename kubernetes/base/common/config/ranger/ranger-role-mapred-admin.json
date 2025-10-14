@@ -1,0 +1,9 @@
+{
+  "name": "mapred_admin",
+  "users": [
+    {
+      "name": "mapred",
+      "isAdmin": false
+    }
+  ]
+}
