@@ -39,10 +39,15 @@ spec:
         command:
         - python3
         args:
-        - $(RANGER_ADMIN_HOME)/db_setup.py
+        - $(RANGER_HOME)/ranger-admin/db_setup.py
         envFrom:
         - configMapRef:
             name: ranger-env
+        env:
+        - name: RANGER_ADMIN_CONF
+          value: $(RANGER_CONF)
+        - name: RANGER_ADMIN_HOME
+          value: $(RANGER_HOME)/ranger-admin
         volumeMounts:
         - name: ranger-conf
           mountPath: /etc/ranger/conf
@@ -54,14 +59,14 @@ spec:
         args:
         - -Dservername=rangeradmin
         - -Dlogdir=/mnt/log
-        - -Dcatalina.base=$(RANGER_ADMIN_HOME)/ews
+        - -Dcatalina.base=$(RANGER_HOME)/ranger-admin/ews
         - org.apache.ranger.server.tomcat.EmbeddedServer
         envFrom:
         - configMapRef:
             name: ranger-env
         env:
         - name: CLASSPATH
-          value: /opt/ranger/lib/*:$(RANGER_ADMIN_CONF):$(RANGER_HADOOP_CONF_DIR):$(RANGER_ADMIN_HOME)/ews/webapp/WEB-INF/classes/conf.dist:$(RANGER_ADMIN_HOME)/ews/lib/*:$(RANGER_ADMIN_HOME)/ews/webapp/WEB-INF/lib/*:$(RANGER_ADMIN_HOME)/ews/ranger_jaas/*
+          value: $(RANGER_CONF):$(RANGER_HADOOP_CONF_DIR):$(RANGER_HOME)/ranger-admin/ews/webapp/WEB-INF/classes/conf.dist:$(RANGER_HOME)/lib/*:$(RANGER_HOME)/ranger-admin/ews/lib/*:$(RANGER_HOME)/ranger-admin/ews/webapp/WEB-INF/lib/*:$(RANGER_HOME)/ranger-admin/ews/ranger_jaas/*
         readinessProbe:
           tcpSocket:
             port: 6080

@@ -43,7 +43,7 @@ spec:
             name: ranger-env
         env:
         - name: CLASSPATH
-          value: $(RANGER_USERSYNC_CONF):$(RANGER_HADOOP_CONF_DIR):$(RANGER_USERSYNC_HOME)/conf.dist:$(RANGER_USERSYNC_HOME)/dist/*:$(RANGER_USERSYNC_HOME)/lib/*
+          value: $(RANGER_CONF):$(RANGER_HADOOP_CONF_DIR):$(RANGER_HOME)/ranger-usersync/conf.dist:$(RANGER_HOME)/ranger-usersync/dist/*:$(RANGER_HOME)/ranger-usersync/lib/*
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
