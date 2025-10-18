@@ -78,6 +78,7 @@ configMapGenerator:
 - literals:
   - TRINO_HOME=/opt/trino
   - TRINO_CONFIG=/etc/trino/conf/cli.properties
+  - TRINO_ACCESS_CONTROL_CONFIG_FILES=/etc/trino/conf/access-control-default.properties
   name: trino-env
 - literals:
   - ZOOCFGDIR=/etc/zookeeper/conf

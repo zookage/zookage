@@ -63,6 +63,19 @@
     <value>/apps/hive-history</value>
   </property>
 
+  <property>
+    <name>hive.security.authenticator.manager</name>
+    <value>org.apache.hadoop.hive.ql.security.SessionStateUserAuthenticator</value>
+  </property>
+  <property>
+    <name>hive.security.authorization.enabled</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hive.security.authorization.manager</name>
+    <value>${env.HIVE_SECURITY_AUTHORIZATION_MANAGER:-org.apache.hadoop.hive.ql.security.authorization.plugin.sqlstd.SQLStdHiveAuthorizerFactory}</value>
+  </property>
+
   <!-- For LLAP. You also have to unset tez.am.shuffle.auxiliary-service.id
   <property>
     <name>hive.llap.daemon.service.hosts</name>

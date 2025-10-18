@@ -1,0 +1,9 @@
+{
+  "name": "hive_admin",
+  "users": [
+    {
+      "name": "hive",
+      "isAdmin": false
+    }
+  ]
+}

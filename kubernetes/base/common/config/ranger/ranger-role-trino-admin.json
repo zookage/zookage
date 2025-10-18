@@ -1,0 +1,9 @@
+{
+  "name": "trino_admin",
+  "users": [
+    {
+      "name": "trino",
+      "isAdmin": false
+    }
+  ]
+}

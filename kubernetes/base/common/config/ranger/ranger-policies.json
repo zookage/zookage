@@ -727,6 +727,1977 @@
       ],
       "serviceType": "hdfs",
       "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hive",
+      "name": "all - global",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - global",
+      "isAuditEnabled": true,
+      "resources": {
+        "global": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "select",
+              "isAllowed": true
+            },
+            {
+              "type": "update",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "drop",
+              "isAllowed": true
+            },
+            {
+              "type": "alter",
+              "isAllowed": true
+            },
+            {
+              "type": "index",
+              "isAllowed": true
+            },
+            {
+              "type": "lock",
+              "isAllowed": true
+            },
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "repladmin",
+              "isAllowed": true
+            },
+            {
+              "type": "serviceadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "tempudfadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "refresh",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "hive_admin"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "hive",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hive",
+      "name": "all - database, table, column",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - database, table, column",
+      "isAuditEnabled": true,
+      "resources": {
+        "column": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "database": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "table": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "select",
+              "isAllowed": true
+            },
+            {
+              "type": "update",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "drop",
+              "isAllowed": true
+            },
+            {
+              "type": "alter",
+              "isAllowed": true
+            },
+            {
+              "type": "index",
+              "isAllowed": true
+            },
+            {
+              "type": "lock",
+              "isAllowed": true
+            },
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "repladmin",
+              "isAllowed": true
+            },
+            {
+              "type": "serviceadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "tempudfadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "refresh",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "hive_admin"
+          ],
+          "delegateAdmin": true
+        },
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{OWNER}"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "hive",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hive",
+      "name": "all - database, table",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - database, table",
+      "isAuditEnabled": true,
+      "resources": {
+        "database": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "table": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "select",
+              "isAllowed": true
+            },
+            {
+              "type": "update",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "drop",
+              "isAllowed": true
+            },
+            {
+              "type": "alter",
+              "isAllowed": true
+            },
+            {
+              "type": "index",
+              "isAllowed": true
+            },
+            {
+              "type": "lock",
+              "isAllowed": true
+            },
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "repladmin",
+              "isAllowed": true
+            },
+            {
+              "type": "serviceadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "tempudfadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "refresh",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "hive_admin"
+          ],
+          "delegateAdmin": true
+        },
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{OWNER}"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "hive",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hive",
+      "name": "all - database, table",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - database, table",
+      "isAuditEnabled": true,
+      "resources": {
+        "database": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "table": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "select",
+              "isAllowed": true
+            },
+            {
+              "type": "update",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "drop",
+              "isAllowed": true
+            },
+            {
+              "type": "alter",
+              "isAllowed": true
+            },
+            {
+              "type": "index",
+              "isAllowed": true
+            },
+            {
+              "type": "lock",
+              "isAllowed": true
+            },
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "repladmin",
+              "isAllowed": true
+            },
+            {
+              "type": "serviceadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "tempudfadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "refresh",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "hive_admin"
+          ],
+          "delegateAdmin": true
+        },
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{OWNER}"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "hive",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hive",
+      "name": "all - database",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - database",
+      "isAuditEnabled": true,
+      "resources": {
+        "database": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "select",
+              "isAllowed": true
+            },
+            {
+              "type": "update",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "drop",
+              "isAllowed": true
+            },
+            {
+              "type": "alter",
+              "isAllowed": true
+            },
+            {
+              "type": "index",
+              "isAllowed": true
+            },
+            {
+              "type": "lock",
+              "isAllowed": true
+            },
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "repladmin",
+              "isAllowed": true
+            },
+            {
+              "type": "serviceadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "tempudfadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "refresh",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "hive"
+          ],
+          "delegateAdmin": true
+        },
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{OWNER}"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "hive",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hive",
+      "name": "all - hiveservice",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - hiveservice",
+      "isAuditEnabled": true,
+      "resources": {
+        "hiveservice": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "select",
+              "isAllowed": true
+            },
+            {
+              "type": "update",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "drop",
+              "isAllowed": true
+            },
+            {
+              "type": "alter",
+              "isAllowed": true
+            },
+            {
+              "type": "index",
+              "isAllowed": true
+            },
+            {
+              "type": "lock",
+              "isAllowed": true
+            },
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "repladmin",
+              "isAllowed": true
+            },
+            {
+              "type": "serviceadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "tempudfadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "refresh",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "hive_admin"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "hive",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hive",
+      "name": "all - database, udf",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - database, udf",
+      "isAuditEnabled": true,
+      "resources": {
+        "database": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "udf": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "select",
+              "isAllowed": true
+            },
+            {
+              "type": "update",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "drop",
+              "isAllowed": true
+            },
+            {
+              "type": "alter",
+              "isAllowed": true
+            },
+            {
+              "type": "index",
+              "isAllowed": true
+            },
+            {
+              "type": "lock",
+              "isAllowed": true
+            },
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "repladmin",
+              "isAllowed": true
+            },
+            {
+              "type": "serviceadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "tempudfadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "refresh",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "hive_admin"
+          ],
+          "delegateAdmin": true
+        },
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{OWNER}"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "hive",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hive",
+      "name": "all - url",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - url",
+      "isAuditEnabled": true,
+      "resources": {
+        "url": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "select",
+              "isAllowed": true
+            },
+            {
+              "type": "update",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "drop",
+              "isAllowed": true
+            },
+            {
+              "type": "alter",
+              "isAllowed": true
+            },
+            {
+              "type": "index",
+              "isAllowed": true
+            },
+            {
+              "type": "lock",
+              "isAllowed": true
+            },
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "repladmin",
+              "isAllowed": true
+            },
+            {
+              "type": "serviceadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "tempudfadmin",
+              "isAllowed": true
+            },
+            {
+              "type": "refresh",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "hive_admin"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "hive",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hive",
+      "name": "default database tables columns",
+      "policyType": 0,
+      "policyPriority": 0,
+      "isAuditEnabled": true,
+      "resources": {
+        "column": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "database": {
+          "values": [
+            "default"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "table": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "create",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hive",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hive",
+      "name": "Information_schema database tables columns",
+      "policyType": 0,
+      "policyPriority": 0,
+      "isAuditEnabled": true,
+      "resources": {
+        "column": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "database": {
+          "values": [
+            "information_schema"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "table": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "select",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hive",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "all - trinouser",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - trinouser",
+      "isAuditEnabled": true,
+      "resources": {
+        "trinouser": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "impersonate",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "trino_admin"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "all - catalog, schema, schemafunction",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - catalog, schema, schemafunction",
+      "isAuditEnabled": true,
+      "resources": {
+        "schema": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "schemafunction": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "catalog": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "drop",
+              "isAllowed": true
+            },
+            {
+              "type": "show",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "trino_admin"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "all - catalog, schema, procedure",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - catalog, schema, procedure",
+      "isAuditEnabled": true,
+      "resources": {
+        "schema": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "catalog": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "procedure": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "grant",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "trino_admin"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "all - catalog, sessionproperty",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - catalog, sessionproperty",
+      "isAuditEnabled": true,
+      "resources": {
+        "catalog": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "sessionproperty": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "alter",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "trino_admin"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "all - sysinfo",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - sysinfo",
+      "isAuditEnabled": true,
+      "resources": {
+        "sysinfo": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read_sysinfo",
+              "isAllowed": true
+            },
+            {
+              "type": "write_sysinfo",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "trino_admin"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "all - catalog, schema, table, column",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - catalog, schema, table, column",
+      "isAuditEnabled": true,
+      "resources": {
+        "schema": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "column": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "catalog": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "table": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "select",
+              "isAllowed": true
+            },
+            {
+              "type": "insert",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "drop",
+              "isAllowed": true
+            },
+            {
+              "type": "delete",
+              "isAllowed": true
+            },
+            {
+              "type": "use",
+              "isAllowed": true
+            },
+            {
+              "type": "alter",
+              "isAllowed": true
+            },
+            {
+              "type": "grant",
+              "isAllowed": true
+            },
+            {
+              "type": "revoke",
+              "isAllowed": true
+            },
+            {
+              "type": "show",
+              "isAllowed": true
+            },
+            {
+              "type": "impersonate",
+              "isAllowed": true
+            },
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            },
+            {
+              "type": "read_sysinfo",
+              "isAllowed": true
+            },
+            {
+              "type": "write_sysinfo",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "trino_admin"
+          ],
+          "delegateAdmin": true
+        },
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{OWNER}"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "all - catalog, schema",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - catalog, schema",
+      "isAuditEnabled": true,
+      "resources": {
+        "schema": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "catalog": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "select",
+              "isAllowed": true
+            },
+            {
+              "type": "insert",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "drop",
+              "isAllowed": true
+            },
+            {
+              "type": "delete",
+              "isAllowed": true
+            },
+            {
+              "type": "use",
+              "isAllowed": true
+            },
+            {
+              "type": "alter",
+              "isAllowed": true
+            },
+            {
+              "type": "grant",
+              "isAllowed": true
+            },
+            {
+              "type": "revoke",
+              "isAllowed": true
+            },
+            {
+              "type": "show",
+              "isAllowed": true
+            },
+            {
+              "type": "impersonate",
+              "isAllowed": true
+            },
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            },
+            {
+              "type": "read_sysinfo",
+              "isAllowed": true
+            },
+            {
+              "type": "write_sysinfo",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "trino_admin"
+          ],
+          "delegateAdmin": true
+        },
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{OWNER}"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "all - catalog",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - catalog",
+      "isAuditEnabled": true,
+      "resources": {
+        "catalog": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "select",
+              "isAllowed": true
+            },
+            {
+              "type": "insert",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "drop",
+              "isAllowed": true
+            },
+            {
+              "type": "delete",
+              "isAllowed": true
+            },
+            {
+              "type": "use",
+              "isAllowed": true
+            },
+            {
+              "type": "alter",
+              "isAllowed": true
+            },
+            {
+              "type": "grant",
+              "isAllowed": true
+            },
+            {
+              "type": "revoke",
+              "isAllowed": true
+            },
+            {
+              "type": "show",
+              "isAllowed": true
+            },
+            {
+              "type": "impersonate",
+              "isAllowed": true
+            },
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            },
+            {
+              "type": "read_sysinfo",
+              "isAllowed": true
+            },
+            {
+              "type": "write_sysinfo",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "trino_admin"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "all - role",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - role",
+      "isAuditEnabled": true,
+      "resources": {
+        "role": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "drop",
+              "isAllowed": true
+            },
+            {
+              "type": "grant",
+              "isAllowed": true
+            },
+            {
+              "type": "revoke",
+              "isAllowed": true
+            },
+            {
+              "type": "show",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "trino_admin"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "all - function",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - function",
+      "isAuditEnabled": true,
+      "resources": {
+        "function": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "grant",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "trino_admin"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "all - catalog, schema, table",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - catalog, schema, table",
+      "isAuditEnabled": true,
+      "resources": {
+        "schema": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "catalog": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "table": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "select",
+              "isAllowed": true
+            },
+            {
+              "type": "insert",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "drop",
+              "isAllowed": true
+            },
+            {
+              "type": "delete",
+              "isAllowed": true
+            },
+            {
+              "type": "use",
+              "isAllowed": true
+            },
+            {
+              "type": "alter",
+              "isAllowed": true
+            },
+            {
+              "type": "grant",
+              "isAllowed": true
+            },
+            {
+              "type": "revoke",
+              "isAllowed": true
+            },
+            {
+              "type": "show",
+              "isAllowed": true
+            },
+            {
+              "type": "impersonate",
+              "isAllowed": true
+            },
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            },
+            {
+              "type": "read_sysinfo",
+              "isAllowed": true
+            },
+            {
+              "type": "write_sysinfo",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "trino_admin"
+          ],
+          "delegateAdmin": true
+        },
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{OWNER}"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "all - systemproperty",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - systemproperty",
+      "isAuditEnabled": true,
+      "resources": {
+        "systemproperty": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "alter",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "trino_admin"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "all - queryid",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - queryid",
+      "isAuditEnabled": true,
+      "resources": {
+        "queryid": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{USER}"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "user - impersonate",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for user - inpersonate",
+      "isAuditEnabled": true,
+      "resources": {
+        "trinouser": {
+          "values": [
+            "{USER}"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "impersonate",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{USER}"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "hive-default",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for hive/default",
+      "isAuditEnabled": true,
+      "resources": {
+        "schema": {
+          "values": [
+            "default"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "column": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "catalog": {
+          "values": [
+            "hive"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "table": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "create",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "iceberg-default",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for iceberg/default",
+      "isAuditEnabled": true,
+      "resources": {
+        "schema": {
+          "values": [
+            "default"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "column": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "catalog": {
+          "values": [
+            "iceberg"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "table": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "create",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "TPC-DS",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for TPC-DS",
+      "isAuditEnabled": true,
+      "resources": {
+        "schema": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "column": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "catalog": {
+          "values": [
+            "tpcds"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "table": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "select",
+              "isAllowed": true
+            },
+            {
+              "type": "use",
+              "isAllowed": true
+            },
+            {
+              "type": "show",
+              "isAllowed": true
+            },
+            {
+              "type": "read_sysinfo",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "trino",
+      "name": "TPC-H",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for TPC-H",
+      "isAuditEnabled": true,
+      "resources": {
+        "schema": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "column": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "catalog": {
+          "values": [
+            "tpch"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "table": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "select",
+              "isAllowed": true
+            },
+            {
+              "type": "use",
+              "isAllowed": true
+            },
+            {
+              "type": "show",
+              "isAllowed": true
+            },
+            {
+              "type": "read_sysinfo",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "trino",
+      "isDenyAllElse": false
     }
   ]
 }

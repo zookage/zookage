@@ -41,7 +41,7 @@ spec:
         - configMapRef:
             name: tez-env
         env:
-        - name: HADOOP_CLASSPATH
+        - name: HIVE_CLASSPATH
           value: $(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*
         readinessProbe:
           tcpSocket:
