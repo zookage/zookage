@@ -81,7 +81,9 @@ images:
 ### Extensions ###
 patches:
 # - path: patches/authz/hdfs.yaml
+# - path: patches/authz/hive.yaml
 # - path: patches/authz/hive-metastore.yaml
+# - path: patches/authz/trino.yaml
 # - path: patches/ha/hdfs.yaml
 # - path: patches/ha/yarn.yaml
 # - path: patches/llap/hive.yaml

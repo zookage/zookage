@@ -13,24 +13,22 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: hive-metastore-env
+  name: hive-env
 data:
-  METASTORE_SECURITY_AUTHORIZATION_MANAGER: org.apache.ranger.authorization.hive.authorizer.RangerHiveAuthorizerFactory
-  # yamllint disable-line rule:line-length
-  METASTORE_PRE_EVENT_LISTENERS: org.apache.hadoop.hive.ql.security.authorization.plugin.metastore.HiveMetaStoreAuthorizer
+  HIVE_SECURITY_AUTHORIZATION_MANAGER: org.apache.ranger.authorization.hive.authorizer.RangerHiveAuthorizerFactory
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: hive-metastore-server
+  name: hive-hiveserver2
 spec:
   template:
     spec:
       containers:
-      - name: metastore
+      - name: hiveserver2
         env:
-        - name: METASTORE_CLASSPATH
-          value: $(METASTORE_CONF_DIR):/opt/ranger/ranger-hive-plugin/lib/*
+        - name: HIVE_CLASSPATH
+          value: /opt/ranger/ranger-hive-plugin/lib/*:$(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*
         volumeMounts:
         - name: package-ranger
           mountPath: /opt/ranger

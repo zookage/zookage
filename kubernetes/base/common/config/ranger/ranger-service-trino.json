@@ -1,0 +1,9 @@
+{
+  "type": "trino",
+  "name": "trino",
+  "configs": {
+    "username": "trino",
+    "jdbc.driverClassName": "io.trino.jdbc.TrinoDriver",
+    "jdbc.url": "jdbc:trino://trino-coordinator:8090"
+  }
+}

@@ -41,6 +41,9 @@ configMapGenerator:
   - hive/beeline-hs2-connection.xml
   - hive/hive-log4j2.properties
   - hive/hive-site.xml
+  - hive/ranger-hive-audit.xml
+  - hive/ranger-hive-policymgr-ssl.xml
+  - hive/ranger-hive-security.xml
   name: hive-conf
 - files:
   - hive-metastore/metastore-log4j2.properties
@@ -78,14 +81,17 @@ configMapGenerator:
   - ranger/ranger-ugsync-site.xml
   - ranger/ranger-role-hbase-admin.json
   - ranger/ranger-role-hdfs-admin.json
+  - ranger/ranger-role-hive-admin.json
   - ranger/ranger-role-mapred-admin.json
   - ranger/ranger-role-ranger-admin.json
   - ranger/ranger-role-spark-admin.json
   - ranger/ranger-role-tez-admin.json
+  - ranger/ranger-role-trino-admin.json
   - ranger/ranger-role-warehouse-admin.json
   - ranger/ranger-role-yarn-admin.json
   - ranger/ranger-service-hdfs.json
   - ranger/ranger-service-hive.json
+  - ranger/ranger-service-trino.json
   - ranger/ranger-policies.json
   name: ranger-conf
 - files:
@@ -109,6 +115,11 @@ configMapGenerator:
   - trino/jvm.config
   - trino/log.properties
   - trino/node.properties
+  - trino/access-control-default.properties
+  - trino/access-control-ranger.properties
+  - trino/ranger-trino-audit.xml
+  - trino/ranger-trino-policymgr-ssl.xml
+  - trino/ranger-trino-security.xml
   name: trino-conf
 - files:
   - zookeeper/log4j.properties
