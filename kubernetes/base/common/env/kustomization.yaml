@@ -34,7 +34,6 @@ configMapGenerator:
   - HBASE_CONF_DIR=/etc/hbase/conf
   - HBASE_SECURITY_LOGGER=INFO,console
   - HBASE_ZNODE_FILE=/mnt/hbase.znode
-  - HBASE_DISABLE_HADOOP_CLASSPATH_LOOKUP=true
   - LD_LIBRARY_PATH=/opt/hadoop/lib/native
   name: hbase-env
 - literals:

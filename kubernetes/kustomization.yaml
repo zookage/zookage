@@ -80,6 +80,7 @@ images:
   newTag: 3.9.4-zookage-0.3
 ### Extensions ###
 patches:
+# - path: patches/authz/hbase.yaml
 # - path: patches/authz/hdfs.yaml
 # - path: patches/authz/hive.yaml
 # - path: patches/authz/hive-metastore.yaml

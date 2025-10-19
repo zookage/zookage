@@ -28,7 +28,24 @@
     <value>true</value>
   </property>
   <property>
+    <name>hbase.use.dynamic.jars</name>
+    <value>false</value>
+  </property>
+  <property>
     <name>hbase.zookeeper.quorum</name>
     <value>zookeeper-server-0.zookeeper-server.zookage.svc.cluster.local,zookeeper-server-1.zookeeper-server.zookage.svc.cluster.local,zookeeper-server-2.zookeeper-server.zookage.svc.cluster.local</value>
+  </property>
+
+  <property>
+    <name>hbase.security.authorization</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hbase.coprocessor.master.classes</name>
+    <value>${env.HBASE_COPROCESSOR_CLASSES:-}</value>
+  </property>
+  <property>
+    <name>hbase.coprocessor.region.classes</name>
+    <value>${env.HBASE_COPROCESSOR_CLASSES:-}</value>
   </property>
 </configuration>

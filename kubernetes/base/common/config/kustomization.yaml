@@ -39,6 +39,9 @@ configMapGenerator:
   - hbase/hadoop-metrics2-hbase.properties
   - hbase/hbase-site.xml
   - hbase/log4j2.properties
+  - hbase/ranger-hbase-audit.xml
+  - hbase/ranger-hbase-policymgr-ssl.xml
+  - hbase/ranger-hbase-security.xml
   name: hbase-conf
 - files:
   - hive/beeline-hs2-connection.xml
@@ -92,6 +95,7 @@ configMapGenerator:
   - ranger/ranger-role-trino-admin.json
   - ranger/ranger-role-warehouse-admin.json
   - ranger/ranger-role-yarn-admin.json
+  - ranger/ranger-service-hbase.json
   - ranger/ranger-service-hdfs.json
   - ranger/ranger-service-hive.json
   - ranger/ranger-service-trino.json

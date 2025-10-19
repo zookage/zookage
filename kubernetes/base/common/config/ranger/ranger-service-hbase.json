@@ -1,0 +1,13 @@
+{
+  "type": "hbase",
+  "name": "hbase",
+  "configs": {
+    "username": "hbase",
+    "password": "dummy",
+    "hadoop.security.authentication": "simple",
+    "hbase.security.authentication": "simple",
+    "hbase.zookeeper.property.clientPort": "2181",
+    "hbase.zookeeper.quorum": "zookeeper-server-0.zookeeper-server.zookage.svc.cluster.local,zookeeper-server-1.zookeeper-server.zookage.svc.cluster.local,zookeeper-server-2.zookeeper-server.zookage.svc.cluster.local",
+    "zookeeper.znode.parent": "/hbase"
+  }
+}
