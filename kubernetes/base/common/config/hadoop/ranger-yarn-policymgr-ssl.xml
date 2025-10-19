@@ -13,24 +13,4 @@
 -->
 
 <configuration>
-  <property>
-    <name>yarn.scheduler.capacity.maximum-am-resource-percent</name>
-    <value>0.67</value>
-  </property>
-  <property>
-    <name>yarn.scheduler.capacity.root.acl_submit_applications</name>
-    <value> </value>
-  </property>
-  <property>
-    <name>yarn.scheduler.capacity.root.acl_administer_queue</name>
-    <value>yarn </value>
-  </property>
-  <property>
-    <name>yarn.scheduler.capacity.root.queues</name>
-    <value>default</value>
-  </property>
-  <property>
-    <name>yarn.scheduler.capacity.root.default.capacity</name>
-    <value>100</value>
-  </property>
 </configuration>

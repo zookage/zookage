@@ -2698,6 +2698,77 @@
       ],
       "serviceType": "trino",
       "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "yarn",
+      "name": "all - queue",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - queue",
+      "isAuditEnabled": true,
+      "resources": {
+        "queue": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "submit-app",
+              "isAllowed": true
+            },
+            {
+              "type": "admin-queue",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "yarn_admin"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "yarn",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "yarn",
+      "name": "root.default - queue",
+      "policyType": 0,
+      "policyPriority": 0,
+      "isAuditEnabled": true,
+      "resources": {
+        "queue": {
+          "values": [
+            "root.default"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "submit-app",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "yarn",
+      "isDenyAllElse": false
     }
   ]
 }

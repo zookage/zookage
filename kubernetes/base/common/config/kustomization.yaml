@@ -31,6 +31,9 @@ configMapGenerator:
   - hadoop/ranger-hdfs-audit.xml
   - hadoop/ranger-hdfs-policymgr-ssl.xml
   - hadoop/ranger-hdfs-security.xml
+  - hadoop/ranger-yarn-audit.xml
+  - hadoop/ranger-yarn-policymgr-ssl.xml
+  - hadoop/ranger-yarn-security.xml
   name: hadoop-conf
 - files:
   - hbase/hadoop-metrics2-hbase.properties
@@ -92,6 +95,7 @@ configMapGenerator:
   - ranger/ranger-service-hdfs.json
   - ranger/ranger-service-hive.json
   - ranger/ranger-service-trino.json
+  - ranger/ranger-service-yarn.json
   - ranger/ranger-policies.json
   name: ranger-conf
 - files:
