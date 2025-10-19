@@ -48,6 +48,15 @@
   ### For HA ### -->
 
   <property>
+    <name>yarn.acl.enable</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>yarn.authorization-provider</name>
+    <value>${env.HADOOP_YARN_AUTHORIZATION_PROVIDER:-org.apache.hadoop.yarn.security.ConfiguredYarnAuthorizer}</value>
+  </property>
+
+  <property>
     <name>yarn.resourcemanager.cluster-id</name>
     <value>zookage</value>
   </property>

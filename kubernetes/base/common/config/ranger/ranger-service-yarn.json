@@ -1,0 +1,10 @@
+{
+  "type": "yarn",
+  "name": "yarn",
+  "configs": {
+    "username": "yarn",
+    "password": "dummy",
+    "yarn.url": "http://yarn-resourcemanager:8088",
+    "ranger.add-yarn-authorization": "false"
+  }
+}
