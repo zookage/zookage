@@ -1,0 +1,9 @@
+{
+  "name": "ozone_admin",
+  "users": [
+    {
+      "name": "ozone",
+      "isAdmin": false
+    }
+  ]
+}

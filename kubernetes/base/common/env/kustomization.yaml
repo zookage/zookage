@@ -18,7 +18,7 @@ labels:
     component: env
 configMapGenerator:
 - literals:
-  - AWS_ACCESS_KEY_ID=dummy
+  - AWS_ACCESS_KEY_ID=zookage
   - AWS_SECRET_ACCESS_KEY=dummy
   name: aws-env
 - literals:

@@ -1,0 +1,11 @@
+{
+  "type": "ozone",
+  "name": "ozone",
+  "configs": {
+    "username": "ozone",
+    "password": "dummy",
+    "ozone.om.http-address": "ozone-om-0.ozone-om:9874",
+    "hadoop.security.authentication": "simple",
+    "hadoop.security.authorization": "true"
+  }
+}
