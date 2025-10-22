@@ -2,6 +2,125 @@
   "policies": [
     {
       "version": 1,
+      "service": "hbase",
+      "name": "all - table, column-family, column",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - table, column-family, column",
+      "isAuditEnabled": true,
+      "resources": {
+        "column-family": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "column": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "table": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "admin",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "hbase_admin"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "hbase",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hbase",
+      "name": "test - table",
+      "policyType": 0,
+      "policyPriority": 0,
+      "isAuditEnabled": true,
+      "resources": {
+        "column-family": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "column": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "table": {
+          "values": [
+            "test"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "zookage"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hbase",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
       "service": "hdfs",
       "name": "all - path",
       "policyType": 0,

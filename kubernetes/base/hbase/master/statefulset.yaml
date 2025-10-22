@@ -52,9 +52,6 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 16000
-        securityContext:
-          runAsUser: 1060
-          runAsGroup: 1060
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf

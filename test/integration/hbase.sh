@@ -16,7 +16,14 @@ set -eu
 readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
 
 "${integration_dir}/divider.sh" "Start running an HBase command"
-"${integration_dir}/run.sh" bash -c "echo list | hbase shell --noninteractive"
+"${integration_dir}/run.sh" hbase shell --noninteractive <<EOF
+  if !exists('test')
+    create 'test', 'cf'
+  end
+  desc 'test'
+  put 'test', 'row-key-test', 'cf:value', 'value-test'
+  get 'test', 'row-key-test'
+EOF
 "${integration_dir}/divider.sh" "Finished running an HBase command"
 
 echo "The test command succeeded."
