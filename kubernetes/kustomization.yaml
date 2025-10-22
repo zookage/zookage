@@ -84,6 +84,7 @@ patches:
 # - path: patches/authz/hdfs.yaml
 # - path: patches/authz/hive.yaml
 # - path: patches/authz/hive-metastore.yaml
+# - path: patches/authz/ozone.yaml
 # - path: patches/authz/trino.yaml
 # - path: patches/authz/yarn.yaml
 # - path: patches/ha/hdfs.yaml

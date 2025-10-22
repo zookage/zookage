@@ -79,6 +79,9 @@ configMapGenerator:
   - ozone/ozone-site.xml
   - ozone/s3g-audit-log4j2.properties
   - ozone/scm-audit-log4j2.properties
+  - ozone/ranger-ozone-audit.xml
+  - ozone/ranger-ozone-policymgr-ssl.xml
+  - ozone/ranger-ozone-security.xml
   name: ozone-conf
 - files:
   - ranger/install.properties
@@ -89,6 +92,7 @@ configMapGenerator:
   - ranger/ranger-role-hdfs-admin.json
   - ranger/ranger-role-hive-admin.json
   - ranger/ranger-role-mapred-admin.json
+  - ranger/ranger-role-ozone-admin.json
   - ranger/ranger-role-ranger-admin.json
   - ranger/ranger-role-spark-admin.json
   - ranger/ranger-role-tez-admin.json
@@ -98,6 +102,7 @@ configMapGenerator:
   - ranger/ranger-service-hbase.json
   - ranger/ranger-service-hdfs.json
   - ranger/ranger-service-hive.json
+  - ranger/ranger-service-ozone.json
   - ranger/ranger-service-trino.json
   - ranger/ranger-service-yarn.json
   - ranger/ranger-policies.json

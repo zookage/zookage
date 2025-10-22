@@ -99,4 +99,12 @@
     <name>hadoop.http.authentication.signature.secret.file</name>
     <value>/etc/ozone/conf/http_secret</value>
   </property>
+  <property>
+    <name>ozone.acl.enabled</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>ozone.acl.authorizer.class</name>
+    <value>${env.OZONE_ACL_AUTHORIZER_CLASS:-org.apache.hadoop.ozone.security.acl.OzoneAccessAuthorizer}</value>
+  </property>
 </configuration>

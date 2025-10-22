@@ -1726,6 +1726,432 @@
     },
     {
       "version": 1,
+      "service": "ozone",
+      "name": "all - volume, bucket, key",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - volume, bucket, key",
+      "isAuditEnabled": true,
+      "resources": {
+        "volume": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "bucket": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "key": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "list",
+              "isAllowed": true
+            },
+            {
+              "type": "delete",
+              "isAllowed": true
+            },
+            {
+              "type": "read_acl",
+              "isAllowed": true
+            },
+            {
+              "type": "write_acl",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "ozone_admin"
+          ],
+          "delegateAdmin": true
+        },
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{OWNER}"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "ozone",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "ozone",
+      "name": "all - volume",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - volume",
+      "isAuditEnabled": true,
+      "resources": {
+        "volume": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "list",
+              "isAllowed": true
+            },
+            {
+              "type": "delete",
+              "isAllowed": true
+            },
+            {
+              "type": "read_acl",
+              "isAllowed": true
+            },
+            {
+              "type": "write_acl",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "ozone_admin"
+          ],
+          "delegateAdmin": true
+        },
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{OWNER}"
+          ],
+          "delegateAdmin": true
+        },
+        {
+          "accesses": [
+            {
+              "type": "create",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "ozone",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "ozone",
+      "name": "all - volume, bucket",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for all - volume, bucket",
+      "isAuditEnabled": true,
+      "resources": {
+        "volume": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "bucket": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "list",
+              "isAllowed": true
+            },
+            {
+              "type": "delete",
+              "isAllowed": true
+            },
+            {
+              "type": "read_acl",
+              "isAllowed": true
+            },
+            {
+              "type": "write_acl",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "ozone_admin"
+          ],
+          "delegateAdmin": true
+        },
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{OWNER}"
+          ],
+          "delegateAdmin": true
+        }
+      ],
+      "serviceType": "ozone",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "ozone",
+      "name": "s3v - volume",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for s3v - volume",
+      "isAuditEnabled": true,
+      "resources": {
+        "volume": {
+          "values": [
+            "s3v"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "list",
+              "isAllowed": true
+            },
+            {
+              "type": "delete",
+              "isAllowed": true
+            },
+            {
+              "type": "read_acl",
+              "isAllowed": true
+            },
+            {
+              "type": "write_acl",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "ozone_admin"
+          ],
+          "delegateAdmin": true
+        },
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "list",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "ozone",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "ozone",
+      "name": "s3v - volume, bucket",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for s3v - volume, bucket",
+      "isAuditEnabled": true,
+      "resources": {
+        "volume": {
+          "values": [
+            "s3v"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        },
+        "bucket": {
+          "values": [
+            "*"
+          ],
+          "isExcludes": false,
+          "isRecursive": false
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            },
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "create",
+              "isAllowed": true
+            },
+            {
+              "type": "list",
+              "isAllowed": true
+            },
+            {
+              "type": "delete",
+              "isAllowed": true
+            },
+            {
+              "type": "read_acl",
+              "isAllowed": true
+            },
+            {
+              "type": "write_acl",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "ozone_admin"
+          ],
+          "delegateAdmin": true
+        },
+        {
+          "accesses": [
+            {
+              "type": "all",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "{OWNER}"
+          ],
+          "delegateAdmin": true
+        },
+        {
+          "accesses": [
+            {
+              "type": "create",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "ozone",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
       "service": "trino",
       "name": "all - trinouser",
       "policyType": 0,
