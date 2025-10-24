@@ -62,6 +62,10 @@
     <name>hive.hook.proto.base-directory</name>
     <value>/apps/hive-history</value>
   </property>
+  <property>
+    <name>hive.metastore.warehouse.dir</name>
+    <value>/apps/hive-warehouse</value>
+  </property>
 
   <property>
     <name>hive.security.authenticator.manager</name>
