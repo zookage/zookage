@@ -58,7 +58,7 @@
           "roles": [
             "hbase_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "hbase",
@@ -927,7 +927,7 @@
           "roles": [
             "hive_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "hive",
@@ -1027,7 +1027,7 @@
           "roles": [
             "hive_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         },
         {
           "accesses": [
@@ -1039,7 +1039,7 @@
           "users": [
             "{OWNER}"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "hive",
@@ -1132,7 +1132,7 @@
           "roles": [
             "hive_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         },
         {
           "accesses": [
@@ -1144,7 +1144,7 @@
           "users": [
             "{OWNER}"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "hive",
@@ -1237,7 +1237,7 @@
           "roles": [
             "hive_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         },
         {
           "accesses": [
@@ -1249,7 +1249,7 @@
           "users": [
             "{OWNER}"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "hive",
@@ -1332,10 +1332,10 @@
               "isAllowed": true
             }
           ],
-          "users": [
-            "hive"
+          "roles": [
+            "hive_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         },
         {
           "accesses": [
@@ -1347,7 +1347,7 @@
           "users": [
             "{OWNER}"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "hive",
@@ -1433,7 +1433,7 @@
           "roles": [
             "hive_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "hive",
@@ -1526,7 +1526,7 @@
           "roles": [
             "hive_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         },
         {
           "accesses": [
@@ -1538,7 +1538,7 @@
           "users": [
             "{OWNER}"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "hive",
@@ -1624,7 +1624,7 @@
           "roles": [
             "hive_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "hive",
@@ -1794,7 +1794,7 @@
           "roles": [
             "ozone_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         },
         {
           "accesses": [
@@ -1806,7 +1806,7 @@
           "users": [
             "{OWNER}"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "ozone",
@@ -1868,7 +1868,7 @@
           "roles": [
             "ozone_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         },
         {
           "accesses": [
@@ -1880,7 +1880,7 @@
           "users": [
             "{OWNER}"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         },
         {
           "accesses": [
@@ -1961,7 +1961,7 @@
           "roles": [
             "ozone_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         },
         {
           "accesses": [
@@ -1973,7 +1973,7 @@
           "users": [
             "{OWNER}"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "ozone",
@@ -2035,7 +2035,7 @@
           "roles": [
             "ozone_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         },
         {
           "accesses": [
@@ -2120,7 +2120,7 @@
           "roles": [
             "ozone_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         },
         {
           "accesses": [
@@ -2132,7 +2132,7 @@
           "users": [
             "{OWNER}"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         },
         {
           "accesses": [
@@ -2178,7 +2178,7 @@
           "roles": [
             "trino_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "trino",
@@ -2234,7 +2234,7 @@
           "roles": [
             "trino_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "trino",
@@ -2286,7 +2286,7 @@
           "roles": [
             "trino_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "trino",
@@ -2327,7 +2327,7 @@
           "roles": [
             "trino_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "trino",
@@ -2365,7 +2365,7 @@
           "roles": [
             "trino_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "trino",
@@ -2476,7 +2476,7 @@
           "roles": [
             "trino_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         },
         {
           "accesses": [
@@ -2488,7 +2488,7 @@
           "users": [
             "{OWNER}"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "trino",
@@ -2585,7 +2585,7 @@
           "roles": [
             "trino_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         },
         {
           "accesses": [
@@ -2597,7 +2597,7 @@
           "users": [
             "{OWNER}"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "trino",
@@ -2687,7 +2687,7 @@
           "roles": [
             "trino_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "trino",
@@ -2737,7 +2737,7 @@
           "roles": [
             "trino_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "trino",
@@ -2775,7 +2775,7 @@
           "roles": [
             "trino_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "trino",
@@ -2879,7 +2879,7 @@
           "roles": [
             "trino_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         },
         {
           "accesses": [
@@ -2891,7 +2891,7 @@
           "users": [
             "{OWNER}"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "trino",
@@ -2925,7 +2925,7 @@
           "roles": [
             "trino_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "trino",
@@ -2960,7 +2960,7 @@
           "users": [
             "{USER}"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "trino",
@@ -3276,7 +3276,7 @@
           "roles": [
             "yarn_admin"
           ],
-          "delegateAdmin": true
+          "delegateAdmin": false
         }
       ],
       "serviceType": "yarn",
