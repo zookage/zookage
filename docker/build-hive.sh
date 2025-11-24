@@ -20,8 +20,8 @@ source ./docker/prepare-maven.sh
 
 docker build \
   --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-hive:${image_tag}" \
-  --build-arg "maven_image=${MAVEN_3_JDK_17_IMAGE}" \
-  --build-arg "jdk_image=${JDK_17_IMAGE}" \
+  --build-arg "maven_image=${MAVEN_3_JDK_21_IMAGE}" \
+  --build-arg "jdk_image=${JDK_21_IMAGE}" \
   --build-arg "clean=${clean}" \
   --file ./docker/hive/Dockerfile \
   --target hive \
@@ -29,8 +29,8 @@ docker build \
 
 docker build \
   --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-hive-metastore:${image_tag}" \
-  --build-arg "maven_image=${MAVEN_3_JDK_17_IMAGE}" \
-  --build-arg "jdk_image=${JDK_17_IMAGE}" \
+  --build-arg "maven_image=${MAVEN_3_JDK_21_IMAGE}" \
+  --build-arg "jdk_image=${JDK_21_IMAGE}" \
   --build-arg "clean=${clean}" \
   --file ./docker/hive/Dockerfile \
   --target hive-metastore \
