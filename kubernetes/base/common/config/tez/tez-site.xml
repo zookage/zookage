@@ -53,11 +53,11 @@
 
   <property>
     <name>tez.am.launch.env</name>
-    <value>JAVA_HOME=/opt/java/jdk17,AWS_ACCESS_KEY_ID=dummy,AWS_SECRET_ACCESS_KEY=dummy</value>
+    <value>JAVA_HOME=/opt/java/jdk21,AWS_ACCESS_KEY_ID=dummy,AWS_SECRET_ACCESS_KEY=dummy</value>
   </property>
   <property>
     <name>tez.task.launch.env</name>
-    <value>JAVA_HOME=/opt/java/jdk17,AWS_ACCESS_KEY_ID=dummy,AWS_SECRET_ACCESS_KEY=dummy</value>
+    <value>JAVA_HOME=/opt/java/jdk21,AWS_ACCESS_KEY_ID=dummy,AWS_SECRET_ACCESS_KEY=dummy</value>
   </property>
   <property>
     <name>tez.am.launch.cluster-default.cmd-opts</name>
