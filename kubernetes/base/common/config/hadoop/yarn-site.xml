@@ -49,7 +49,7 @@
 
   <property>
     <name>yarn.acl.enable</name>
-    <value>true</value>
+    <value>${env.HADOOP_YARN_ACL_ENABLE:-false}</value>
   </property>
   <property>
     <name>yarn.authorization-provider</name>
