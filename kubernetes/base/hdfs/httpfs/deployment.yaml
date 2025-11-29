@@ -38,6 +38,8 @@ spec:
             name: hadoop-env
         - configMapRef:
             name: httpfs-env
+        - configMapRef:
+            name: java-env
         securityContext:
           runAsUser: 0
           runAsGroup: 0

@@ -38,6 +38,8 @@ spec:
         envFrom:
         - configMapRef:
             name: hadoop-env
+        - configMapRef:
+            name: java-env
         env:
         - name: HADOOP_CLASSPATH
           value: "/opt/tez/share/tez-aux-services.jar"

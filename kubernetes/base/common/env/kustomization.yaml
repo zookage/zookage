@@ -26,8 +26,6 @@ configMapGenerator:
   - HADOOP_CONF_DIR=/etc/hadoop/conf
   - HADOOP_LOG_DIR=/mnt/log
   - HADOOP_OPTIONAL_TOOLS=hadoop-aws
-  - HADOOP_CLIENT_OPTS=--add-opens=java.base/java.lang=ALL-UNNAMED
-  - HADOOP_OPTS=--add-opens=java.base/java.lang=ALL-UNNAMED
   name: hadoop-env
 - literals:
   - HBASE_HOME=/opt/hbase
@@ -53,6 +51,10 @@ configMapGenerator:
   - METASTORE_HOME=/opt/hive-metastore
   - METASTORE_CONF_DIR=/etc/hive-metastore/conf
   name: hive-metastore-env
+- literals:
+  # yamllint disable-line rule:line-length
+  - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 --add-opens=java.base/java.lang=ALL-UNNAMED
+  name: java-env
 - literals:
   - OZONE_HOME=/opt/ozone
   - OZONE_CONF_DIR=/etc/ozone/conf

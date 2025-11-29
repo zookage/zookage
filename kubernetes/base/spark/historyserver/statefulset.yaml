@@ -38,6 +38,8 @@ spec:
         - configMapRef:
             name: hadoop-env
         - configMapRef:
+            name: java-env
+        - configMapRef:
             name: spark-env
         readinessProbe:
           tcpSocket:

@@ -42,6 +42,8 @@ spec:
         envFrom:
         - configMapRef:
             name: hadoop-env
+        - configMapRef:
+            name: java-env
         env:
         - name: POD_NAME
           valueFrom:

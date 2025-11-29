@@ -59,11 +59,11 @@ spec:
         envFrom:
         - configMapRef:
             name: zookeeper-env
+        - configMapRef:
+            name: java-env
         readinessProbe:
-          exec:
-            command:
-            - /opt/zookeeper/bin/zkServer.sh
-            - status
+          tcpSocket:
+            port: 2181
         volumeMounts:
         - name: zookeeper-conf
           mountPath: /etc/zookeeper/conf

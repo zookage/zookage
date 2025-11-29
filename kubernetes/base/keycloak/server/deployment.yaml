@@ -33,6 +33,9 @@ spec:
         - --config-file=/etc/keycloak/conf/keycloak.conf
         - start
         - --import-realm
+        envFrom:
+        - configMapRef:
+            name: java-env
         readinessProbe:
           httpGet:
             path: /health/ready

@@ -31,6 +31,8 @@ spec:
         envFrom:
         - configMapRef:
             name: hadoop-env
+        - configMapRef:
+            name: java-env
         readinessProbe:
           tcpSocket:
             port: 10200

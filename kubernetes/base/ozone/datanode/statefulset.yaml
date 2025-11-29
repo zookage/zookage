@@ -42,6 +42,8 @@ spec:
         - datanode
         envFrom:
         - configMapRef:
+            name: java-env
+        - configMapRef:
             name: ozone-env
         volumeMounts:
         - name: ozone-conf

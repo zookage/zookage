@@ -22,6 +22,7 @@ for i in {0..2}; do
   "${base_dir}/bin/kubectl" exec -it \
     "zookeeper-server-${i}" \
     -- \
+    env JAVA_TOOL_OPTIONS= \
     /opt/zookeeper/bin/zkServer.sh \
     status
 done

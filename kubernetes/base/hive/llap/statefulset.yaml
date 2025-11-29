@@ -49,6 +49,9 @@ spec:
         - -classpath
         - "/etc/hadoop/conf:/etc/hive/conf:/etc/tez/conf:/opt/hive/lib/*:/opt/tez/share/lib/*:/opt/tez/share/lib/lib/*"
         - org.apache.hadoop.hive.llap.daemon.impl.LlapDaemon
+        envFrom:
+        - configMapRef:
+            name: java-env
         env:
         - name: LD_LIBRARY_PATH
           value: "/opt/hadoop/lib/native"
