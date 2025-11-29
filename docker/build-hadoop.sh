@@ -45,6 +45,7 @@ docker build \
   --build-arg "jdk_11_image=${JDK_11_IMAGE}" \
   --build-arg "jdk_17_image=${JDK_17_IMAGE}" \
   --build-arg "jdk_21_image=${JDK_21_IMAGE}" \
+  --build-arg "jdk_25_image=${JDK_25_IMAGE}" \
   --build-arg "ubuntu_image=${UBUNTU_IMAGE}" \
   --build-arg "clean=${clean}" \
   --build-arg active_profiles=${active_profiles} \
