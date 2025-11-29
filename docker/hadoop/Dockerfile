@@ -15,6 +15,7 @@ ARG hadoop_build_image
 ARG jdk_11_image
 ARG jdk_17_image
 ARG jdk_21_image
+ARG jdk_25_image
 ARG ubuntu_image
 
 # hadolint ignore=DL3006
@@ -23,6 +24,8 @@ FROM ${jdk_11_image} AS jdk_11
 FROM ${jdk_17_image} AS jdk_17
 # hadolint ignore=DL3006
 FROM ${jdk_21_image} AS jdk_21
+# hadolint ignore=DL3006
+FROM ${jdk_25_image} AS jdk_25
 
 # hadolint ignore=DL3006
 FROM ${hadoop_build_image} AS builder
@@ -58,6 +61,7 @@ FROM ${ubuntu_image}
 COPY --from=jdk_11 /opt/java/openjdk /opt/java/jdk11
 COPY --from=jdk_17 /opt/java/openjdk /opt/java/jdk17
 COPY --from=jdk_21 /opt/java/openjdk /opt/java/jdk21
+COPY --from=jdk_25 /opt/java/openjdk /opt/java/jdk25
 ENV JAVA_HOME=/opt/java/jdk11
 
 COPY --chown=root:root --from=builder /home/hadoop-build/hadoop/hadoop-dist/target/hadoop /opt/hadoop
