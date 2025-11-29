@@ -78,6 +78,8 @@ spec:
             name: hadoop-env
         - configMapRef:
             name: hive-metastore-env
+        - configMapRef:
+            name: java-env
         readinessProbe:
           tcpSocket:
             port: 9083

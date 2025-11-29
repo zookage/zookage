@@ -39,6 +39,8 @@ spec:
         - configMapRef:
             name: hive-env
         - configMapRef:
+            name: java-env
+        - configMapRef:
             name: tez-env
         env:
         - name: HIVE_CLASSPATH
