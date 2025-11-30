@@ -38,46 +38,46 @@ resources:
 images:
 - name: zookage-util
   newName: zookage/zookage-util
-  newTag: 0.3.0
+  newTag: 0.4.0
 - name: zookage-hadoop
   newName: zookage/zookage-hadoop
-  newTag: 3.4.1-zookage-0.3
+  newTag: 3.4.1-zookage-0.4
 - name: zookage-hbase
   newName: zookage/zookage-hbase
-  newTag: 2.6.3-zookage-0.3
+  newTag: 2.6.3-zookage-0.4
 - name: zookage-hive
   newName: zookage/zookage-hive
-  newTag: 4.1.0-zookage-0.3
+  newTag: 4.2.0-zookage-0.4
 - name: zookage-hive-metastore
   newName: zookage/zookage-hive-metastore
-  newTag: test
+  newTag: 4.2.0-zookage-0.4
 - name: zookage-keycloak
   newName: zookage/zookage-keycloak
-  newTag: test
+  newTag: 26.4.6-zookage-0.4
 - name: zookage-openldap
   newName: zookage/zookage-openldap
-  newTag: test
+  newTag: ubuntu-24.04-zookage-0.4
 - name: zookage-ozone
   newName: zookage/zookage-ozone
-  newTag: 2.0.0-zookage-0.3
+  newTag: 2.0.0-zookage-0.4
 - name: zookage-postgres
   newName: postgres
   newTag: '17.6'
 - name: zookage-ranger
   newName: zookage/zookage-ranger
-  newTag: zookage-2.7.0
+  newTag: 2.7.0-zookage-0.4
 - name: zookage-spark
   newName: zookage/zookage-spark
-  newTag: 4.0.1-zookage-0.3
+  newTag: 4.0.1-zookage-0.4
 - name: zookage-tez
   newName: zookage/zookage-tez
-  newTag: 0.10.5-zookage-0.3
+  newTag: 0.10.5-zookage-0.4
 - name: zookage-trino
   newName: zookage/zookage-trino
-  newTag: 476-zookage-0.3
+  newTag: 476-zookage-0.4
 - name: zookage-zookeeper
   newName: zookage/zookage-zookeeper
-  newTag: 3.9.4-zookage-0.3
+  newTag: 3.9.4-zookage-0.4
 ### Extensions ###
 patches:
 # - path: patches/authn/hive-metastore.yaml
