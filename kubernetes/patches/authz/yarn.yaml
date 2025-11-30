@@ -15,7 +15,7 @@ kind: ConfigMap
 metadata:
   name: hadoop-env
 data:
-  HADOOP_YARN_ACL_ENABLE: true
+  HADOOP_YARN_ACL_ENABLE: "true"
   HADOOP_YARN_AUTHORIZATION_PROVIDER: "org.apache.ranger.authorization.yarn.authorizer.RangerYarnAuthorizer"
 ---
 apiVersion: apps/v1
