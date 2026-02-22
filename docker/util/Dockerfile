@@ -12,9 +12,13 @@
 
 # syntax=docker/dockerfile:experimental
 ARG jdk_image
+ARG kubectl_version=v1.35.1
+ARG gohdfs_version=v2.4.0
 
 # hadolint ignore=DL3006
 FROM ${jdk_image}
+ARG kubectl_version
+ARG gohdfs_version
 
 # hadolint ignore=DL3008
 RUN apt-get update \
@@ -27,20 +31,20 @@ RUN apt-get update \
 RUN curl \
     --location \
     --output /usr/local/bin/kubectl \
-    https://dl.k8s.io/release/v1.33.4/bin/linux/amd64/kubectl \
+    https://dl.k8s.io/release/${kubectl_version}/bin/linux/amd64/kubectl \
   && chmod 755 /usr/local/bin/kubectl \
   && curl \
     --location \
-    --output /opt/gohdfs-v2.4.0-linux-amd64.tar.gz \
-    https://github.com/colinmarc/hdfs/releases/download/v2.4.0/gohdfs-v2.4.0-linux-amd64.tar.gz \
+    --output /opt/gohdfs-${gohdfs_version}-linux-amd64.tar.gz \
+    https://github.com/colinmarc/hdfs/releases/download/${gohdfs_version}/gohdfs-${gohdfs_version}-linux-amd64.tar.gz \
   && tar \
     --strip-components=1 \
     --directory=/usr/local/bin \
     -zxvf \
-    /opt/gohdfs-v2.4.0-linux-amd64.tar.gz \
-    gohdfs-v2.4.0-linux-amd64/hdfs \
+    /opt/gohdfs-${gohdfs_version}-linux-amd64.tar.gz \
+    gohdfs-${gohdfs_version}-linux-amd64/hdfs \
   && mv /usr/local/bin/hdfs /usr/local/bin/gohdfs \
-  && rm -rf /opt/gohdfs-v2.4.0-linux-amd64.tar.gz \
+  && rm -rf /opt/gohdfs-${gohdfs_version}-linux-amd64.tar.gz \
   && curl \
     --output /opt/aws.zip \
     https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip \
