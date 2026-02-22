@@ -35,15 +35,15 @@ elif [ "${command}" == "hdfs-mkdir" ]; then
   readonly directory=$2
   readonly owner=$3
   readonly mode=$4
-  until gohdfs mkdir -p "hdfs://${directory}" 2> /dev/null; do
+  until "${HADOOP_HOME}/bin/hdfs" dfs -mkdir -p "${directory}" 2> /dev/null; do
     echo "Failed to mkdir ${directory}. Retrying..."
     sleep 1
   done
-  until gohdfs chown "$owner" "hdfs://${directory}" 2> /dev/null; do
+  until "${HADOOP_HOME}/bin/hdfs" dfs -chown "${owner}" "${directory}" 2> /dev/null; do
     echo "Failed to chown ${directory}. Retrying..."
     sleep 1
   done
-  until gohdfs chmod "$mode" "hdfs://${directory}" 2> /dev/null; do
+  until "${HADOOP_HOME}/bin/hdfs" dfs -chmod "${mode}" "${directory}" 2> /dev/null; do
     echo "Failed to chmod ${directory}. Retrying..."
     sleep 1
   done
