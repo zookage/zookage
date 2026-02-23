@@ -18,6 +18,19 @@ source ./docker/prepare.sh HADOOP_SOURCE_DIR
 # shellcheck source=/mnt/docker/prepare-maven.sh
 source ./docker/prepare-maven.sh
 
+hadoop_build_dockerfile="${HADOOP_SOURCE_DIR}/dev-support/docker/Dockerfile"
+docker_arch="$(docker version --format '{{.Server.Arch}}' 2>/dev/null || true)"
+if [ -z "${docker_arch}" ]; then
+  docker_arch="$(docker info --format '{{.Architecture}}' 2>/dev/null || true)"
+fi
+if [ -z "${docker_arch}" ]; then
+  docker_arch="$(uname -m)"
+fi
+if [ "${docker_arch}" = "arm64" ] || [ "${docker_arch}" = "aarch64" ]; then
+  hadoop_build_dockerfile="${HADOOP_SOURCE_DIR}/dev-support/docker/Dockerfile_aarch64"
+  echo "ARM64 Docker architecture detected (${docker_arch}). Using Hadoop ARM Dockerfile: ${hadoop_build_dockerfile}"
+fi
+
 active_profiles=dist
 
 read -r -p "Build native libraries? [Y/n]: " native
@@ -36,7 +49,7 @@ esac
 
 docker build \
   --tag "${DOCKER_IMAGE_NAME_PREFIX}/hadoop-build:${image_tag}" \
-  --file "${HADOOP_SOURCE_DIR}/dev-support/docker/Dockerfile" \
+  --file "${hadoop_build_dockerfile}" \
   "${HADOOP_SOURCE_DIR}/dev-support/docker"
 
 docker build \
