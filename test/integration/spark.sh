@@ -17,8 +17,8 @@ readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
 
 "${integration_dir}/divider.sh" "Start running a Spark job"
 
-"${integration_dir}/run.sh" gohdfs rm -rf /user/zookage/spark-wordcount-input
-"${integration_dir}/run.sh" gohdfs put /etc/hosts /user/zookage/spark-wordcount-input
+"${integration_dir}/run.sh" hdfs dfs -rm -r -f /user/zookage/spark-wordcount-input
+"${integration_dir}/run.sh" hdfs dfs -put /etc/hosts /user/zookage/spark-wordcount-input
 "${integration_dir}/run.sh" bash -c "
   spark-submit \
   --class org.apache.spark.examples.JavaWordCount \
