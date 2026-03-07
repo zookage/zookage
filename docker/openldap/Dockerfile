@@ -29,5 +29,9 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
+COPY entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh
+
 USER openldap:openldap
-ENTRYPOINT ["slapd", "-d", "0"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["slapd", "-d", "0", "-h", "ldap://0.0.0.0:389/ ldapi:///"]
