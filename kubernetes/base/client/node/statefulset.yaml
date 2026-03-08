@@ -76,8 +76,10 @@ spec:
           mountPath: /opt/hbase
         - name: package-hive
           mountPath: /opt/hive
-        - name: package-ozone
+        - name: ozone-src
           mountPath: /opt/ozone
+          readOnly: true
+          subPath: opt/ozone
         - name: package-spark
           mountPath: /opt/spark
         - name: package-tez
@@ -101,6 +103,10 @@ spec:
       - name: ozone-conf
         configMap:
           name: ozone-conf
+      - name: ozone-src
+        image:
+          reference: zookage-ozone
+          pullPolicy: IfNotPresent
       - name: spark-conf
         configMap:
           name: spark-conf
@@ -122,9 +128,6 @@ spec:
       - name: package-hive
         persistentVolumeClaim:
           claimName: package-hive
-      - name: package-ozone
-        persistentVolumeClaim:
-          claimName: package-ozone
       - name: package-spark
         persistentVolumeClaim:
           claimName: package-spark
