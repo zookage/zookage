@@ -19,5 +19,4 @@ labels:
 resources:
 - hadoop
 - ranger
-- spark
 - tez
