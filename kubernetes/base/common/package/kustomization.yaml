@@ -22,4 +22,3 @@ resources:
 - spark
 - tez
 - trino
-- zookeeper
