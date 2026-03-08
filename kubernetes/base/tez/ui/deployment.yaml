@@ -23,6 +23,13 @@ spec:
       containers:
       - name: tez-ui
         image: tomcat:11.0.18-jdk21-temurin
+        command:
+        - /bin/sh
+        - -ec
+        args:
+        - |
+          cp /opt/tez/share/tez-ui.war /usr/local/tomcat/webapps/tez-ui.war
+          exec /usr/local/tomcat/bin/catalina.sh run
         readinessProbe:
           tcpSocket:
             port: 8080
@@ -31,10 +38,6 @@ spec:
           mountPath: /opt/tez
           readOnly: true
           subPath: opt/tez
-        - name: tez-src
-          mountPath: /usr/local/tomcat/webapps/tez-ui.war
-          readOnly: true
-          subPath: opt/tez/share/tez-ui.war
       volumes:
       - name: tez-src
         image:
