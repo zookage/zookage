@@ -55,8 +55,10 @@ spec:
           mountPath: /etc/hive/conf
         - name: tez-conf
           mountPath: /etc/tez/conf
-        - name: package-hadoop
+        - name: hadoop-src
           mountPath: /opt/hadoop
+          readOnly: true
+          subPath: opt/hadoop
         - name: tez-src
           mountPath: /opt/tez
           readOnly: true
@@ -72,9 +74,10 @@ spec:
       - name: tez-conf
         configMap:
           name: tez-conf
-      - name: package-hadoop
-        persistentVolumeClaim:
-          claimName: package-hadoop
+      - name: hadoop-src
+        image:
+          reference: zookage-hadoop
+          pullPolicy: IfNotPresent
       - name: tez-src
         image:
           reference: zookage-tez
