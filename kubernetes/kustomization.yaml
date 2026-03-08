@@ -38,7 +38,7 @@ resources:
 images:
 - name: zookage-util
   newName: zookage/zookage-util
-  newTag: 0.5.0
+  newTag: experimental
 - name: zookage-hadoop
   newName: zookage/zookage-hadoop
   newTag: 3.4.1-zookage-0.5

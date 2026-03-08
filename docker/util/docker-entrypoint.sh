@@ -17,6 +17,43 @@ if [ $# -eq 0 ]; then
   exec /bin/bash
 fi
 
+retry_command() {
+  description=$1
+  shift
+  until "$@" 2> /dev/null; do
+    echo "Failed to ${description}. Retrying..."
+    sleep 1
+  done
+}
+
+webhdfs_request() {
+  method=$1
+  path=$2
+  query=$3
+
+  curl \
+    --fail \
+    --silent \
+    --show-error \
+    --output /dev/null \
+    --request "${method}" \
+    --header 'Content-Length: 0' \
+    "http://hdfs-httpfs:14000/webhdfs/v1${path}?user.name=${HADOOP_USER_NAME:-hdfs}&${query}"
+}
+
+hdfs_mkdir_webhdfs() {
+  directory=$1
+  owner_group=$2
+  mode=$3
+  owner=${owner_group%%:*}
+  group=${owner_group#*:}
+
+  retry_command "mkdir ${directory}" \
+    webhdfs_request PUT "${directory}" "op=MKDIRS&permission=${mode}"
+  retry_command "set owner on ${directory}" \
+    webhdfs_request PUT "${directory}" "op=SETOWNER&owner=${owner}&group=${group}"
+}
+
 readonly command=$1
 
 if [ "${command}" == "wait-for-job" ]; then
@@ -32,21 +69,7 @@ elif [ "${command}" == "wait-for-dns" ]; then
   done
   exit 0
 elif [ "${command}" == "hdfs-mkdir" ]; then
-  readonly directory=$2
-  readonly owner=$3
-  readonly mode=$4
-  until "${HADOOP_HOME}/bin/hdfs" dfs -mkdir -p "${directory}" 2> /dev/null; do
-    echo "Failed to mkdir ${directory}. Retrying..."
-    sleep 1
-  done
-  until "${HADOOP_HOME}/bin/hdfs" dfs -chown "${owner}" "${directory}" 2> /dev/null; do
-    echo "Failed to chown ${directory}. Retrying..."
-    sleep 1
-  done
-  until "${HADOOP_HOME}/bin/hdfs" dfs -chmod "${mode}" "${directory}" 2> /dev/null; do
-    echo "Failed to chmod ${directory}. Retrying..."
-    sleep 1
-  done
+  hdfs_mkdir_webhdfs "$2" "$3" "$4"
   exit 0
 fi
 

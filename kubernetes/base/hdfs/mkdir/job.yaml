@@ -18,11 +18,11 @@ spec:
   template:
     spec:
       initContainers:
-      - name: wait-for-namenode
+      - name: wait-for-httpfs
         image: zookage-util
         args:
         - wait-for-rollout
-        - statefulset/hdfs-namenode
+        - deployment/hdfs-httpfs
       containers:
       - name: mkdir
         image: zookage-util
