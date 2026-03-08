@@ -72,10 +72,14 @@ spec:
           mountPath: /etc/zookeeper/conf
         - name: package-hadoop
           mountPath: /opt/hadoop
-        - name: package-hbase-client
+        - name: hbase-src
           mountPath: /opt/hbase
-        - name: package-hive
+          readOnly: true
+          subPath: opt/hbase-client
+        - name: hive-src
           mountPath: /opt/hive
+          readOnly: true
+          subPath: opt/hive
         - name: ozone-src
           mountPath: /opt/ozone
           readOnly: true
@@ -88,8 +92,10 @@ spec:
           mountPath: /opt/trino
           readOnly: true
           subPath: opt/trino
-        - name: package-zookeeper
+        - name: zookeeper-src
           mountPath: /opt/zookeeper
+          readOnly: true
+          subPath: opt/zookeeper
         workingDir: /home/zookage
       terminationGracePeriodSeconds: 0
       volumes:
@@ -99,6 +105,10 @@ spec:
       - name: hbase-conf
         configMap:
           name: hbase-conf
+      - name: hbase-src
+        image:
+          reference: zookage-hbase
+          pullPolicy: IfNotPresent
       - name: hive-conf
         configMap:
           name: hive-conf
@@ -121,15 +131,17 @@ spec:
       - name: zookeeper-conf
         configMap:
           name: zookeeper-conf
+      - name: zookeeper-src
+        image:
+          reference: zookage-zookeeper
+          pullPolicy: IfNotPresent
       - name: package-hadoop
         persistentVolumeClaim:
           claimName: package-hadoop
-      - name: package-hbase-client
-        persistentVolumeClaim:
-          claimName: package-hbase-client
-      - name: package-hive
-        persistentVolumeClaim:
-          claimName: package-hive
+      - name: hive-src
+        image:
+          reference: zookage-hive
+          pullPolicy: IfNotPresent
       - name: package-spark
         persistentVolumeClaim:
           claimName: package-spark
@@ -140,7 +152,4 @@ spec:
         image:
           reference: zookage-trino
           pullPolicy: IfNotPresent
-      - name: package-zookeeper
-        persistentVolumeClaim:
-          claimName: package-zookeeper
   volumeClaimTemplates: []

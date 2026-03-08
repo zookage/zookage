@@ -18,9 +18,6 @@ labels:
     component: package
 resources:
 - hadoop
-- hbase
-- hive
 - ranger
 - spark
 - tez
-- zookeeper
