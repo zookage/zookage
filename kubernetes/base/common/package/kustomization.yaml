@@ -18,7 +18,6 @@ labels:
     component: package
 resources:
 - hadoop
-- hbase
 - ranger
 - spark
 - tez

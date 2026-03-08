@@ -72,8 +72,10 @@ spec:
           mountPath: /etc/zookeeper/conf
         - name: package-hadoop
           mountPath: /opt/hadoop
-        - name: package-hbase-client
+        - name: hbase-src
           mountPath: /opt/hbase
+          readOnly: true
+          subPath: opt/hbase-client
         - name: hive-src
           mountPath: /opt/hive
           readOnly: true
@@ -99,6 +101,10 @@ spec:
       - name: hbase-conf
         configMap:
           name: hbase-conf
+      - name: hbase-src
+        image:
+          reference: zookage-hbase
+          pullPolicy: IfNotPresent
       - name: hive-conf
         configMap:
           name: hive-conf
@@ -124,9 +130,6 @@ spec:
       - name: package-hadoop
         persistentVolumeClaim:
           claimName: package-hadoop
-      - name: package-hbase-client
-        persistentVolumeClaim:
-          claimName: package-hbase-client
       - name: hive-src
         image:
           reference: zookage-hive
