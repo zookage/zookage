@@ -17,5 +17,4 @@ labels:
   pairs:
     component: package
 resources:
-- hadoop
 - ranger

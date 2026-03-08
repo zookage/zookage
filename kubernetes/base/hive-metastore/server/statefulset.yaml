@@ -64,8 +64,10 @@ spec:
           mountPath: /etc/tez/conf
         - name: mnt
           mountPath: /mnt
-        - name: package-hadoop
+        - name: hadoop-src
           mountPath: /opt/hadoop
+          readOnly: true
+          subPath: opt/hadoop
       containers:
       - name: metastore
         image: zookage-hive-metastore
@@ -90,8 +92,10 @@ spec:
           mountPath: /etc/hive-metastore/conf
         - name: mnt
           mountPath: /mnt
-        - name: package-hadoop
+        - name: hadoop-src
           mountPath: /opt/hadoop
+          readOnly: true
+          subPath: opt/hadoop
       terminationGracePeriodSeconds: 5
       volumes:
       - name: hadoop-conf
@@ -105,7 +109,8 @@ spec:
           name: tez-conf
       - name: mnt
         emptyDir: {}
-      - name: package-hadoop
-        persistentVolumeClaim:
-          claimName: package-hadoop
+      - name: hadoop-src
+        image:
+          reference: zookage-hadoop
+          pullPolicy: IfNotPresent
   volumeClaimTemplates: []

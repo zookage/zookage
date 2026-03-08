@@ -51,8 +51,10 @@ spec:
           mountPath: /etc/spark/conf
         - name: mnt
           mountPath: /mnt
-        - name: package-hadoop
+        - name: hadoop-src
           mountPath: /opt/hadoop
+          readOnly: true
+          subPath: opt/hadoop
       terminationGracePeriodSeconds: 5
       volumes:
       - name: hadoop-conf
@@ -63,7 +65,8 @@ spec:
           name: spark-conf
       - name: mnt
         emptyDir: {}
-      - name: package-hadoop
-        persistentVolumeClaim:
-          claimName: package-hadoop
+      - name: hadoop-src
+        image:
+          reference: zookage-hadoop
+          pullPolicy: IfNotPresent
   volumeClaimTemplates: []

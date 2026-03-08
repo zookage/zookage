@@ -70,8 +70,10 @@ spec:
           subPath: cli.properties
         - name: zookeeper-conf
           mountPath: /etc/zookeeper/conf
-        - name: package-hadoop
+        - name: hadoop-src
           mountPath: /opt/hadoop
+          readOnly: true
+          subPath: opt/hadoop
         - name: hbase-src
           mountPath: /opt/hbase
           readOnly: true
@@ -143,9 +145,10 @@ spec:
         image:
           reference: zookage-zookeeper
           pullPolicy: IfNotPresent
-      - name: package-hadoop
-        persistentVolumeClaim:
-          claimName: package-hadoop
+      - name: hadoop-src
+        image:
+          reference: zookage-hadoop
+          pullPolicy: IfNotPresent
       - name: hive-src
         image:
           reference: zookage-hive

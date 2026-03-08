@@ -67,8 +67,10 @@ spec:
           mountPath: /etc/tez/conf
         - name: mnt
           mountPath: /mnt
-        - name: package-hadoop
+        - name: hadoop-src
           mountPath: /opt/hadoop
+          readOnly: true
+          subPath: opt/hadoop
         - name: tez-src
           mountPath: /opt/tez
           readOnly: true
@@ -86,9 +88,10 @@ spec:
           name: tez-conf
       - name: mnt
         emptyDir: {}
-      - name: package-hadoop
-        persistentVolumeClaim:
-          claimName: package-hadoop
+      - name: hadoop-src
+        image:
+          reference: zookage-hadoop
+          pullPolicy: IfNotPresent
       - name: tez-src
         image:
           reference: zookage-tez
