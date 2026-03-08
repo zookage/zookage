@@ -36,12 +36,15 @@ spec:
         - name: HBASE_CLASSPATH
           value: $(HADOOP_CONF_DIR):/opt/ranger/ranger-hbase-plugin/lib/*
         volumeMounts:
-        - name: package-ranger
+        - name: ranger-src
           mountPath: /opt/ranger
+          readOnly: true
+          subPath: opt/ranger
       volumes:
-      - name: package-ranger
-        persistentVolumeClaim:
-          claimName: package-ranger
+      - name: ranger-src
+        image:
+          reference: zookage-ranger
+          pullPolicy: IfNotPresent
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -62,9 +65,12 @@ spec:
         - name: HBASE_CLASSPATH
           value: $(HADOOP_CONF_DIR):/opt/ranger/ranger-hbase-plugin/lib/*
         volumeMounts:
-        - name: package-ranger
+        - name: ranger-src
           mountPath: /opt/ranger
+          readOnly: true
+          subPath: opt/ranger
       volumes:
-      - name: package-ranger
-        persistentVolumeClaim:
-          claimName: package-ranger
+      - name: ranger-src
+        image:
+          reference: zookage-ranger
+          pullPolicy: IfNotPresent

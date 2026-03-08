@@ -38,9 +38,12 @@ spec:
         - name: HADOOP_DFS_NAMENODE_INODE_ATTRIBUTES_PROVIDER_CLASS
           value: org.apache.ranger.authorization.hadoop.RangerHdfsAuthorizer
         volumeMounts:
-        - name: package-ranger
+        - name: ranger-src
           mountPath: /opt/ranger
+          readOnly: true
+          subPath: opt/ranger
       volumes:
-      - name: package-ranger
-        persistentVolumeClaim:
-          claimName: package-ranger
+      - name: ranger-src
+        image:
+          reference: zookage-ranger
+          pullPolicy: IfNotPresent
