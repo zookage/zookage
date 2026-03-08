@@ -84,8 +84,10 @@ spec:
           mountPath: /opt/ozone
           readOnly: true
           subPath: opt/ozone
-        - name: package-spark
+        - name: spark-src
           mountPath: /opt/spark
+          readOnly: true
+          subPath: opt/spark
         - name: package-tez
           mountPath: /opt/tez
         - name: trino-src
@@ -119,6 +121,10 @@ spec:
         image:
           reference: zookage-ozone
           pullPolicy: IfNotPresent
+      - name: spark-src
+        image:
+          reference: zookage-spark
+          pullPolicy: IfNotPresent
       - name: spark-conf
         configMap:
           name: spark-conf
@@ -142,9 +148,6 @@ spec:
         image:
           reference: zookage-hive
           pullPolicy: IfNotPresent
-      - name: package-spark
-        persistentVolumeClaim:
-          claimName: package-spark
       - name: package-tez
         persistentVolumeClaim:
           claimName: package-tez
