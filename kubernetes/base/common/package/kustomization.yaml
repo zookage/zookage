@@ -20,7 +20,6 @@ resources:
 - hadoop
 - hbase
 - hive
-- ozone
 - ranger
 - spark
 - tez
