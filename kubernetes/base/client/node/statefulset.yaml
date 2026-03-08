@@ -88,8 +88,10 @@ spec:
           mountPath: /opt/spark
         - name: package-tez
           mountPath: /opt/tez
-        - name: package-trino
+        - name: trino-src
           mountPath: /opt/trino
+          readOnly: true
+          subPath: opt/trino
         - name: zookeeper-src
           mountPath: /opt/zookeeper
           readOnly: true
@@ -146,7 +148,8 @@ spec:
       - name: package-tez
         persistentVolumeClaim:
           claimName: package-tez
-      - name: package-trino
-        persistentVolumeClaim:
-          claimName: package-trino
+      - name: trino-src
+        image:
+          reference: zookage-trino
+          pullPolicy: IfNotPresent
   volumeClaimTemplates: []

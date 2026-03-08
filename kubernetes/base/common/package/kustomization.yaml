@@ -21,4 +21,3 @@ resources:
 - ranger
 - spark
 - tez
-- trino
