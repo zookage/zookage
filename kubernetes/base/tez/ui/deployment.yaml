@@ -23,16 +23,23 @@ spec:
       containers:
       - name: tez-ui
         image: tomcat:11.0.18-jdk21-temurin
+        command:
+        - /bin/sh
+        - -ec
+        args:
+        - |
+          cp /opt/tez/share/tez-ui.war /usr/local/tomcat/webapps/tez-ui.war
+          exec /usr/local/tomcat/bin/catalina.sh run
         readinessProbe:
           tcpSocket:
             port: 8080
         volumeMounts:
-        - name: package-tez
+        - name: tez-src
           mountPath: /opt/tez
-        - name: package-tez
-          mountPath: /usr/local/tomcat/webapps/tez-ui.war
-          subPath: share/tez-ui.war
+          readOnly: true
+          subPath: opt/tez
       volumes:
-      - name: package-tez
-        persistentVolumeClaim:
-          claimName: package-tez
+      - name: tez-src
+        image:
+          reference: zookage-tez
+          pullPolicy: IfNotPresent
