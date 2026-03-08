@@ -74,8 +74,10 @@ spec:
           mountPath: /opt/hadoop
         - name: package-hbase-client
           mountPath: /opt/hbase
-        - name: package-hive
+        - name: hive-src
           mountPath: /opt/hive
+          readOnly: true
+          subPath: opt/hive
         - name: ozone-src
           mountPath: /opt/ozone
           readOnly: true
@@ -125,9 +127,10 @@ spec:
       - name: package-hbase-client
         persistentVolumeClaim:
           claimName: package-hbase-client
-      - name: package-hive
-        persistentVolumeClaim:
-          claimName: package-hive
+      - name: hive-src
+        image:
+          reference: zookage-hive
+          pullPolicy: IfNotPresent
       - name: package-spark
         persistentVolumeClaim:
           claimName: package-spark

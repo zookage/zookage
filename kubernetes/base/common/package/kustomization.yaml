@@ -19,7 +19,6 @@ labels:
 resources:
 - hadoop
 - hbase
-- hive
 - ranger
 - spark
 - tez
