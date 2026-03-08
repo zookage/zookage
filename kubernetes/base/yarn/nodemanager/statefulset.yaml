@@ -54,8 +54,10 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: mnt
           mountPath: /mnt
-        - name: package-tez
+        - name: tez-src
           mountPath: /opt/tez
+          readOnly: true
+          subPath: opt/tez
       terminationGracePeriodSeconds: 5
       volumes:
       - name: hadoop-conf
@@ -63,7 +65,8 @@ spec:
           name: hadoop-conf
       - name: mnt
         emptyDir: {}
-      - name: package-tez
-        persistentVolumeClaim:
-          claimName: package-tez
+      - name: tez-src
+        image:
+          reference: zookage-tez
+          pullPolicy: IfNotPresent
   volumeClaimTemplates: []

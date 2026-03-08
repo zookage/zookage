@@ -27,12 +27,16 @@ spec:
           tcpSocket:
             port: 8080
         volumeMounts:
-        - name: package-tez
+        - name: tez-src
           mountPath: /opt/tez
-        - name: package-tez
+          readOnly: true
+          subPath: opt/tez
+        - name: tez-src
           mountPath: /usr/local/tomcat/webapps/tez-ui.war
-          subPath: share/tez-ui.war
+          readOnly: true
+          subPath: opt/tez/share/tez-ui.war
       volumes:
-      - name: package-tez
-        persistentVolumeClaim:
-          claimName: package-tez
+      - name: tez-src
+        image:
+          reference: zookage-tez
+          pullPolicy: IfNotPresent
