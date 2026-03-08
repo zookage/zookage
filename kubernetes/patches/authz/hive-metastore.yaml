@@ -32,9 +32,12 @@ spec:
         - name: METASTORE_CLASSPATH
           value: $(METASTORE_CONF_DIR):/opt/ranger/ranger-hive-plugin/lib/*
         volumeMounts:
-        - name: package-ranger
+        - name: ranger-src
           mountPath: /opt/ranger
+          readOnly: true
+          subPath: opt/ranger
       volumes:
-      - name: package-ranger
-        persistentVolumeClaim:
-          claimName: package-ranger
+      - name: ranger-src
+        image:
+          reference: zookage-ranger
+          pullPolicy: IfNotPresent
