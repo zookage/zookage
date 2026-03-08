@@ -86,8 +86,10 @@ spec:
           mountPath: /opt/tez
         - name: package-trino
           mountPath: /opt/trino
-        - name: package-zookeeper
+        - name: zookeeper-src
           mountPath: /opt/zookeeper
+          readOnly: true
+          subPath: opt/zookeeper
         workingDir: /home/zookage
       terminationGracePeriodSeconds: 0
       volumes:
@@ -119,6 +121,10 @@ spec:
       - name: zookeeper-conf
         configMap:
           name: zookeeper-conf
+      - name: zookeeper-src
+        image:
+          reference: zookage-zookeeper
+          pullPolicy: IfNotPresent
       - name: package-hadoop
         persistentVolumeClaim:
           claimName: package-hadoop
@@ -137,7 +143,4 @@ spec:
       - name: package-trino
         persistentVolumeClaim:
           claimName: package-trino
-      - name: package-zookeeper
-        persistentVolumeClaim:
-          claimName: package-zookeeper
   volumeClaimTemplates: []
