@@ -14,6 +14,22 @@
 set -eu
 
 readonly test_dir=$(cd "$(dirname "$0")"; pwd)
+readonly repo_dir=$(cd "${test_dir}/.."; pwd)
+
+if [[ $# -ge 1 ]]; then
+  readonly kustomization_name="$1"
+  readonly source_kustomization="${test_dir}/kubernetes/${kustomization_name}.yaml"
+  readonly target_kustomization="${repo_dir}/kubernetes/kustomization.yaml"
+
+  if [[ ! -f "${source_kustomization}" ]]; then
+    echo "No such kustomization: ${source_kustomization}" >&2
+    exit 1
+  fi
+
+  cp "${source_kustomization}" "${target_kustomization}"
+  "${repo_dir}/bin/down"
+  "${repo_dir}/bin/up"
+fi
 
 "${test_dir}/integration/divider.sh" "Test Web"
 "${test_dir}/integration/web.sh"
