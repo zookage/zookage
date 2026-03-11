@@ -52,6 +52,8 @@ hdfs_mkdir_webhdfs() {
     webhdfs_request PUT "${directory}" "op=MKDIRS&permission=${mode}"
   retry_command "set owner on ${directory}" \
     webhdfs_request PUT "${directory}" "op=SETOWNER&owner=${owner}&group=${group}"
+  retry_command "set permission on ${directory}" \
+    webhdfs_request PUT "${directory}" "op=SETPERMISSION&permission=${mode}"
 }
 
 readonly command=$1

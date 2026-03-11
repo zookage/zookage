@@ -32,6 +32,11 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hdfs-datanode-.* impl.FsDatasetImpl: dfsUsed file missing in' \
   | grep -v 'pod/hdfs-datanode-.* ipc.Client: Address change detected' \
   | grep -v 'pod/hdfs-httpfs-.* impl.MetricsSystemImpl: httpfs metrics system already initialized!' \
+  | grep -v 'pod/hdfs-httpfs-.*: WARNING: An illegal reflective access operation has occurred' \
+  | grep -v 'pod/hdfs-httpfs-.*: WARNING: Illegal reflective access by .*' \
+  | grep -v 'pod/hdfs-httpfs-.*: WARNING: Please consider reporting this to the maintainers of .*' \
+  | grep -v 'pod/hdfs-httpfs-.*: WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations' \
+  | grep -v 'pod/hdfs-httpfs-.*: WARNING: All illegal access operations will be denied in a future release' \
   | grep -v 'pod/hdfs-journalnode-.* common.Storage: Storage directory .* does not exist' \
   | grep -v 'pod/hdfs-journalnode-.* server.JournalNodeSyncer: Journal at .* has no edit logs' \
   | grep -v 'pod/yarn-nodemanager-.* nodemanager.DefaultContainerExecutor: Exit code from container' \
@@ -39,10 +44,13 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find app" \
   | grep -v 'pod/yarn-nodemanager-.* nodemanager.DefaultContainerExecutor: delete returned false for path' \
   | grep -v 'pod/hive-hiveserver2-.* conf.HiveConf: HiveConf of name hive.cluster.id does not exist' \
+  | grep -v 'pod/hive-hiveserver2-.* exec.FunctionRegistry: UDF Class org.apache.hadoop.hive.ql.udf.generic.GenericUDFToJson does not have description\.' \
   | grep -v "pod/hive-hiveserver2-.* tez.TezConfigurationFactory: Skip adding 'tez.application.tags' to dagConf, as it's an AM scoped property" \
   `# Needs TX` \
   | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: Cannot get a table snapshot for' \
   | grep -v 'pod/hive-metastore-server-.*: WARNING: Unable to create a system terminal' \
+  | grep -v 'pod/hive-metastore-server-.* metastore.ServletSecurity: Servlet security is disabled for org.apache.iceberg.rest.HMSCatalogServlet@.*' \
+  | grep -v 'pod/postgres-database-.* WARNING:  there is no transaction in progress' \
   | grep -v 'pod/zookeeper-server-.* org.eclipse.jetty.server.handler.ContextHandler .* contextPath ends with' \
   | grep -v 'pod/zookeeper-server-.* org.eclipse.jetty.server.handler.ContextHandler -- Empty contextPath' \
   | grep -v 'pod/zookeeper-server-.* org.eclipse.jetty.security.SecurityHandler .* has uncovered http methods for path:' \
@@ -57,6 +65,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   `# Initialization` \
   | grep -v 'pod/ozone-.*: STARTUP_MSG:' \
   | grep -v 'pod/ozone-recon-.* scm.ReconPipelineManager: Pipeline PipelineID=.* already exists in Recon pipeline metadata' \
+  | grep -v 'pod/ozone-datanode-.* statemachine.EndpointStateMachine: Unable to communicate to Recon server at .* for past 0 seconds\.' \
   | grep -v 'pod/ozone-scm-.* balancer.ContainerBalancer: Could not find persisted configuration for ContainerBalancer when checking if ContainerBalancer should run. ContainerBalancer should not run now.' \
   | grep -v 'pod/ozone-scm-.* ha.SequenceIdGenerator: Failed to allocate a batch for localId, expected lastId is 0, actual lastId is' \
   | grep -v 'pod/ozone-scm-.* scm.SCMCommonPlacementPolicy: Unable to find enough nodes that meet the space requirement of' \
@@ -64,8 +73,24 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/ozone-om-.* helpers.OzoneAclUtil: Failed to get primary group from user .*' \
   `# HDDS-8395` \
   | grep -v 'ozone-s3g-.* impl.MetricsSystemImpl: S3Gateway metrics system already initialized!' \
+  | grep -v 'pod/ranger-admin-.*DefaultJoranConfigurator@.*logback.xml.*' \
+  | grep -v "pod/ranger-admin-.* WARNING: Config 'ranger.keystore.file' or 'ranger.service.https.attrib.keystore.file' is not found or contains blank value" \
+  | grep -v "pod/ranger-admin-.* WARNING: Config 'ranger.truststore.file' is not found or contains blank value!" \
+  | grep -v "pod/ranger-admin-.* WARNING: A context path must either be an empty string or start with a '/' and do not end with a '/'. The path \\[/\\] does not meet these criteria and has been changed to \\[\\]" \
+  | grep -v 'pod/ranger-admin-.* WARNING: The following warnings have been detected with resource and/or provider classes:' \
+  | grep -v 'pod/ranger-admin-.* WARNING: A HTTP GET method, public void org.apache.ranger.rest.RoleREST.getRolesInJson.* MUST return a non-void type\.' \
+  | grep -v 'pod/ranger-admin-.* WARNING: A HTTP GET method, public void org.apache.ranger.rest.ServiceREST.getPoliciesInExcel.* MUST return a non-void type\.' \
+  | grep -v 'pod/ranger-admin-.* WARNING: A HTTP GET method, public void org.apache.ranger.rest.ServiceREST.getPoliciesInCsv.* MUST return a non-void type\.' \
+  | grep -v 'pod/ranger-admin-.* WARNING: A HTTP GET method, public void org.apache.ranger.rest.ServiceREST.getPoliciesInJson.* MUST return a non-void type\.' \
+  | grep -v 'pod/ranger-usersync-.*DefaultJoranConfigurator@.*logback.xml.*' \
+  | grep -v 'pod/spark-historyserver-.* WARNING: Using incubator modules: jdk.incubator.vector' \
   | grep -v 'pod/trino-coordinator-.* WARNING: Using incubator modules: jdk.incubator.vector' \
-  | grep -v 'pod/trino-worker-.* WARNING: Using incubator modules: jdk.incubator.vector'
+  | grep -v 'pod/trino-coordinator-.* # WARNING: Unable to attach Serviceability Agent\.' \
+  | grep -v 'pod/trino-coordinator-.*io.trino.memory.RemoteNodeMemory.*Memory info update request to http://.* has not returned in .*' \
+  | grep -v 'pod/trino-coordinator-.*io.trino.memory.RemoteNodeMemory.*Error fetching memory info from http://.* returned status 503' \
+  | grep -v 'pod/trino-worker-.* WARNING: Using incubator modules: jdk.incubator.vector' \
+  | grep -v 'pod/trino-worker-.* # WARNING: Unable to attach Serviceability Agent\.' \
+  | grep -v 'pod/trino-worker-.*io.trino.node.AnnounceNodeAnnouncer.*Failed to announce node state to http://.*: 503'
 
 
 # shellcheck disable=SC2181

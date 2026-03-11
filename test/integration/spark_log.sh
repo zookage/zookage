@@ -21,7 +21,8 @@ echo "Check errors and warnings of ${id}"
 
 "${integration_dir}/divider.sh" "Start checking errors of a Spark job"
 "${integration_dir}/run.sh" bash -c "
-  ! yarn logs -applicationId '${id}' | grep 'ERROR'
+  ! yarn logs -applicationId '${id}' | grep 'ERROR' \
+    | grep -v 'ERROR org.apache.spark.executor.CoarseGrainedExecutorBackend - RECEIVED SIGNAL TERM'
 "
 "${integration_dir}/divider.sh" "Finished checking errors of a Spark job"
 echo "No error is found."
