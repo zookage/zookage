@@ -41,6 +41,8 @@ spec:
         - configMapRef:
             name: java-env
         - configMapRef:
+            name: hadoop-env
+        - configMapRef:
             name: trino-env
         env:
         - name: POD_NAME

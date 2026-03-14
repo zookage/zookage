@@ -17,6 +17,18 @@ metadata:
 spec:
   replicas: 3
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hadoop-env
+data:
+  HADOOP_DFS_HA_NAMENODES: namenode-0,namenode-1
+  HADOOP_DFS_HA_AUTOMATIC_FAILOVER_ENABLED: "true"
+  HADOOP_DFS_HA_FENCING_METHODS: shell(true)
+  HADOOP_DFS_NAMENODE_SHARED_EDITS_DIR: "qjournal://hdfs-journalnode-0.hdfs-journalnode:8485;\
+    hdfs-journalnode-1.hdfs-journalnode:8485;\
+    hdfs-journalnode-2.hdfs-journalnode:8485/zookage"
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:

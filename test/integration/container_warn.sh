@@ -31,6 +31,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hdfs-datanode-.* hdfs.DFSUtilClient: Namenode for zookage remains unresolved for ID' \
   | grep -v 'pod/hdfs-datanode-.* impl.FsDatasetImpl: dfsUsed file missing in' \
   | grep -v 'pod/hdfs-datanode-.* ipc.Client: Address change detected' \
+  | grep -v 'pod/hdfs-httpfs-.* hdfs.DFSUtilClient: Namenode for zookage remains unresolved for ID' \
   | grep -v 'pod/hdfs-httpfs-.* impl.MetricsSystemImpl: httpfs metrics system already initialized!' \
   | grep -v 'pod/hdfs-httpfs-.*: WARNING: An illegal reflective access operation has occurred' \
   | grep -v 'pod/hdfs-httpfs-.*: WARNING: Illegal reflective access by .*' \
@@ -43,6 +44,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find container" \
   | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find app" \
   | grep -v 'pod/yarn-nodemanager-.* nodemanager.DefaultContainerExecutor: delete returned false for path' \
+  | grep -v 'pod/yarn-resourcemanager-.* ha.ActiveStandbyElector: Ignoring stale result from old client with sessionId' \
   | grep -v 'pod/hive-hiveserver2-.* conf.HiveConf: HiveConf of name hive.cluster.id does not exist' \
   | grep -v 'pod/hive-hiveserver2-.* exec.FunctionRegistry: UDF Class org.apache.hadoop.hive.ql.udf.generic.GenericUDFToJson does not have description\.' \
   | grep -v "pod/hive-hiveserver2-.* tez.TezConfigurationFactory: Skip adding 'tez.application.tags' to dagConf, as it's an AM scoped property" \
