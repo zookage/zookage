@@ -24,3 +24,11 @@ spec:
         args:
         - wait-for-rollout
         - statefulset/zookeeper-server
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hadoop-env
+data:
+  HADOOP_YARN_RESOURCEMANAGER_HA_ENABLED: "true"
+  HADOOP_YARN_RESOURCEMANAGER_HA_RM_IDS: resourcemanager-0,resourcemanager-1

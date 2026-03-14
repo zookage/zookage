@@ -13,21 +13,17 @@
 -->
 
 <configuration>
-  <!-- ### For non-HA ### -->
   <property>
     <name>yarn.resourcemanager.hostname</name>
     <value>yarn-resourcemanager-0.yarn-resourcemanager</value>
   </property>
-  <!-- ### For non-HA ### -->
-
-  <!-- ### For HA ###
   <property>
     <name>yarn.resourcemanager.ha.enabled</name>
-    <value>true</value>
+    <value>${env.HADOOP_YARN_RESOURCEMANAGER_HA_ENABLED:-false}</value>
   </property>
   <property>
     <name>yarn.resourcemanager.ha.rm-ids</name>
-    <value>resourcemanager-0,resourcemanager-1</value>
+    <value>${env.HADOOP_YARN_RESOURCEMANAGER_HA_RM_IDS:-resourcemanager-0}</value>
   </property>
   <property>
     <name>yarn.resourcemanager.hostname.resourcemanager-0</name>
@@ -45,7 +41,6 @@
     <name>yarn.resourcemanager.webapp.address.resourcemanager-1</name>
     <value>yarn-resourcemanager-1.yarn-resourcemanager:8088</value>
   </property>
-  ### For HA ### -->
 
   <property>
     <name>yarn.acl.enable</name>
@@ -87,7 +82,7 @@
   </property>
   <property>
     <name>yarn.nodemanager.env-whitelist</name>
-    <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_HOME,PATH,LANG,TZ,HADOOP_MAPRED_HOME</value>
+    <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_HOME,PATH,LANG,TZ,HADOOP_MAPRED_HOME,HADOOP_DFS_HA_NAMENODES,HADOOP_YARN_RESOURCEMANAGER_HA_ENABLED,HADOOP_YARN_RESOURCEMANAGER_HA_RM_IDS</value>
   </property>
   <property>
     <name>yarn.nodemanager.log-dirs</name>
