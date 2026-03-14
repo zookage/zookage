@@ -35,7 +35,9 @@ echo "No error is found."
     | grep -v 'Could not post history event to ATS, atsPutError=6' \
     | grep -v 'Exiting TaskReporter thread with pending queue size=' \
     | grep -v '|common.AsyncDispatcher|: AsyncDispatcher thread interrupted' \
+    | grep -v '|impl.MetricsConfig|: Cannot locate configuration: tried hadoop-metrics2-llaptaskscheduler.properties,hadoop-metrics2.properties' \
     | grep -v '|launcher.TezContainerLauncherImpl|:.*: org.apache.hadoop.yarn.exceptions.YarnRuntimeException: java.lang.InterruptedException' \
+    | grep -v '|llap.AsyncResponseHandler|: Async response handler was interrupted' \
     | grep -v '|recovery.RecoveryService|: Ignoring error while closing summary stream' \
     | grep -v '|app.DAGAppMaster|: Failed to delete tez scratch data dir' \
     | grep -v '|objectinspector.StandardStructObjectInspector|: Trying to access' \

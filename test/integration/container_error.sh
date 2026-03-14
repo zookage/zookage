@@ -19,7 +19,9 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 "${integration_dir}/divider.sh" "Start fetching errors of all containers"
 
 # shellcheck disable=SC2016
-"${base_dir}/bin/logs" | grep ERROR \
+"${base_dir}/bin/logs" | grep ' ERROR ' \
+  | grep -v 'pod/hive-llap-.* impl.LlapDaemon: Cannot find CONTAINER_ID; LLAP tokens may grant access to subsequent instances of the cluster with the same name' \
+  | grep -v 'pod/hive-llap-.* impl.QueryTracker: Ignore this\. Log line to interact with logger\. Query complete:' \
   | grep -v 'pod/hive-metastore-server-.*:   "CQ_ERROR_MESSAGE"' \
   | grep -v 'pod/hive-metastore-server-.*:   "CC_ERROR_MESSAGE"' \
   | grep -v 'pod/hive-metastore-server-.*:     "ERROR_MESSAGE" VARCHAR(2000)' \

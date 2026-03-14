@@ -46,6 +46,12 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hive-hiveserver2-.* conf.HiveConf: HiveConf of name hive.cluster.id does not exist' \
   | grep -v 'pod/hive-hiveserver2-.* exec.FunctionRegistry: UDF Class org.apache.hadoop.hive.ql.udf.generic.GenericUDFToJson does not have description\.' \
   | grep -v "pod/hive-hiveserver2-.* tez.TezConfigurationFactory: Skip adding 'tez.application.tags' to dagConf, as it's an AM scoped property" \
+  | grep -v 'pod/hive-llap-.* impl.LlapDaemon: NodeManager host/port not found in environment\. Values retrieved: host=null, port=null' \
+  | grep -v 'pod/hive-llap-.* conf.HiveConf: HiveConf of name hive.cluster.id does not exist' \
+  | grep -v 'pod/hive-llap-.* exec.FunctionRegistry: UDF Class org.apache.hadoop.hive.ql.udf.generic.GenericUDFToJson does not have description\.' \
+  | grep -v 'pod/hive-llap-.* objectinspector.StandardStructObjectInspector: Trying to access' \
+  | grep -v 'pod/hive-llap-.* objectinspector.StandardStructObjectInspector: ignoring similar errors\.' \
+  | grep -v 'pod/hive-llap-.* impl.LlapTaskReporter: Exiting TaskReporter thread with pending queue size=' \
   `# Needs TX` \
   | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: Cannot get a table snapshot for' \
   | grep -v 'pod/hive-metastore-server-.*: WARNING: Unable to create a system terminal' \

@@ -16,6 +16,14 @@ set -eu
 readonly test_dir=$(cd "$(dirname "$0")"; pwd)
 readonly repo_dir=$(cd "${test_dir}/.."; pwd)
 
+run_test() {
+  local name=$1
+  local script=$2
+
+  "${test_dir}/integration/divider.sh" "Test ${name}"
+  "${script}"
+}
+
 if [[ $# -ge 1 ]]; then
   readonly kustomization_name="$1"
   readonly source_kustomization="${test_dir}/kubernetes/${kustomization_name}.yaml"
@@ -31,38 +39,21 @@ if [[ $# -ge 1 ]]; then
   "${repo_dir}/bin/up"
 fi
 
-"${test_dir}/integration/divider.sh" "Test Web"
-"${test_dir}/integration/web.sh"
+if [[ ${kustomization_name:-} != "llap" ]]; then
+  run_test "Web" "${test_dir}/integration/web.sh"
+  run_test "MR" "${test_dir}/integration/mr.sh"
+  run_test "Spark" "${test_dir}/integration/spark.sh"
+  run_test "ZooKeeper" "${test_dir}/integration/zookeeper.sh"
+  run_test "HBase" "${test_dir}/integration/hbase.sh"
+  run_test "Ozone" "${test_dir}/integration/ozone.sh"
+  run_test "Trino" "${test_dir}/integration/trino.sh"
+fi
 
-"${test_dir}/integration/divider.sh" "Test Tez"
-"${test_dir}/integration/tez.sh"
+run_test "Tez" "${test_dir}/integration/tez.sh"
+run_test "Hive on Tez" "${test_dir}/integration/hive_on_tez.sh"
 
-"${test_dir}/integration/divider.sh" "Test Hive on Tez"
-"${test_dir}/integration/hive_on_tez.sh"
-
-"${test_dir}/integration/divider.sh" "Test MR"
-"${test_dir}/integration/mr.sh"
-
-"${test_dir}/integration/divider.sh" "Test Spark"
-"${test_dir}/integration/spark.sh"
-
-"${test_dir}/integration/divider.sh" "Test ZooKeeper"
-"${test_dir}/integration/zookeeper.sh"
-
-"${test_dir}/integration/divider.sh" "Test HBase"
-"${test_dir}/integration/hbase.sh"
-
-"${test_dir}/integration/divider.sh" "Test Ozone"
-"${test_dir}/integration/ozone.sh"
-
-"${test_dir}/integration/divider.sh" "Test Trino"
-"${test_dir}/integration/trino.sh"
-
-"${test_dir}/integration/divider.sh" "Test error logs"
-"${test_dir}/integration/container_error.sh"
-
-"${test_dir}/integration/divider.sh" "Test warning logs"
-"${test_dir}/integration/container_warn.sh"
+run_test "error logs" "${test_dir}/integration/container_error.sh"
+run_test "warning logs" "${test_dir}/integration/container_warn.sh"
 
 echo
 echo "All integration tests have passed."
