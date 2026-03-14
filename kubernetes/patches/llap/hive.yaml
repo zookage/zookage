@@ -10,6 +10,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hive-env
+data:
+  HIVE_EXECUTION_MODE: llap
+  HIVE_LLAP_DAEMON_SERVICE_HOSTS: "@llap0"
+  HIVE_LLAP_EXECUTION_MODE: only
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tez-env
+data:
+  TEZ_AM_SHUFFLE_AUXILIARY_SERVICE_ID: mapreduce_shuffle
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:

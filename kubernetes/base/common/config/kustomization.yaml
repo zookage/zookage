@@ -47,6 +47,7 @@ configMapGenerator:
   - hive/beeline-hs2-connection.xml
   - hive/hive-log4j2.properties
   - hive/hive-site.xml
+  - hive/llap-udfs.lst
   - hive/ranger-hive-audit.xml
   - hive/ranger-hive-policymgr-ssl.xml
   - hive/ranger-hive-security.xml

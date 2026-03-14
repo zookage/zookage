@@ -80,14 +80,13 @@
     <value>${env.HIVE_SECURITY_AUTHORIZATION_MANAGER:-org.apache.hadoop.hive.ql.security.authorization.plugin.sqlstd.SQLStdHiveAuthorizerFactory}</value>
   </property>
 
-  <!-- For LLAP. You also have to unset tez.am.shuffle.auxiliary-service.id
   <property>
     <name>hive.llap.daemon.service.hosts</name>
-    <value>@llap0</value>
+    <value>${env.HIVE_LLAP_DAEMON_SERVICE_HOSTS:-}</value>
   </property>
   <property>
     <name>hive.execution.mode</name>
-    <value>llap</value>
+    <value>${env.HIVE_EXECUTION_MODE:-container}</value>
   </property>
   <property>
     <name>hive.llap.io.enabled</name>
@@ -95,7 +94,7 @@
   </property>
   <property>
     <name>hive.llap.execution.mode</name>
-    <value>only</value>
+    <value>${env.HIVE_LLAP_EXECUTION_MODE:-none}</value>
   </property>
   <property>
     <name>hive.llap.daemon.rpc.port</name>
@@ -103,11 +102,10 @@
   </property>
   <property>
     <name>hive.llap.daemon.work.dirs</name>
-    <value>/mnt/llap</value>
+    <value>/mnt</value>
   </property>
   <property>
     <name>hive.llap.daemon.memory.per.instance.mb</name>
     <value>1024</value>
   </property>
-  -->
 </configuration>
