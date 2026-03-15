@@ -23,6 +23,6 @@
   </property>
   <property>
     <name>ranger.plugin.hbase.policy.cache.dir</name>
-    <value>/mnt/ranger/policycache</value>
+    <value>/mnt</value>
   </property>
 </configuration>
