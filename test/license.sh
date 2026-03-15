@@ -15,4 +15,4 @@ set -eu
 
 readonly base_dir=$(dirname "$(cd "$(dirname "$0")" || exit; pwd)")
 
-docker run --rm -v "${base_dir}:/github/workspace" apache/skywalking-eyes:0.7.0 header check
+docker run --rm -v "${base_dir}:/github/workspace" apache/skywalking-eyes:0.8.0 header check

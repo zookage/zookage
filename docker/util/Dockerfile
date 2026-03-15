@@ -12,7 +12,7 @@
 
 # syntax=docker/dockerfile:experimental
 ARG jdk_image
-ARG kubectl_version=v1.35.1
+ARG kubectl_version=v1.35.2
 
 # hadolint ignore=DL3006
 FROM ${jdk_image}
