@@ -51,6 +51,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hive-hiveserver2-.* conf.HiveConf: HiveConf of name hive.cluster.id does not exist' \
   | grep -v 'pod/hive-hiveserver2-.* exec.FunctionRegistry: UDF Class org.apache.hadoop.hive.ql.udf.generic.GenericUDFToJson does not have description\.' \
   | grep -v "pod/hive-hiveserver2-.* tez.TezConfigurationFactory: Skip adding 'tez.application.tags' to dagConf, as it's an AM scoped property" \
+  | grep -v 'pod/hive-hiveserver2-.* authorizer.RangerHiveAuthorizerBase: RangerHiveAuthorizerBase\.RangerHiveAuthorizerBase(): hiveAuthenticator\.getUserName() returned null/empty' \
   | grep -v 'pod/hive-llap-.* impl.LlapDaemon: NodeManager host/port not found in environment\. Values retrieved: host=null, port=null' \
   | grep -v 'pod/hive-llap-.* conf.HiveConf: HiveConf of name hive.cluster.id does not exist' \
   | grep -v 'pod/hive-llap-.* exec.FunctionRegistry: UDF Class org.apache.hadoop.hive.ql.udf.generic.GenericUDFToJson does not have description\.' \
@@ -68,6 +69,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Cannot open channel to' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Exception when using channel:' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Connection broken for id' \
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Interrupted while waiting for message on queue' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Interrupting SendWorker thread from RecvWorker\.' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Send worker leaving thread id' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Learner -- Unexpected exception' \
@@ -80,12 +82,15 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hbase-master-.* hdfs.DataStreamer: DataStreamer Exception' \
   | grep -v 'pod/hbase-master-.* region.MasterRegion: failed to clean up initializing flag' \
   | grep -v 'pod/hbase-master-.* assignment.AssignmentManager: No servers available; cannot place' \
+  | grep -v 'pod/hbase-regionserver-.* hbase.HbaseUserUtilsImpl: HbaseUserUtilsImpl\.initialize: Unexpected: initialization called more than once!' \
+  | grep -v 'pod/hbase-regionserver-.* regionserver.HRegionServer: reportForDuty failed; sleeping 3000 ms and then retrying\.' \
   `# Initialization` \
   | grep -v 'pod/\(hbase\|ozone\)-.* conditionevaluator.RangerScriptConditionEvaluator: initScriptEngineCreator(): failed to create engine using plugin-class-loader by creator org.apache.ranger.plugin.util.GraalScriptEngineCreator' \
   | grep -v 'pod/\(hbase\|ozone\)-.* conditionevaluator.RangerScriptConditionEvaluator: initScriptEngineCreator(): failed to create engine using plugin-class-loader by creator org.apache.ranger.plugin.util.JavaScriptEngineCreator' \
   | grep -v 'pod/\(hbase\|ozone\)-.* conditionevaluator.RangerScriptConditionEvaluator: createScriptEngine(serviceType=tag): failed to create script engine' \
   | grep -v 'pod/ozone-.*: STARTUP_MSG:' \
   | grep -v 'pod/ozone-recon-.* scm.ReconPipelineManager: Pipeline PipelineID=.* already exists in Recon pipeline metadata' \
+  | grep -v 'pod/ozone-recon-.* ipc.Server: IPC Server handler .* org.apache.hadoop.ozone.protocol.ReconDatanodeProtocol.submitRequest .*: output error' \
   | grep -v 'pod/ozone-datanode-.* statemachine.EndpointStateMachine: Unable to communicate to Recon server at .* for past 0 seconds\.' \
   | grep -v 'pod/ozone-scm-.* balancer.ContainerBalancer: Could not find persisted configuration for ContainerBalancer when checking if ContainerBalancer should run. ContainerBalancer should not run now.' \
   | grep -v 'pod/ozone-scm-.* ha.SequenceIdGenerator: Failed to allocate a batch for localId, expected lastId is 0, actual lastId is' \
@@ -109,6 +114,8 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/trino-coordinator-.* # WARNING: Unable to attach Serviceability Agent\.' \
   | grep -v 'pod/trino-coordinator-.*io.trino.memory.RemoteNodeMemory.*Memory info update request to http://.* has not returned in .*' \
   | grep -v 'pod/trino-coordinator-.*io.trino.memory.RemoteNodeMemory.*Error fetching memory info from http://.* returned status 503' \
+  | grep -v "pod/trino-.*\\[engine\\] WARNING: The Truffle API JAR is missing the 'truffleattach' resource, likely due to issues when Truffle was repackaged into a fat JAR\." \
+  | grep -v 'pod/trino-.*\[engine\] WARNING: The polyglot engine uses a fallback runtime that does not support runtime compilation to native code\.' \
   | grep -v 'pod/trino-worker-.* WARNING: Using incubator modules: jdk.incubator.vector' \
   | grep -v 'pod/trino-worker-.* # WARNING: Unable to attach Serviceability Agent\.' \
   | grep -v 'pod/trino-worker-.*io.trino.node.AnnounceNodeAnnouncer.*Failed to announce node state to http://.*: 503'
