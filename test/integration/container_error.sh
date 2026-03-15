@@ -27,6 +27,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hive-metastore-server-.*:     "ERROR_MESSAGE" VARCHAR(2000)' \
   | grep -v 'pod/hive-metastore-server-.* rest.HMSCatalogServlet: Error processing REST request' \
   | grep -v 'pod/ozone-datanode-.* ERROR datanode.RunningDatanodeState: Error in executing end point task\.' \
+  | grep -v "pod/\(hbase\|ozone\)-.* conditionevaluator.RangerScriptConditionEvaluator: failed to initialize condition 'accessed-after-expiry': script engine 'JavaScript' was not created" \
   | grep -v 'pod/ranger-admin-.*: could not find TAG ServiceDef..' \
   | grep -v 'pod/ranger-admin-.*: failed to load/create serviceType' \
   | grep -v 'pod/trino-coordinator-.*	io.airlift.discovery.client.CachingServiceSelector	Cannot connect to discovery server for refresh (trino/general)' \

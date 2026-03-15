@@ -30,11 +30,15 @@ spec:
         - name: HIVE_CLASSPATH
           value: /opt/ranger/ranger-hive-plugin/lib/*:$(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*
         volumeMounts:
+        - name: mnt
+          mountPath: /mnt
         - name: ranger-src
           mountPath: /opt/ranger
           readOnly: true
           subPath: opt/ranger
       volumes:
+      - name: mnt
+        emptyDir: {}
       - name: ranger-src
         image:
           reference: zookage-ranger

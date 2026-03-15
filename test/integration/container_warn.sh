@@ -81,6 +81,9 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hbase-master-.* region.MasterRegion: failed to clean up initializing flag' \
   | grep -v 'pod/hbase-master-.* assignment.AssignmentManager: No servers available; cannot place' \
   `# Initialization` \
+  | grep -v 'pod/\(hbase\|ozone\)-.* conditionevaluator.RangerScriptConditionEvaluator: initScriptEngineCreator(): failed to create engine using plugin-class-loader by creator org.apache.ranger.plugin.util.GraalScriptEngineCreator' \
+  | grep -v 'pod/\(hbase\|ozone\)-.* conditionevaluator.RangerScriptConditionEvaluator: initScriptEngineCreator(): failed to create engine using plugin-class-loader by creator org.apache.ranger.plugin.util.JavaScriptEngineCreator' \
+  | grep -v 'pod/\(hbase\|ozone\)-.* conditionevaluator.RangerScriptConditionEvaluator: createScriptEngine(serviceType=tag): failed to create script engine' \
   | grep -v 'pod/ozone-.*: STARTUP_MSG:' \
   | grep -v 'pod/ozone-recon-.* scm.ReconPipelineManager: Pipeline PipelineID=.* already exists in Recon pipeline metadata' \
   | grep -v 'pod/ozone-datanode-.* statemachine.EndpointStateMachine: Unable to communicate to Recon server at .* for past 0 seconds\.' \
