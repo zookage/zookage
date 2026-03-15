@@ -43,10 +43,6 @@
     <value>${env.HADOOP_DFS_HA_FENCING_METHODS:-}</value>
   </property>
   <property>
-    <name>dfs.namenode.shared.edits.dir</name>
-    <value>${env.HADOOP_DFS_NAMENODE_SHARED_EDITS_DIR:-}</value>
-  </property>
-  <property>
     <name>dfs.journalnode.edits.dir</name>
     <value>${hadoop.tmp.dir}/dfs/journal</value>
   </property>

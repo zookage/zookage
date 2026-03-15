@@ -32,6 +32,8 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hdfs-datanode-.* impl.FsDatasetImpl: dfsUsed file missing in' \
   | grep -v 'pod/hdfs-datanode-.* ipc.Client: Address change detected' \
   | grep -v 'pod/hdfs-httpfs-.* hdfs.DFSUtilClient: Namenode for zookage remains unresolved for ID' \
+  | grep -v 'pod/hdfs-httpfs-.* ipc.Client: Address change detected' \
+  | grep -v 'pod/hdfs-httpfs-.* ipc.Client: Exception when handle ConnectionFailure: Invalid host name:' \
   | grep -v 'pod/hdfs-httpfs-.* impl.MetricsSystemImpl: httpfs metrics system already initialized!' \
   | grep -v 'pod/hdfs-httpfs-.*: WARNING: An illegal reflective access operation has occurred' \
   | grep -v 'pod/hdfs-httpfs-.*: WARNING: Illegal reflective access by .*' \
@@ -45,6 +47,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find app" \
   | grep -v 'pod/yarn-nodemanager-.* nodemanager.DefaultContainerExecutor: delete returned false for path' \
   | grep -v 'pod/yarn-resourcemanager-.* ha.ActiveStandbyElector: Ignoring stale result from old client with sessionId' \
+  | grep -v 'pod/yarn-resourcemanager-.* zookeeper.ClientCnxn: Session 0x0 .* Attempting reconnect except it is a SessionExpiredException\.' \
   | grep -v 'pod/hive-hiveserver2-.* conf.HiveConf: HiveConf of name hive.cluster.id does not exist' \
   | grep -v 'pod/hive-hiveserver2-.* exec.FunctionRegistry: UDF Class org.apache.hadoop.hive.ql.udf.generic.GenericUDFToJson does not have description\.' \
   | grep -v "pod/hive-hiveserver2-.* tez.TezConfigurationFactory: Skip adding 'tez.application.tags' to dagConf, as it's an AM scoped property" \
@@ -63,11 +66,18 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/zookeeper-server-.* org.eclipse.jetty.server.handler.ContextHandler -- Empty contextPath' \
   | grep -v 'pod/zookeeper-server-.* org.eclipse.jetty.security.SecurityHandler .* has uncovered http methods for path:' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Cannot open channel to' \
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Exception when using channel:' \
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Connection broken for id' \
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Interrupting SendWorker thread from RecvWorker\.' \
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Send worker leaving thread id' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Learner -- Unexpected exception' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Learner -- Exception when following the leader' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumPeer -- PeerState set to LOOKING' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Learner -- Got zxid' \
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.NIOServerCnxn -- Close of session 0x0' \
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.ZKDatabase -- Unable to find proposals from txnlog for zxid: 0x0' \
   `# Initialization` \
+  | grep -v 'pod/hbase-master-.* hdfs.DataStreamer: DataStreamer Exception' \
   | grep -v 'pod/hbase-master-.* region.MasterRegion: failed to clean up initializing flag' \
   | grep -v 'pod/hbase-master-.* assignment.AssignmentManager: No servers available; cannot place' \
   `# Initialization` \
