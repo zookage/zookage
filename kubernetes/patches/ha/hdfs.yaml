@@ -16,6 +16,13 @@ metadata:
   name: hdfs-journalnode
 spec:
   replicas: 3
+  template:
+    spec:
+      containers:
+      - name: journalnode
+        args:
+        - journalnode
+        - -Ddfs.namenode.shared.edits.dir=$(HADOOP_DFS_NAMENODE_SHARED_EDITS_DIR)
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -75,7 +82,22 @@ spec:
         args:
         - wait-for-rollout
         - statefulset/hdfs-journalnode
+      - name: format
+        args:
+        - -c
+        - |
+          shared_edits_option="-Ddfs.namenode.shared.edits.dir=${HADOOP_DFS_NAMENODE_SHARED_EDITS_DIR}"
+          index=${POD_NAME##*-}
+          if [[ "$index" -eq 0 ]]; then
+            "${HADOOP_HOME}/bin/hdfs" namenode "${shared_edits_option}" -format -force
+          else
+            "${HADOOP_HOME}/bin/hdfs" namenode "${shared_edits_option}" -bootstrapStandby -force
+          fi
       containers:
+      - name: namenode
+        args:
+        - namenode
+        - -Ddfs.namenode.shared.edits.dir=$(HADOOP_DFS_NAMENODE_SHARED_EDITS_DIR)
       - name: zkfc
         image: zookage-hadoop
         command:

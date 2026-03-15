@@ -32,6 +32,7 @@ echo "No error is found."
 "${integration_dir}/run.sh" bash -c "
   export HADOOP_USER_NAME=hdfs
   ! yarn logs -applicationId '${id}' | grep '\[WARN\]' \
+    | grep -v '|retry.RetryInvocationHandler|: A failover has occurred since the start of call #.* ClientNamenodeProtocolTranslatorPB\.[A-Za-z0-9]* over hdfs-namenode-.*\.hdfs-namenode/.*:8020' \
     | grep -v 'Could not post history event to ATS, atsPutError=6' \
     | grep -v 'Exiting TaskReporter thread with pending queue size=' \
     | grep -v '|common.AsyncDispatcher|: AsyncDispatcher thread interrupted' \
