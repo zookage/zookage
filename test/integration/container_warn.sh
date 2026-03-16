@@ -25,6 +25,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hdfs-namenode-.* ha.HealthMonitor: Transport-level exception trying to monitor health of NameNode' \
   | grep -v 'pod/hdfs-namenode-.* ha.ActiveStandbyElector: Ignoring stale result from old client with sessionId' \
   | grep -v 'pod/hdfs-namenode-.* ha.EditLogTailer: Edit log tailer interrupted' \
+  | grep -v "pod/hdfs-namenode-.* tools.DFSZKFailoverController: Can't get local NN thread dump due to Connection refused (Connection refused)" \
   | grep -v 'pod/hdfs-namenode-.* blockmanagement.BlockPlacementPolicy: Failed to place enough replicas' \
   | grep -v 'pod/hdfs-namenode-.* protocol.BlockStoragePolicy: Failed to place enough replicas' \
   | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Problem connecting to server:' \
@@ -42,6 +43,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hdfs-httpfs-.*: WARNING: All illegal access operations will be denied in a future release' \
   | grep -v 'pod/hdfs-journalnode-.* common.Storage: Storage directory .* does not exist' \
   | grep -v 'pod/hdfs-journalnode-.* server.JournalNodeSyncer: Journal at .* has no edit logs' \
+  | grep -v 'pod/hdfs-journalnode-.* ipc.Server: IPC Server handler .* org.apache.hadoop.hdfs.qjournal.protocol.QJournalProtocol.getEditLogManifest .*: output error' \
   | grep -v 'pod/yarn-nodemanager-.* nodemanager.DefaultContainerExecutor: Exit code from container' \
   | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find container" \
   | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find app" \
@@ -92,6 +94,8 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/ozone-recon-.* scm.ReconPipelineManager: Pipeline PipelineID=.* already exists in Recon pipeline metadata' \
   | grep -v 'pod/ozone-recon-.* ipc.Server: IPC Server handler .* org.apache.hadoop.ozone.protocol.ReconDatanodeProtocol.submitRequest .*: output error' \
   | grep -v 'pod/ozone-datanode-.* statemachine.EndpointStateMachine: Unable to communicate to Recon server at .* for past 0 seconds\.' \
+  | grep -v 'pod/ozone-.* util.JvmPauseMonitor: JvmPauseMonitor-.* Detected pause in JVM or host machine approximately .* without any GCs\.' \
+  | grep -v 'pod/ozone-.* impl.FollowerState: Unexpected long sleep: sleep .* but took extra .*ns (> threshold = .*ms)' \
   | grep -v 'pod/ozone-scm-.* balancer.ContainerBalancer: Could not find persisted configuration for ContainerBalancer when checking if ContainerBalancer should run. ContainerBalancer should not run now.' \
   | grep -v 'pod/ozone-scm-.* ha.SequenceIdGenerator: Failed to allocate a batch for localId, expected lastId is 0, actual lastId is' \
   | grep -v 'pod/ozone-scm-.* scm.SCMCommonPlacementPolicy: Unable to find enough nodes that meet the space requirement of' \

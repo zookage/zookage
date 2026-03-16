@@ -52,4 +52,3 @@ spec:
           name: ozone-conf
       - name: mnt
         emptyDir: {}
-  volumeClaimTemplates: []

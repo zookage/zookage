@@ -23,7 +23,6 @@ spec:
       containers:
       - name: server
         image: zookage-openldap
-        env:
         startupProbe:
           exec:
             command:
@@ -47,5 +46,3 @@ spec:
       - name: openldap-conf
         configMap:
           name: openldap-conf
-      - name: mnt
-        emptyDir: {}

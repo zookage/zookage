@@ -69,4 +69,3 @@ spec:
         image:
           reference: zookage-tez
           pullPolicy: IfNotPresent
-  volumeClaimTemplates: []

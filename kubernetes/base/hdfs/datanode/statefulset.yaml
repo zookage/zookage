@@ -58,4 +58,3 @@ spec:
           name: hadoop-conf
       - name: mnt
         emptyDir: {}
-  volumeClaimTemplates: []

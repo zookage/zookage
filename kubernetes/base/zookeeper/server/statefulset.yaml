@@ -76,4 +76,3 @@ spec:
           name: zookeeper-conf
       - name: mnt
         emptyDir: {}
-  volumeClaimTemplates: []
