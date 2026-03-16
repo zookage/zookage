@@ -71,4 +71,3 @@ spec:
           name: trino-conf
       - name: mnt
         emptyDir: {}
-  volumeClaimTemplates: []

@@ -161,4 +161,3 @@ spec:
         image:
           reference: zookage-trino
           pullPolicy: IfNotPresent
-  volumeClaimTemplates: []

@@ -56,8 +56,6 @@ spec:
       - name: hadoop-conf
         configMap:
           name: hadoop-conf
-      - name: mnt
-        emptyDir: {}
       - name: tez-src
         image:
           reference: zookage-tez

@@ -77,4 +77,3 @@ spec:
         image:
           reference: zookage-hadoop
           pullPolicy: IfNotPresent
-  volumeClaimTemplates: []

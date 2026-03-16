@@ -74,5 +74,3 @@ spec:
       - name: ranger-conf
         configMap:
           name: ranger-conf
-      - name: mnt
-        emptyDir: {}
