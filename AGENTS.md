@@ -18,4 +18,5 @@ This document defines how AI coding agents should be used safely and consistentl
 
 ## Guidance for Developers
 - Primary quality gate: `./test/lint.sh`
+- To auto-fix license headers: `./test/licensefix.sh`
 - Integration test suite: `./test/integration.sh [all|auth|ha|llap]`
