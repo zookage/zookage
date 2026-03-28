@@ -18,5 +18,6 @@ This document defines how AI coding agents should be used safely and consistentl
 
 ## Guidance for Developers
 - Primary quality gate: `./test/lint.sh`
+- Focused lint checks (same tools as `./test/lint.sh`): `./test/hadolint.sh`, `./test/shellcheck.sh`, `./test/yamllint.sh`, `./test/license.sh`
 - To auto-fix license headers: `./test/licensefix.sh`
 - Integration test suite: `./test/integration.sh [all|auth|ha|llap]`
