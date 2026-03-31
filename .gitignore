@@ -11,3 +11,4 @@
 # limitations under the License.
 
 docker/build.env
+console/target/

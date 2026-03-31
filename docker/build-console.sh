@@ -1,3 +1,4 @@
+#!/bin/bash
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -10,29 +11,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: CI
-on:
-  push:
-    branches:
-    - main
-  pull_request:
-    branches:
-    - main
-jobs:
-  lint:
-    runs-on: ubuntu-24.04
-    steps:
-    - uses: actions/checkout@v5
-    - name: Lint
-      run: "${GITHUB_WORKSPACE}/test/lint.sh"
-  console-test:
-    runs-on: ubuntu-24.04
-    steps:
-    - uses: actions/checkout@v5
-    - uses: actions/setup-java@v4
-      with:
-        distribution: temurin
-        java-version: '25'
-        cache: maven
-    - name: Check formatting and test console
-      run: "mvn -f console/pom.xml test"
+set -eu
+
+# shellcheck disable=SC2034
+ZOOKAGE_DIR=./
+# shellcheck source=/mnt/docker/prepare.sh
+source ./docker/prepare.sh ZOOKAGE_DIR
+
+docker build \
+  --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-console:${image_tag}" \
+  --build-arg "jdk_image=${JDK_25_IMAGE}" \
+  --build-arg "maven_image=${MAVEN_3_JDK_25_IMAGE}" \
+  --file ./docker/console/Dockerfile \
+  .

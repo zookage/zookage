@@ -20,6 +20,7 @@ namespace: zookage
 resources:
 - base/client
 - base/common
+- base/console
 - base/hdfs
 - base/hive
 - base/hive-metastore
@@ -31,6 +32,9 @@ resources:
 images:
 - name: zookage-util
   newName: zookage/zookage-util
+  newTag: experimental
+- name: zookage-console
+  newName: zookage/zookage-console
   newTag: experimental
 - name: zookage-hadoop
   newName: zookage/zookage-hadoop
