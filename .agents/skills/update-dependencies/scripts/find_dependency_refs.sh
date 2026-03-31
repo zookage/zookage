@@ -16,7 +16,7 @@ set -eu
 usage() {
   echo "Usage: $0 [pattern]" >&2
   echo "Without a pattern, print the common dependency pin locations in this repository." >&2
-  echo "With a pattern, search Docker, Kubernetes, and test files for matching refs." >&2
+  echo "With a pattern, search Docker, Kubernetes, test, CI, and console Maven files for matching refs." >&2
 }
 
 if [ "$#" -gt 1 ]; then
@@ -33,11 +33,11 @@ if [ "$#" -eq 1 ]; then
   readonly matches_file=$(mktemp)
   trap 'rm -f "${matches_file}"' EXIT
 
-  if ! rg -n "$1" docker kubernetes test > "${matches_file}"; then
+  if ! rg -n "$1" docker kubernetes test .github/workflows/ci.yaml console/pom.xml > "${matches_file}"; then
     exit 1
   fi
 
-  readonly likely_pin_pattern='docker run|image:|newTag:|newName:|_IMAGE=|ARG .*version|FROM |--build-arg|uses:'
+  readonly likely_pin_pattern='docker run|image:|newTag:|newName:|_IMAGE=|ARG .*version|FROM |--build-arg|uses:|java-version:|<[A-Za-z0-9_.-]+version>|<maven.compiler.release>'
   if grep -Eq "${likely_pin_pattern}" "${matches_file}"; then
     echo "Likely version pins"
     grep -E "${likely_pin_pattern}" "${matches_file}"
@@ -68,3 +68,11 @@ echo
 
 echo "Direct tool and manifest image pins"
 rg -n "hadolint/hadolint|skywalking-eyes|tomcat:" test kubernetes/base || true
+echo
+
+echo "GitHub Actions workflow pins"
+rg -n "uses:|java-version:" .github/workflows/ci.yaml || true
+echo
+
+echo "Console Maven versions"
+rg -n "<[A-Za-z0-9_.-]+version>|<maven.compiler.release>" console/pom.xml || true
