@@ -18,21 +18,36 @@ on:
   pull_request:
     branches:
     - main
+permissions:
+  contents: read
+concurrency:
+  group: "${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}"
+  cancel-in-progress: true
+defaults:
+  run:
+    shell: bash
 jobs:
   lint:
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
     - uses: actions/checkout@v5
+      with:
+        persist-credentials: false
     - name: Lint
-      run: "${GITHUB_WORKSPACE}/test/lint.sh"
+      run: ./test/lint.sh
   console-test:
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
     - uses: actions/checkout@v5
+      with:
+        persist-credentials: false
     - uses: actions/setup-java@v4
       with:
         distribution: temurin
         java-version: '25'
         cache: maven
+        cache-dependency-path: console/pom.xml
     - name: Check formatting and test console
       run: "mvn -f console/pom.xml test"
