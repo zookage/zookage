@@ -30,6 +30,7 @@ header:
   - ".git"
   - ".idea"
   - "config"
+  - "**/target/**"
   - "**/*.json"
   - "**/*.md"
   - "LICENSE"
