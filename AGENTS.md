@@ -14,10 +14,12 @@ This document defines how AI coding agents should be used safely and consistentl
 - Run `./bin/down` to shut down the cluster
 - Run `./bin/kubectl <args...>` to run `kubectl` in the `zookage` namespace
 - Run `./bin/logs [<pod name>]` to tail logs from all pods or a specific pod
-- Run `./bin/ssh <pod name> [<container name>]` to log in to a container
+- Run `./bin/ssh [<pod name>] [<container name>]` to log in to a container (defaults to `client-node-0`)
 
 ## Guidance for Developers
 - Primary quality gate: `./test/lint.sh`
 - Focused lint checks (same tools as `./test/lint.sh`): `./test/hadolint.sh`, `./test/shellcheck.sh`, `./test/yamllint.sh`, `./test/license.sh`
 - To auto-fix license headers: `./test/licensefix.sh`
 - Integration test suite: `./test/integration.sh [all|auth|ha|llap]`
+- To run an individual integration check directly: `./test/integration/<name>.sh` (for example, `./test/integration/web.sh`)
+- To execute a one-off command in `client-node-0` during integration/debugging: `./test/integration/run.sh <args...>`
