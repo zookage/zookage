@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./bin/down)",
+      "Bash(./bin/kubectl *)",
+      "Bash(./bin/logs *)",
+      "Bash(./bin/ssh *)",
+      "Bash(./bin/up)",
+      "Bash(./test/hadolint.sh)",
+      "Bash(./test/integration.sh *)",
+      "Bash(./test/integration/*)",
+      "Bash(./test/license.sh)",
+      "Bash(./test/licensefix.sh)",
+      "Bash(./test/lint.sh)",
+      "Bash(./test/shellcheck.sh)",
+      "Bash(./test/yamllint.sh)",
+      "Bash(mvn -f console/pom.xml *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$TOOL_INPUT\" | grep -q 'git commit'; then \"$CLAUDE_PROJECT_DIR\"/test/lint.sh; fi",
+            "timeout": 120,
+            "statusMessage": "Running lint checks..."
+          }
+        ]
+      }
+    ]
+  }
+}
