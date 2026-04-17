@@ -20,6 +20,7 @@ This document defines how AI coding agents should be used safely and consistentl
 - Primary quality gate: `./test/lint.sh`
 - Focused lint checks (same tools as `./test/lint.sh`): `./test/hadolint.sh`, `./test/shellcheck.sh`, `./test/yamllint.sh`, `./test/license.sh`
 - To auto-fix license headers: `./test/licensefix.sh`
-- Integration test suite: `./test/integration.sh [all|auth|ha|llap]`
+- Integration test suite on the current Kubernetes profile: `./test/integration.sh`
+- To switch Kubernetes profile and run the integration suite: `./test/integration.sh [all|auth|ha|llap]`
 - To run an individual integration check directly: `./test/integration/<name>.sh` (for example, `./test/integration/web.sh`)
 - To execute a one-off command in `client-node-0` during integration/debugging: `./test/integration/run.sh <args...>`
