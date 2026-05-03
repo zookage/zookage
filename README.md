@@ -17,4 +17,4 @@ You can launch the following components on Kubernetes on Docker Desktop with a s
 
 ## How to use
 
-See the [document](https://zookage.github.io/) and [Quick Start](https://zookage.github.io/docs/quick-start).
+See the [document](https://zookage.org/) and [Quick Start](https://zookage.org/docs/quick-start).
