@@ -21,6 +21,8 @@ This document defines how AI coding agents should be used safely and consistentl
 - Focused lint checks (same tools as `./test/lint.sh`): `./test/hadolint.sh`, `./test/shellcheck.sh`, `./test/yamllint.sh`, `./test/license.sh`
 - To run the console module formatting checks and tests: `mvn -f console/pom.xml test`
 - To auto-fix license headers: `./test/licensefix.sh`
+- To configure local Docker image builds, copy `docker/sample-build.env` to `docker/build.env` and adjust source directories/image settings.
+- To build a Docker image, run the matching `docker/build-<component>.sh` script (for example, `docker/build-console.sh` or `docker/build-hadoop.sh`).
 - Integration test suite on the current Kubernetes profile: `./test/integration.sh`
 - To switch Kubernetes profile and run the integration suite: `./test/integration.sh [all|auth|ha|llap]` (copies `test/kubernetes/<name>.yaml` to `kubernetes/kustomization.yaml` and restarts the cluster)
 - To run an individual integration check directly: `./test/integration/<name>.sh` (for example, `./test/integration/web.sh`, `./test/integration/spark_sql.sh`, or `./test/integration/container_warn.sh`)
