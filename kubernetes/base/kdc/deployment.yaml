@@ -1,0 +1,80 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kdc-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {}
+  template:
+    spec:
+      securityContext:
+        fsGroup: 1090
+        fsGroupChangePolicy: OnRootMismatch
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: kdc
+        image: zookage-kdc
+        env:
+        - name: KRB5_REALM
+          value: ZOOKAGE.LOCAL
+        - name: KRB5_PRINCIPALS_FILE
+          value: /etc/krb5kdc/principals.json
+        ports:
+        - name: kdc-tcp
+          containerPort: 10088
+          protocol: TCP
+        - name: kdc-udp
+          containerPort: 10088
+          protocol: UDP
+        readinessProbe:
+          tcpSocket:
+            port: kdc-tcp
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsUser: 1090
+          runAsGroup: 1090
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: kdc-conf-dir
+          mountPath: /etc/krb5kdc
+        - name: kerberos-conf
+          mountPath: /etc/krb5kdc/kdc.conf
+          subPath: kdc.conf
+        - name: kerberos-conf
+          mountPath: /etc/krb5kdc/principals.json
+          subPath: principals.json
+        - name: kdc-data
+          mountPath: /var/lib/krb5kdc
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: kdc-conf-dir
+        emptyDir: {}
+      - name: kdc-data
+        emptyDir: {}
+      - name: tmp
+        emptyDir: {}

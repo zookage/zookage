@@ -32,15 +32,15 @@
 
   <property>
     <name>dfs.ha.namenodes.zookage</name>
-    <value>${env.HADOOP_DFS_HA_NAMENODES:-namenode-0}</value>
+    <value>${env.HADOOP_DFS_HA_NAMENODES}</value>
   </property>
   <property>
     <name>dfs.ha.automatic-failover.enabled</name>
-    <value>${env.HADOOP_DFS_HA_AUTOMATIC_FAILOVER_ENABLED:-false}</value>
+    <value>${env.HADOOP_DFS_HA_AUTOMATIC_FAILOVER_ENABLED}</value>
   </property>
   <property>
     <name>dfs.ha.fencing.methods</name>
-    <value>${env.HADOOP_DFS_HA_FENCING_METHODS:-}</value>
+    <value>${env.HADOOP_DFS_HA_FENCING_METHODS}</value>
   </property>
   <property>
     <name>dfs.journalnode.edits.dir</name>
@@ -78,7 +78,7 @@
   </property>
   <property>
     <name>dfs.namenode.inode.attributes.provider.class</name>
-    <value>${env.HADOOP_DFS_NAMENODE_INODE_ATTRIBUTES_PROVIDER_CLASS:-org.apache.hadoop.hdfs.server.namenode.DefaultINodeAttributesProvider}</value>
+    <value>${env.HADOOP_DFS_NAMENODE_INODE_ATTRIBUTES_PROVIDER_CLASS}</value>
   </property>
 
   <property>

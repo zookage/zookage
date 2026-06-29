@@ -84,7 +84,7 @@ spec:
       volumes:
       - name: hadoop-conf
         configMap:
-          name: hadoop-conf
+          name: ranger-hadoop-conf
       - name: hive-conf
         configMap:
           name: hive-conf

@@ -24,11 +24,13 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hdfs-namenode-.* hdfs.DFSUtilClient: Namenode for .* remains unresolved for ID' \
   | grep -v 'pod/hdfs-namenode-.* ha.HealthMonitor: Transport-level exception trying to monitor health of NameNode' \
   | grep -v 'pod/hdfs-namenode-.* ha.ActiveStandbyElector: Ignoring stale result from old client with sessionId' \
+  | grep -v 'pod/hdfs-namenode-.* zookeeper.ClientCnxn: Session 0x0 .* Attempting reconnect except it is a SessionExpiredException\.' \
   | grep -v 'pod/hdfs-namenode-.* ha.EditLogTailer: Edit log tailer interrupted' \
   | grep -v "pod/hdfs-namenode-.* tools.DFSZKFailoverController: Can't get local NN thread dump due to Connection refused (Connection refused)" \
   | grep -v 'pod/hdfs-namenode-.* blockmanagement.BlockPlacementPolicy: Failed to place enough replicas' \
   | grep -v 'pod/hdfs-namenode-.* protocol.BlockStoragePolicy: Failed to place enough replicas' \
   | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Problem connecting to server:' \
+  | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow BlockReceiver write data to disk cost:' \
   | grep -v 'pod/hdfs-datanode-.* hdfs.DFSUtilClient: Namenode for zookage remains unresolved for ID' \
   | grep -v 'pod/hdfs-datanode-.* impl.FsDatasetImpl: dfsUsed file missing in' \
   | grep -v 'pod/hdfs-datanode-.* ipc.Client: Address change detected' \
@@ -49,6 +51,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find app" \
   | grep -v 'pod/yarn-nodemanager-.* nodemanager.DefaultContainerExecutor: delete returned false for path' \
   | grep -v 'pod/yarn-resourcemanager-.* ha.ActiveStandbyElector: Ignoring stale result from old client with sessionId' \
+  | grep -v 'pod/yarn-resourcemanager-.* ipc.Server: Failed to set scheduling priority for' \
   | grep -v 'pod/yarn-resourcemanager-.* zookeeper.ClientCnxn: Session 0x0 .* Attempting reconnect except it is a SessionExpiredException\.' \
   | grep -v 'pod/hive-hiveserver2-.* conf.HiveConf: HiveConf of name hive.cluster.id does not exist' \
   | grep -v 'pod/hive-hiveserver2-.* exec.FunctionRegistry: UDF Class org.apache.hadoop.hive.ql.udf.generic.GenericUDFToJson does not have description\.' \
@@ -95,6 +98,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/ozone-recon-.* ipc.Server: IPC Server handler .* org.apache.hadoop.ozone.protocol.ReconDatanodeProtocol.submitRequest .*: output error' \
   | grep -v 'pod/ozone-datanode-.* statemachine.EndpointStateMachine: Unable to communicate to Recon server at .* for past 0 seconds\.' \
   | grep -v 'pod/ozone-.* util.JvmPauseMonitor: JvmPauseMonitor-.* Detected pause in JVM or host machine approximately .* without any GCs\.' \
+  | grep -v 'pod/ozone-.* util.JvmPauseMonitor: JvmPauseMonitor-.* Detected pause in JVM or host machine approximately .* with .* GC time\.' \
   | grep -v 'pod/ozone-.* impl.FollowerState: Unexpected long sleep: sleep .* but took extra .*ns (> threshold = .*ms)' \
   | grep -v 'pod/ozone-scm-.* balancer.ContainerBalancer: Could not find persisted configuration for ContainerBalancer when checking if ContainerBalancer should run. ContainerBalancer should not run now.' \
   | grep -v 'pod/ozone-scm-.* ha.SequenceIdGenerator: Failed to allocate a batch for localId, expected lastId is 0, actual lastId is' \
@@ -104,6 +108,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   `# HDDS-8395` \
   | grep -v 'ozone-s3g-.* impl.MetricsSystemImpl: S3Gateway metrics system already initialized!' \
   | grep -v 'pod/ranger-admin-.*DefaultJoranConfigurator@.*logback.xml.*' \
+  | grep -v 'pod/ranger-admin-.* WARN  - Unable to load native-hadoop library for your platform\.\.\. using builtin-java classes where applicable' \
   | grep -v "pod/ranger-admin-.* WARNING: Config 'ranger.keystore.file' or 'ranger.service.https.attrib.keystore.file' is not found or contains blank value" \
   | grep -v "pod/ranger-admin-.* WARNING: Config 'ranger.truststore.file' is not found or contains blank value!" \
   | grep -v "pod/ranger-admin-.* WARNING: A context path must either be an empty string or start with a '/' and do not end with a '/'. The path \\[/\\] does not meet these criteria and has been changed to \\[\\]" \

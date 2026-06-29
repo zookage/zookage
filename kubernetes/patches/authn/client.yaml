@@ -1,0 +1,40 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: client-node
+spec:
+  template:
+    spec:
+      containers:
+      - name: sleep
+        env:
+        - name: KRB5_CLIENT_PRINCIPAL
+          value: zookage@ZOOKAGE.LOCAL
+        - name: KRB5_CLIENT_KEYTAB
+          value: /etc/security/keytabs/client.keytab
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: kerberos-keytabs
+          mountPath: /etc/security/keytabs
+          readOnly: true
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: kerberos-keytabs
+        secret:
+          secretName: kerberos-keytabs

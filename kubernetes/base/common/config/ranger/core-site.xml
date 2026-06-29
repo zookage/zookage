@@ -14,23 +14,15 @@
 
 <configuration>
   <property>
-    <name>ranger.plugin.yarn.service.name</name>
-    <value>yarn</value>
+    <name>hadoop.security.authorization</name>
+    <value>false</value>
   </property>
   <property>
-    <name>ranger.plugin.yarn.policy.rest.url</name>
-    <value>http://ranger-admin:6080</value>
+    <name>hadoop.security.authentication</name>
+    <value>simple</value>
   </property>
   <property>
-    <name>ranger.plugin.yarn.policy.rest.client.username</name>
-    <value>admin</value>
-  </property>
-  <property>
-    <name>ranger.plugin.yarn.policy.rest.client.password</name>
-    <value>admin</value>
-  </property>
-  <property>
-    <name>ranger.plugin.yarn.policy.cache.dir</name>
-    <value>/mnt</value>
+    <name>hadoop.rpc.protection</name>
+    <value>authentication</value>
   </property>
 </configuration>

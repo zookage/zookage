@@ -39,18 +39,22 @@ if [[ $# -ge 1 ]]; then
   "${repo_dir}/bin/up"
 fi
 
-if [[ ${kustomization_name:-} != "llap" ]]; then
-  run_test "Web" "${test_dir}/integration/web.sh"
-  run_test "MR" "${test_dir}/integration/mr.sh"
-  run_test "Spark" "${test_dir}/integration/spark.sh"
-  run_test "ZooKeeper" "${test_dir}/integration/zookeeper.sh"
-  run_test "HBase" "${test_dir}/integration/hbase.sh"
-  run_test "Ozone" "${test_dir}/integration/ozone.sh"
-  run_test "Trino" "${test_dir}/integration/trino.sh"
-fi
+if [[ ${kustomization_name:-} == "auth" ]]; then
+  run_test "Kerberos" "${test_dir}/integration/kerberos.sh"
+else
+  if [[ ${kustomization_name:-} != "llap" ]]; then
+    run_test "Web" "${test_dir}/integration/web.sh"
+    run_test "MR" "${test_dir}/integration/mr.sh"
+    run_test "Spark" "${test_dir}/integration/spark.sh"
+    run_test "ZooKeeper" "${test_dir}/integration/zookeeper.sh"
+    run_test "HBase" "${test_dir}/integration/hbase.sh"
+    run_test "Ozone" "${test_dir}/integration/ozone.sh"
+    run_test "Trino" "${test_dir}/integration/trino.sh"
+  fi
 
-run_test "Tez" "${test_dir}/integration/tez.sh"
-run_test "Hive on Tez" "${test_dir}/integration/hive_on_tez.sh"
+  run_test "Tez" "${test_dir}/integration/tez.sh"
+  run_test "Hive on Tez" "${test_dir}/integration/hive_on_tez.sh"
+fi
 
 run_test "error logs" "${test_dir}/integration/container_error.sh"
 run_test "warning logs" "${test_dir}/integration/container_warn.sh"
