@@ -22,4 +22,5 @@ resources:
 secretGenerator:
 - files:
   - keytabs/client.keytab
+  - keytabs/ranger.keytab
   name: kerberos-keytabs
