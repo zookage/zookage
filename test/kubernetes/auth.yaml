@@ -25,6 +25,7 @@ resources:
 - base/hdfs
 - base/hive
 - base/hive-metastore
+- base/kdc
 - base/keycloak
 - base/mapreduce
 - base/openldap
@@ -55,6 +56,9 @@ images:
 - name: zookage-hive-metastore
   newName: zookage/zookage-hive-metastore
   newTag: 4.2.0-zookage-0.5
+- name: zookage-kdc
+  newName: zookage/zookage-kdc
+  newTag: experimental
 - name: zookage-keycloak
   newName: zookage/zookage-keycloak
   newTag: 26.5-zookage-0.5
@@ -83,8 +87,11 @@ images:
   newName: zookage/zookage-zookeeper
   newTag: 3.9.4-zookage-0.5
 patches:
+- path: patches/authn/client.yaml
 - path: patches/authn/hive-metastore.yaml
+- path: patches/authn/kdc.yaml
 - path: patches/authn/trino.yaml
+- path: patches/authn/yarn.yaml
 - path: patches/authz/hbase.yaml
 - path: patches/authz/hdfs.yaml
 - path: patches/authz/hive.yaml

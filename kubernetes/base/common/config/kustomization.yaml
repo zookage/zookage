@@ -64,6 +64,11 @@ configMapGenerator:
   - keycloak/realm-export.json
   name: keycloak-conf
 - files:
+  - kdc/kdc.conf
+  - kdc/krb5.conf
+  - kdc/principals.json
+  name: kerberos-conf
+- files:
   - openldap/bootstrap.ldif
   name: openldap-conf
 - files:
@@ -108,6 +113,24 @@ configMapGenerator:
   - ranger/ranger-service-yarn.json
   - ranger/ranger-policies.json
   name: ranger-conf
+- files:
+  - hadoop/capacity-scheduler.xml
+  - ranger/core-site.xml
+  - hadoop/hadoop-metrics2.properties
+  - hadoop/hdfs-site.xml
+  - hadoop/httpfs-log4j.properties
+  - hadoop/httpfs-signature.secret
+  - hadoop/httpfs-site.xml
+  - hadoop/log4j.properties
+  - hadoop/mapred-site.xml
+  - hadoop/yarn-site.xml
+  - hadoop/ranger-hdfs-audit.xml
+  - hadoop/ranger-hdfs-policymgr-ssl.xml
+  - hadoop/ranger-hdfs-security.xml
+  - hadoop/ranger-yarn-audit.xml
+  - hadoop/ranger-yarn-policymgr-ssl.xml
+  - hadoop/ranger-yarn-security.xml
+  name: ranger-hadoop-conf
 - files:
   - spark/log4j.properties
   - spark/spark-defaults.conf

@@ -46,7 +46,15 @@
 
   <property>
     <name>hadoop.security.authorization</name>
-    <value>${env.HADOOP_SECURITY_AUTHORIZATION:-false}</value>
+    <value>${env.HADOOP_SECURITY_AUTHORIZATION}</value>
+  </property>
+  <property>
+    <name>hadoop.security.authentication</name>
+    <value>${env.HADOOP_SECURITY_AUTHENTICATION}</value>
+  </property>
+  <property>
+    <name>hadoop.rpc.protection</name>
+    <value>${env.HADOOP_RPC_PROTECTION}</value>
   </property>
   <property>
     <name>hadoop.security.group.mapping</name>

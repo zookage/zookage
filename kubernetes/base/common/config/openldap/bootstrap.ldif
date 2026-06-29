@@ -147,6 +147,17 @@ uidNumber: 1080
 gidNumber: 1080
 homeDirectory: /home/trino
 
+dn: uid=kdc,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: kdc
+cn: KDC
+sn: KDC
+uidNumber: 1090
+gidNumber: 1090
+homeDirectory: /home/kdc
+
 dn: ou=groups,dc=example,dc=com
 objectClass: top
 objectClass: organizationalUnit
@@ -242,3 +253,9 @@ objectClass: top
 objectClass: posixGroup
 cn: trino
 gidNumber: 1080
+
+dn: cn=kdc,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: kdc
+gidNumber: 1090

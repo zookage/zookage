@@ -1,0 +1,155 @@
+{
+  "principals": [
+    {
+      "principal": "admin/admin@ZOOKAGE.LOCAL"
+    },
+    {
+      "principal": "zookage@ZOOKAGE.LOCAL",
+      "keytab": "client.keytab"
+    },
+    {
+      "principal": "yarn/yarn-resourcemanager-0@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-resourcemanager-0.yarn-resourcemanager@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-resourcemanager-1@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-resourcemanager-1.yarn-resourcemanager@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-nodemanager-0@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-nodemanager-0.yarn-nodemanager@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-nodemanager-0.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-nodemanager-1@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-nodemanager-1.yarn-nodemanager@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-nodemanager-1.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-nodemanager-2@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-nodemanager-2.yarn-nodemanager@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-nodemanager-2.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-timelineserver-0@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-timelineserver-0.yarn-timelineserver@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "yarn/yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-resourcemanager-0@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-resourcemanager-0.yarn-resourcemanager@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-resourcemanager-1@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-resourcemanager-1.yarn-resourcemanager@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-nodemanager-0@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-nodemanager-0.yarn-nodemanager@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-nodemanager-0.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-nodemanager-1@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-nodemanager-1.yarn-nodemanager@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-nodemanager-1.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-nodemanager-2@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-nodemanager-2.yarn-nodemanager@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-nodemanager-2.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-timelineserver-0@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-timelineserver-0.yarn-timelineserver@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    },
+    {
+      "principal": "HTTP/yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL",
+      "keytab": "yarn.keytab"
+    }
+  ]
+}
