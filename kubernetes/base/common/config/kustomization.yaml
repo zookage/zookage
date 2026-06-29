@@ -69,6 +69,11 @@ configMapGenerator:
   - keycloak/realm-export.json
   name: keycloak-conf
 - files:
+  - kdc/kdc.conf
+  - kdc/krb5.conf
+  - kdc/principals.json
+  name: kerberos-conf
+- files:
   - openldap/bootstrap.ldif
   name: openldap-conf
 - files:

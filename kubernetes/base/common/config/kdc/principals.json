@@ -1,0 +1,11 @@
+{
+  "principals": [
+    {
+      "principal": "admin/admin@ZOOKAGE.LOCAL"
+    },
+    {
+      "principal": "zookage@ZOOKAGE.LOCAL",
+      "keytab": "client.keytab"
+    }
+  ]
+}
