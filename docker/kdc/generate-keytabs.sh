@@ -15,35 +15,27 @@ set -eu
 
 readonly base_dir=$(cd "$(dirname "$0")"; pwd)
 readonly repo_dir=$(cd "${base_dir}/../.."; pwd)
-readonly keytab_dir="${repo_dir}/kubernetes/base/kdc/keytabs"
-readonly principals_file="${repo_dir}/kubernetes/base/common/config/kdc/principals.json"
+readonly keytab_dir="${repo_dir}/kubernetes/base/kerberos/kdc/keytabs"
+readonly principals_file="${repo_dir}/kubernetes/base/common/config/kerberos/principals.json"
 
 rm -f "${keytab_dir}"/*.keytab
-
-password_for_principal() {
-  local principal=$1
-  local service=${principal%%/*}
-
-  echo "${service%%@*}"
-}
 
 read_keytab_principals() {
   jq -r '.principals[]
     | select(.keytab != null)
-    | [.principal, .keytab]
+    | [.principal, .password, .keytab]
     | @tsv' "${principals_file}"
 }
 
-while IFS=$'\t' read -r principal keytab; do
-  principal_password=$(password_for_principal "${principal}")
+while IFS=$'\t' read -r principal password keytab; do
   ktutil -k "${keytab_dir}/${keytab}" add \
     -p "${principal}" \
-    -w "${principal_password}" \
+    -w "${password}" \
     -e aes256-cts-hmac-sha1-96 \
     -V 1
   ktutil -k "${keytab_dir}/${keytab}" add \
     -p "${principal}" \
-    -w "${principal_password}" \
+    -w "${password}" \
     -e aes128-cts-hmac-sha1-96 \
     -V 1
 done < <(read_keytab_principals)

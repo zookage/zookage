@@ -16,22 +16,15 @@ set -eu
 readonly master_password=${KRB5_MASTER_PASSWORD:?KRB5_MASTER_PASSWORD is required}
 readonly principals_file=${KRB5_PRINCIPALS_FILE:?KRB5_PRINCIPALS_FILE is required}
 
-password_for_principal() {
-  local principal=$1
-  local service=${principal%%/*}
-
-  echo "${service%%@*}"
-}
-
 read_principals() {
-  jq -r '.principals[].principal' "${principals_file}"
+  jq -r '.principals[] | [.principal, .password] | @tsv' "${principals_file}"
 }
 
 if ! kadmin.local -q listprincs >/dev/null 2>&1; then
   kdb5_util create -s -P "${master_password}"
 
-  while read -r principal; do
-    kadmin.local -q "addprinc -pw $(password_for_principal "${principal}") ${principal}"
+  while IFS=$'\t' read -r principal password; do
+    kadmin.local -q "addprinc -pw ${password} ${principal}"
   done < <(read_principals)
 fi
 

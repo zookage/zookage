@@ -63,7 +63,43 @@
   </property>
   <property>
     <name>ranger.authentication.method</name>
-    <value>NONE</value>
+    <value>${env.RANGER_AUTHENTICATION_METHOD:-NONE}</value>
+  </property>
+  <property>
+    <name>hadoop.security.authentication</name>
+    <value>${env.RANGER_HADOOP_SECURITY_AUTHENTICATION:-simple}</value>
+  </property>
+  <property>
+    <name>ranger.admin.kerberos.principal</name>
+    <value>${env.RANGER_ADMIN_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>ranger.admin.kerberos.keytab</name>
+    <value>${env.RANGER_ADMIN_KERBEROS_KEYTAB:-}</value>
+  </property>
+  <property>
+    <name>ranger.spnego.kerberos.principal</name>
+    <value>${env.RANGER_SPNEGO_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>ranger.spnego.kerberos.keytab</name>
+    <value>${env.RANGER_SPNEGO_KERBEROS_KEYTAB:-}</value>
+  </property>
+  <property>
+    <name>ranger.lookup.kerberos.principal</name>
+    <value>${env.RANGER_LOOKUP_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>ranger.lookup.kerberos.keytab</name>
+    <value>${env.RANGER_LOOKUP_KERBEROS_KEYTAB:-}</value>
+  </property>
+  <property>
+    <name>ranger.allow.kerberos.auth.login.browser</name>
+    <value>${env.RANGER_ALLOW_KERBEROS_AUTH_LOGIN_BROWSER:-false}</value>
+  </property>
+  <property>
+    <name>ranger.admin.allow.unauthenticated.download.access</name>
+    <value>${env.RANGER_ADMIN_ALLOW_UNAUTHENTICATED_DOWNLOAD_ACCESS:-false}</value>
   </property>
   <property>
     <name>ranger.tomcat.work.dir</name>
