@@ -14,8 +14,9 @@
 set -eu
 
 readonly base_dir=$(cd "$(dirname "$0")"; pwd)
-readonly keytab_dir="${base_dir}/keytabs"
-readonly principals_file="${base_dir}/../common/config/kdc/principals.json"
+readonly repo_dir=$(cd "${base_dir}/../.."; pwd)
+readonly keytab_dir="${repo_dir}/kubernetes/base/kdc/keytabs"
+readonly principals_file="${repo_dir}/kubernetes/base/common/config/kdc/principals.json"
 
 rm -f "${keytab_dir}"/*.keytab
 

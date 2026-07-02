@@ -23,17 +23,14 @@ spec:
       securityContext:
         fsGroup: 1090
         fsGroupChangePolicy: OnRootMismatch
-        runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault
       containers:
       - name: kdc
         image: zookage-kdc
-        env:
-        - name: KRB5_REALM
-          value: ZOOKAGE.LOCAL
-        - name: KRB5_PRINCIPALS_FILE
-          value: /etc/krb5kdc/principals.json
+        envFrom:
+        - configMapRef:
+            name: kdc-env
         ports:
         - name: kdc-tcp
           containerPort: 10088
@@ -44,14 +41,6 @@ spec:
         readinessProbe:
           tcpSocket:
             port: kdc-tcp
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
-          readOnlyRootFilesystem: true
-          runAsUser: 1090
-          runAsGroup: 1090
         volumeMounts:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf

@@ -13,10 +13,8 @@
 
 set -eu
 
-readonly realm=${KRB5_REALM:?KRB5_REALM is required}
 readonly master_password=${KRB5_MASTER_PASSWORD:?KRB5_MASTER_PASSWORD is required}
 readonly principals_file=${KRB5_PRINCIPALS_FILE:?KRB5_PRINCIPALS_FILE is required}
-readonly database=/var/lib/krb5kdc/principal
 
 password_for_principal() {
   local principal=$1
@@ -29,8 +27,8 @@ read_principals() {
   jq -r '.principals[].principal' "${principals_file}"
 }
 
-if [[ ! -f "${database}" ]]; then
-  kdb5_util create -s -r "${realm}" -P "${master_password}"
+if ! kadmin.local -q listprincs >/dev/null 2>&1; then
+  kdb5_util create -s -P "${master_password}"
 
   while read -r principal; do
     kadmin.local -q "addprinc -pw $(password_for_principal "${principal}") ${principal}"
