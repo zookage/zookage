@@ -22,9 +22,6 @@ spec:
     spec:
       securityContext:
         fsGroup: 1090
-        fsGroupChangePolicy: OnRootMismatch
-        seccompProfile:
-          type: RuntimeDefault
       initContainers:
       - name: init-kdc
         image: zookage-kdc
@@ -78,8 +75,6 @@ spec:
           subPath: principals.json
         - name: kdc-data
           mountPath: /var/lib/krb5kdc
-        - name: tmp
-          mountPath: /tmp
       containers:
       - name: kdc
         image: zookage-kdc
@@ -104,8 +99,6 @@ spec:
           subPath: kdc.conf
         - name: kdc-data
           mountPath: /var/lib/krb5kdc
-        - name: tmp
-          mountPath: /tmp
       volumes:
       - name: kerberos-conf
         configMap:
@@ -113,6 +106,4 @@ spec:
       - name: kdc-conf-dir
         emptyDir: {}
       - name: kdc-data
-        emptyDir: {}
-      - name: tmp
         emptyDir: {}
