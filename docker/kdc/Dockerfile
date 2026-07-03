@@ -19,17 +19,14 @@ FROM ${ubuntu_image}
 ENV DEBIAN_FRONTEND=noninteractive
 # hadolint ignore=DL3008
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends jq krb5-admin-server krb5-kdc \
+  && apt-get install -y --no-install-recommends krb5-admin-server krb5-kdc \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && groupadd --gid 1090 kdc \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1090 --gid kdc kdc \
   && chown -R kdc:kdc /etc/krb5kdc /var/lib/krb5kdc
 
-COPY --chmod=755 entrypoint.sh /usr/local/bin/kdc-entrypoint.sh
-
 USER kdc:kdc
 
 EXPOSE 10088/tcp 10088/udp
-VOLUME ["/var/lib/krb5kdc"]
-ENTRYPOINT ["kdc-entrypoint.sh"]
+ENTRYPOINT ["krb5kdc", "-n"]

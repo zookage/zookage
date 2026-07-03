@@ -52,8 +52,8 @@ configMapGenerator:
   - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 --add-opens=java.base/java.lang=ALL-UNNAMED
   name: java-env
 - literals:
-  - KRB5_MASTER_PASSWORD=zookage-master
-  - KRB5_PRINCIPALS_FILE=/etc/krb5kdc/principals.json
+  - KDC_MASTER_PASSWORD=zookage-master
+  - KDC_PRINCIPALS_FILE=/etc/krb5kdc/principals.json
   name: kdc-env
 - literals:
   - OZONE_HOME=/opt/ozone
