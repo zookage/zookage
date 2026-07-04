@@ -59,9 +59,4 @@ while IFS=$'\t' read -r principal password; do
     -w "${password}" \
     -e aes256-cts-hmac-sha1-96 \
     -V 1
-  ktutil -k "${keytab_file}" add \
-    -p "${principal}" \
-    -w "${password}" \
-    -e aes128-cts-hmac-sha1-96 \
-    -V 1
 done < <(keytab_principals)

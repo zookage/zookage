@@ -15,10 +15,8 @@ kind: ConfigMap
 metadata:
   name: ranger-env
 data:
-  RANGER_ADMIN_ALLOW_UNAUTHENTICATED_DOWNLOAD_ACCESS: "true"
   RANGER_ADMIN_KERBEROS_KEYTAB: /etc/ranger/conf/ranger.keytab
   RANGER_ADMIN_KERBEROS_PRINCIPAL: rangeradmin/ranger-admin@ZOOKAGE.LOCAL
-  RANGER_ALLOW_KERBEROS_AUTH_LOGIN_BROWSER: "true"
   RANGER_HADOOP_SECURITY_AUTHENTICATION: kerberos
   RANGER_LOOKUP_KERBEROS_KEYTAB: /etc/ranger/conf/ranger.keytab
   RANGER_LOOKUP_KERBEROS_PRINCIPAL: rangerlookup/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL
@@ -75,7 +73,6 @@ spec:
         - -c
         - |
           set -euo pipefail
-          export KRB5CCNAME=/tmp/ranger-policies.ccache
           kinit -kt /etc/ranger/conf/ranger.keytab admin/ranger-admin@ZOOKAGE.LOCAL
 
           ranger_curl() {

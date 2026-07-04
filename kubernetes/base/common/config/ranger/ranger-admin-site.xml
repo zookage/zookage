@@ -63,7 +63,7 @@
   </property>
   <property>
     <name>ranger.authentication.method</name>
-    <value>${env.RANGER_AUTHENTICATION_METHOD:-NONE}</value>
+    <value>NONE</value>
   </property>
   <property>
     <name>hadoop.security.authentication</name>
@@ -92,14 +92,6 @@
   <property>
     <name>ranger.lookup.kerberos.keytab</name>
     <value>${env.RANGER_LOOKUP_KERBEROS_KEYTAB:-}</value>
-  </property>
-  <property>
-    <name>ranger.allow.kerberos.auth.login.browser</name>
-    <value>${env.RANGER_ALLOW_KERBEROS_AUTH_LOGIN_BROWSER:-false}</value>
-  </property>
-  <property>
-    <name>ranger.admin.allow.unauthenticated.download.access</name>
-    <value>${env.RANGER_ADMIN_ALLOW_UNAUTHENTICATED_DOWNLOAD_ACCESS:-false}</value>
   </property>
   <property>
     <name>ranger.tomcat.work.dir</name>
