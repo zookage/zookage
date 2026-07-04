@@ -16,13 +16,13 @@ metadata:
   name: ranger-env
 data:
   RANGER_ADMIN_ALLOW_UNAUTHENTICATED_DOWNLOAD_ACCESS: "true"
-  RANGER_ADMIN_KERBEROS_KEYTAB: /etc/security/keytabs/ranger.keytab
+  RANGER_ADMIN_KERBEROS_KEYTAB: /etc/ranger/conf/ranger.keytab
   RANGER_ADMIN_KERBEROS_PRINCIPAL: rangeradmin/ranger-admin@ZOOKAGE.LOCAL
   RANGER_ALLOW_KERBEROS_AUTH_LOGIN_BROWSER: "true"
   RANGER_HADOOP_SECURITY_AUTHENTICATION: kerberos
-  RANGER_LOOKUP_KERBEROS_KEYTAB: /etc/security/keytabs/ranger.keytab
+  RANGER_LOOKUP_KERBEROS_KEYTAB: /etc/ranger/conf/ranger.keytab
   RANGER_LOOKUP_KERBEROS_PRINCIPAL: rangerlookup/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-  RANGER_SPNEGO_KERBEROS_KEYTAB: /etc/security/keytabs/ranger.keytab
+  RANGER_SPNEGO_KERBEROS_KEYTAB: /etc/ranger/conf/ranger.keytab
   RANGER_SPNEGO_KERBEROS_PRINCIPAL: HTTP/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL
 ---
 apiVersion: apps/v1
@@ -37,7 +37,7 @@ spec:
         image: zookage-util
         args:
         - wait-for-rollout
-        - deployment/kdc-server
+        - deployment/kerberos-kdc
       - name: wait-for-postgres
       - name: create-ranger-database
       - name: setup-database
@@ -45,25 +45,16 @@ spec:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
-        - name: kerberos-keytabs
-          mountPath: /etc/security/keytabs
-          readOnly: true
       containers:
       - name: ranger-admin
         volumeMounts:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
-        - name: kerberos-keytabs
-          mountPath: /etc/security/keytabs
-          readOnly: true
       volumes:
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
-      - name: kerberos-keytabs
-        secret:
-          secretName: kerberos-keytabs
 ---
 apiVersion: batch/v1
 kind: Job
@@ -77,7 +68,7 @@ spec:
         image: zookage-util
         args:
         - wait-for-rollout
-        - deployment/kdc-server
+        - deployment/kerberos-kdc
       containers:
       - name: create-policies
         args:
@@ -85,7 +76,7 @@ spec:
         - |
           set -euo pipefail
           export KRB5CCNAME=/tmp/ranger-policies.ccache
-          kinit -kt /etc/security/keytabs/ranger.keytab admin/admin@ZOOKAGE.LOCAL
+          kinit -kt /etc/ranger/conf/ranger.keytab admin/ranger-admin@ZOOKAGE.LOCAL
 
           ranger_curl() {
             curl --fail --negotiate -u : "$@"
@@ -123,13 +114,7 @@ spec:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
-        - name: kerberos-keytabs
-          mountPath: /etc/security/keytabs
-          readOnly: true
       volumes:
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
-      - name: kerberos-keytabs
-        secret:
-          secretName: kerberos-keytabs

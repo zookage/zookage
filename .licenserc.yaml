@@ -32,6 +32,7 @@ header:
   - ".idea"
   - "config"
   - "secret"
+  - "docker/build.env"
   - "**/target/**"
   - "**/*.json"
   - "**/*.md"
@@ -47,8 +48,11 @@ header:
   - "kubernetes/base/common/secret/ozone/ozone-http-auth-signature.secret"
   - "kubernetes/base/common/secret/yarn/yarn-http-auth-signature.secret"
   - "kubernetes/base/common/config/hive/llap-udfs.lst"
+  - "kubernetes/base/common/config/kerberos/.k5.ZOOKAGE.LOCAL"
+  - "kubernetes/base/common/config/kerberos/service.keyfile"
   - "kubernetes/base/common/config/keycloak/realm-export.json"
   - "kubernetes/base/common/config/ozone/http_secret"
+  - "kubernetes/base/common/config/ranger/ranger.keytab"
   - "kubernetes/base/common/config/trino/jvm.config"
   language:
     Java Properties:

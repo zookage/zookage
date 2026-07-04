@@ -69,9 +69,10 @@ configMapGenerator:
   - keycloak/realm-export.json
   name: keycloak-conf
 - files:
+  - kerberos/.k5.ZOOKAGE.LOCAL
   - kerberos/kdc.conf
   - kerberos/krb5.conf
-  - kerberos/principals.json
+  - kerberos/service.keyfile
   name: kerberos-conf
 - files:
   - openldap/bootstrap.ldif
@@ -98,6 +99,7 @@ configMapGenerator:
   - ranger/install.properties
   - ranger/log4j.properties
   - ranger/logback.xml
+  - ranger/ranger.keytab
   - ranger/ranger-admin-site.xml
   - ranger/ranger-ugsync-site.xml
   - ranger/ranger-role-hbase-admin.json

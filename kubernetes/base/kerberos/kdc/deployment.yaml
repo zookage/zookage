@@ -13,68 +13,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kdc-server
+  name: kerberos-kdc
 spec:
   replicas: 1
   selector:
     matchLabels: {}
   template:
     spec:
-      securityContext:
-        fsGroup: 1090
       initContainers:
-      - name: init-kdc
-        image: zookage-kdc
-        command:
-        - /bin/bash
+      - name: wait-for-openldap
+        image: zookage-util
         args:
-        - -c
-        - |
-          set -euo pipefail
-
-          read_principals() {
-            awk '
-              /"principal"[[:space:]]*:/ {
-                principal = $0
-                sub(/^[^:]*:[[:space:]]*"/, "", principal)
-                sub(/".*$/, "", principal)
-              }
-              /"password"[[:space:]]*:/ {
-                password = $0
-                sub(/^[^:]*:[[:space:]]*"/, "", password)
-                sub(/".*$/, "", password)
-                if (principal != "") {
-                  print principal "\t" password
-                  principal = ""
-                }
-              }
-            ' "${KDC_PRINCIPALS_FILE}"
-          }
-
-          if ! kadmin.local -q listprincs >/dev/null 2>&1; then
-            kdb5_util create -s -P "${KDC_MASTER_PASSWORD}"
-
-            while IFS=$'\t' read -r principal password; do
-              kadmin.local -q "addprinc -pw ${password} ${principal}"
-            done < <(read_principals)
-          fi
-        envFrom:
-        - configMapRef:
-            name: kdc-env
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: kdc-conf-dir
-          mountPath: /etc/krb5kdc
-        - name: kerberos-conf
-          mountPath: /etc/krb5kdc/kdc.conf
-          subPath: kdc.conf
-        - name: kerberos-conf
-          mountPath: /etc/krb5kdc/principals.json
-          subPath: principals.json
-        - name: kdc-data
-          mountPath: /var/lib/krb5kdc
+        - wait-for-rollout
+        - deployment/openldap-server
       containers:
       - name: kdc
         image: zookage-kdc
@@ -92,18 +43,16 @@ spec:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
-        - name: kdc-conf-dir
-          mountPath: /etc/krb5kdc
         - name: kerberos-conf
           mountPath: /etc/krb5kdc/kdc.conf
           subPath: kdc.conf
-        - name: kdc-data
-          mountPath: /var/lib/krb5kdc
+        - name: kerberos-conf
+          mountPath: /etc/krb5kdc/service.keyfile
+          subPath: service.keyfile
+        - name: kerberos-conf
+          mountPath: /etc/krb5kdc/.k5.ZOOKAGE.LOCAL
+          subPath: .k5.ZOOKAGE.LOCAL
       volumes:
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
-      - name: kdc-conf-dir
-        emptyDir: {}
-      - name: kdc-data
-        emptyDir: {}

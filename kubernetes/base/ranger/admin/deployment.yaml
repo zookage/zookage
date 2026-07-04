@@ -42,28 +42,9 @@ spec:
       - name: setup-database
         image: zookage-ranger
         command:
-        - /bin/bash
+        - python3
         args:
-        - -c
-        - |
-          set -euo pipefail
-          cp -R /etc/ranger/conf.template/. "${RANGER_CONF}"
-
-          python3 - <<'PY'
-          import os
-          import re
-          from pathlib import Path
-
-          pattern = re.compile(r"\$\{env\.([A-Za-z_][A-Za-z0-9_]*)(?::-([^}]*))?\}")
-
-          def replace(match):
-              return os.environ.get(match.group(1), match.group(2) or "")
-
-          site = Path(os.environ["RANGER_CONF"]) / "ranger-admin-site.xml"
-          site.write_text(pattern.sub(replace, site.read_text()))
-          PY
-
-          exec python3 "${RANGER_HOME}/ranger-admin/db_setup.py"
+        - $(RANGER_HOME)/ranger-admin/db_setup.py
         envFrom:
         - configMapRef:
             name: ranger-env
@@ -73,8 +54,6 @@ spec:
         - name: RANGER_ADMIN_HOME
           value: $(RANGER_HOME)/ranger-admin
         volumeMounts:
-        - name: ranger-conf-template
-          mountPath: /etc/ranger/conf.template
         - name: ranger-conf
           mountPath: /etc/ranger/conf
       containers:
@@ -110,8 +89,6 @@ spec:
         configMap:
           name: hive-conf
       - name: ranger-conf
-        emptyDir: {}
-      - name: ranger-conf-template
         configMap:
           name: ranger-conf
       - name: mnt

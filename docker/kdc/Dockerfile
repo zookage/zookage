@@ -19,7 +19,7 @@ FROM ${ubuntu_image}
 ENV DEBIAN_FRONTEND=noninteractive
 # hadolint ignore=DL3008
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends krb5-admin-server krb5-kdc \
+  && apt-get install -y --no-install-recommends krb5-admin-server krb5-kdc krb5-kdc-ldap \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && groupadd --gid 1090 kdc \
