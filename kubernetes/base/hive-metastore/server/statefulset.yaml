@@ -58,8 +58,12 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
+        - name: hadoop-secret
+          mountPath: /etc/hadoop/secrets
         - name: hive-metastore-conf
           mountPath: /etc/hive-metastore/conf
+        - name: hive-metastore-secret
+          mountPath: /etc/hive-metastore/secrets
         - name: tez-conf
           mountPath: /etc/tez/conf
         - name: mnt
@@ -85,8 +89,12 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
+        - name: hadoop-secret
+          mountPath: /etc/hadoop/secrets
         - name: hive-metastore-conf
           mountPath: /etc/hive-metastore/conf
+        - name: hive-metastore-secret
+          mountPath: /etc/hive-metastore/secrets
         - name: mnt
           mountPath: /mnt
         - name: hadoop-src
@@ -97,9 +105,15 @@ spec:
       - name: hadoop-conf
         configMap:
           name: hadoop-conf
+      - name: hadoop-secret
+        secret:
+          secretName: hadoop-secret
       - name: hive-metastore-conf
         configMap:
           name: hive-metastore-conf
+      - name: hive-metastore-secret
+        secret:
+          secretName: hive-metastore-secret
       - name: tez-conf
         configMap:
           name: tez-conf

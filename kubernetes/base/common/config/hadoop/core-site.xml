@@ -26,6 +26,10 @@
     <name>hadoop.http.temp.dir</name>
     <value>/tmp/hadoop</value>
   </property>
+  <property>
+    <name>hadoop.security.credential.provider.path</name>
+    <value>localjceks://file/etc/hadoop/secrets/hadoop.jceks</value>
+  </property>
 
   <property>
     <name>hadoop.proxyuser.httpfs.hosts</name>
@@ -59,10 +63,6 @@
   <property>
     <name>hadoop.security.group.mapping.ldap.bind.user</name>
     <value>cn=admin,dc=example,dc=com</value>
-  </property>
-  <property>
-    <name>hadoop.security.group.mapping.ldap.bind.password</name>
-    <value>admin</value>
   </property>
   <property>
     <name>hadoop.security.group.mapping.ldap.userbase</name>
@@ -109,14 +109,6 @@
   <property>
     <name>fs.s3a.endpoint</name>
     <value>ozone-s3g:9878</value>
-  </property>
-  <property>
-    <name>fs.s3a.access.key</name>
-    <value>zookage</value>
-  </property>
-  <property>
-    <name>fs.s3a.secret.key</name>
-    <value>dummy</value>
   </property>
   <property>
     <name>fs.s3a.fast.upload.buffer</name>

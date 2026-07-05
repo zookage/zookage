@@ -29,8 +29,6 @@ spec:
         - inf
         envFrom:
         - configMapRef:
-            name: aws-env
-        - configMapRef:
             name: hadoop-env
         - configMapRef:
             name: hbase-env
@@ -49,12 +47,24 @@ spec:
         env:
         - name: HADOOP_CLASSPATH
           value: $(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: hadoop-secret
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: hadoop-secret
+              key: AWS_SECRET_ACCESS_KEY
         - name: PATH
           # yamllint disable-line rule:line-length
           value: $(TRINO_HOME)/trino-cli/bin:$(HBASE_HOME)/bin:$(HIVE_HOME)/bin:$(OZONE_HOME)/bin:$(SPARK_HOME)/bin:$(HADOOP_HOME)/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
+        - name: hadoop-secret
+          mountPath: /etc/hadoop/secrets
         - name: hbase-conf
           mountPath: /etc/hbase/conf
         - name: hive-conf
@@ -100,6 +110,9 @@ spec:
       - name: hadoop-conf
         configMap:
           name: hadoop-conf
+      - name: hadoop-secret
+        secret:
+          secretName: hadoop-secret
       - name: hbase-conf
         configMap:
           name: hbase-conf

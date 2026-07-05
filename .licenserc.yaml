@@ -36,6 +36,8 @@ header:
   - "**/*.md"
   - "LICENSE"
   - "kubernetes/base/common/config/hadoop/httpfs-signature.secret"
+  - "kubernetes/base/common/config/hadoop/hadoop.jceks"
+  - "kubernetes/base/common/config/hive-metastore/hive-metastore.jceks"
   - "kubernetes/base/common/config/hive/llap-udfs.lst"
   - "kubernetes/base/common/config/keycloak/realm-export.json"
   - "kubernetes/base/common/config/ozone/http_secret"

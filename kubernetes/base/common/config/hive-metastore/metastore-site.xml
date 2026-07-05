@@ -14,6 +14,11 @@
 
 <configuration>
   <property>
+    <name>hadoop.security.credential.provider.path</name>
+    <value>localjceks://file/etc/hadoop/secrets/hadoop.jceks,localjceks://file/etc/hive-metastore/secrets/hive-metastore.jceks</value>
+  </property>
+
+  <property>
     <name>javax.jdo.option.ConnectionDriverName</name>
     <value>org.postgresql.Driver</value>
   </property>
@@ -23,10 +28,6 @@
   </property>
   <property>
     <name>javax.jdo.option.ConnectionUserName</name>
-    <value>admin</value>
-  </property>
-  <property>
-    <name>javax.jdo.option.ConnectionPassword</name>
     <value>admin</value>
   </property>
   <property>
