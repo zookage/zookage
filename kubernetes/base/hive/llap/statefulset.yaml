@@ -100,11 +100,9 @@ spec:
           mountPath: /mnt
         - name: hadoop-src
           mountPath: /opt/hadoop
-          readOnly: true
           subPath: opt/hadoop
         - name: tez-src
           mountPath: /opt/tez
-          readOnly: true
           subPath: opt/tez
       terminationGracePeriodSeconds: 5
       volumes:

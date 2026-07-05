@@ -72,35 +72,27 @@ spec:
           mountPath: /etc/zookeeper/conf
         - name: hadoop-src
           mountPath: /opt/hadoop
-          readOnly: true
           subPath: opt/hadoop
         - name: hbase-src
           mountPath: /opt/hbase
-          readOnly: true
           subPath: opt/hbase-client
         - name: hive-src
           mountPath: /opt/hive
-          readOnly: true
           subPath: opt/hive
         - name: ozone-src
           mountPath: /opt/ozone
-          readOnly: true
           subPath: opt/ozone
         - name: spark-src
           mountPath: /opt/spark
-          readOnly: true
           subPath: opt/spark
         - name: tez-src
           mountPath: /opt/tez
-          readOnly: true
           subPath: opt/tez
         - name: trino-src
           mountPath: /opt/trino
-          readOnly: true
           subPath: opt/trino
         - name: zookeeper-src
           mountPath: /opt/zookeeper
-          readOnly: true
           subPath: opt/zookeeper
         workingDir: /home/zookage
       terminationGracePeriodSeconds: 0

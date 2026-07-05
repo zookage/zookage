@@ -49,7 +49,6 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: tez-src
           mountPath: /opt/tez
-          readOnly: true
           subPath: opt/tez
       restartPolicy: Never
       volumes:

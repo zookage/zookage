@@ -40,7 +40,6 @@ spec:
         volumeMounts:
         - name: ranger-src
           mountPath: /opt/ranger
-          readOnly: true
           subPath: opt/ranger
       volumes:
       - name: ranger-src
