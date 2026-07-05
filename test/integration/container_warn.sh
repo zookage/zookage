@@ -84,6 +84,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hbase-master-.* hdfs.DataStreamer: DataStreamer Exception' \
   | grep -v 'pod/hbase-master-.* region.MasterRegion: failed to clean up initializing flag' \
   | grep -v 'pod/hbase-master-.* assignment.AssignmentManager: No servers available; cannot place' \
+  | grep -v 'pod/hbase-.* util.Sleeper: We slept .* instead of .* this is likely due to a long garbage collecting pause' \
   | grep -v 'pod/hbase-regionserver-.* hbase.HbaseUserUtilsImpl: HbaseUserUtilsImpl\.initialize: Unexpected: initialization called more than once!' \
   | grep -v 'pod/hbase-regionserver-.* regionserver.HRegionServer: reportForDuty failed; sleeping 3000 ms and then retrying\.' \
   `# Initialization` \

@@ -1666,6 +1666,10 @@
             {
               "type": "create",
               "isAllowed": true
+            },
+            {
+              "type": "drop",
+              "isAllowed": true
             }
           ],
           "groups": [

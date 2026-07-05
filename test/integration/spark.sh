@@ -14,19 +14,38 @@
 set -eu
 
 readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
+# shellcheck source=/mnt/test/integration/s3.sh
+source "${integration_dir}/s3.sh"
 
-"${integration_dir}/divider.sh" "Start running a Spark job"
+run_wordcount_job() {
+  local path_prefix=${1:-/user/zookage}
+  local name="a Spark job"
+  local success_message="The test job succeeded."
+  local input="${path_prefix}/spark-wordcount-input"
 
-"${integration_dir}/run.sh" hdfs dfs -rm -r -f /user/zookage/spark-wordcount-input
-"${integration_dir}/run.sh" hdfs dfs -put /etc/hosts /user/zookage/spark-wordcount-input
-"${integration_dir}/run.sh" bash -c "
-  spark-submit \
-  --class org.apache.spark.examples.JavaWordCount \
-  "/opt/spark/examples/jars/spark-examples_*.jar" \
-  /user/zookage/spark-wordcount-input
-"
-"${integration_dir}/divider.sh" "Finished running a Spark job"
-echo "The test job succeeded."
-echo
+  if [[ "${path_prefix}" != "/user/zookage" ]]; then
+    name="${name} on ${path_prefix}"
+    success_message="The S3 test job succeeded on ${path_prefix}."
+  fi
+
+  "${integration_dir}/divider.sh" "Start running ${name}"
+
+  "${integration_dir}/run.sh" hadoop fs -rm -r -f "${input}"
+  "${integration_dir}/run.sh" hadoop fs -put /etc/hosts "${input}"
+  "${integration_dir}/run.sh" bash -c "
+    spark-submit \
+    --class org.apache.spark.examples.JavaWordCount \
+    "/opt/spark/examples/jars/spark-examples_*.jar" \
+    ${input}
+  "
+  "${integration_dir}/divider.sh" "Finished running ${name}"
+  echo "${success_message}"
+  echo
+}
+
+run_wordcount_job
+
+ensure_s3_bucket test
+run_wordcount_job s3a://test
 
 "${integration_dir}/spark_log.sh"
