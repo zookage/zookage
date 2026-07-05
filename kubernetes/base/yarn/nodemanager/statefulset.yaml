@@ -56,7 +56,6 @@ spec:
           mountPath: /mnt
         - name: tez-src
           mountPath: /opt/tez
-          readOnly: true
           subPath: opt/tez
       terminationGracePeriodSeconds: 5
       volumes:

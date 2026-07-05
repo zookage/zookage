@@ -56,7 +56,6 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: hadoop-src
           mountPath: /opt/hadoop
-          readOnly: true
           subPath: opt/hadoop
       restartPolicy: Never
       volumes:

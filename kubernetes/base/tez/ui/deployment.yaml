@@ -36,7 +36,6 @@ spec:
         volumeMounts:
         - name: tez-src
           mountPath: /opt/tez
-          readOnly: true
           subPath: opt/tez
       volumes:
       - name: tez-src

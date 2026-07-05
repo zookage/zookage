@@ -34,7 +34,6 @@ spec:
           mountPath: /mnt
         - name: ranger-src
           mountPath: /opt/ranger
-          readOnly: true
           subPath: opt/ranger
       volumes:
       - name: mnt

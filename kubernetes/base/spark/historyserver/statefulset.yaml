@@ -53,7 +53,6 @@ spec:
           mountPath: /mnt
         - name: hadoop-src
           mountPath: /opt/hadoop
-          readOnly: true
           subPath: opt/hadoop
       terminationGracePeriodSeconds: 5
       volumes:
