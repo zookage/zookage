@@ -25,6 +25,7 @@ resources:
 - base/hive
 - base/hive-metastore
 - base/openldap
+- base/ozone
 - base/postgres
 - base/tez
 - base/yarn

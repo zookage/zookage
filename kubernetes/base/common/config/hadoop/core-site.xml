@@ -111,6 +111,22 @@
     <value>ozone-s3g:9878</value>
   </property>
   <property>
+    <name>fs.s3a.access.key</name>
+    <value>zookage</value>
+  </property>
+  <property>
+    <name>fs.s3a.secret.key</name>
+    <value>dummy</value>
+  </property>
+  <property>
+    <name>fs.s3a.fast.upload.buffer</name>
+    <value>bytebuffer</value>
+  </property>
+  <property>
+    <name>fs.s3a.committer.name</name>
+    <value>magic</value>
+  </property>
+  <property>
     <name>fs.s3a.path.style.access</name>
     <value>true</value>
   </property>
