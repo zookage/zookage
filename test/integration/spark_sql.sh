@@ -14,17 +14,57 @@
 set -eu
 
 readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
+# shellcheck source=/mnt/test/integration/s3.sh
+source "${integration_dir}/s3.sh"
 
-"${integration_dir}/divider.sh" "Start running Spark SQL queries"
-"${integration_dir}/run.sh" spark-sql -e "
-  CREATE DATABASE IF NOT EXISTS test_spark_db;
-  CREATE TABLE IF NOT EXISTS test_spark_db.mofu_spark (name string);
-  INSERT INTO test_spark_db.mofu_spark (name) VALUES ('12345');
-  SELECT name, count(1) FROM test_spark_db.mofu_spark GROUP BY name;
-"
-"${integration_dir}/divider.sh" "Finished running Spark SQL queries"
+run_spark_sql_queries() {
+  local location_prefix=${1:-}
+  local name="Spark SQL queries"
+  local success_message="The test queries succeeded."
+  local table_name="mofu_spark"
+  local table="test_spark_db.${table_name}"
+  local location=""
+  local sql
 
-echo "The test queries succeeded."
-echo
+  if [[ -n "${location_prefix}" ]]; then
+    name="${name} on ${location_prefix}"
+    success_message="The S3 test queries succeeded on ${location_prefix}."
+  fi
+
+  "${integration_dir}/divider.sh" "Start running ${name}"
+
+  if [[ -n "${location_prefix}" ]]; then
+    location="${location_prefix}/${table_name}"
+    "${integration_dir}/run.sh" hadoop fs -rm -r -f "${location}"
+    sql="
+      CREATE DATABASE IF NOT EXISTS test_spark_db;
+      DROP TABLE IF EXISTS ${table};
+      CREATE TABLE ${table} (name string)
+      USING parquet
+      LOCATION '${location}';
+      INSERT INTO ${table} (name) VALUES ('12345');
+      SELECT name, count(1) FROM ${table} GROUP BY name;
+    "
+  else
+    sql="
+      CREATE DATABASE IF NOT EXISTS test_spark_db;
+      DROP TABLE IF EXISTS ${table};
+      CREATE TABLE ${table} (name string);
+      INSERT INTO ${table} (name) VALUES ('12345');
+      SELECT name, count(1) FROM ${table} GROUP BY name;
+    "
+  fi
+
+  "${integration_dir}/run.sh" spark-sql -e "${sql}"
+  "${integration_dir}/divider.sh" "Finished running ${name}"
+
+  echo "${success_message}"
+  echo
+}
+
+run_spark_sql_queries
+
+ensure_s3_bucket test
+run_spark_sql_queries s3a://test/spark-sql
 
 "${integration_dir}/spark_log.sh"

@@ -14,6 +14,8 @@
 set -eu
 
 readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
+# shellcheck source=/mnt/test/integration/s3.sh
+source "${integration_dir}/s3.sh"
 
 "${integration_dir}/divider.sh" "Start running Ozone commands"
 
@@ -22,7 +24,7 @@ readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
 "${integration_dir}/run.sh" bash -c "ozone sh key put zookage/test/hosts /etc/hosts"
 "${integration_dir}/run.sh" bash -c "ozone sh key cat zookage/test/hosts"
 
-"${integration_dir}/run.sh" bash -c "ozone sh bucket info s3v/test > /dev/null 2>&1 || ozone sh bucket create s3v/test"
+ensure_s3_bucket test
 "${integration_dir}/run.sh" bash -c "aws s3 --endpoint http://ozone-s3g:9878 cp /etc/hosts s3://test/hosts"
 "${integration_dir}/run.sh" bash -c "aws s3 --endpoint http://ozone-s3g:9878 cp s3://test/hosts /tmp/hosts"
 "${integration_dir}/run.sh" bash -c "diff /etc/hosts /tmp/hosts"

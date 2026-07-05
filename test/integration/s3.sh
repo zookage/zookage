@@ -1,3 +1,4 @@
+#!/bin/bash
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -10,17 +11,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-connector.name=iceberg
-iceberg.catalog.type=rest
-iceberg.rest-catalog.uri=http://hive-metastore-server:9001/iceberg
-iceberg.rest-catalog.view-endpoints-enabled=false
+s3_integration_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" || exit; pwd)
 
-fs.hadoop.enabled=true
-hive.config.resources=/etc/hadoop/conf/core-site.xml,/etc/hadoop/conf/hdfs-site.xml
+ensure_s3_bucket() {
+  local bucket=$1
 
-fs.native-s3.enabled=true
-s3.aws-access-key=zookage
-s3.aws-secret-key=dummy
-s3.endpoint=http://ozone-s3g:9878
-s3.region=default
-s3.path-style-access=true
+  if ! "${s3_integration_dir}/run.sh" ozone sh bucket info "s3v/${bucket}" > /dev/null 2>&1; then
+    "${s3_integration_dir}/run.sh" ozone sh bucket create "s3v/${bucket}"
+  fi
+}
