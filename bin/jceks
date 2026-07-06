@@ -26,8 +26,8 @@ JCEKS files are read and written with Hadoop's default provider password ("none"
 The Hadoop image is read from kubernetes/kustomization.yaml.
 
 Examples:
-  $0 show kubernetes/base/common/config/hadoop/hadoop.jceks
-  $0 create kubernetes/base/common/config/hadoop/hadoop.jceks fs.s3a.access.key=zookage,fs.s3a.secret.key=dummy
+  $0 show kubernetes/base/common/secret/hadoop/hadoop.jceks
+  $0 create kubernetes/base/common/secret/hadoop/hadoop.jceks fs.s3a.access.key=zookage,fs.s3a.secret.key=dummy
 EOF
 }
 

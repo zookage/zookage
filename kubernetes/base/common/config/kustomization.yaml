@@ -139,13 +139,3 @@ configMapGenerator:
   - zookeeper/log4j.properties
   - zookeeper/zoo.cfg
   name: zookeeper-conf
-secretGenerator:
-- files:
-  - hadoop/hadoop.jceks
-  literals:
-  - AWS_ACCESS_KEY_ID=zookage
-  - AWS_SECRET_ACCESS_KEY=dummy
-  name: hadoop-secret
-- files:
-  - hive-metastore/hive-metastore.jceks
-  name: hive-metastore-secret

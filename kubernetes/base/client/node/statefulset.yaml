@@ -44,19 +44,11 @@ spec:
             name: trino-env
         - configMapRef:
             name: zookeeper-env
+        - secretRef:
+            name: aws-secret
         env:
         - name: HADOOP_CLASSPATH
           value: $(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*
-        - name: AWS_ACCESS_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              name: hadoop-secret
-              key: AWS_ACCESS_KEY_ID
-        - name: AWS_SECRET_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: hadoop-secret
-              key: AWS_SECRET_ACCESS_KEY
         - name: PATH
           # yamllint disable-line rule:line-length
           value: $(TRINO_HOME)/trino-cli/bin:$(HBASE_HOME)/bin:$(HIVE_HOME)/bin:$(OZONE_HOME)/bin:$(SPARK_HOME)/bin:$(HADOOP_HOME)/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
