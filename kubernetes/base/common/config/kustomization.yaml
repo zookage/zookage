@@ -85,7 +85,9 @@ configMapGenerator:
   - ozone/ranger-ozone-security.xml
   name: ozone-conf
 - files:
+  - ranger/core-site.xml
   - ranger/install.properties
+  - ranger/log4j.properties
   - ranger/logback.xml
   - ranger/ranger-admin-site.xml
   - ranger/ranger-ugsync-site.xml

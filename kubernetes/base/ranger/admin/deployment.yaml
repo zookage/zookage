@@ -29,11 +29,16 @@ spec:
       - name: create-ranger-database
         image: zookage-postgres
         command:
-        - psql
+        - /bin/bash
         args:
-        - 'postgresql://admin:admin@postgres-database-0.postgres-database:5432'
         - -c
-        - 'CREATE DATABASE ranger'
+        - |
+          set -euo pipefail
+
+          postgres_url='postgresql://admin:admin@postgres-database-0.postgres-database:5432'
+          if ! psql "${postgres_url}" -tc "SELECT 1 FROM pg_database WHERE datname = 'ranger'" | grep -q 1; then
+            psql "${postgres_url}" -c 'CREATE DATABASE ranger'
+          fi
       - name: setup-database
         image: zookage-ranger
         command:
@@ -67,13 +72,11 @@ spec:
         env:
         - name: CLASSPATH
           # yamllint disable-line rule:line-length
-          value: $(RANGER_CONF):$(RANGER_HADOOP_CONF_DIR):$(RANGER_HOME)/ranger-admin/ews/webapp/WEB-INF/classes/conf.dist:$(RANGER_HOME)/lib/*:$(RANGER_HOME)/ranger-admin/ews/lib/*:$(RANGER_HOME)/ranger-admin/ews/webapp/WEB-INF/lib/*:$(RANGER_HOME)/ranger-admin/ews/ranger_jaas/*
+          value: $(RANGER_CONF):$(RANGER_HOME)/ranger-admin/ews/webapp/WEB-INF/classes/conf.dist:$(RANGER_HOME)/lib/*:$(RANGER_HOME)/ranger-admin/ews/lib/*:$(RANGER_HOME)/ranger-admin/ews/webapp/WEB-INF/lib/*:$(RANGER_HOME)/ranger-admin/ews/ranger_jaas/*
         readinessProbe:
           tcpSocket:
             port: 6080
         volumeMounts:
-        - name: hadoop-conf
-          mountPath: /etc/hadoop/conf
         - name: hive-conf
           mountPath: /etc/hive/conf
         - name: ranger-conf
@@ -82,9 +85,6 @@ spec:
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
       volumes:
-      - name: hadoop-conf
-        configMap:
-          name: hadoop-conf
       - name: hive-conf
         configMap:
           name: hive-conf
