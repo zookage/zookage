@@ -1633,6 +1633,44 @@
     {
       "version": 1,
       "service": "hive",
+      "name": "test bucket url",
+      "policyType": 0,
+      "policyPriority": 0,
+      "isAuditEnabled": true,
+      "resources": {
+        "url": {
+          "values": [
+            "s3a://test",
+            "s3a://test/*"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            }
+          ],
+          "groups": [
+            "public"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hive",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hive",
       "name": "default database tables columns",
       "policyType": 0,
       "policyPriority": 0,
