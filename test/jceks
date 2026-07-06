@@ -1,0 +1,263 @@
+#!/bin/bash
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -eu
+
+readonly bin_dir=$(cd "$(dirname "$0")"; pwd)
+readonly repo_dir=$(cd "${bin_dir}/.."; pwd)
+
+usage() {
+  cat <<EOF
+Usage:
+  $0 show <jceks-file>
+  $0 create <jceks-file>
+
+JCEKS files are read and written with Hadoop's default provider password ("none").
+The create command reads key-value pairs from <jceks-file>.properties.
+The Hadoop image is read from kubernetes/kustomization.yaml.
+
+Examples:
+  $0 show secret/hadoop/hadoop.jceks
+  $0 create secret/hadoop/hadoop.jceks
+EOF
+}
+
+resolve_hadoop_image() {
+  awk '
+    $1 == "-" && $2 == "name:" {
+      if ($3 == "zookage-hadoop") {
+        target = 1
+        next
+      }
+      if (target) {
+        exit
+      }
+    }
+    target && $1 == "newName:" {
+      name = $2
+    }
+    target && $1 == "newTag:" {
+      tag = $2
+      gsub(/^["\047]|["\047]$/, "", tag)
+    }
+    END {
+      if (name == "") {
+        exit 1
+      }
+      if (tag == "" || name ~ /@/) {
+        print name
+      } else {
+        print name ":" tag
+      }
+    }
+  ' "${repo_dir}/kubernetes/kustomization.yaml"
+}
+
+absolute_path() {
+  local path=$1
+  local dir
+  local base
+
+  dir=$(dirname "${path}")
+  base=$(basename "${path}")
+  if [ ! -d "${dir}" ]; then
+    echo "No such directory: ${dir}" >&2
+    exit 1
+  fi
+
+  dir=$(cd "${dir}"; pwd -P)
+  echo "${dir}/${base}"
+}
+
+run_hadoop_credential() {
+  local provider=$1
+  shift
+
+  docker "${docker_args[@]}" /opt/hadoop/bin/hadoop credential "$@" -provider "${provider}"
+}
+
+show_jceks() {
+  docker "${docker_args[@]}" /bin/bash -eu -c '
+cat > /tmp/JceksShow.java <<JAVA
+import java.util.List;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.security.alias.CredentialProvider;
+import org.apache.hadoop.security.alias.CredentialProviderFactory;
+
+public final class JceksShow {
+  private JceksShow() {
+  }
+
+  public static void main(String[] args) throws Exception {
+    Configuration conf = new Configuration(false);
+    conf.set(CredentialProviderFactory.CREDENTIAL_PROVIDER_PATH, args[0]);
+    List<CredentialProvider> providers = CredentialProviderFactory.getProviders(conf);
+    if (providers == null) {
+      return;
+    }
+    for (CredentialProvider provider : providers) {
+      for (String alias : provider.getAliases()) {
+        CredentialProvider.CredentialEntry entry = provider.getCredentialEntry(alias);
+        if (entry != null) {
+          System.out.println(alias + "=" + new String(entry.getCredential()));
+        }
+      }
+    }
+  }
+}
+JAVA
+hadoop_classpath=$(/opt/hadoop/bin/hadoop classpath)
+"${JAVA_HOME}/bin/java" -cp "${hadoop_classpath}" /tmp/JceksShow.java "$1"
+' _ "${provider_path}"
+}
+
+temp_jceks_to_cleanup=
+cleanup_temp() {
+  if [ -n "${temp_jceks_to_cleanup}" ]; then
+    rm -f "${temp_jceks_to_cleanup}"
+  fi
+}
+
+create_jceks() {
+  local properties_abs=$1
+  local temp_base=".${jceks_base}.$$"
+  local temp_abs="${jceks_dir}/${temp_base}"
+  local temp_provider="localjceks://file/jceks/${temp_base}"
+  local pair
+  local alias
+  local value
+  local count=0
+
+  if [ -e "${temp_abs}" ]; then
+    echo "Temporary file already exists: ${temp_abs}" >&2
+    exit 1
+  fi
+
+  temp_jceks_to_cleanup=${temp_abs}
+  trap cleanup_temp EXIT
+
+  while IFS= read -r pair || [ -n "${pair}" ]; do
+    case "${pair}" in
+      ""|\#*)
+        continue
+        ;;
+    esac
+    case "${pair}" in
+      *=*)
+        ;;
+      *)
+        echo "Invalid key-value pair: ${pair}" >&2
+        usage
+        exit 1
+        ;;
+    esac
+
+    alias=${pair%%=*}
+    value=${pair#*=}
+    if [ -z "${alias}" ]; then
+      echo "Credential alias must not be empty." >&2
+      exit 1
+    fi
+
+    run_hadoop_credential "${temp_provider}" create "${alias}" -value "${value}"
+    count=$((count + 1))
+  done < "${properties_abs}"
+
+  if [ "${count}" -eq 0 ]; then
+    echo "No key-value pairs found in: ${properties_abs}" >&2
+    exit 1
+  fi
+
+  mv "${temp_abs}" "${jceks_abs}"
+  temp_jceks_to_cleanup=
+  trap - EXIT
+}
+
+if [ $# -eq 0 ]; then
+  usage
+  exit 1
+fi
+
+case "$1" in
+  -h|--help|help)
+    usage
+    exit 0
+    ;;
+esac
+
+readonly command=$1
+shift
+
+if [ $# -eq 0 ]; then
+  usage
+  exit 1
+fi
+
+readonly jceks_path=$1
+shift
+
+readonly jceks_abs=$(absolute_path "${jceks_path}")
+readonly jceks_dir=$(dirname "${jceks_abs}")
+readonly jceks_base=$(basename "${jceks_abs}")
+case "${jceks_base}" in
+  *[!A-Za-z0-9._-]*)
+    echo "Unsupported JCEKS file name: ${jceks_base}" >&2
+    echo "Use only letters, numbers, '.', '_', and '-' in the file name." >&2
+    exit 1
+    ;;
+esac
+
+readonly provider_path="localjceks://file/jceks/${jceks_base}"
+readonly hadoop_image=$(resolve_hadoop_image)
+
+docker_args=(run --rm)
+if [ -t 0 ] && [ -t 1 ]; then
+  docker_args+=(-t)
+fi
+
+docker_args+=(
+  --user "$(id -u):$(id -g)"
+  --env "HADOOP_ROOT_LOGGER=ERROR,console"
+  --env "HOME=/tmp"
+  --env "LOGNAME=${USER:-zookage}"
+  --env "USER=${USER:-zookage}"
+  --volume "${jceks_dir}:/jceks"
+  --workdir /jceks
+  "${hadoop_image}"
+)
+
+case "${command}" in
+  show)
+    if [ $# -ne 0 ]; then
+      usage
+      exit 1
+    fi
+    show_jceks
+    ;;
+  create)
+    if [ $# -ne 0 ]; then
+      usage
+      exit 1
+    fi
+    properties_abs=$(absolute_path "${jceks_path}.properties")
+    if [ ! -f "${properties_abs}" ]; then
+      echo "No such properties file: ${jceks_path}.properties" >&2
+      exit 1
+    fi
+    create_jceks "${properties_abs}"
+    ;;
+  *)
+    usage
+    exit 1
+    ;;
+esac

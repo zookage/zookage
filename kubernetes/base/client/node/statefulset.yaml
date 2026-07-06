@@ -29,8 +29,6 @@ spec:
         - inf
         envFrom:
         - configMapRef:
-            name: aws-env
-        - configMapRef:
             name: hadoop-env
         - configMapRef:
             name: hbase-env
@@ -46,6 +44,8 @@ spec:
             name: trino-env
         - configMapRef:
             name: zookeeper-env
+        - secretRef:
+            name: aws-secret
         env:
         - name: HADOOP_CLASSPATH
           value: $(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*
@@ -55,6 +55,8 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
+        - name: hadoop-secret
+          mountPath: /etc/hadoop/secrets
         - name: hbase-conf
           mountPath: /etc/hbase/conf
         - name: hive-conf
@@ -100,6 +102,9 @@ spec:
       - name: hadoop-conf
         configMap:
           name: hadoop-conf
+      - name: hadoop-secret
+        secret:
+          secretName: hadoop-secret
       - name: hbase-conf
         configMap:
           name: hbase-conf

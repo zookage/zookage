@@ -50,6 +50,8 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
+        - name: hadoop-secret
+          mountPath: /etc/hadoop/secrets
         - name: hbase-conf
           mountPath: /etc/hbase/conf
         - name: mnt
@@ -62,6 +64,9 @@ spec:
       - name: hadoop-conf
         configMap:
           name: hadoop-conf
+      - name: hadoop-secret
+        secret:
+          secretName: hadoop-secret
       - name: hbase-conf
         configMap:
           name: hbase-conf

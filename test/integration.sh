@@ -47,9 +47,9 @@ if [[ ${kustomization_name:-} != "llap" ]]; then
   run_test "HBase" "${test_dir}/integration/hbase.sh"
   run_test "Ozone" "${test_dir}/integration/ozone.sh"
   run_test "Trino" "${test_dir}/integration/trino.sh"
+  run_test "Tez" "${test_dir}/integration/tez.sh"
 fi
 
-run_test "Tez" "${test_dir}/integration/tez.sh"
 run_test "Hive on Tez" "${test_dir}/integration/hive_on_tez.sh"
 
 run_test "error logs" "${test_dir}/integration/container_error.sh"

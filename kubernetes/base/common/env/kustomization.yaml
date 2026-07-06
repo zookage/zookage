@@ -18,10 +18,6 @@ labels:
     component: env
 configMapGenerator:
 - literals:
-  - AWS_ACCESS_KEY_ID=zookage
-  - AWS_SECRET_ACCESS_KEY=dummy
-  name: aws-env
-- literals:
   - HADOOP_HOME=/opt/hadoop
   - HADOOP_CONF_DIR=/etc/hadoop/conf
   - HADOOP_LOG_DIR=/mnt/log

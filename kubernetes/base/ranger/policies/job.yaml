@@ -32,30 +32,46 @@ spec:
         - -c
         - |
           set -euo pipefail
-          for conf in /etc/ranger/conf/ranger-service-*.json; do
-            echo "Applying $conf"
-            curl \
-             --fail \
+
+          post_json() {
+            local conf=$1
+            local url=$2
+            local body=/tmp/ranger-response
+            local code
+
+            code=$(curl \
+             --silent \
+             --show-error \
+             --output "${body}" \
+             --write-out '%{http_code}' \
              -X POST \
              -u admin:admin \
              -H "Content-Type: application/json" \
              -d @"$conf" \
-             "http://ranger-admin:6080/service/public/v2/api/service"
+             "$url")
+            if [ "${code}" -ge 200 ] && [ "${code}" -lt 300 ]; then
+              return 0
+            fi
+            cat "${body}"
+            if [ "${code}" = 400 ]; then
+              echo "Skipping existing resource from ${conf}"
+              return 0
+            fi
+            return 1
+          }
+
+          for conf in /etc/ranger/conf/ranger-service-*.json; do
+            echo "Applying $conf"
+            post_json "$conf" "http://ranger-admin:6080/service/public/v2/api/service"
           done
 
           until curl \
             --fail \
             -u admin:admin \
             "http://ranger-admin:6080/service/public/v2/api/roles/user/zookage"; do :; done
-          for conf in /etc//ranger/conf/ranger-role-*.json; do
+          for conf in /etc/ranger/conf/ranger-role-*.json; do
             echo "Applying $conf"
-            curl \
-             --fail \
-             -X POST \
-             -u admin:admin \
-             -H "Content-Type: application/json" \
-             -d @"$conf" \
-             "http://ranger-admin:6080/service/public/v2/api/roles"
+            post_json "$conf" "http://ranger-admin:6080/service/public/v2/api/roles"
           done
 
           echo "Applying policies"
@@ -64,7 +80,7 @@ spec:
            -X POST \
            -u admin:admin \
            -H "Content-Type: multipart/form-data" \
-           -F "file=@/etc//ranger/conf/ranger-policies.json" \
+           -F "file=@/etc/ranger/conf/ranger-policies.json" \
            "http://ranger-admin:6080/service/plugins/policies/importPoliciesFromFile?isOverride=true"
         volumeMounts:
         - name: ranger-conf

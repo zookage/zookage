@@ -52,6 +52,8 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
+        - name: hadoop-secret
+          mountPath: /etc/hadoop/secrets
         - name: mnt
           mountPath: /mnt
         - name: tez-src
@@ -62,6 +64,9 @@ spec:
       - name: hadoop-conf
         configMap:
           name: hadoop-conf
+      - name: hadoop-secret
+        secret:
+          secretName: hadoop-secret
       - name: mnt
         emptyDir: {}
       - name: tez-src

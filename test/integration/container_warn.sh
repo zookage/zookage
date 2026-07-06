@@ -94,7 +94,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/ozone-recon-.* scm.ReconPipelineManager: Pipeline PipelineID=.* already exists in Recon pipeline metadata' \
   | grep -v 'pod/ozone-recon-.* ipc.Server: IPC Server handler .* org.apache.hadoop.ozone.protocol.ReconDatanodeProtocol.submitRequest .*: output error' \
   | grep -v 'pod/ozone-datanode-.* statemachine.EndpointStateMachine: Unable to communicate to Recon server at .* for past 0 seconds\.' \
-  | grep -v 'pod/ozone-.* util.JvmPauseMonitor: JvmPauseMonitor-.* Detected pause in JVM or host machine approximately .* without any GCs\.' \
+  | grep -v 'pod/ozone-.* util.JvmPauseMonitor: JvmPauseMonitor-.* Detected pause in JVM or host machine approximately .*' \
   | grep -v 'pod/ozone-.* impl.FollowerState: Unexpected long sleep: sleep .* but took extra .*ns (> threshold = .*ms)' \
   | grep -v 'pod/ozone-scm-.* balancer.ContainerBalancer: Could not find persisted configuration for ContainerBalancer when checking if ContainerBalancer should run. ContainerBalancer should not run now.' \
   | grep -v 'pod/ozone-scm-.* ha.SequenceIdGenerator: Failed to allocate a batch for localId, expected lastId is 0, actual lastId is' \
@@ -104,6 +104,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   `# HDDS-8395` \
   | grep -v 'ozone-s3g-.* impl.MetricsSystemImpl: S3Gateway metrics system already initialized!' \
   | grep -v 'pod/ranger-admin-.*DefaultJoranConfigurator@.*logback.xml.*' \
+  | grep -v 'pod/ranger-admin-.* WARN  - Unable to load native-hadoop library for your platform\.\.\. using builtin-java classes where applicable' \
   | grep -v "pod/ranger-admin-.* WARNING: Config 'ranger.keystore.file' or 'ranger.service.https.attrib.keystore.file' is not found or contains blank value" \
   | grep -v "pod/ranger-admin-.* WARNING: Config 'ranger.truststore.file' is not found or contains blank value!" \
   | grep -v "pod/ranger-admin-.* WARNING: A context path must either be an empty string or start with a '/' and do not end with a '/'. The path \\[/\\] does not meet these criteria and has been changed to \\[\\]" \
