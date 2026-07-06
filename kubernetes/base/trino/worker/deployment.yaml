@@ -43,6 +43,10 @@ spec:
             name: hadoop-env
         - configMapRef:
             name: trino-env
+        - secretRef:
+            name: aws-secret
+        - secretRef:
+            name: trino-secret
         env:
         - name: POD_NAME
           valueFrom:
