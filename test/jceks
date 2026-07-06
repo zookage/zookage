@@ -20,14 +20,15 @@ usage() {
   cat <<EOF
 Usage:
   $0 show <jceks-file>
-  $0 create <jceks-file> <key1=value1,key2=value2>
+  $0 create <jceks-file>
 
 JCEKS files are read and written with Hadoop's default provider password ("none").
+The create command reads key-value pairs from <jceks-file>.properties.
 The Hadoop image is read from kubernetes/kustomization.yaml.
 
 Examples:
-  $0 show kubernetes/base/common/secret/hadoop/hadoop.jceks
-  $0 create kubernetes/base/common/secret/hadoop/hadoop.jceks fs.s3a.access.key=zookage,fs.s3a.secret.key=dummy
+  $0 show secret/hadoop/hadoop.jceks
+  $0 create secret/hadoop/hadoop.jceks
 EOF
 }
 
@@ -128,14 +129,14 @@ cleanup_temp() {
 }
 
 create_jceks() {
-  local pairs_arg=$1
+  local properties_abs=$1
   local temp_base=".${jceks_base}.$$"
   local temp_abs="${jceks_dir}/${temp_base}"
   local temp_provider="localjceks://file/jceks/${temp_base}"
   local pair
   local alias
   local value
-  local -a pairs
+  local count=0
 
   if [ -e "${temp_abs}" ]; then
     echo "Temporary file already exists: ${temp_abs}" >&2
@@ -145,13 +146,12 @@ create_jceks() {
   temp_jceks_to_cleanup=${temp_abs}
   trap cleanup_temp EXIT
 
-  IFS=',' read -r -a pairs <<< "${pairs_arg}"
-  if [ ${#pairs[@]} -eq 0 ]; then
-    usage
-    exit 1
-  fi
-
-  for pair in "${pairs[@]}"; do
+  while IFS= read -r pair || [ -n "${pair}" ]; do
+    case "${pair}" in
+      ""|\#*)
+        continue
+        ;;
+    esac
     case "${pair}" in
       *=*)
         ;;
@@ -170,7 +170,13 @@ create_jceks() {
     fi
 
     run_hadoop_credential "${temp_provider}" create "${alias}" -value "${value}"
-  done
+    count=$((count + 1))
+  done < "${properties_abs}"
+
+  if [ "${count}" -eq 0 ]; then
+    echo "No key-value pairs found in: ${properties_abs}" >&2
+    exit 1
+  fi
 
   mv "${temp_abs}" "${jceks_abs}"
   temp_jceks_to_cleanup=
@@ -214,7 +220,7 @@ esac
 readonly provider_path="localjceks://file/jceks/${jceks_base}"
 readonly hadoop_image=$(resolve_hadoop_image)
 
-docker_args=(run --rm -i)
+docker_args=(run --rm)
 if [ -t 0 ] && [ -t 1 ]; then
   docker_args+=(-t)
 fi
@@ -239,11 +245,16 @@ case "${command}" in
     show_jceks
     ;;
   create)
-    if [ $# -ne 1 ]; then
+    if [ $# -ne 0 ]; then
       usage
       exit 1
     fi
-    create_jceks "$1"
+    properties_abs=$(absolute_path "${jceks_path}.properties")
+    if [ ! -f "${properties_abs}" ]; then
+      echo "No such properties file: ${jceks_path}.properties" >&2
+      exit 1
+    fi
+    create_jceks "${properties_abs}"
     ;;
   *)
     usage
