@@ -21,8 +21,4 @@
     <name>beeline.hs2.connection.user</name>
     <value>zookage</value>
   </property>
-  <property>
-    <name>beeline.hs2.connection.password</name>
-    <value>dummy</value>
-  </property>
 </configuration>

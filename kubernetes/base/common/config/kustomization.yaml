@@ -24,8 +24,6 @@ configMapGenerator:
   name: hadoop-conf
 - files:
   - hdfs/hdfs-site.xml
-  - hdfs/hdfs-http-auth-signature.secret
-  - hdfs/httpfs-http-auth-signature.secret
   - hdfs/httpfs-log4j.properties
   - hdfs/httpfs-site.xml
   - hdfs/ranger-hdfs-audit.xml
@@ -37,7 +35,6 @@ configMapGenerator:
   name: mapreduce-conf
 - files:
   - yarn/capacity-scheduler.xml
-  - yarn/yarn-http-auth-signature.secret
   - yarn/ranger-yarn-audit.xml
   - yarn/ranger-yarn-policymgr-ssl.xml
   - yarn/ranger-yarn-security.xml
@@ -82,7 +79,6 @@ configMapGenerator:
   - ozone/hadoop-metrics2-s3gateway.properties
   - ozone/hadoop-metrics2-storagecontainermanager.properties
   - ozone/hadoop-metrics2-xceiverclientmetrics.properties
-  - ozone/http_secret
   - ozone/log4j.properties
   - ozone/om-audit-log4j2.properties
   - ozone/ozone-site.xml

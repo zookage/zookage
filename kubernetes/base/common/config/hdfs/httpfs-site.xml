@@ -15,6 +15,6 @@
 <configuration>
   <property>
     <name>hadoop.http.authentication.signature.secret.file</name>
-    <value>/etc/hadoop/conf/httpfs-http-auth-signature.secret</value>
+    <value>/etc/hadoop/secrets/httpfs-signature.secret</value>
   </property>
 </configuration>

@@ -32,7 +32,7 @@
 
   <property>
     <name>hadoop.http.authentication.signature.secret.file</name>
-    <value>/etc/hadoop/conf/hdfs-http-auth-signature.secret</value>
+    <value>/etc/hadoop/secrets/hdfs-http-auth-signature.secret</value>
   </property>
 
   <property>
