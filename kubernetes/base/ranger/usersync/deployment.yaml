@@ -58,7 +58,7 @@ spec:
         projected:
           sources:
           - configMap:
-              name: hadoop-common-conf
+              name: hadoop-conf
       - name: ranger-conf
         configMap:
           name: ranger-conf

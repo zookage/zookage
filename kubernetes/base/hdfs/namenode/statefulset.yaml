@@ -93,7 +93,7 @@ spec:
         projected:
           sources:
           - configMap:
-              name: hadoop-common-conf
+              name: hadoop-conf
           - configMap:
               name: hdfs-conf
       - name: hadoop-secret
