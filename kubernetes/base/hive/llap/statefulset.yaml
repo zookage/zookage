@@ -109,12 +109,8 @@ spec:
       terminationGracePeriodSeconds: 5
       volumes:
       - name: hadoop-conf
-        projected:
-          sources:
-          - configMap:
-              name: hadoop-conf
-          - configMap:
-              name: hdfs-conf
+        configMap:
+          name: hadoop-conf
       - name: hadoop-secret
         secret:
           secretName: hadoop-secret
