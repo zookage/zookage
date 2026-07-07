@@ -32,6 +32,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hdfs-datanode-.* hdfs.DFSUtilClient: Namenode for zookage remains unresolved for ID' \
   | grep -v 'pod/hdfs-datanode-.* impl.FsDatasetImpl: dfsUsed file missing in' \
   | grep -v 'pod/hdfs-datanode-.* ipc.Client: Address change detected' \
+  | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow flushOrSync took .*ms (threshold=.*ms), isSync:.*, flushTotalNanos=.*ns, volume=.*' \
   | grep -v 'pod/hdfs-httpfs-.* hdfs.DFSUtilClient: Namenode for zookage remains unresolved for ID' \
   | grep -v 'pod/hdfs-httpfs-.* ipc.Client: Address change detected' \
   | grep -v 'pod/hdfs-httpfs-.* ipc.Client: Exception when handle ConnectionFailure: Invalid host name:' \
@@ -45,6 +46,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hdfs-journalnode-.* server.JournalNodeSyncer: Journal at .* has no edit logs' \
   | grep -v 'pod/hdfs-journalnode-.* ipc.Server: IPC Server handler .* org.apache.hadoop.hdfs.qjournal.protocol.QJournalProtocol.getEditLogManifest .*: output error' \
   | grep -v 'pod/yarn-nodemanager-.* nodemanager.DefaultContainerExecutor: Exit code from container' \
+  | grep -v 'pod/yarn-nodemanager-.* launcher.ContainerCleanup: Exception when trying to cleanup container .*: java.io.FileNotFoundException: .*\.pid (No such file or directory)' \
   | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find container" \
   | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find app" \
   | grep -v 'pod/yarn-nodemanager-.* nodemanager.DefaultContainerExecutor: delete returned false for path' \
