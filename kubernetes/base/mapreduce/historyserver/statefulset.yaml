@@ -60,8 +60,6 @@ spec:
           - configMap:
               name: hdfs-conf
           - configMap:
-              name: yarn-conf
-          - configMap:
               name: mapreduce-conf
       - name: mnt
         emptyDir: {}

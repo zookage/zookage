@@ -115,10 +115,6 @@ spec:
               name: hadoop-conf
           - configMap:
               name: hdfs-conf
-          - configMap:
-              name: yarn-conf
-          - configMap:
-              name: mapreduce-conf
       - name: hadoop-secret
         secret:
           secretName: hadoop-secret
