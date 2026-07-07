@@ -60,7 +60,6 @@ configMapGenerator:
 - literals:
   - RANGER_HOME=/opt/ranger
   - RANGER_CONF=/etc/ranger/conf
-  - RANGER_HADOOP_CONF_DIR=/etc/hadoop/conf
   name: ranger-env
 - literals:
   - SPARK_HOME=/opt/spark
