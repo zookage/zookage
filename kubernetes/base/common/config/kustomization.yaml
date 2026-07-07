@@ -18,23 +18,29 @@ labels:
     component: config
 configMapGenerator:
 - files:
-  - hadoop/capacity-scheduler.xml
   - hadoop/core-site.xml
   - hadoop/hadoop-metrics2.properties
-  - hadoop/hdfs-site.xml
-  - hadoop/httpfs-log4j.properties
-  - hadoop/httpfs-signature.secret
-  - hadoop/httpfs-site.xml
+  - hadoop/hadoop-http-auth-signature-secret
   - hadoop/log4j.properties
-  - hadoop/mapred-site.xml
-  - hadoop/yarn-site.xml
-  - hadoop/ranger-hdfs-audit.xml
-  - hadoop/ranger-hdfs-policymgr-ssl.xml
-  - hadoop/ranger-hdfs-security.xml
-  - hadoop/ranger-yarn-audit.xml
-  - hadoop/ranger-yarn-policymgr-ssl.xml
-  - hadoop/ranger-yarn-security.xml
-  name: hadoop-conf
+  name: hadoop-common-conf
+- files:
+  - hdfs/hdfs-site.xml
+  - hdfs/httpfs-log4j.properties
+  - hdfs/httpfs-site.xml
+  - hdfs/ranger-hdfs-audit.xml
+  - hdfs/ranger-hdfs-policymgr-ssl.xml
+  - hdfs/ranger-hdfs-security.xml
+  name: hdfs-conf
+- files:
+  - mapreduce/mapred-site.xml
+  name: mapreduce-conf
+- files:
+  - yarn/capacity-scheduler.xml
+  - yarn/ranger-yarn-audit.xml
+  - yarn/ranger-yarn-policymgr-ssl.xml
+  - yarn/ranger-yarn-security.xml
+  - yarn/yarn-site.xml
+  name: yarn-conf
 - files:
   - hbase/hadoop-metrics2-hbase.properties
   - hbase/hbase-site.xml

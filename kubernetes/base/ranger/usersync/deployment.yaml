@@ -55,8 +55,10 @@ spec:
       terminationGracePeriodSeconds: 5
       volumes:
       - name: hadoop-conf
-        configMap:
-          name: hadoop-conf
+        projected:
+          sources:
+          - configMap:
+              name: hadoop-common-conf
       - name: ranger-conf
         configMap:
           name: ranger-conf

@@ -53,8 +53,12 @@ spec:
       restartPolicy: Never
       volumes:
       - name: hadoop-conf
-        configMap:
-          name: hadoop-conf
+        projected:
+          sources:
+          - configMap:
+              name: hadoop-common-conf
+          - configMap:
+              name: hdfs-conf
       - name: tez-src
         image:
           reference: zookage-tez

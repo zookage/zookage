@@ -31,6 +31,11 @@
   </property>
 
   <property>
+    <name>hadoop.http.authentication.signature.secret.file</name>
+    <value>/etc/hadoop/conf/hadoop-http-auth-signature-secret</value>
+  </property>
+
+  <property>
     <name>dfs.ha.namenodes.zookage</name>
     <value>${env.HADOOP_DFS_HA_NAMENODES:-namenode-0}</value>
   </property>
