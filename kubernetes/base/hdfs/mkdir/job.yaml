@@ -60,8 +60,12 @@ spec:
       restartPolicy: Never
       volumes:
       - name: hadoop-conf
-        configMap:
-          name: hadoop-conf
+        projected:
+          sources:
+          - configMap:
+              name: hadoop-conf
+          - configMap:
+              name: hdfs-conf
       - name: hadoop-src
         image:
           reference: zookage-hadoop

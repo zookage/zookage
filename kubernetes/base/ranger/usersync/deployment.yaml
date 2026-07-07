@@ -44,19 +44,14 @@ spec:
         env:
         - name: CLASSPATH
           # yamllint disable-line rule:line-length
-          value: $(RANGER_CONF):$(RANGER_HADOOP_CONF_DIR):$(RANGER_HOME)/ranger-usersync/conf.dist:$(RANGER_HOME)/ranger-usersync/dist/*:$(RANGER_HOME)/ranger-usersync/lib/*
+          value: $(RANGER_CONF):$(RANGER_HOME)/ranger-usersync/conf.dist:$(RANGER_HOME)/ranger-usersync/dist/*:$(RANGER_HOME)/ranger-usersync/lib/*
         volumeMounts:
-        - name: hadoop-conf
-          mountPath: /etc/hadoop/conf
         - name: ranger-conf
           mountPath: /etc/ranger/conf
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
       volumes:
-      - name: hadoop-conf
-        configMap:
-          name: hadoop-conf
       - name: ranger-conf
         configMap:
           name: ranger-conf
