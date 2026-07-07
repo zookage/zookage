@@ -44,7 +44,7 @@
 
   <property>
     <name>hadoop.http.authentication.signature.secret.file</name>
-    <value>/etc/hadoop/conf/hadoop-http-auth-signature-secret</value>
+    <value>/etc/hadoop/conf/yarn-http-auth-signature-secret</value>
   </property>
 
   <property>

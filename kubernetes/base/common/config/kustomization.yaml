@@ -20,11 +20,11 @@ configMapGenerator:
 - files:
   - hadoop/core-site.xml
   - hadoop/hadoop-metrics2.properties
-  - hadoop/hadoop-http-auth-signature-secret
   - hadoop/log4j.properties
   name: hadoop-conf
 - files:
   - hdfs/hdfs-site.xml
+  - hdfs/hdfs-http-auth-signature-secret
   - hdfs/httpfs-log4j.properties
   - hdfs/httpfs-site.xml
   - hdfs/ranger-hdfs-audit.xml
@@ -36,6 +36,7 @@ configMapGenerator:
   name: mapreduce-conf
 - files:
   - yarn/capacity-scheduler.xml
+  - yarn/yarn-http-auth-signature-secret
   - yarn/ranger-yarn-audit.xml
   - yarn/ranger-yarn-policymgr-ssl.xml
   - yarn/ranger-yarn-security.xml
