@@ -101,7 +101,5 @@ spec:
           sources:
           - secret:
               name: hadoop-secret
-          - secret:
-              name: hdfs-secret
       - name: mnt
         emptyDir: {}

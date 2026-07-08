@@ -42,8 +42,6 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
-        - name: yarn-secret
-          mountPath: /etc/hadoop/secrets
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
@@ -55,8 +53,5 @@ spec:
               name: hadoop-conf
           - configMap:
               name: yarn-conf
-      - name: yarn-secret
-        secret:
-          secretName: yarn-secret
       - name: mnt
         emptyDir: {}
