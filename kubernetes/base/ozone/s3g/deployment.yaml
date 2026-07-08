@@ -35,6 +35,8 @@ spec:
         volumeMounts:
         - name: ozone-conf
           mountPath: /etc/ozone/conf
+        - name: ozone-secret
+          mountPath: /etc/ozone/secrets
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
@@ -42,5 +44,8 @@ spec:
       - name: ozone-conf
         configMap:
           name: ozone-conf
+      - name: ozone-secret
+        secret:
+          secretName: ozone-secret
       - name: mnt
         emptyDir: {}

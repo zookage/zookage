@@ -76,6 +76,8 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
+        - name: hdfs-secret
+          mountPath: /etc/hadoop/secrets
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
@@ -87,5 +89,8 @@ spec:
               name: hadoop-conf
           - configMap:
               name: hdfs-conf
+      - name: hdfs-secret
+        secret:
+          secretName: hdfs-secret
       - name: mnt
         emptyDir: {}

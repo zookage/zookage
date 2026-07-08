@@ -31,8 +31,8 @@
   </property>
 
   <property>
-    <name>hadoop.http.authentication.signature.secret.file</name>
-    <value>/etc/hadoop/conf/hdfs-http-auth-signature.secret</value>
+    <name>hadoop.http.authentication.signer.secret.provider</name>
+    <value>random</value>
   </property>
 
   <property>

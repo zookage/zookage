@@ -25,6 +25,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hdfs-namenode-.* ha.HealthMonitor: Transport-level exception trying to monitor health of NameNode' \
   | grep -v 'pod/hdfs-namenode-.* ha.ActiveStandbyElector: Ignoring stale result from old client with sessionId' \
   | grep -v 'pod/hdfs-namenode-.* ha.EditLogTailer: Edit log tailer interrupted' \
+  | grep -v 'pod/hdfs-namenode-.* zookeeper.ClientCnxn: Session 0x0 .* Attempting reconnect except it is a SessionExpiredException\.' \
   | grep -v "pod/hdfs-namenode-.* tools.DFSZKFailoverController: Can't get local NN thread dump due to Connection refused (Connection refused)" \
   | grep -v 'pod/hdfs-namenode-.* blockmanagement.BlockPlacementPolicy: Failed to place enough replicas' \
   | grep -v 'pod/hdfs-namenode-.* protocol.BlockStoragePolicy: Failed to place enough replicas' \
@@ -78,6 +79,8 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Send worker leaving thread id' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Learner -- Unexpected exception' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Learner -- Exception when following the leader' \
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumPeer -- Unexpected exception' \
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Leader -- Exception while shutting down acceptor\.' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumPeer -- PeerState set to LOOKING' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Learner -- Got zxid' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.NIOServerCnxn -- Close of session 0x0' \
@@ -86,6 +89,8 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hbase-master-.* hdfs.DataStreamer: DataStreamer Exception' \
   | grep -v 'pod/hbase-master-.* region.MasterRegion: failed to clean up initializing flag' \
   | grep -v 'pod/hbase-master-.* assignment.AssignmentManager: No servers available; cannot place' \
+  | grep -v 'pod/hbase-master-.* zookeeper.ClientCnxn: Session 0x0 .* Attempting reconnect except it is a SessionExpiredException\.' \
+  | grep -v 'pod/hbase-regionserver-.* zookeeper.ClientCnxn: Session 0x0 .* Attempting reconnect except it is a SessionExpiredException\.' \
   | grep -v 'pod/hbase-regionserver-.* hbase.HbaseUserUtilsImpl: HbaseUserUtilsImpl\.initialize: Unexpected: initialization called more than once!' \
   | grep -v 'pod/hbase-regionserver-.* regionserver.HRegionServer: reportForDuty failed; sleeping 3000 ms and then retrying\.' \
   `# Initialization` \
