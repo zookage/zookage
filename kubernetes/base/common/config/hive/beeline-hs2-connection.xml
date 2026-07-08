@@ -21,4 +21,8 @@
     <name>beeline.hs2.connection.user</name>
     <value>zookage</value>
   </property>
+  <property>
+    <name>hadoop.security.credential.provider.path</name>
+    <value>localjceks://file/etc/hive/secrets/beeline.jceks</value>
+  </property>
 </configuration>
