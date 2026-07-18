@@ -15,12 +15,12 @@ kind: ConfigMap
 metadata:
   name: ranger-env
 data:
-  RANGER_ADMIN_KERBEROS_KEYTAB: /etc/ranger/conf/ranger.keytab
+  RANGER_ADMIN_KERBEROS_KEYTAB: /etc/ranger/secrets/ranger.keytab
   RANGER_ADMIN_KERBEROS_PRINCIPAL: rangeradmin/ranger-admin@ZOOKAGE.LOCAL
   RANGER_HADOOP_SECURITY_AUTHENTICATION: kerberos
-  RANGER_LOOKUP_KERBEROS_KEYTAB: /etc/ranger/conf/ranger.keytab
+  RANGER_LOOKUP_KERBEROS_KEYTAB: /etc/ranger/secrets/ranger.keytab
   RANGER_LOOKUP_KERBEROS_PRINCIPAL: rangerlookup/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-  RANGER_SPNEGO_KERBEROS_KEYTAB: /etc/ranger/conf/ranger.keytab
+  RANGER_SPNEGO_KERBEROS_KEYTAB: /etc/ranger/secrets/ranger.keytab
   RANGER_SPNEGO_KERBEROS_PRINCIPAL: HTTP/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL
 ---
 apiVersion: apps/v1
@@ -43,16 +43,23 @@ spec:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
+        - name: ranger-secret
+          mountPath: /etc/ranger/secrets
       containers:
       - name: ranger-admin
         volumeMounts:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
+        - name: ranger-secret
+          mountPath: /etc/ranger/secrets
       volumes:
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
+      - name: ranger-secret
+        secret:
+          secretName: ranger-secret
 ---
 apiVersion: batch/v1
 kind: Job
@@ -73,7 +80,7 @@ spec:
         - -c
         - |
           set -euo pipefail
-          kinit -kt /etc/ranger/conf/ranger.keytab admin/ranger-admin@ZOOKAGE.LOCAL
+          kinit -kt /etc/ranger/secrets/ranger.keytab admin/ranger-admin@ZOOKAGE.LOCAL
 
           ranger_curl() {
             curl --fail --negotiate -u : "$@"
@@ -111,7 +118,12 @@ spec:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
+        - name: ranger-secret
+          mountPath: /etc/ranger/secrets
       volumes:
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
+      - name: ranger-secret
+        secret:
+          secretName: ranger-secret

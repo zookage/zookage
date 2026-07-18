@@ -15,7 +15,7 @@ set -eu
 
 readonly base_dir=$(cd "$(dirname "$0")"; pwd)
 readonly repo_dir=$(cd "${base_dir}/.."; pwd)
-readonly keytab_dir="${repo_dir}/kubernetes/base/common/config/ranger"
+readonly keytab_dir="${repo_dir}/kubernetes/base/common/secret/ranger"
 readonly keytab_file="${keytab_dir}/ranger.keytab"
 readonly principals_file="${repo_dir}/kubernetes/base/common/config/openldap/bootstrap.ldif"
 

@@ -99,7 +99,6 @@ configMapGenerator:
   - ranger/install.properties
   - ranger/log4j.properties
   - ranger/logback.xml
-  - ranger/ranger.keytab
   - ranger/ranger-admin-site.xml
   - ranger/ranger-ugsync-site.xml
   - ranger/ranger-role-hbase-admin.json
