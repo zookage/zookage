@@ -20,14 +20,23 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # hadolint ignore=DL3008
 RUN apt-get update \
-  && echo 'slapd slapd/internal/adminpw password admin' | debconf-set-selections \
-  && echo 'slapd slapd/internal/generated_adminpw password admin' | debconf-set-selections \
-  && echo 'slapd slapd/password1 password admin' | debconf-set-selections \
-  && echo 'slapd slapd/password2 password admin' | debconf-set-selections \
-  && echo 'slapd slapd/domain string example.com' | debconf-set-selections \
-  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ldap-utils slapd \
+  && printf '%s\n' \
+    'slapd slapd/internal/adminpw password admin' \
+    'slapd slapd/internal/generated_adminpw password admin' \
+    'slapd slapd/password1 password admin' \
+    'slapd slapd/password2 password admin' \
+    'slapd slapd/domain string example.com' \
+    | debconf-set-selections \
+  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    -o Dpkg::Options::=--path-include=/usr/share/doc/krb5-kdc-ldap/kerberos.openldap.ldif.gz \
+    krb5-kdc-ldap \
+    ldap-utils \
+    slapd \
+  && zcat /usr/share/doc/krb5-kdc-ldap/kerberos.openldap.ldif.gz > /tmp/kerberos.openldap.ldif \
+  && slapadd -n 0 -F /etc/ldap/slapd.d -l /tmp/kerberos.openldap.ldif \
+  && chown -R openldap:openldap /etc/ldap/slapd.d \
   && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+  && rm -rf /tmp/kerberos.openldap.ldif /var/lib/apt/lists/*
 
 COPY entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh

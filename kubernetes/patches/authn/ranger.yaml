@@ -1,0 +1,120 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ranger-admin
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      - name: wait-for-postgres
+      - name: create-ranger-database
+      - name: setup-database
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: ranger-secret
+          mountPath: /etc/ranger/secrets
+      containers:
+      - name: ranger-admin
+        env:
+        - name: JAVA_TOOL_OPTIONS
+          # yamllint disable-line rule:line-length
+          value: -Dhadoop.security.authentication=kerberos -Dranger.admin.kerberos.principal=rangeradmin/ranger-admin@ZOOKAGE.LOCAL -Dranger.admin.kerberos.keytab=/etc/ranger/secrets/ranger.keytab -Dranger.spnego.kerberos.principal=HTTP/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL -Dranger.spnego.kerberos.keytab=/etc/ranger/secrets/ranger.keytab -Dranger.lookup.kerberos.principal=rangerlookup/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL -Dranger.lookup.kerberos.keytab=/etc/ranger/secrets/ranger.keytab
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: ranger-secret
+          mountPath: /etc/ranger/secrets
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: ranger-secret
+        secret:
+          secretName: ranger-secret
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ranger-policies
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: create-policies
+        args:
+        - -c
+        - |
+          set -euo pipefail
+          kinit -kt /etc/ranger/secrets/ranger.keytab admin/ranger-admin@ZOOKAGE.LOCAL
+
+          ranger_curl() {
+            curl --fail --negotiate -u : "$@"
+          }
+
+          for conf in /etc/ranger/conf/ranger-service-*.json; do
+            echo "Applying $conf"
+            ranger_curl \
+             -X POST \
+             -H "Content-Type: application/json" \
+             -d @"$conf" \
+             "http://ranger-admin:6080/service/public/v2/api/service"
+          done
+
+          until ranger_curl \
+            "http://ranger-admin:6080/service/public/v2/api/roles/user/zookage"; do
+            sleep 1
+          done
+          for conf in /etc//ranger/conf/ranger-role-*.json; do
+            echo "Applying $conf"
+            ranger_curl \
+             -X POST \
+             -H "Content-Type: application/json" \
+             -d @"$conf" \
+             "http://ranger-admin:6080/service/public/v2/api/roles"
+          done
+
+          echo "Applying policies"
+          ranger_curl \
+           -X POST \
+           -H "Content-Type: multipart/form-data" \
+           -F "file=@/etc//ranger/conf/ranger-policies.json" \
+           "http://ranger-admin:6080/service/plugins/policies/importPoliciesFromFile?isOverride=true"
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: ranger-secret
+          mountPath: /etc/ranger/secrets
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: ranger-secret
+        secret:
+          secretName: ranger-secret

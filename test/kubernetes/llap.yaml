@@ -54,7 +54,7 @@ images:
   newTag: 26.5-zookage-0.5
 - name: zookage-openldap
   newName: zookage/zookage-openldap
-  newTag: ubuntu-24.04-zookage-0.5
+  newTag: experimental
 - name: zookage-ozone
   newName: zookage/zookage-ozone
   newTag: 2.0.0-zookage-0.5

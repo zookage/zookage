@@ -15,28 +15,7 @@ kind: Kustomization
 labels:
 - includeSelectors: true
   pairs:
-    component: secret
-secretGenerator:
-- literals:
-  - AWS_ACCESS_KEY_ID=zookage
-  - AWS_SECRET_ACCESS_KEY=dummy
-  name: aws-secret
-- literals:
-  - TRINO_REST_CATALOG_OAUTH2_CLIENT_ID=trino
-  - TRINO_REST_CATALOG_OAUTH2_CLIENT_SECRET=trino
-  name: trino-secret
-- files:
-  - hadoop/hadoop.jceks
-  name: hadoop-secret
-- files:
-  - hdfs/httpfs-signature.secret
-  name: hdfs-secret
-- files:
-  - hive-metastore/hive-metastore.jceks
-  name: hive-metastore-secret
-- files:
-  - ozone/ozone-http-auth-signature.secret
-  name: ozone-secret
-- files:
-  - ranger/ranger.keytab
-  name: ranger-secret
+    component: kdc
+resources:
+- deployment.yaml
+- service.yaml

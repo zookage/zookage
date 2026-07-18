@@ -19,12 +19,20 @@ dn: uid=zookage,ou=users,dc=example,dc=com
 objectClass: top
 objectClass: inetOrgPerson
 objectClass: posixAccount
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
 uid: zookage
 cn: ZooKage
 sn: ZooKage
 uidNumber: 1001
 gidNumber: 1001
 homeDirectory: /home/zookage
+userPassword: zookage
+krbPrincipalName: zookage@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEeg
+ AwIBEqFABD4gAHjBBLNs+rtF1oZOf/GPvYk0vg1iKPobHjlWuMNu4ZEtXDVlJbyIV/Wb/paXy3NL5
+ 5wk2uMCWMp0vV7qBjBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAqVR9IjqKSjFQJpjzomIFJ2rVA6
+ 55O6qNzRP7p8ppS4KI1asw8121r8t31D0=
 
 dn: uid=hdfs,ou=users,dc=example,dc=com
 objectClass: top
@@ -147,6 +155,18 @@ uidNumber: 1080
 gidNumber: 1080
 homeDirectory: /home/trino
 
+dn: uid=kdc,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: kdc
+cn: KDC
+sn: KDC
+uidNumber: 1090
+gidNumber: 1090
+homeDirectory: /home/kdc
+userPassword: kdc
+
 dn: ou=groups,dc=example,dc=com
 objectClass: top
 objectClass: organizationalUnit
@@ -242,3 +262,168 @@ objectClass: top
 objectClass: posixGroup
 cn: trino
 gidNumber: 1080
+
+dn: cn=kdc,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: kdc
+gidNumber: 1090
+
+dn: cn=krbContainer,dc=example,dc=com
+objectClass: krbContainer
+cn: krbContainer
+
+dn: cn=ZOOKAGE.LOCAL,cn=krbContainer,dc=example,dc=com
+cn: ZOOKAGE.LOCAL
+objectClass: top
+objectClass: krbRealmContainer
+objectClass: krbTicketPolicyAux
+krbSubTrees: dc=example,dc=com
+
+dn: krbPrincipalName=K/M@ZOOKAGE.LOCAL,cn=ZOOKAGE.LOCAL,cn=krbContainer,dc=example,dc=com
+krbMaxTicketLife: 86400
+krbMaxRenewableAge: 0
+krbTicketFlags: 8388672
+krbPrincipalName: K/M@ZOOKAGE.LOCAL
+krbPrincipalExpiration: 19700101000000Z
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAKRYMFYwVKAHMAWgAwIBAKFJMEegAwIB
+ EqFABD4gAD/eLxbcpC7YCswQfMAa/aRwboqKqR2cr0kPy2u/Jr2qAyS9fVvw94vqEATWKD9WcxZYz
+ ++e2cei24Buyw==
+objectClass: krbPrincipal
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+
+dn: krbPrincipalName=krbtgt/ZOOKAGE.LOCAL@ZOOKAGE.LOCAL,cn=ZOOKAGE.LOCAL,cn=krbContainer,dc=example,dc=com
+krbMaxTicketLife: 86400
+krbMaxRenewableAge: 0
+krbTicketFlags: 8388608
+krbPrincipalName: krbtgt/ZOOKAGE.LOCAL@ZOOKAGE.LOCAL
+krbPrincipalExpiration: 19700101000000Z
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQCkgZ8wgZwwVKAHMAWgAwIBAKFJMEeg
+ AwIBEqFABD4gAObBXKrQc7/y1XXYB4ETub/5q8719MYyPzq7PGQFo84ySKhEvsFIB4RHv0gdThnx8
+ /Y8NGm01GFyXsW8gzBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAANNTbnjOLklsmaQaBvzuvdP6TjQ
+ DVHYSmh4L/AVCjOgPb9EXjTtpU1f15QIY=
+objectClass: krbPrincipal
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+
+dn: krbPrincipalName=kadmin/admin@ZOOKAGE.LOCAL,cn=ZOOKAGE.LOCAL,cn=krbContainer,dc=example,dc=com
+krbMaxTicketLife: 10800
+krbMaxRenewableAge: 0
+krbTicketFlags: 8388612
+krbPrincipalName: kadmin/admin@ZOOKAGE.LOCAL
+krbPrincipalExpiration: 19700101000000Z
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQCkgZ8wgZwwVKAHMAWgAwIBAKFJMEeg
+ AwIBEqFABD4gAJ8zbb3M+pfVs3mtBCkecB0iK2bK51luPhS3THUB9l5KPVT84TyeFsF1Oxht8AXfF
+ wqdeJFaQWTGfHjZ5jBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAx1PUn9dntYAU4umUf66eTib3gR
+ b0dLGxO9xPcZeXdpJryDATRkPlIARxYWs=
+objectClass: krbPrincipal
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+
+dn: krbPrincipalName=kadmin/changepw@ZOOKAGE.LOCAL,cn=ZOOKAGE.LOCAL,cn=krbContainer,dc=example,dc=com
+krbMaxTicketLife: 300
+krbMaxRenewableAge: 0
+krbTicketFlags: 8396804
+krbPrincipalName: kadmin/changepw@ZOOKAGE.LOCAL
+krbPrincipalExpiration: 19700101000000Z
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQCkgZ8wgZwwVKAHMAWgAwIBAKFJMEeg
+ AwIBEqFABD4gACHyeu16Z2MIAZFO/S0Z0iMOUmBBQyCxRIl3D1yCIsh23kInFXOkMlj5n6rT/kASi
+ S9YnV2Nx+k+EMd5dzBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAkXhT3LguUpSVyNP7TI50xRlyOM
+ OIJamEArRYRvCfu+KZ7xWvOYtuEbJG2sc=
+objectClass: krbPrincipal
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+
+dn: krbPrincipalName=kadmin/history@ZOOKAGE.LOCAL,cn=ZOOKAGE.LOCAL,cn=krbContainer,dc=example,dc=com
+krbMaxTicketLife: 86400
+krbMaxRenewableAge: 0
+krbTicketFlags: 8388608
+krbPrincipalName: kadmin/history@ZOOKAGE.LOCAL
+krbPrincipalExpiration: 19700101000000Z
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAKRYMFYwVKAHMAWgAwIBAKFJMEegAwIB
+ EqFABD4gAMvckfqQjYfSbTLWBZrQpeUW+3uokIvg7lGT4oScck3iof9NWHzJwYWJ8qS4QHzh1iNqF
+ tO76OoNScouxA==
+objectClass: krbPrincipal
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+
+dn: ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: kerberos
+
+dn: ou=ranger,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: ranger
+
+dn: uid=admin-ranger-admin,ou=ranger,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: admin-ranger-admin
+userPassword: admin
+krbPrincipalName: admin/ranger-admin@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEeg
+ AwIBEqFABD4gAK7TAQYio6Aik8MA3kyoXZmoiVerpiAkgi7LHwJneWloUUNhbjRvHj09u+m8lbtiS
+ iGIych6NWUJJwf0ZTBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAcSUzn2Yr0+EA5dItMjDdWDVCRi
+ JZgbEwPWrEySX8mKoZFoK5nfnPhgFaiAM=
+
+dn: uid=http-ranger-admin,ou=ranger,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-ranger-admin
+userPassword: ranger-admin
+krbPrincipalName: HTTP/ranger-admin@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEeg
+ AwIBEqFABD4gADL2TsrQ6v8AMo5vTCbFn2PgCHBY1HcXBrCFK+4tFEs8V0PhsZxi+lbUzExn7ztQ0
+ B3QfS2kT0jlfTmO6DBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAg9kpVXNEQ6WJV8PocHi454uFon
+ JIGkBxMA4c9yJreZ+/4+2Kd1b9SDDFWNg=
+
+dn: uid=http-ranger-admin-fqdn,ou=ranger,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-ranger-admin-fqdn
+userPassword: ranger-admin
+krbPrincipalName: HTTP/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEeg
+ AwIBEqFABD4gAHdbx7HSERwZGWgEpsbGUYiXd8ROefN0D/mdOOY4FaGw7H1X0fbLlJOdcmHXipCKx
+ dARgj00mLthqefcSTBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAgh+fDITYYqDpqbFymIHUsdE7Vt
+ 3L+P05oozI+nnJx8wZrmbi/aDGbQJUzrE=
+
+dn: uid=rangeradmin-ranger-admin,ou=ranger,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: rangeradmin-ranger-admin
+userPassword: rangeradmin
+krbPrincipalName: rangeradmin/ranger-admin@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEeg
+ AwIBEqFABD4gAJL/eHHOuGYb9Z3IfySc/RZK1LOqJQzJMw/aLB1MXkL/Zj/L2UEoGUXn0hpoy3z4B
+ KU4mB9A5SWJxsaQLTBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAZ1+O5hj/HpVL3xVd8hFH3oVG6v
+ Ozgpg+zS/+qtvcL5GcLhAAdoNb++W9O24=
+
+dn: uid=rangerlookup-ranger-admin-fqdn,ou=ranger,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: rangerlookup-ranger-admin-fqdn
+userPassword: rangerlookup
+krbPrincipalName: rangerlookup/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEeg
+ AwIBEqFABD4gAJmJZev0lIAI+lgq1OJOO6L6onN78BDjb39XjrnD0D21Zef0NQDzvd0rRGvfjLXhq
+ 2/4GneRm9skzii96jBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAvUTfOGICf/6qsWtS/V9kBUsP51
+ KowsVLaiS//hwrSs3pwSVkhAsktSctX78=
