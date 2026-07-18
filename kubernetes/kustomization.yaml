@@ -21,22 +21,22 @@ resources:
 - base/client
 - base/common
 - base/console
-- base/hbase
+# - base/hbase
 - base/hdfs
 - base/hive
 - base/hive-metastore
-- base/kerberos
-- base/keycloak
-- base/mapreduce
+# - base/kerberos
+# - base/keycloak
+# - base/mapreduce
 - base/openldap
-- base/ozone
+# - base/ozone
 - base/postgres
-- base/ranger
-- base/spark
+# - base/ranger
+# - base/spark
 - base/tez
-- base/trino
+# - base/trino
 - base/yarn
-- base/zookeeper
+# - base/zookeeper
 images:
 - name: zookage-util
   newName: zookage/zookage-util
@@ -64,7 +64,7 @@ images:
   newTag: 26.5-zookage-0.5
 - name: zookage-openldap
   newName: zookage/zookage-openldap
-  newTag: experimental
+  newTag: ubuntu-24.04-zookage-0.5
 - name: zookage-ozone
   newName: zookage/zookage-ozone
   newTag: 2.0.0-zookage-0.5
@@ -86,14 +86,18 @@ images:
 - name: zookage-zookeeper
   newName: zookage/zookage-zookeeper
   newTag: 3.9.4-zookage-0.5
+### Extensions ###
 patches:
-- path: patches/authn/hive-metastore.yaml
-- path: patches/authn/ranger.yaml
-- path: patches/authn/trino.yaml
-- path: patches/authz/hbase.yaml
-- path: patches/authz/hdfs.yaml
-- path: patches/authz/hive.yaml
-- path: patches/authz/hive-metastore.yaml
-- path: patches/authz/ozone.yaml
-- path: patches/authz/trino.yaml
-- path: patches/authz/yarn.yaml
+# - path: patches/authn/hive-metastore.yaml
+# - path: patches/authn/ranger.yaml
+# - path: patches/authn/trino.yaml
+# - path: patches/authz/hbase.yaml
+# - path: patches/authz/hdfs.yaml
+# - path: patches/authz/hive.yaml
+# - path: patches/authz/hive-metastore.yaml
+# - path: patches/authz/ozone.yaml
+# - path: patches/authz/trino.yaml
+# - path: patches/authz/yarn.yaml
+# - path: patches/ha/hdfs.yaml
+# - path: patches/ha/yarn.yaml
+# - path: patches/llap/hive.yaml
