@@ -10,19 +10,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: ranger-env
-data:
-  RANGER_ADMIN_KERBEROS_KEYTAB: /etc/ranger/secrets/ranger.keytab
-  RANGER_ADMIN_KERBEROS_PRINCIPAL: rangeradmin/ranger-admin@ZOOKAGE.LOCAL
-  RANGER_HADOOP_SECURITY_AUTHENTICATION: kerberos
-  RANGER_LOOKUP_KERBEROS_KEYTAB: /etc/ranger/secrets/ranger.keytab
-  RANGER_LOOKUP_KERBEROS_PRINCIPAL: rangerlookup/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-  RANGER_SPNEGO_KERBEROS_KEYTAB: /etc/ranger/secrets/ranger.keytab
-  RANGER_SPNEGO_KERBEROS_PRINCIPAL: HTTP/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -47,6 +34,10 @@ spec:
           mountPath: /etc/ranger/secrets
       containers:
       - name: ranger-admin
+        env:
+        - name: JAVA_TOOL_OPTIONS
+          # yamllint disable-line rule:line-length
+          value: -Dhadoop.security.authentication=kerberos -Dranger.admin.kerberos.principal=rangeradmin/ranger-admin@ZOOKAGE.LOCAL -Dranger.admin.kerberos.keytab=/etc/ranger/secrets/ranger.keytab -Dranger.spnego.kerberos.principal=HTTP/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL -Dranger.spnego.kerberos.keytab=/etc/ranger/secrets/ranger.keytab -Dranger.lookup.kerberos.principal=rangerlookup/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL -Dranger.lookup.kerberos.keytab=/etc/ranger/secrets/ranger.keytab
         volumeMounts:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf

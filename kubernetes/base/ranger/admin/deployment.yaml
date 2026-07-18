@@ -73,6 +73,8 @@ spec:
         - name: CLASSPATH
           # yamllint disable-line rule:line-length
           value: $(RANGER_CONF):$(RANGER_HOME)/ranger-admin/ews/webapp/WEB-INF/classes/conf.dist:$(RANGER_HOME)/lib/*:$(RANGER_HOME)/ranger-admin/ews/lib/*:$(RANGER_HOME)/ranger-admin/ews/webapp/WEB-INF/lib/*:$(RANGER_HOME)/ranger-admin/ews/ranger_jaas/*
+        - name: JAVA_TOOL_OPTIONS
+          value: -Dhadoop.security.authentication=simple
         readinessProbe:
           tcpSocket:
             port: 6080
