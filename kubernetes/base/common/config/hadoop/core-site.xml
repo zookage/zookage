@@ -53,6 +53,14 @@
     <value>${env.HADOOP_SECURITY_AUTHORIZATION:-false}</value>
   </property>
   <property>
+    <name>hadoop.security.authentication</name>
+    <value>${env.HADOOP_SECURITY_AUTHENTICATION:-simple}</value>
+  </property>
+  <property>
+    <name>hadoop.rpc.protection</name>
+    <value>${env.HADOOP_RPC_PROTECTION:-authentication}</value>
+  </property>
+  <property>
     <name>hadoop.security.group.mapping</name>
     <value>org.apache.hadoop.security.LdapGroupsMapping</value>
   </property>
