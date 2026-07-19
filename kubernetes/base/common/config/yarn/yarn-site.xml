@@ -15,7 +15,7 @@
 <configuration>
   <property>
     <name>yarn.resourcemanager.hostname</name>
-    <value>yarn-resourcemanager-0.yarn-resourcemanager</value>
+    <value>yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local</value>
   </property>
   <property>
     <name>yarn.resourcemanager.ha.enabled</name>
@@ -27,19 +27,19 @@
   </property>
   <property>
     <name>yarn.resourcemanager.hostname.resourcemanager-0</name>
-    <value>yarn-resourcemanager-0.yarn-resourcemanager</value>
+    <value>yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local</value>
   </property>
   <property>
     <name>yarn.resourcemanager.hostname.resourcemanager-1</name>
-    <value>yarn-resourcemanager-1.yarn-resourcemanager</value>
+    <value>yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local</value>
   </property>
   <property>
     <name>yarn.resourcemanager.webapp.address.resourcemanager-0</name>
-    <value>yarn-resourcemanager-0.yarn-resourcemanager:8088</value>
+    <value>yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local:8088</value>
   </property>
   <property>
     <name>yarn.resourcemanager.webapp.address.resourcemanager-1</name>
-    <value>yarn-resourcemanager-1.yarn-resourcemanager:8088</value>
+    <value>yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local:8088</value>
   </property>
 
   <property>
@@ -61,6 +61,22 @@
     <value>zookage</value>
   </property>
   <property>
+    <name>yarn.resourcemanager.principal</name>
+    <value>${env.HADOOP_YARN_RESOURCEMANAGER_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.keytab</name>
+    <value>${env.HADOOP_YARN_RESOURCEMANAGER_KEYTAB:-}</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.webapp.spnego-principal</name>
+    <value>${env.HADOOP_YARN_RESOURCEMANAGER_WEBAPP_SPNEGO_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.webapp.spnego-keytab-file</name>
+    <value>${env.HADOOP_YARN_RESOURCEMANAGER_WEBAPP_SPNEGO_KEYTAB_FILE:-}</value>
+  </property>
+  <property>
     <name>yarn.resourcemanager.bind-host</name>
     <value>0.0.0.0</value>
   </property>
@@ -78,6 +94,22 @@
     <value>${yarn.nodemanager.hostname}:8041</value>
   </property>
   <property>
+    <name>yarn.nodemanager.principal</name>
+    <value>${env.HADOOP_YARN_NODEMANAGER_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.keytab</name>
+    <value>${env.HADOOP_YARN_NODEMANAGER_KEYTAB:-}</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.webapp.spnego-principal</name>
+    <value>${env.HADOOP_YARN_NODEMANAGER_WEBAPP_SPNEGO_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.webapp.spnego-keytab-file</name>
+    <value>${env.HADOOP_YARN_NODEMANAGER_WEBAPP_SPNEGO_KEYTAB_FILE:-}</value>
+  </property>
+  <property>
     <name>yarn.nodemanager.aux-services</name>
     <value>mapreduce_shuffle,tez_shuffle</value>
   </property>
@@ -87,7 +119,7 @@
   </property>
   <property>
     <name>yarn.nodemanager.env-whitelist</name>
-    <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_HOME,HADOOP_OPTIONAL_TOOLS,PATH,LANG,TZ,HADOOP_MAPRED_HOME,HADOOP_DFS_HA_NAMENODES,HADOOP_YARN_RESOURCEMANAGER_HA_ENABLED,HADOOP_YARN_RESOURCEMANAGER_HA_RM_IDS</value>
+    <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_HOME,HADOOP_OPTIONAL_TOOLS,PATH,LANG,TZ,HADOOP_MAPRED_HOME,HADOOP_SECURITY_AUTHENTICATION,HADOOP_RPC_PROTECTION,HADOOP_DFS_HA_NAMENODES,HADOOP_YARN_RESOURCEMANAGER_HA_ENABLED,HADOOP_YARN_RESOURCEMANAGER_HA_RM_IDS,HADOOP_YARN_RESOURCEMANAGER_PRINCIPAL,HADOOP_YARN_RESOURCEMANAGER_KEYTAB,HADOOP_YARN_RESOURCEMANAGER_WEBAPP_SPNEGO_PRINCIPAL,HADOOP_YARN_RESOURCEMANAGER_WEBAPP_SPNEGO_KEYTAB_FILE,HADOOP_YARN_NODEMANAGER_PRINCIPAL,HADOOP_YARN_NODEMANAGER_KEYTAB,HADOOP_YARN_NODEMANAGER_WEBAPP_SPNEGO_PRINCIPAL,HADOOP_YARN_NODEMANAGER_WEBAPP_SPNEGO_KEYTAB_FILE,HADOOP_YARN_TIMELINE_SERVICE_PRINCIPAL,HADOOP_YARN_TIMELINE_SERVICE_KEYTAB,HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_TYPE,HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_KERBEROS_PRINCIPAL,HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_KERBEROS_KEYTAB</value>
   </property>
   <property>
     <name>yarn.nodemanager.log-dirs</name>
@@ -116,7 +148,27 @@
   </property>
   <property>
     <name>yarn.timeline-service.hostname</name>
-    <value>yarn-timelineserver-0.yarn-timelineserver</value>
+    <value>yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local</value>
+  </property>
+  <property>
+    <name>yarn.timeline-service.principal</name>
+    <value>${env.HADOOP_YARN_TIMELINE_SERVICE_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>yarn.timeline-service.keytab</name>
+    <value>${env.HADOOP_YARN_TIMELINE_SERVICE_KEYTAB:-}</value>
+  </property>
+  <property>
+    <name>yarn.timeline-service.http-authentication.type</name>
+    <value>${env.HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_TYPE:-simple}</value>
+  </property>
+  <property>
+    <name>yarn.timeline-service.http-authentication.kerberos.principal</name>
+    <value>${env.HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>yarn.timeline-service.http-authentication.kerberos.keytab</name>
+    <value>${env.HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_KERBEROS_KEYTAB:-}</value>
   </property>
   <property>
     <name>yarn.timeline-service.bind-host</name>

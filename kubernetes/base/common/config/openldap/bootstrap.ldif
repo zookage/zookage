@@ -427,3 +427,140 @@ krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEeg
  AwIBEqFABD4gAJmJZev0lIAI+lgq1OJOO6L6onN78BDjb39XjrnD0D21Zef0NQDzvd0rRGvfjLXhq
  2/4GneRm9skzii96jBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAvUTfOGICf/6qsWtS/V9kBUsP51
  KowsVLaiS//hwrSs3pwSVkhAsktSctX78=
+
+dn: ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: yarn
+
+dn: uid=yarn-yarn-nodemanager-0.yarn-nodemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: yarn-yarn-nodemanager-0.yarn-nodemanager.zookage.svc.cluster.local
+userPassword: yarn
+krbPrincipalName: yarn/yarn-nodemanager-0.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAItuTyJ/4bpugUKkqrYlI49l9aZnWMbDrdl2uW8AwVCBEZFHL2m33rMe8NsZVEnu6NPHVIDTBe7rL90hzjBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAATptntvfQX83RZG93Pv384/a2ItToSJwMAldnbfDitGF8AoCm7vVOH27p/ZU=
+
+dn: uid=yarn-yarn-nodemanager-1.yarn-nodemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: yarn-yarn-nodemanager-1.yarn-nodemanager.zookage.svc.cluster.local
+userPassword: yarn
+krbPrincipalName: yarn/yarn-nodemanager-1.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gACFx8Zd56NdSRwVjT5/dZpQwSSzi/RlRgW0v8r2KHCmQ7ORlnI/6DKuf00TJOVeiXsHjDWOSOdcLd3maOzBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAANju4+IoenWRW+rtrR6ETkWJjBslCXyrc6ylL/pSEJ3dIaFaICfUTJcFYlpc=
+
+dn: uid=yarn-yarn-nodemanager-2.yarn-nodemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: yarn-yarn-nodemanager-2.yarn-nodemanager.zookage.svc.cluster.local
+userPassword: yarn
+krbPrincipalName: yarn/yarn-nodemanager-2.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gACJqnjQZBIiFRbQeLLy34yX/ui4MafoLRLIbrWKmmQiUNYH5oER3dwZfMQdGr3LeH2QN3V6UUy4NNydUxTBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAA3yWMKQO6TD1zEQ1ztidL8XTeLJij2oFpTzTHNWr/HAUiteTeeG+Ux1vWNFg=
+
+dn: uid=yarn-yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: yarn-yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local
+userPassword: yarn
+krbPrincipalName: yarn/yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAFADqWpntOAAdUS/Y9evl8lnBjTX8AGI7YrADflKnA5TFUrX2owBZQ1KSJwZOYL/bGGYXkp6Y+hNZUkEjDBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAc6jWMB7YsClc0tFRLKPvmgb9jfmyx51nZIow/VDbN5sEngNUB+XwnbRlPLs=
+
+dn: uid=yarn-yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: yarn-yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local
+userPassword: yarn
+krbPrincipalName: yarn/yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAOZCMVfU9c04FiZ1C0X3+uCQKvTMf2o2dh+ArI8B4GKj5q8wXrUsTX0KjIjQtPKYuZx84+g+o7D0sHPGKzBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAATvFB4G+DjKH4iDcpx9nR2vBYO3dsxFBTQcvvUGeNpWSetLfiBhQXszRX4rI=
+
+dn: uid=yarn-yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: yarn-yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local
+userPassword: yarn
+krbPrincipalName: yarn/yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gABAsLI2RJhyyGvjUEiF2GHOfb4Z3U7sdKWgPJKkZhgGWqzJJuFEy3uEhApMoXxtpJFLq5fa+HdQkNqSl7TBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAA7qsPSxNoHqFj2LwH8rnDDvLyW3Pnzvl15W3lUNxoZ73smcYgqUD+aAy+iIk=
+
+dn: uid=http-yarn-nodemanager-0.yarn-nodemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-yarn-nodemanager-0.yarn-nodemanager.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/yarn-nodemanager-0.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAL9cUcv5RuNnnG7QOfA8dwjZyz1HQ4MCjcjHuS1n+CS9W0bjAo4/3ExmWg73Yd3B2GTrsFyIqOT/mMioaDBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAJjb16uxt0VHvg4jYydTSXFMM0cZaRkVu85rVjhC5V/IzBEcmc+bprR5YXSM=
+
+dn: uid=http-yarn-nodemanager-1.yarn-nodemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-yarn-nodemanager-1.yarn-nodemanager.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/yarn-nodemanager-1.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAMKrRQl8Oxy3cA6J7WxjC2XEuGHtulsSV+XUL/VpNz21gZndizIxl3bWek2HUh44tPCULfygZJaWrVgIkDBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAe5m70mWqhPDzMIFg2X6JrWecamTNbmSlrIz74+Wbz9qGPnqd8W8H8YUXMyQ=
+
+dn: uid=http-yarn-nodemanager-2.yarn-nodemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-yarn-nodemanager-2.yarn-nodemanager.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/yarn-nodemanager-2.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAN1oNm8/BiucWDLp/FSA8OgkEEU5ZtMtbh5/XPhq10KPecSVTLlWD7mMJcfUL6UJ6BTliqWReJl3zIt9iDBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAgSEsRcpGnLqMk9YDNo6jHWMi1B1eJRDmN7PEXpM/EXM8nvpBwRqsgyh5fT8=
+
+dn: uid=http-yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gADpDUUTdAIwYj/AJfitGAkm3YKpKvktISh2v/dWuxWPt/icaz+voZM3rOd9+FvbYOroZzsnNuY4tHeZGOjBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAgnZN7AMnQheuBPR6HX2G1DCeYAoe1Nv8D9qmJO067wONS9mxjh/CoSnyGKU=
+
+dn: uid=http-yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAKABjzjr+IRUGUTlTushDCc4aGdxEkadbmf7wkEYPMbfAWO/m+RXLZDGLlSjpvJVhSrUyXnLUypCO24n0jBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAACltCi3/cAVtpxEpQ9NbGG7uR4LdtO1LNqt17gDgk9L07SrRD2eS3EIUyPhk=
+
+dn: uid=http-yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAHOFiw/jiRsO+NBQ5mBorLTURT3lIg3DVP1QGfVfVAa618Ol/mImChhdJ9J2WrEErIeBx/pBGPFANiWMwDBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAC4qaIYVbO5QRxWTQ7JgvntwrOD9kwLecNc8xNwkTqAQk+U71o++M8YnvUl8=

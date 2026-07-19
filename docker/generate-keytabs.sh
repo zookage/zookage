@@ -15,16 +15,15 @@ set -eu
 
 readonly base_dir=$(cd "$(dirname "$0")"; pwd)
 readonly repo_dir=$(cd "${base_dir}/.."; pwd)
-readonly keytab_dir="${repo_dir}/kubernetes/base/common/secret/ranger"
-readonly keytab_file="${keytab_dir}/ranger.keytab"
+readonly secret_dir="${repo_dir}/kubernetes/base/common/secret"
 readonly principals_file="${repo_dir}/kubernetes/base/common/config/openldap/bootstrap.ldif"
 
-rm -f "${keytab_file}"
-
 keytab_principals() {
-  awk '
+  local dn_pattern=$1
+
+  awk -v dn_pattern="${dn_pattern}" '
     function emit() {
-      if (dn ~ /^uid=.*ou=ranger,ou=kerberos,dc=example,dc=com$/ && principal != "" && password != "") {
+      if (dn ~ dn_pattern && principal != "" && password != "") {
         print principal "\t" password
       }
     }
@@ -53,10 +52,26 @@ keytab_principals() {
   ' "${principals_file}"
 }
 
-while IFS=$'\t' read -r principal password; do
-  ktutil -k "${keytab_file}" add \
-    -p "${principal}" \
-    -w "${password}" \
-    -e aes256-cts-hmac-sha1-96 \
-    -V 1
-done < <(keytab_principals)
+generate_keytab() {
+  local keytab_file=$1
+  local dn_pattern=$2
+
+  rm -f "${keytab_file}"
+  while IFS=$'\t' read -r principal password; do
+    ktutil -k "${keytab_file}" add \
+      -p "${principal}" \
+      -w "${password}" \
+      -e aes256-cts-hmac-sha1-96 \
+      -V 1
+  done < <(keytab_principals "${dn_pattern}")
+}
+
+generate_keytab \
+  "${secret_dir}/client/client.keytab" \
+  '^uid=zookage,ou=users,dc=example,dc=com$'
+generate_keytab \
+  "${secret_dir}/ranger/ranger.keytab" \
+  '^uid=.*ou=ranger,ou=kerberos,dc=example,dc=com$'
+generate_keytab \
+  "${secret_dir}/yarn/yarn.keytab" \
+  '^uid=.*ou=yarn,ou=kerberos,dc=example,dc=com$'

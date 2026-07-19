@@ -1,0 +1,164 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hadoop-env
+data:
+  HADOOP_YARN_RESOURCEMANAGER_PRINCIPAL: yarn/_HOST@ZOOKAGE.LOCAL
+  HADOOP_YARN_RESOURCEMANAGER_KEYTAB: /etc/yarn/secrets/yarn.keytab
+  HADOOP_YARN_RESOURCEMANAGER_WEBAPP_SPNEGO_PRINCIPAL: >-
+    HTTP/_HOST@ZOOKAGE.LOCAL
+  HADOOP_YARN_RESOURCEMANAGER_WEBAPP_SPNEGO_KEYTAB_FILE: >-
+    /etc/yarn/secrets/yarn.keytab
+  HADOOP_YARN_NODEMANAGER_PRINCIPAL: yarn/_HOST@ZOOKAGE.LOCAL
+  HADOOP_YARN_NODEMANAGER_KEYTAB: /etc/yarn/secrets/yarn.keytab
+  HADOOP_YARN_NODEMANAGER_WEBAPP_SPNEGO_PRINCIPAL: >-
+    HTTP/_HOST@ZOOKAGE.LOCAL
+  HADOOP_YARN_NODEMANAGER_WEBAPP_SPNEGO_KEYTAB_FILE: >-
+    /etc/yarn/secrets/yarn.keytab
+  HADOOP_YARN_TIMELINE_SERVICE_PRINCIPAL: >-
+    yarn/yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+  HADOOP_YARN_TIMELINE_SERVICE_KEYTAB: /etc/yarn/secrets/yarn.keytab
+  HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_TYPE: kerberos
+  HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_KERBEROS_PRINCIPAL: >-
+    HTTP/yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+  HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_KERBEROS_KEYTAB: >-
+    /etc/yarn/secrets/yarn.keytab
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ranger-conf
+data:
+  ranger-service-yarn.json: |
+    {
+      "type": "yarn",
+      "name": "yarn",
+      "configs": {
+        "username": "yarn",
+        "password": "dummy",
+        "yarn.url": "http://yarn-resourcemanager:8088",
+        "policy.download.auth.users": "yarn",
+        "tag.download.auth.users": "yarn",
+        "ranger.add-yarn-authorization": "false"
+      }
+    }
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: yarn-resourcemanager
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: resourcemanager
+        env:
+        - name: HADOOP_SECURITY_AUTHORIZATION
+          value: "false"
+        - name: HADOOP_SECURITY_AUTHENTICATION
+          value: kerberos
+        - name: HADOOP_RPC_PROTECTION
+          value: authentication
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: yarn-secret
+          mountPath: /etc/yarn/secrets
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: yarn-secret
+        secret:
+          secretName: yarn-secret
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: yarn-nodemanager
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: nodemanager
+        env:
+        - name: HADOOP_SECURITY_AUTHORIZATION
+          value: "false"
+        - name: HADOOP_SECURITY_AUTHENTICATION
+          value: kerberos
+        - name: HADOOP_RPC_PROTECTION
+          value: authentication
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: yarn-secret
+          mountPath: /etc/yarn/secrets
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: yarn-secret
+        secret:
+          secretName: yarn-secret
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: yarn-timelineserver
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: timelineserver
+        env:
+        - name: HADOOP_SECURITY_AUTHORIZATION
+          value: "false"
+        - name: HADOOP_SECURITY_AUTHENTICATION
+          value: kerberos
+        - name: HADOOP_RPC_PROTECTION
+          value: authentication
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: yarn-secret
+          mountPath: /etc/yarn/secrets
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: yarn-secret
+        secret:
+          secretName: yarn-secret
