@@ -29,6 +29,8 @@ configMapGenerator:
   - hdfs/ranger-hdfs-audit.xml
   - hdfs/ranger-hdfs-policymgr-ssl.xml
   - hdfs/ranger-hdfs-security.xml
+  - hdfs/ssl-client.xml
+  - hdfs/ssl-server.xml
   name: hdfs-conf
 - files:
   - mapreduce/mapred-site.xml
@@ -40,6 +42,9 @@ configMapGenerator:
   - yarn/ranger-yarn-security.xml
   - yarn/yarn-site.xml
   name: yarn-conf
+- files:
+  - yarn/container-executor.cfg
+  name: yarn-container-executor-conf
 - files:
   - hbase/hadoop-metrics2-hbase.properties
   - hbase/hbase-site.xml

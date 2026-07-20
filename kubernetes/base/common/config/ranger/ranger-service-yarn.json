@@ -4,6 +4,8 @@
   "configs": {
     "username": "yarn",
     "password": "dummy",
+    "policy.download.auth.users": "yarn",
+    "tag.download.auth.users": "yarn",
     "yarn.url": "http://yarn-resourcemanager:8088",
     "ranger.add-yarn-authorization": "false"
   }

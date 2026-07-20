@@ -47,12 +47,20 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hdfs-journalnode-.* server.JournalNodeSyncer: Journal at .* has no edit logs' \
   | grep -v 'pod/hdfs-journalnode-.* ipc.Server: IPC Server handler .* org.apache.hadoop.hdfs.qjournal.protocol.QJournalProtocol.getEditLogManifest .*: output error' \
   | grep -v 'pod/yarn-nodemanager-.* nodemanager.DefaultContainerExecutor: Exit code from container' \
+  | grep -v 'pod/yarn-nodemanager-.*: WARNING: An illegal reflective access operation has occurred' \
+  | grep -v 'pod/yarn-nodemanager-.*: WARNING: Illegal reflective access by .*' \
+  | grep -v 'pod/yarn-nodemanager-.*: WARNING: Please consider reporting this to the maintainers of .*' \
+  | grep -v 'pod/yarn-nodemanager-.*: WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations' \
+  | grep -v 'pod/yarn-nodemanager-.*: WARNING: All illegal access operations will be denied in a future release' \
+  | grep -v 'pod/yarn-nodemanager-.* nodemanager.LinuxContainerExecutor: Exit code from container .* is : 143' \
   | grep -v 'pod/yarn-nodemanager-.* launcher.ContainerCleanup: Exception when trying to cleanup container .*: java.io.FileNotFoundException: .*\.pid (No such file or directory)' \
   | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find container" \
   | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find app" \
   | grep -v 'pod/yarn-nodemanager-.* nodemanager.DefaultContainerExecutor: delete returned false for path' \
   | grep -v 'pod/yarn-resourcemanager-.* ha.ActiveStandbyElector: Ignoring stale result from old client with sessionId' \
   | grep -v 'pod/yarn-resourcemanager-.* zookeeper.ClientCnxn: Session 0x0 .* Attempting reconnect except it is a SessionExpiredException\.' \
+  | grep -v 'pod/yarn-resourcemanager-.* token.Token: No TokenRenewer defined for token kind tez.job' \
+  | grep -v 'pod/yarn-resourcemanager-.* rmnode.RMNodeImpl: Container .* was running but not reported from .*:8041' \
   | grep -v 'pod/hive-hiveserver2-.* conf.HiveConf: HiveConf of name hive.cluster.id does not exist' \
   | grep -v 'pod/hive-hiveserver2-.* exec.FunctionRegistry: UDF Class org.apache.hadoop.hive.ql.udf.generic.GenericUDFToJson does not have description\.' \
   | grep -v "pod/hive-hiveserver2-.* tez.TezConfigurationFactory: Skip adding 'tez.application.tags' to dagConf, as it's an AM scoped property" \

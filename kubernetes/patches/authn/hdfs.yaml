@@ -1,0 +1,379 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hadoop-env
+data:
+  HADOOP_DFS_BLOCK_ACCESS_TOKEN_ENABLE: "true"
+  HADOOP_DFS_DATA_TRANSFER_PROTECTION: authentication
+  HADOOP_DFS_HTTP_POLICY: HTTPS_ONLY
+  HADOOP_DFS_NAMENODE_KERBEROS_PRINCIPAL: hdfs/_HOST@ZOOKAGE.LOCAL
+  HADOOP_DFS_NAMENODE_KEYTAB_FILE: /etc/hdfs/secrets/hdfs.keytab
+  HADOOP_DFS_NAMENODE_KERBEROS_INTERNAL_SPNEGO_PRINCIPAL: >-
+    HTTP/_HOST@ZOOKAGE.LOCAL
+  HADOOP_DFS_DATANODE_KERBEROS_PRINCIPAL: hdfs/_HOST@ZOOKAGE.LOCAL
+  HADOOP_DFS_DATANODE_KEYTAB_FILE: /etc/hdfs/secrets/hdfs.keytab
+  HADOOP_DFS_JOURNALNODE_KERBEROS_PRINCIPAL: hdfs/_HOST@ZOOKAGE.LOCAL
+  HADOOP_DFS_JOURNALNODE_KEYTAB_FILE: /etc/hdfs/secrets/hdfs.keytab
+  HADOOP_DFS_JOURNALNODE_KERBEROS_INTERNAL_SPNEGO_PRINCIPAL: >-
+    HTTP/_HOST@ZOOKAGE.LOCAL
+  HADOOP_DFS_WEB_AUTHENTICATION_KERBEROS_PRINCIPAL: >-
+    HTTP/_HOST@ZOOKAGE.LOCAL
+  HADOOP_DFS_WEB_AUTHENTICATION_KERBEROS_KEYTAB: >-
+    /etc/hdfs/secrets/hdfs.keytab
+  HADOOP_HTTPFS_AUTHENTICATION_TYPE: kerberos
+  HADOOP_HTTPFS_AUTHENTICATION_KERBEROS_PRINCIPAL: >-
+    HTTP/hdfs-httpfs.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+  HADOOP_HTTPFS_AUTHENTICATION_KERBEROS_KEYTAB: >-
+    /etc/hdfs/secrets/hdfs.keytab
+  HADOOP_HTTPFS_HADOOP_AUTHENTICATION_TYPE: kerberos
+  HADOOP_HTTPFS_HADOOP_AUTHENTICATION_KERBEROS_PRINCIPAL: >-
+    httpfs/hdfs-httpfs.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+  HADOOP_HTTPFS_HADOOP_AUTHENTICATION_KERBEROS_KEYTAB: >-
+    /etc/hdfs/secrets/hdfs.keytab
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ranger-conf
+data:
+  ranger-service-hdfs.json: |
+    {
+      "type": "hdfs",
+      "name": "hdfs",
+      "configs": {
+        "username": "hdfs",
+        "password": "dummy",
+        "fs.default.name": "hdfs://zookage",
+        "hadoop.security.authentication": "kerberos",
+        "hadoop.security.authorization": "true",
+        "dfs.namenode.kerberos.principal": "hdfs/_HOST@ZOOKAGE.LOCAL",
+        "policy.download.auth.users": "hdfs",
+        "tag.download.auth.users": "hdfs"
+      }
+    }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hdfs-namenode
+spec:
+  ports:
+  - $patch: replace
+  - name: https
+    port: 9871
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hdfs-datanode
+spec:
+  publishNotReadyAddresses: true
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: client-node
+spec:
+  template:
+    spec:
+      containers:
+      - name: sleep
+        volumeMounts:
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
+      volumes:
+      - name: hdfs-secret
+        secret:
+          secretName: hdfs-secret
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hdfs-namenode
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-dns
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      - name: format
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: HADOOP_DFS_NAMENODE_KERBEROS_PRINCIPAL
+          value: >-
+            hdfs/$(POD_NAME).hdfs-namenode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+        - name: HADOOP_DFS_NAMENODE_KERBEROS_INTERNAL_SPNEGO_PRINCIPAL
+          value: >-
+            HTTP/$(POD_NAME).hdfs-namenode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+        - name: HADOOP_SECURITY_AUTHENTICATION
+          value: kerberos
+        - name: HADOOP_RPC_PROTECTION
+          value: authentication
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
+      containers:
+      - name: namenode
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: HADOOP_DFS_NAMENODE_KERBEROS_PRINCIPAL
+          value: >-
+            hdfs/$(POD_NAME).hdfs-namenode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+        - name: HADOOP_DFS_NAMENODE_KERBEROS_INTERNAL_SPNEGO_PRINCIPAL
+          value: >-
+            HTTP/$(POD_NAME).hdfs-namenode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+        - name: HADOOP_DFS_WEB_AUTHENTICATION_KERBEROS_PRINCIPAL
+          value: >-
+            HTTP/$(POD_NAME).hdfs-namenode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+        - name: HADOOP_SECURITY_AUTHENTICATION
+          value: kerberos
+        - name: HADOOP_RPC_PROTECTION
+          value: authentication
+        - name: HADOOP_HTTP_AUTHENTICATION_TYPE
+          value: kerberos
+        - name: HADOOP_HTTP_AUTHENTICATION_KERBEROS_PRINCIPAL
+          value: >-
+            HTTP/$(POD_NAME).hdfs-namenode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+        - name: HADOOP_HTTP_AUTHENTICATION_KERBEROS_KEYTAB
+          value: /etc/hdfs/secrets/hdfs.keytab
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: hdfs-secret
+        secret:
+          secretName: hdfs-secret
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hdfs-datanode
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-dns
+        image: zookage-util
+        args:
+        - wait-for-dns
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: datanode
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: HADOOP_DFS_DATANODE_KERBEROS_PRINCIPAL
+          value: >-
+            hdfs/$(POD_NAME).hdfs-datanode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+        - name: HADOOP_DFS_WEB_AUTHENTICATION_KERBEROS_PRINCIPAL
+          value: >-
+            HTTP/$(POD_NAME).hdfs-datanode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+        - name: HADOOP_SECURITY_AUTHENTICATION
+          value: kerberos
+        - name: HADOOP_RPC_PROTECTION
+          value: authentication
+        - name: HADOOP_HTTP_AUTHENTICATION_TYPE
+          value: kerberos
+        - name: HADOOP_HTTP_AUTHENTICATION_KERBEROS_PRINCIPAL
+          value: >-
+            HTTP/$(POD_NAME).hdfs-datanode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+        - name: HADOOP_HTTP_AUTHENTICATION_KERBEROS_KEYTAB
+          value: /etc/hdfs/secrets/hdfs.keytab
+        readinessProbe:
+          tcpSocket:
+            port: 9865
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: hdfs-secret
+        secret:
+          secretName: hdfs-secret
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hdfs-journalnode
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: journalnode
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: HADOOP_DFS_JOURNALNODE_KERBEROS_PRINCIPAL
+          value: >-
+            hdfs/$(POD_NAME).hdfs-journalnode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+        - name: HADOOP_DFS_JOURNALNODE_KERBEROS_INTERNAL_SPNEGO_PRINCIPAL
+          value: >-
+            HTTP/$(POD_NAME).hdfs-journalnode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+        - name: HADOOP_DFS_WEB_AUTHENTICATION_KERBEROS_PRINCIPAL
+          value: >-
+            HTTP/$(POD_NAME).hdfs-journalnode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+        - name: HADOOP_SECURITY_AUTHENTICATION
+          value: kerberos
+        - name: HADOOP_RPC_PROTECTION
+          value: authentication
+        - name: HADOOP_HTTP_AUTHENTICATION_TYPE
+          value: kerberos
+        - name: HADOOP_HTTP_AUTHENTICATION_KERBEROS_PRINCIPAL
+          value: >-
+            HTTP/$(POD_NAME).hdfs-journalnode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+        - name: HADOOP_HTTP_AUTHENTICATION_KERBEROS_KEYTAB
+          value: /etc/hdfs/secrets/hdfs.keytab
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: hdfs-secret
+        secret:
+          secretName: hdfs-secret
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hdfs-httpfs
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: httpfs
+        env:
+        - name: HADOOP_SECURITY_AUTHENTICATION
+          value: kerberos
+        - name: HADOOP_RPC_PROTECTION
+          value: authentication
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets/hdfs.keytab
+          subPath: hdfs.keytab
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hdfs-mkdir
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: mkdir
+        args:
+        - -c
+        - |
+          kinit -kt /etc/hdfs/secrets/hdfs.keytab hdfs@ZOOKAGE.LOCAL
+
+          hdfs_mkdir() {
+            "${HADOOP_HOME}/bin/hdfs" dfs -mkdir -p "$1"
+            "${HADOOP_HOME}/bin/hdfs" dfs -chown "$2" "$1"
+            "${HADOOP_HOME}/bin/hdfs" dfs -chmod "$3" "$1"
+          }
+
+          hdfs_mkdir /apps hdfs:supergroup 755
+          hdfs_mkdir /apps/hbase hbase:hbase 711
+          hdfs_mkdir /apps/hive-warehouse hive:hadoop 1770
+          hdfs_mkdir /apps/mapred-history-intermediate mapred:mapred 1777
+          hdfs_mkdir /apps/mapred-history mapred:mapred 750
+          hdfs_mkdir /apps/spark-history spark:spark 1777
+          hdfs_mkdir /lib hdfs:supergroup 755
+          hdfs_mkdir /lib/tez tez:tez 755
+          hdfs_mkdir /tmp hdfs:supergroup 1777
+          hdfs_mkdir /tmp/hadoop-yarn yarn:hadoop 775
+          hdfs_mkdir /tmp/hadoop-yarn/staging yarn:hadoop 1777
+          hdfs_mkdir /user hdfs:supergroup 711
+          hdfs_mkdir /user/hive hive:hive 700
+          hdfs_mkdir /user/zookage zookage:zookage 700
+        env:
+        - name: HADOOP_SECURITY_AUTHENTICATION
+          value: kerberos
+        - name: HADOOP_RPC_PROTECTION
+          value: authentication
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: hdfs-secret
+        secret:
+          secretName: hdfs-secret

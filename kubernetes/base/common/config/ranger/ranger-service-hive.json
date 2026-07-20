@@ -7,6 +7,8 @@
     "jdbc.driverClassName": "dummy",
     "jdbc.url": "dummy",
     "enable.hive.metastore.lookup": "true",
+    "policy.download.auth.users": "hive",
+    "tag.download.auth.users": "hive",
     "hive.site.file.path": "/etc/hive/conf/hive-site.xml"
   }
 }

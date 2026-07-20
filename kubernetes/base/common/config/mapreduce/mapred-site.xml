@@ -47,6 +47,14 @@
     <name>mapreduce.jobhistory.done-dir</name>
     <value>/apps/mapred-history</value>
   </property>
+  <property>
+    <name>mapreduce.jobhistory.principal</name>
+    <value>${env.HADOOP_MAPRED_JOBHISTORY_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>mapreduce.jobhistory.keytab</name>
+    <value>${env.HADOOP_MAPRED_JOBHISTORY_KEYTAB:-}</value>
+  </property>
 
   <property>
     <name>hadoop.http.authentication.signer.secret.provider</name>

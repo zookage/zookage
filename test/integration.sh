@@ -15,6 +15,7 @@ set -eu
 
 readonly test_dir=$(cd "$(dirname "$0")"; pwd)
 readonly repo_dir=$(cd "${test_dir}/.."; pwd)
+export ZOOKAGE_PROFILE=${1:-}
 
 run_test() {
   local name=$1
@@ -37,6 +38,10 @@ if [[ $# -ge 1 ]]; then
   cp "${source_kustomization}" "${target_kustomization}"
   "${repo_dir}/bin/down"
   "${repo_dir}/bin/up"
+fi
+
+if [[ ${kustomization_name:-} == "auth" ]]; then
+  run_test "HDFS Kerberos" "${test_dir}/integration/hdfs_kerberos.sh"
 fi
 
 if [[ ${kustomization_name:-} != "llap" ]]; then

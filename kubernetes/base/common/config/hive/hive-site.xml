@@ -66,6 +66,34 @@
     <name>hive.metastore.warehouse.dir</name>
     <value>/apps/hive-warehouse</value>
   </property>
+  <property>
+    <name>hive.metastore.sasl.enabled</name>
+    <value>${env.HIVE_METASTORE_SASL_ENABLED:-false}</value>
+  </property>
+  <property>
+    <name>hive.metastore.kerberos.principal</name>
+    <value>${env.HIVE_METASTORE_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>hive.metastore.client.kerberos.principal</name>
+    <value>${env.HIVE_METASTORE_CLIENT_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>hive.server2.authentication</name>
+    <value>${env.HIVE_SERVER2_AUTHENTICATION:-NONE}</value>
+  </property>
+  <property>
+    <name>hive.server2.authentication.kerberos.principal</name>
+    <value>${env.HIVE_SERVER2_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>hive.server2.authentication.client.kerberos.principal</name>
+    <value>${env.HIVE_SERVER2_CLIENT_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>hive.server2.authentication.kerberos.keytab</name>
+    <value>${env.HIVE_SERVER2_KERBEROS_KEYTAB:-}</value>
+  </property>
 
   <property>
     <name>hive.security.authenticator.manager</name>

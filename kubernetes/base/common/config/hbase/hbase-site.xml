@@ -41,6 +41,30 @@
     <value>true</value>
   </property>
   <property>
+    <name>hbase.security.authentication</name>
+    <value>${env.HBASE_SECURITY_AUTHENTICATION:-simple}</value>
+  </property>
+  <property>
+    <name>hbase.rpc.protection</name>
+    <value>${env.HBASE_RPC_PROTECTION:-authentication}</value>
+  </property>
+  <property>
+    <name>hbase.master.kerberos.principal</name>
+    <value>${env.HBASE_MASTER_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>hbase.master.keytab.file</name>
+    <value>${env.HBASE_MASTER_KEYTAB_FILE:-}</value>
+  </property>
+  <property>
+    <name>hbase.regionserver.kerberos.principal</name>
+    <value>${env.HBASE_REGIONSERVER_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>hbase.regionserver.keytab.file</name>
+    <value>${env.HBASE_REGIONSERVER_KEYTAB_FILE:-}</value>
+  </property>
+  <property>
     <name>hbase.coprocessor.master.classes</name>
     <value>${env.HBASE_COPROCESSOR_CLASSES:-}</value>
   </property>

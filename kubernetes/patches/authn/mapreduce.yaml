@@ -13,36 +13,27 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: hive-metastore-env
+  name: hadoop-env
 data:
-  HIVE_METASTORE_CATALOG_SERVLET_AUTH: oauth2
-  METASTORE_SASL_ENABLED: "true"
-  METASTORE_KERBEROS_PRINCIPAL: >-
-    hive/hive-metastore-server-0.hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-  METASTORE_CLIENT_KERBEROS_PRINCIPAL: >-
-    hive/hive-metastore-server-0.hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-  METASTORE_KERBEROS_KEYTAB_FILE: /etc/hive/secrets/hive.keytab
+  HADOOP_MAPRED_JOBHISTORY_PRINCIPAL: >-
+    mapred/mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+  HADOOP_MAPRED_JOBHISTORY_KEYTAB: /etc/mapreduce/secrets/mapreduce.keytab
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: hive-metastore-server
+  name: mapreduce-historyserver
 spec:
   template:
     spec:
       initContainers:
-      - name: wait-for-keycloak
-        image: zookage-util
-        args:
-        - wait-for-rollout
-        - deployment/keycloak-server
       - name: wait-for-kdc
         image: zookage-util
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
       containers:
-      - name: metastore
+      - name: historyserver
         env:
         - name: HADOOP_SECURITY_AUTHENTICATION
           value: kerberos
@@ -52,12 +43,12 @@ spec:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
-        - name: hive-secret
-          mountPath: /etc/hive/secrets
+        - name: mapreduce-secret
+          mountPath: /etc/mapreduce/secrets
       volumes:
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
-      - name: hive-secret
+      - name: mapreduce-secret
         secret:
-          secretName: hive-secret
+          secretName: mapreduce-secret

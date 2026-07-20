@@ -15,6 +15,30 @@ kind: ConfigMap
 metadata:
   name: trino-catalog
 data:
+  hive.properties: |
+    connector.name=hive
+    hive.metastore.uri=thrift://hive-metastore-server-0.hive-metastore-server:9083
+    hive.metastore.authentication.type=KERBEROS
+    hive.metastore.thrift.impersonation.enabled=false
+    hive.metastore.service.principal=hive/hive-metastore-server-0.hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+    hive.metastore.client.principal=hive/trino-coordinator-0.trino-coordinator.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+    hive.metastore.client.keytab=/etc/trino/secrets/trino.keytab
+
+    fs.hadoop.enabled=true
+    hive.config.resources=/etc/hadoop/conf/core-site.xml,/etc/hadoop/conf/hdfs-site.xml
+    hive.hdfs.authentication.type=KERBEROS
+    hive.hdfs.impersonation.enabled=true
+    hive.hdfs.trino.principal=trino@ZOOKAGE.LOCAL
+    hive.hdfs.trino.keytab=/etc/trino/secrets/trino.keytab
+    hive.non-managed-table-writes-enabled=true
+    hive.temporary-staging-directory-path=/tmp/${USER}/trino/staging
+
+    fs.native-s3.enabled=true
+    s3.aws-access-key=${ENV:AWS_ACCESS_KEY_ID}
+    s3.aws-secret-key=${ENV:AWS_SECRET_ACCESS_KEY}
+    s3.endpoint=http://ozone-s3g:9878
+    s3.region=default
+    s3.path-style-access=true
   iceberg.properties: |
     connector.name=iceberg
     iceberg.catalog.type=rest
@@ -26,6 +50,10 @@ data:
 
     fs.hadoop.enabled=true
     hive.config.resources=/etc/hadoop/conf/core-site.xml,/etc/hadoop/conf/hdfs-site.xml
+    hive.hdfs.authentication.type=KERBEROS
+    hive.hdfs.impersonation.enabled=true
+    hive.hdfs.trino.principal=trino@ZOOKAGE.LOCAL
+    hive.hdfs.trino.keytab=/etc/trino/secrets/trino.keytab
 
     fs.native-s3.enabled=true
     s3.aws-access-key=${ENV:AWS_ACCESS_KEY_ID}
@@ -33,3 +61,71 @@ data:
     s3.endpoint=http://ozone-s3g:9878
     s3.region=default
     s3.path-style-access=true
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: trino-coordinator
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: coordinator
+        env:
+        - name: HADOOP_SECURITY_AUTHENTICATION
+          value: kerberos
+        - name: HADOOP_RPC_PROTECTION
+          value: authentication
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: trino-kerberos-secret
+          mountPath: /etc/trino/secrets
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: trino-kerberos-secret
+        secret:
+          secretName: trino-kerberos-secret
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trino-worker
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: worker
+        env:
+        - name: HADOOP_SECURITY_AUTHENTICATION
+          value: kerberos
+        - name: HADOOP_RPC_PROTECTION
+          value: authentication
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: trino-kerberos-secret
+          mountPath: /etc/trino/secrets
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: trino-kerberos-secret
+        secret:
+          secretName: trino-kerberos-secret

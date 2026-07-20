@@ -65,7 +65,11 @@ COPY --from=jdk_25 /opt/java/openjdk /opt/java/jdk25
 ENV JAVA_HOME=/opt/java/jdk11
 
 COPY --chown=root:root --from=builder /home/hadoop-build/hadoop/hadoop-dist/target/hadoop /opt/hadoop
-RUN groupadd --gid 1010 hadoop \
+COPY --from=builder /usr/lib/*-linux-gnu/libcrypto.so.1.1 /usr/local/lib/
+RUN ldconfig \
+  && groupadd --gid 1010 hadoop \
+  && groupadd --gid 1001 zookage \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1001 --gid zookage zookage \
   && groupadd --gid 1011 hdfs \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1011 --gid hdfs --groups hadoop hdfs \
   && groupadd --gid 1012 yarn \
@@ -73,4 +77,18 @@ RUN groupadd --gid 1010 hadoop \
   && groupadd --gid 1013 mapred \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1013 --gid mapred --groups hadoop mapred \
   && groupadd --gid 1014 httpfs \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1014 --gid httpfs httpfs
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1014 --gid httpfs httpfs \
+  && groupadd --gid 1020 hive \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1020 --gid hive hive \
+  && groupadd --gid 1030 tez \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1030 --gid tez tez \
+  && groupadd --gid 1040 spark \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1040 --gid spark spark \
+  && groupadd --gid 1060 hbase \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1060 --gid hbase hbase \
+  && groupadd --gid 1080 trino \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1080 --gid trino trino \
+  && chown root:hadoop /opt/hadoop/bin/container-executor \
+  && chown root:hadoop /opt/hadoop/etc/hadoop/container-executor.cfg \
+  && chmod 6050 /opt/hadoop/bin/container-executor \
+  && chmod 0400 /opt/hadoop/etc/hadoop/container-executor.cfg
