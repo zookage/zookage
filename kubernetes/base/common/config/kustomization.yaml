@@ -80,6 +80,9 @@ configMapGenerator:
   - openldap/bootstrap.ldif
   name: openldap-conf
 - files:
+  - sssd/sssd.conf
+  name: sssd-conf
+- files:
   - ozone/dn-audit-log4j2.properties
   - ozone/hadoop-metrics2-hddsdatanode.properties
   - ozone/hadoop-metrics2-ozonemanager.properties
