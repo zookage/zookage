@@ -15,11 +15,12 @@ set -eu
 
 check () {
   local -r url=$1
+  local -r expected_responses=${2:-"200 307"}
   echo "Check ${url}"
   local -r response=$(curl -o /dev/null -w '%{http_code}' -s "${url}")
   echo "${url} returned ${response}"
   echo
-  if [ "$response" = 200 ] || [ "$response" = 307 ]; then
+  if [[ " ${expected_responses} " == *" ${response} "* ]]; then
     return 0
   else
     return 1
@@ -34,7 +35,11 @@ check "http://localhost:9876/#!/"
 check "http://localhost:9888/#/Overview"
 check "http://localhost:8088/cluster"
 check "http://localhost:8088/ui2/"
-check "http://localhost:8188/applicationhistory"
+if [[ ${ZOOKAGE_YARN_KERBEROS_ENABLED:-false} == true ]]; then
+  check "http://localhost:8188/applicationhistory" "401"
+else
+  check "http://localhost:8188/applicationhistory"
+fi
 check "http://localhost:19888/jobhistory"
 check "http://localhost:9999/tez-ui/"
 check "http://localhost:10002/"

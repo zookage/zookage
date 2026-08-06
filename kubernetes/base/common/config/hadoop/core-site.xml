@@ -24,7 +24,7 @@
   </property>
   <property>
     <name>hadoop.http.temp.dir</name>
-    <value>/tmp/hadoop</value>
+    <value>${java.io.tmpdir}/hadoop</value>
   </property>
   <property>
     <name>hadoop.security.credential.provider.path</name>
@@ -50,7 +50,7 @@
 
   <property>
     <name>hadoop.security.authorization</name>
-    <value>{{ or (index .Values "hadoop_security_authorization") "false" | html }}</value>
+    <value>${env.HADOOP_SECURITY_AUTHORIZATION:-{{ or (index .Values "hadoop_security_authorization") "false" | html }}}</value>
   </property>
   <property>
     <name>hadoop.security.authentication</name>
@@ -59,6 +59,10 @@
   <property>
     <name>hadoop.rpc.protection</name>
     <value>${env.HADOOP_RPC_PROTECTION:-authentication}</value>
+  </property>
+  <property>
+    <name>ipc.client.fallback-to-simple-auth-allowed</name>
+    <value>${env.HADOOP_IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH_ALLOWED:-false}</value>
   </property>
   <property>
     <name>hadoop.security.group.mapping</name>

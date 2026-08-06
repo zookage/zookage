@@ -19,6 +19,13 @@ spec:
     spec:
       containers:
       - name: sleep
+        env:
+        - name: HADOOP_SECURITY_AUTHENTICATION
+          value: kerberos
+        - name: HADOOP_RPC_PROTECTION
+          value: authentication
+        - name: HADOOP_IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH_ALLOWED
+          value: "true"
         volumeMounts:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf

@@ -27,6 +27,9 @@ data:
     HTTP/_HOST@ZOOKAGE.LOCAL
   HADOOP_YARN_NODEMANAGER_WEBAPP_SPNEGO_KEYTAB_FILE: >-
     /etc/yarn/secrets/yarn.keytab
+  HADOOP_YARN_NODEMANAGER_CONTAINER_EXECUTOR_CLASS: >-
+    org.apache.hadoop.yarn.server.nodemanager.LinuxContainerExecutor
+  HADOOP_YARN_NODEMANAGER_LINUX_CONTAINER_EXECUTOR_GROUP: yarn-executor
   HADOOP_YARN_TIMELINE_SERVICE_PRINCIPAL: >-
     yarn/yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
   HADOOP_YARN_TIMELINE_SERVICE_KEYTAB: /etc/yarn/secrets/yarn.keytab
@@ -98,14 +101,41 @@ metadata:
 spec:
   template:
     spec:
+      securityContext:
+        supplementalGroups:
+        - 1015
       initContainers:
       - name: wait-for-kdc
         image: zookage-util
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
+      - name: initialize-sssd
+        image: zookage-hadoop
+        command:
+        - install
+        args:
+        - -d
+        - -m
+        - "0755"
+        - /var/lib/sss/pipes/private
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+        volumeMounts:
+        - name: sssd-pipes
+          mountPath: /var/lib/sss/pipes
       containers:
       - name: nodemanager
+        command:
+        - /bin/bash
+        - -c
+        args:
+        - |
+          until getent passwd zookage > /dev/null; do
+            sleep 1
+          done
+          exec "${HADOOP_HOME}/bin/yarn" nodemanager
         env:
         - name: HADOOP_SECURITY_AUTHORIZATION
           value: "false"
@@ -113,12 +143,45 @@ spec:
           value: kerberos
         - name: HADOOP_RPC_PROTECTION
           value: authentication
+        - name: HADOOP_IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH_ALLOWED
+          value: "true"
+        - name: JAVA_TOOL_OPTIONS
+          value: --add-opens=java.base/java.lang=ALL-UNNAMED
+        - name: YARN_NODEMANAGER_OPTS
+          # yamllint disable-line rule:line-length
+          value: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+        securityContext:
+          allowPrivilegeEscalation: true
         volumeMounts:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: yarn-secret
           mountPath: /etc/yarn/secrets
+        - name: sssd-pipes
+          mountPath: /var/lib/sss/pipes
+      - name: sssd
+        image: zookage-hadoop
+        command:
+        - /usr/sbin/sssd
+        args:
+        - --interactive
+        - --logger=stderr
+        readinessProbe:
+          exec:
+            command:
+            - getent
+            - passwd
+            - zookage
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+        volumeMounts:
+        - name: sssd-conf
+          mountPath: /etc/sssd/sssd.conf
+          subPath: sssd.conf
+        - name: sssd-pipes
+          mountPath: /var/lib/sss/pipes
       volumes:
       - name: kerberos-conf
         configMap:
@@ -126,6 +189,12 @@ spec:
       - name: yarn-secret
         secret:
           secretName: yarn-secret
+      - name: sssd-conf
+        configMap:
+          name: sssd-conf
+          defaultMode: 0600
+      - name: sssd-pipes
+        emptyDir: {}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
