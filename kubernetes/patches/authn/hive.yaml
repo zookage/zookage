@@ -13,36 +13,35 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: hive-metastore-env
+  name: hive-env
 data:
-  HIVE_METASTORE_CATALOG_SERVLET_AUTH: oauth2
-  METASTORE_SASL_ENABLED: "true"
-  METASTORE_KERBEROS_PRINCIPAL: >-
+  HIVE_METASTORE_SASL_ENABLED: "true"
+  HIVE_METASTORE_KERBEROS_PRINCIPAL: >-
     hive/hive-metastore-server-0.hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-  METASTORE_CLIENT_KERBEROS_PRINCIPAL: >-
+  HIVE_METASTORE_CLIENT_KERBEROS_PRINCIPAL: >-
     hive/hive-metastore-server-0.hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-  METASTORE_KERBEROS_KEYTAB_FILE: /etc/hive/secrets/hive.keytab
+  HIVE_SERVER2_AUTHENTICATION: KERBEROS
+  HIVE_SERVER2_KERBEROS_PRINCIPAL: >-
+    hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+  HIVE_SERVER2_CLIENT_KERBEROS_PRINCIPAL: >-
+    hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+  HIVE_SERVER2_KERBEROS_KEYTAB: /etc/hive/secrets/hive.keytab
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: hive-metastore-server
+  name: hive-hiveserver2
 spec:
   template:
     spec:
       initContainers:
-      - name: wait-for-keycloak
-        image: zookage-util
-        args:
-        - wait-for-rollout
-        - deployment/keycloak-server
       - name: wait-for-kdc
         image: zookage-util
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
       containers:
-      - name: metastore
+      - name: hiveserver2
         env:
         - name: HADOOP_SECURITY_AUTHENTICATION
           value: kerberos
@@ -61,3 +60,20 @@ spec:
       - name: hive-secret
         secret:
           secretName: hive-secret
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hive-metastore-server
+spec:
+  template:
+    spec:
+      containers:
+      - name: metastore
+        readinessProbe:
+          $patch: replace
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - kill -0 1

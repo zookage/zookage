@@ -17,4 +17,36 @@
     <name>hadoop.http.authentication.signature.secret.file</name>
     <value>/etc/hadoop/secrets/httpfs-signature.secret</value>
   </property>
+  <property>
+    <name>httpfs.hostname</name>
+    <value>hdfs-httpfs.zookage.svc.cluster.local</value>
+  </property>
+  <property>
+    <name>kerberos.realm</name>
+    <value>ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hadoop.http.authentication.type</name>
+    <value>${env.HADOOP_HTTPFS_AUTHENTICATION_TYPE:-simple}</value>
+  </property>
+  <property>
+    <name>hadoop.http.authentication.kerberos.principal</name>
+    <value>${env.HADOOP_HTTPFS_AUTHENTICATION_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>hadoop.http.authentication.kerberos.keytab</name>
+    <value>${env.HADOOP_HTTPFS_AUTHENTICATION_KERBEROS_KEYTAB:-}</value>
+  </property>
+  <property>
+    <name>httpfs.hadoop.authentication.type</name>
+    <value>${env.HADOOP_HTTPFS_HADOOP_AUTHENTICATION_TYPE:-simple}</value>
+  </property>
+  <property>
+    <name>httpfs.hadoop.authentication.kerberos.principal</name>
+    <value>${env.HADOOP_HTTPFS_HADOOP_AUTHENTICATION_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>httpfs.hadoop.authentication.kerberos.keytab</name>
+    <value>${env.HADOOP_HTTPFS_HADOOP_AUTHENTICATION_KERBEROS_KEYTAB:-}</value>
+  </property>
 </configuration>

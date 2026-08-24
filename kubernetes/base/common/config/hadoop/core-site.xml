@@ -24,7 +24,7 @@
   </property>
   <property>
     <name>hadoop.http.temp.dir</name>
-    <value>/tmp/hadoop</value>
+    <value>./tmp/hadoop</value>
   </property>
   <property>
     <name>hadoop.security.credential.provider.path</name>
@@ -47,10 +47,38 @@
     <name>hadoop.proxyuser.hive.groups</name>
     <value>*</value>
   </property>
+  <property>
+    <name>hadoop.proxyuser.trino.hosts</name>
+    <value>*</value>
+  </property>
+  <property>
+    <name>hadoop.proxyuser.trino.groups</name>
+    <value>*</value>
+  </property>
 
   <property>
     <name>hadoop.security.authorization</name>
     <value>${env.HADOOP_SECURITY_AUTHORIZATION:-false}</value>
+  </property>
+  <property>
+    <name>hadoop.security.authentication</name>
+    <value>${env.HADOOP_SECURITY_AUTHENTICATION:-simple}</value>
+  </property>
+  <property>
+    <name>hadoop.rpc.protection</name>
+    <value>${env.HADOOP_RPC_PROTECTION:-authentication}</value>
+  </property>
+  <property>
+    <name>hadoop.http.authentication.type</name>
+    <value>${env.HADOOP_HTTP_AUTHENTICATION_TYPE:-simple}</value>
+  </property>
+  <property>
+    <name>hadoop.http.authentication.kerberos.principal</name>
+    <value>${env.HADOOP_HTTP_AUTHENTICATION_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>hadoop.http.authentication.kerberos.keytab</name>
+    <value>${env.HADOOP_HTTP_AUTHENTICATION_KERBEROS_KEYTAB:-}</value>
   </property>
   <property>
     <name>hadoop.security.group.mapping</name>

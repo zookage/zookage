@@ -13,6 +13,8 @@
 
 set -eu
 
+readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
+
 check () {
   local -r url=$1
   echo "Check ${url}"
@@ -26,15 +28,43 @@ check () {
   fi
 }
 
-check "http://localhost:14000/webhdfs/v1/?op=liststatus&user.name=zookage"
+check_kerberos () {
+  local -r url=$1
+  echo "Check ${url} with Kerberos"
+  "${integration_dir}/run.sh" curl \
+    --fail \
+    --insecure \
+    --negotiate \
+    --output /dev/null \
+    --silent \
+    --user : \
+    "${url}"
+  echo
+}
+
+if [[ ${ZOOKAGE_PROFILE:-} == auth ]]; then
+  check_kerberos "http://hdfs-httpfs.zookage.svc.cluster.local:14000/webhdfs/v1/?op=liststatus"
+else
+  check "http://localhost:14000/webhdfs/v1/?op=liststatus&user.name=zookage"
+fi
 check "http://localhost:3000/"
-check "http://localhost:9870/dfshealth.html"
+if [[ ${ZOOKAGE_PROFILE:-} == auth ]]; then
+  check_kerberos "https://hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local:9871/dfshealth.html"
+else
+  check "http://localhost:9870/dfshealth.html"
+fi
 check "http://localhost:9874/#!/"
 check "http://localhost:9876/#!/"
 check "http://localhost:9888/#/Overview"
-check "http://localhost:8088/cluster"
-check "http://localhost:8088/ui2/"
-check "http://localhost:8188/applicationhistory"
+if [[ ${ZOOKAGE_PROFILE:-} == auth ]]; then
+  check_kerberos "http://yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local:8088/cluster"
+  check_kerberos "http://yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local:8088/ui2/"
+  check_kerberos "http://yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188/applicationhistory"
+else
+  check "http://localhost:8088/cluster"
+  check "http://localhost:8088/ui2/"
+  check "http://localhost:8188/applicationhistory"
+fi
 check "http://localhost:19888/jobhistory"
 check "http://localhost:9999/tez-ui/"
 check "http://localhost:10002/"

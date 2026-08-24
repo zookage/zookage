@@ -774,6 +774,44 @@
     {
       "version": 1,
       "service": "hdfs",
+      "name": "Hive logs - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for Hive aggregated logs - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/tmp/hive"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "roles": [
+            "warehouse_admin"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
       "name": "Home root directory - path",
       "policyType": 0,
       "policyPriority": 0,

@@ -20,7 +20,17 @@ source "${integration_dir}/s3.sh"
 run_beeline() {
   local sql=$1
 
-  "${integration_dir}/run.sh" /bin/bash -lc "TERM=dumb JAVA_TOOL_OPTIONS=\"-Djline.terminal=dumb -Dorg.jline.terminal.dumb=true\" beeline -e \"${sql}\""
+  "${integration_dir}/run.sh" /bin/bash -lc "
+    connection_args=()
+    if [[ -n \"\${HIVE_SERVER2_KERBEROS_PRINCIPAL:-}\" ]]; then
+      connection_args=(
+        -u
+        \"jdbc:hive2://hive-hiveserver2:10000/default;principal=\${HIVE_SERVER2_KERBEROS_PRINCIPAL}\"
+      )
+    fi
+    TERM=dumb JAVA_TOOL_OPTIONS=\"-Djline.terminal=dumb -Dorg.jline.terminal.dumb=true\" \\
+      beeline \"\${connection_args[@]}\" -e \"\$1\"
+  " _ "${sql}"
 }
 
 run_hive_on_tez_queries() {
