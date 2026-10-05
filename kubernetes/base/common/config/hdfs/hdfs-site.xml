@@ -34,6 +34,26 @@
     <name>hadoop.http.authentication.signer.secret.provider</name>
     <value>random</value>
   </property>
+  <property>
+    <name>dfs.block.access.token.enable</name>
+    <value>${env.HADOOP_DFS_BLOCK_ACCESS_TOKEN_ENABLE:-false}</value>
+  </property>
+  <property>
+    <name>dfs.data.transfer.protection</name>
+    <value>${env.HADOOP_DFS_DATA_TRANSFER_PROTECTION:-}</value>
+  </property>
+  <property>
+    <name>dfs.http.policy</name>
+    <value>${env.HADOOP_DFS_HTTP_POLICY:-HTTP_ONLY}</value>
+  </property>
+  <property>
+    <name>dfs.https.server.keystore.resource</name>
+    <value>ssl-server.xml</value>
+  </property>
+  <property>
+    <name>dfs.client.https.keystore.resource</name>
+    <value>ssl-client.xml</value>
+  </property>
 
   <property>
     <name>dfs.ha.namenodes.zookage</name>
@@ -52,12 +72,32 @@
     <value>${hadoop.tmp.dir}/dfs/journal</value>
   </property>
   <property>
+    <name>dfs.journalnode.kerberos.principal</name>
+    <value>${env.HADOOP_DFS_JOURNALNODE_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>dfs.journalnode.keytab.file</name>
+    <value>${env.HADOOP_DFS_JOURNALNODE_KEYTAB_FILE:-}</value>
+  </property>
+  <property>
+    <name>dfs.journalnode.kerberos.internal.spnego.principal</name>
+    <value>${env.HADOOP_DFS_JOURNALNODE_KERBEROS_INTERNAL_SPNEGO_PRINCIPAL:-}</value>
+  </property>
+  <property>
     <name>dfs.namenode.rpc-address.zookage.namenode-1</name>
     <value>hdfs-namenode-1.hdfs-namenode:8020</value>
   </property>
   <property>
     <name>dfs.namenode.http-address.zookage.namenode-1</name>
     <value>hdfs-namenode-1.hdfs-namenode:9870</value>
+  </property>
+  <property>
+    <name>dfs.namenode.https-address.zookage.namenode-0</name>
+    <value>hdfs-namenode-0.hdfs-namenode:9871</value>
+  </property>
+  <property>
+    <name>dfs.namenode.https-address.zookage.namenode-1</name>
+    <value>hdfs-namenode-1.hdfs-namenode:9871</value>
   </property>
 
   <property>
@@ -67,6 +107,18 @@
   <property>
     <name>dfs.namenode.name.dir</name>
     <value>file://${hadoop.tmp.dir}/dfs/nn1,file://${hadoop.tmp.dir}/dfs/nn2</value>
+  </property>
+  <property>
+    <name>dfs.namenode.kerberos.principal</name>
+    <value>${env.HADOOP_DFS_NAMENODE_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>dfs.namenode.keytab.file</name>
+    <value>${env.HADOOP_DFS_NAMENODE_KEYTAB_FILE:-}</value>
+  </property>
+  <property>
+    <name>dfs.namenode.kerberos.internal.spnego.principal</name>
+    <value>${env.HADOOP_DFS_NAMENODE_KERBEROS_INTERNAL_SPNEGO_PRINCIPAL:-}</value>
   </property>
   <property>
     <name>dfs.namenode.acls.enabled</name>
@@ -91,6 +143,26 @@
     <value>[DISK]file://${hadoop.tmp.dir}/dfs/dn</value>
   </property>
   <property>
+    <name>dfs.datanode.address</name>
+    <value>${env.HADOOP_DFS_DATANODE_ADDRESS:-0.0.0.0:9866}</value>
+  </property>
+  <property>
+    <name>dfs.datanode.http.address</name>
+    <value>${env.HADOOP_DFS_DATANODE_HTTP_ADDRESS:-0.0.0.0:9864}</value>
+  </property>
+  <property>
+    <name>dfs.datanode.https.address</name>
+    <value>${env.HADOOP_DFS_DATANODE_HTTPS_ADDRESS:-0.0.0.0:9865}</value>
+  </property>
+  <property>
+    <name>dfs.datanode.kerberos.principal</name>
+    <value>${env.HADOOP_DFS_DATANODE_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>dfs.datanode.keytab.file</name>
+    <value>${env.HADOOP_DFS_DATANODE_KEYTAB_FILE:-}</value>
+  </property>
+  <property>
     <!-- HDFS-16347 -->
     <name>dfs.datanode.directoryscan.throttle.limit.ms.per.sec</name>
     <value>500</value>
@@ -99,5 +171,13 @@
   <property>
     <name>dfs.webhdfs.rest-csrf.enabled</name>
     <value>true</value>
+  </property>
+  <property>
+    <name>dfs.web.authentication.kerberos.principal</name>
+    <value>${env.HADOOP_DFS_WEB_AUTHENTICATION_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>dfs.web.authentication.kerberos.keytab</name>
+    <value>${env.HADOOP_DFS_WEB_AUTHENTICATION_KERBEROS_KEYTAB:-}</value>
   </property>
 </configuration>

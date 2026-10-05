@@ -13,36 +13,30 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: hive-metastore-env
+  name: hbase-env
 data:
-  HIVE_METASTORE_CATALOG_SERVLET_AUTH: oauth2
-  METASTORE_SASL_ENABLED: "true"
-  METASTORE_KERBEROS_PRINCIPAL: >-
-    hive/hive-metastore-server-0.hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-  METASTORE_CLIENT_KERBEROS_PRINCIPAL: >-
-    hive/hive-metastore-server-0.hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-  METASTORE_KERBEROS_KEYTAB_FILE: /etc/hive/secrets/hive.keytab
+  HBASE_SECURITY_AUTHENTICATION: kerberos
+  HBASE_RPC_PROTECTION: authentication
+  HBASE_MASTER_KERBEROS_PRINCIPAL: hbase/_HOST@ZOOKAGE.LOCAL
+  HBASE_MASTER_KEYTAB_FILE: /etc/hbase/secrets/hbase.keytab
+  HBASE_REGIONSERVER_KERBEROS_PRINCIPAL: hbase/_HOST@ZOOKAGE.LOCAL
+  HBASE_REGIONSERVER_KEYTAB_FILE: /etc/hbase/secrets/hbase.keytab
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: hive-metastore-server
+  name: hbase-master
 spec:
   template:
     spec:
       initContainers:
-      - name: wait-for-keycloak
-        image: zookage-util
-        args:
-        - wait-for-rollout
-        - deployment/keycloak-server
       - name: wait-for-kdc
         image: zookage-util
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
       containers:
-      - name: metastore
+      - name: master
         env:
         - name: HADOOP_SECURITY_AUTHENTICATION
           value: kerberos
@@ -52,12 +46,46 @@ spec:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
-        - name: hive-secret
-          mountPath: /etc/hive/secrets
+        - name: hbase-secret
+          mountPath: /etc/hbase/secrets
       volumes:
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
-      - name: hive-secret
+      - name: hbase-secret
         secret:
-          secretName: hive-secret
+          secretName: hbase-secret
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hbase-regionserver
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: regionserver
+        env:
+        - name: HADOOP_SECURITY_AUTHENTICATION
+          value: kerberos
+        - name: HADOOP_RPC_PROTECTION
+          value: authentication
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hbase-secret
+          mountPath: /etc/hbase/secrets
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: hbase-secret
+        secret:
+          secretName: hbase-secret

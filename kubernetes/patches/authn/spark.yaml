@@ -1,0 +1,78 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spark-conf
+data:
+  spark-defaults.conf: |
+    spark.master=yarn
+    spark.executorEnv.LD_LIBRARY_PATH /opt/hadoop/lib/native
+    spark.yarn.appMasterEnv.LD_LIBRARY_PATH /opt/hadoop/lib/native
+    spark.yarn.appMasterEnv.JAVA_HOME /opt/java/jdk17
+    spark.executorEnv.JAVA_HOME /opt/java/jdk17
+
+    spark.driver.memory 1024m
+    spark.executor.instances 1
+    spark.executor.memory 800m
+    spark.executor.memoryOverhead 128m
+    spark.yarn.am.memory 800m
+    spark.yarn.am.memoryOverhead 128m
+    spark.yarn.jars /opt/spark/jars/*.jar
+    spark.yarn.maxAppAttempts 2
+
+    spark.eventLog.enabled true
+    spark.eventLog.dir hdfs://zookage/apps/spark-history
+    spark.history.fs.logDirectory hdfs://zookage/apps/spark-history
+    spark.yarn.historyServer.address spark-historyserver-0.spark-historyserver:18080
+    spark.history.kerberos.enabled true
+    spark.history.kerberos.principal \
+      spark/spark-historyserver-0.spark-historyserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+    spark.history.kerberos.keytab /etc/spark/secrets/spark.keytab
+
+    spark.sql.hive.metastore.version 4.0.1
+    spark.sql.hive.metastore.jars maven
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: spark-historyserver
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: historyserver
+        env:
+        - name: HADOOP_SECURITY_AUTHENTICATION
+          value: kerberos
+        - name: HADOOP_RPC_PROTECTION
+          value: authentication
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: spark-secret
+          mountPath: /etc/spark/secrets
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: spark-secret
+        secret:
+          secretName: spark-secret

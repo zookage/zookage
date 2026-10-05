@@ -42,6 +42,22 @@
     <name>hive.hook.proto.base-directory</name>
     <value>/apps/hive-history</value>
   </property>
+  <property>
+    <name>metastore.sasl.enabled</name>
+    <value>${env.METASTORE_SASL_ENABLED:-false}</value>
+  </property>
+  <property>
+    <name>metastore.kerberos.principal</name>
+    <value>${env.METASTORE_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>metastore.client.kerberos.principal</name>
+    <value>${env.METASTORE_CLIENT_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>metastore.kerberos.keytab.file</name>
+    <value>${env.METASTORE_KERBEROS_KEYTAB_FILE:-}</value>
+  </property>
 
   <property>
     <name>hive.security.authorization.manager</name>

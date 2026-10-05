@@ -23,6 +23,7 @@ objectClass: krbPrincipalAux
 objectClass: krbTicketPolicyAux
 uid: zookage
 cn: ZooKage
+givenName: ZooKage
 sn: ZooKage
 uidNumber: 1001
 gidNumber: 1001
@@ -38,12 +39,21 @@ dn: uid=hdfs,ou=users,dc=example,dc=com
 objectClass: top
 objectClass: inetOrgPerson
 objectClass: posixAccount
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
 uid: hdfs
 cn: HDFS
+givenName: HDFS
 sn: HDFS
 uidNumber: 1011
 gidNumber: 1011
 homeDirectory: /home/hdfs
+userPassword: hdfs
+krbPrincipalName: hdfs@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gAMmmjsCaP78dM2E9N0IWSTQZwq7Q0vCHwGt9yvGjVAgtIEohLhXIaNPi3j8cT
+ iUK8xCjq5QPl/ev63rWCTBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAoCewiZ/5hPFXyVLVxdLu
+ DNl7nOMdhFcek/HEJqfzvVkeRg8Qdy2+8Xvrwc8=
 
 dn: uid=yarn,ou=users,dc=example,dc=com
 objectClass: top
@@ -51,6 +61,7 @@ objectClass: inetOrgPerson
 objectClass: posixAccount
 uid: yarn
 cn: YARN
+givenName: YARN
 sn: YARN
 uidNumber: 1012
 gidNumber: 1012
@@ -62,6 +73,7 @@ objectClass: inetOrgPerson
 objectClass: posixAccount
 uid: mapred
 cn: MapReduce
+givenName: MapReduce
 sn: MapReduce
 uidNumber: 1013
 gidNumber: 1013
@@ -73,6 +85,7 @@ objectClass: inetOrgPerson
 objectClass: posixAccount
 uid: httpfs
 cn: HttpFS
+givenName: HttpFS
 sn: HttpFS
 uidNumber: 1014
 gidNumber: 1014
@@ -84,6 +97,7 @@ objectClass: inetOrgPerson
 objectClass: posixAccount
 uid: hive
 cn: Hive
+givenName: Hive
 sn: Hive
 uidNumber: 1020
 gidNumber: 1020
@@ -95,6 +109,7 @@ objectClass: inetOrgPerson
 objectClass: posixAccount
 uid: tez
 cn: Tez
+givenName: Tez
 sn: Tez
 uidNumber: 1030
 gidNumber: 1030
@@ -106,6 +121,7 @@ objectClass: inetOrgPerson
 objectClass: posixAccount
 uid: spark
 cn: Spark
+givenName: Spark
 sn: Spark
 uidNumber: 1040
 gidNumber: 1040
@@ -117,6 +133,7 @@ objectClass: inetOrgPerson
 objectClass: posixAccount
 uid: zookeeper
 cn: ZooKeeper
+givenName: ZooKeeper
 sn: ZooKeeper
 uidNumber: 1050
 gidNumber: 1050
@@ -128,6 +145,7 @@ objectClass: inetOrgPerson
 objectClass: posixAccount
 uid: hbase
 cn: HBase
+givenName: HBase
 sn: HBase
 uidNumber: 1060
 gidNumber: 1060
@@ -139,6 +157,7 @@ objectClass: inetOrgPerson
 objectClass: posixAccount
 uid: ozone
 cn: Ozone
+givenName: Ozone
 sn: Ozone
 uidNumber: 1070
 gidNumber: 1070
@@ -150,6 +169,7 @@ objectClass: inetOrgPerson
 objectClass: posixAccount
 uid: trino
 cn: Trino
+givenName: Trino
 sn: Trino
 uidNumber: 1080
 gidNumber: 1080
@@ -161,6 +181,7 @@ objectClass: inetOrgPerson
 objectClass: posixAccount
 uid: kdc
 cn: KDC
+givenName: KDC
 sn: KDC
 uidNumber: 1090
 gidNumber: 1090
@@ -427,3 +448,559 @@ krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEeg
  AwIBEqFABD4gAJmJZev0lIAI+lgq1OJOO6L6onN78BDjb39XjrnD0D21Zef0NQDzvd0rRGvfjLXhq
  2/4GneRm9skzii96jBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAvUTfOGICf/6qsWtS/V9kBUsP51
  KowsVLaiS//hwrSs3pwSVkhAsktSctX78=
+
+dn: ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: hdfs
+
+dn: uid=hdfs-hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hdfs-hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local
+userPassword: hdfs
+krbPrincipalName: hdfs/hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gANmjytY+BV7NIc7HAq6Nv/+5Gp9bzv3fx4uJ0JZnXS3X1VaVYkAi2HdRuKxvZ
+ oh5udOnzquJzH8y4jA8JDBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAvtxO8akjIwC5QxpEE7ak
+ aU94pYyGerPWT+d/L7ALSNQ1TNQkl+horsjVytk=
+
+dn: uid=hdfs-hdfs-namenode-1.hdfs-namenode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hdfs-hdfs-namenode-1.hdfs-namenode.zookage.svc.cluster.local
+userPassword: hdfs
+krbPrincipalName: hdfs/hdfs-namenode-1.hdfs-namenode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gALBm1LbHgIBYIUEXDBVnIUmHHy0YBNF4mK1VSDx4KmnwtKfuT8ZgHNWw4EB0e
+ /ZbaHxeO/UXwqiJIGkU3jBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAWdtGhDmabPTLNMR+jFNp
+ Z8rBFYzKwtGv2z0IZj/c6wbsPSUc1PfF4tIOwmI=
+
+dn: uid=http-hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gAHKYe+wsRSUxQUozw5c7i479lMsbI5T6K1x+tnfMTOaJG8hoXc+9gY5JcOCyV
+ 5BVw096mXiwy2YR1gtynTBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAq0SwPVzSF/b17EdRfJPW
+ MxH+sWBbYNjCqUgVU2YPW9FczGXnjugFRa0tiU4=
+
+dn: uid=http-hdfs-namenode-1.hdfs-namenode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hdfs-namenode-1.hdfs-namenode.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/hdfs-namenode-1.hdfs-namenode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gAAFi1o0iUe4QpHnRqrVzv1yvVh/XE2YcxGAS2qJmCX5E3vnOnIVVyhi+FLhqb
+ Lx3d9bcaOsdIrw2NKDx5TBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAynEA2CtKoFLM4Qu+JQM7
+ tI3jgj+a5FuUh4W5gOVn+SV8pZb5R8SfdnSDwAM=
+
+dn: uid=hdfs-hdfs-datanode-0.hdfs-datanode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hdfs-hdfs-datanode-0.hdfs-datanode.zookage.svc.cluster.local
+userPassword: hdfs
+krbPrincipalName: hdfs/hdfs-datanode-0.hdfs-datanode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gAHUY6k2rRqc23bzB/bp74Ja4alQsMvZqDvHYpsUSEyWeJlwd5QootJMcx6pqY
+ 9Hq5QAXG5rQr/6W8lHVGTBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAks0XIAac+JPfa6Wosyqa
+ fjkP9sygvO6JMQklhQt3UMaUX9S7IDq7yThJbqw=
+
+dn: uid=hdfs-hdfs-datanode-1.hdfs-datanode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hdfs-hdfs-datanode-1.hdfs-datanode.zookage.svc.cluster.local
+userPassword: hdfs
+krbPrincipalName: hdfs/hdfs-datanode-1.hdfs-datanode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gADOYb2vBgIQh/rL86YtHjIKjwJBlHmhJwi3aiFk4BWz99Fu/qXWa/6frA1AfL
+ pBXYopG65A5tKK6wLhB6TBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAJ+XqjXgEITUnURZ6j6rO
+ vgLqxEJvA60gSjgQQSz5HtT732kHSy7QrqcR1xI=
+
+dn: uid=hdfs-hdfs-datanode-2.hdfs-datanode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hdfs-hdfs-datanode-2.hdfs-datanode.zookage.svc.cluster.local
+userPassword: hdfs
+krbPrincipalName: hdfs/hdfs-datanode-2.hdfs-datanode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gAOBxEZrC9M1+JObPZ3goOAu62V/dlwAo3aDMxjJL2i1QaLNVO0fDFZOGOBqQF
+ NMyXSgb/jFZJuDy5UkvHzBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAuwzlHGil5a4vJhxLdgtW
+ /DFvhnu+dUxHliTgNqySNZwLBVNA2XxT+Oj9G5A=
+
+dn: uid=http-hdfs-datanode-0.hdfs-datanode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hdfs-datanode-0.hdfs-datanode.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/hdfs-datanode-0.hdfs-datanode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gAB72FHbk1GNcTKcKNzglymmIX1uSCdgo7KdVy2YKEaVv+FZ1hy1knQNC5tk/O
+ XRqH2maXFG2qMJZGbLuXzBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAoJwXlpg71+mbMmIaK11G
+ oqXbmyeJUXs2brhzB6lyISuKoYikDEb6jUbPXMc=
+
+dn: uid=http-hdfs-datanode-1.hdfs-datanode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hdfs-datanode-1.hdfs-datanode.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/hdfs-datanode-1.hdfs-datanode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gANZRCz1xyzqP9ApOnwKgcYjz+hFVxRu91/FevLc7IHqLmLuheTdO//CVJrDlg
+ IUL6uq8eFySboiesgAWijBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAANhCNIrA/V0n3ohCMK0ES
+ OQQjr9MqoJ7wPi/UpL6gNrcaalYGr4Z2hPvuNI4=
+
+dn: uid=http-hdfs-datanode-2.hdfs-datanode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hdfs-datanode-2.hdfs-datanode.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/hdfs-datanode-2.hdfs-datanode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gABBEsh0AxdfnbGqYxdtgWMONSKDMc6bTzd1ZVlhMngaV6kWgUtqZmKVMvHvHD
+ xWd4u/lzYt/MKJ5hrIbuzBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAO7vCimC/Vi5efLi/yaaV
+ a6B5Z5A+svf0lWauDVn82SiRqDr0COIL+NngpFo=
+
+dn: uid=hdfs-hdfs-journalnode-0.hdfs-journalnode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hdfs-hdfs-journalnode-0.hdfs-journalnode.zookage.svc.cluster.local
+userPassword: hdfs
+krbPrincipalName: hdfs/hdfs-journalnode-0.hdfs-journalnode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gAIh14receLcKUppYYnWx91oOTregCt6bSHQhfRtL2w/6PH5VZjEuRB/dmrNAI
+ vc94Er/+tuIjmsYIqG8STBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAhwdzUx4gSwQLZNeT15q/
+ 5MktdYuuFt7n/u542Aoqh/T6HM+3a49gExIwqj4=
+
+dn: uid=hdfs-hdfs-journalnode-1.hdfs-journalnode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hdfs-hdfs-journalnode-1.hdfs-journalnode.zookage.svc.cluster.local
+userPassword: hdfs
+krbPrincipalName: hdfs/hdfs-journalnode-1.hdfs-journalnode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gADVw+BbfuUFTn3LWGQM8qkTC7YkgfKGembRdYlz7SYSpTedlmU2tKpc0EexOC
+ FvwfVAmXidpOGN2wpCjmzBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAXgYlAgdgGojOtc+WpN2S
+ 0NqhXZ1Xs3C2urESToYUFzMindeDkOrZW0YmdBQ=
+
+dn: uid=hdfs-hdfs-journalnode-2.hdfs-journalnode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hdfs-hdfs-journalnode-2.hdfs-journalnode.zookage.svc.cluster.local
+userPassword: hdfs
+krbPrincipalName: hdfs/hdfs-journalnode-2.hdfs-journalnode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gAOek+krDqJ7tMsnYiUtG9zhYOLRJ1ZHK99xcTpeptKxhFNTunmLzTDE1OV2wb
+ qkEaNN1IggK6GJvj2AE8TBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAgV4GhsoWCHPYE6lugLsc
+ tcDZS/cJj7/0wKT6GprTnjU42TH+vY8FsfI/MmA=
+
+dn: uid=http-hdfs-journalnode-0.hdfs-journalnode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hdfs-journalnode-0.hdfs-journalnode.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/hdfs-journalnode-0.hdfs-journalnode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gACf+KMYccIeoWYZro3e/L666+BEWEooJPAgTxgFpNUBD9+aHHeQtQ2pwVLdAZ
+ 7y7PyGM5LaZljgRQrla7zBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAA8IaK3zzzVYAKUDQNbB2O
+ 9B3NVqOAOGNRZO/fKytthVzCF2RpAyus3pTUmJI=
+
+dn: uid=http-hdfs-journalnode-1.hdfs-journalnode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hdfs-journalnode-1.hdfs-journalnode.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/hdfs-journalnode-1.hdfs-journalnode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gAKjhAfCYHmLJLx9buETySvTPN6BNwgca5W7wyI0ocx8WBYZ8jQm1OSLqOMGH0
+ 2mWnhDYeTa3y0qABL7GSzBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAt/2E6dhHGO3+7/l+G10/
+ cPsXGh70UnMWxnWPmQH7+pZX0w3cThUsQBahspg=
+
+dn: uid=http-hdfs-journalnode-2.hdfs-journalnode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hdfs-journalnode-2.hdfs-journalnode.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/hdfs-journalnode-2.hdfs-journalnode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gAAgcEVrIBTjmCYhIk0dEublZZ5UxjG/L1gcNYJ8+2XLU9L1wbL2f3gORi5m6l
+ 67RQ3P0l6ViwTazlsl8ODBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAmrIU/2QjxNWrQW7X97HN
+ eYzCwWhYpU3T+xAtcAvriaNERGo8/y6C/YPrSy0=
+
+dn: uid=http-hdfs-httpfs.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hdfs-httpfs.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/hdfs-httpfs.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gAMNyEa3Glur80Xx0k5yO6GAWx5aEISoal0PYBaX764FD4AF4LfjRKFcXLW39Q
+ rDnUA1IemhCmYly69+IGzBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAln3Zk8cTmpJGdk1pcQYx
+ UJhE1wuqbn8lndbUQLr9CgAQTM8JgEFVm9PpiG8=
+
+dn: uid=httpfs-hdfs-httpfs.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: httpfs-hdfs-httpfs.zookage.svc.cluster.local
+userPassword: httpfs
+krbPrincipalName: httpfs/hdfs-httpfs.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJME
+ egAwIBEqFABD4gAG9vyt+XGyCLam8T9BFVDvUrjJbj/BSogGDAD4hgr1kNLZMM/6R7Gts30g4Ji
+ jF6IH9NRSwNSmjtKBs71TBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAzkFW7hpeMgccis+r5+3S
+ GgSwjEL+p6wvczxlyfPbha7E0ShO/yz4kuXbjfg=
+
+dn: ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: yarn
+
+dn: uid=http-yarn-nodemanager-0.yarn-nodemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-yarn-nodemanager-0.yarn-nodemanager.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/yarn-nodemanager-0.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAC2jmwwO9gGLRqzewT7a3dQcZXP7fYtbIxpP8QIn3IHTMJDeN2s3sQUL/tWhlM14aKa0LpLAuRz6TR/oJg==
+
+dn: uid=http-yarn-nodemanager-1.yarn-nodemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-yarn-nodemanager-1.yarn-nodemanager.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/yarn-nodemanager-1.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAAbJWliKDPEhbwWO1dngSP5DoV5mDhKFVzFGVbX3v4lmaMsWRKr6GF2rBJR5pIPKzhHB+2wj+zpQvEnJSg==
+
+dn: uid=http-yarn-nodemanager-2.yarn-nodemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-yarn-nodemanager-2.yarn-nodemanager.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/yarn-nodemanager-2.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAFRUWbv7ln1tVub4Ri/br+Wg47wFsr7rOsoD912+4Q7nbYOE0TCy33PWBri6av47wznVYfBPuh9ZzqTPWA==
+
+dn: uid=http-yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gALweAYuXoDMOl9g2MT3uzAOBFx/ACYrpNJRHc4f6b6ZQG6B7YyzVE+V+95O+j8u4dSH17qc/YJjHPlycWA==
+
+dn: uid=http-yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gABuozxIvirnXV9GQT/vP++1OQxU0PAeycRA7oihb00DnY+AgmsFgTcd3YZTKwaPdOYiul/oTFSDytI1Snw==
+
+dn: uid=http-yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gADeKhQMAvq8/TCD84dZx1cU3+v3sdeTEB/NICkKAsUeRXBYtcH20/xKyuQnFiJ6VRjUGgw2qiiLMlq3Tug==
+
+dn: uid=yarn-yarn-nodemanager-0.yarn-nodemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: yarn-yarn-nodemanager-0.yarn-nodemanager.zookage.svc.cluster.local
+userPassword: yarn
+krbPrincipalName: yarn/yarn-nodemanager-0.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAEh3/l6xwP+T0H8C/2TSvHj+zEhPmXDhndzm5vsRZ1gftiLD64nLiZ1GvQIvMt2JEvvFv99vPcjVgX7RFA==
+
+dn: uid=yarn-yarn-nodemanager-1.yarn-nodemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: yarn-yarn-nodemanager-1.yarn-nodemanager.zookage.svc.cluster.local
+userPassword: yarn
+krbPrincipalName: yarn/yarn-nodemanager-1.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAKN1eXrFHXpoaVv9l2+ritpJH7PNKwvQ0YtqB2MLDrqZGHKGR8W5JDsb+lnKakHoQluzRhgN0e9qSExt/A==
+
+dn: uid=yarn-yarn-nodemanager-2.yarn-nodemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: yarn-yarn-nodemanager-2.yarn-nodemanager.zookage.svc.cluster.local
+userPassword: yarn
+krbPrincipalName: yarn/yarn-nodemanager-2.yarn-nodemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAMg3Qx6uycg52J63JVjM6SX566djs/Wj9liv7xk6lmEzsoaWTEAdJIYNIMHcjRaZQarRvU8D2/i+VptENw==
+
+dn: uid=yarn-yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: yarn-yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local
+userPassword: yarn
+krbPrincipalName: yarn/yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAHN+B7zke77CE4PkRNCEv7E59PSmKjb6qDLlQAqRdaHiebafxGAwm7/jS5s16OD6cyZsEMoLxGgrVBFQNg==
+
+dn: uid=yarn-yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: yarn-yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local
+userPassword: yarn
+krbPrincipalName: yarn/yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAE8nGNE9568pNPg3Z0tFOMGnlGm6RaBPHsXfPn6A+6eaBUyzuCRjmEcmY3ABT5oaufa6u+kOPXOiYfQ48w==
+
+dn: uid=yarn-yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local,ou=yarn,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: yarn-yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local
+userPassword: yarn
+krbPrincipalName: yarn/yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAN8Sp/oelUe6s918qLO9fEojdawqTJdTymYuIK1l2wQBBP+x7FIgBdSwV9M+nupv0LM57OFohcHihax0gw==
+
+dn: ou=mapreduce,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: mapreduce
+
+dn: uid=http-mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local,ou=mapreduce,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAOI10j0FptbElSn8LAIFf/OiRR9rH5gUZBw5gKw66JI//ol6XycaWTP4IFZUnLH6uHI9UEawE3fwk8FV2A==
+
+dn: uid=mapred-mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local,ou=mapreduce,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: mapred-mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local
+userPassword: mapred
+krbPrincipalName: mapred/mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAF5Y0KruIXc9vUzhAecCuy1kOMr64wVvRDCL56TOiqciwUc2pZ0Nz0pXaRfpIY3YDyUQwwcG1X21iyynJA==
+
+dn: ou=spark,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: spark
+
+dn: uid=spark-spark-historyserver-0.spark-historyserver.zookage.svc.cluster.local,ou=spark,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: spark-spark-historyserver-0.spark-historyserver.zookage.svc.cluster.local
+userPassword: spark
+krbPrincipalName: spark/spark-historyserver-0.spark-historyserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAM2xgZIyiR76rZq869/vSnGMZ0RDtMXIqt0FHTZsReby+wvhjj2A/obqypGLcSDVth2hCSDyaTuZnJoQ1w==
+
+dn: ou=hbase,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: hbase
+
+dn: uid=hbase-hbase-master-0.hbase-master.zookage.svc.cluster.local,ou=hbase,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hbase-hbase-master-0.hbase-master.zookage.svc.cluster.local
+userPassword: hbase
+krbPrincipalName: hbase/hbase-master-0.hbase-master.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAGA9kJnzR/gN5t74FCiIFIB6QZoyZTEtjzYhsg1RcYQ1XCIj5T7/moDqY7sYJOKuPviBZ96x1DGYM6urzw==
+
+dn: uid=hbase-hbase-master-1.hbase-master.zookage.svc.cluster.local,ou=hbase,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hbase-hbase-master-1.hbase-master.zookage.svc.cluster.local
+userPassword: hbase
+krbPrincipalName: hbase/hbase-master-1.hbase-master.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAP8l9IcGxgsXy4lKUJHvCzP/3beaFXjkAtWmF1F3bYIl78H3BCgujiz1ImoYWUr5cCUuj3illl/y7ayTZQ==
+
+dn: uid=hbase-hbase-regionserver-0.hbase-regionserver.zookage.svc.cluster.local,ou=hbase,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hbase-hbase-regionserver-0.hbase-regionserver.zookage.svc.cluster.local
+userPassword: hbase
+krbPrincipalName: hbase/hbase-regionserver-0.hbase-regionserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAFesZ7nYL1aYEg3Aix7JDYu4IyMGYFK8bHaAIsMf38iC7rTSCzv8ay2K+vdaguPcdcEQD8UCW4RBuRbk+Q==
+
+dn: uid=hbase-hbase-regionserver-1.hbase-regionserver.zookage.svc.cluster.local,ou=hbase,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hbase-hbase-regionserver-1.hbase-regionserver.zookage.svc.cluster.local
+userPassword: hbase
+krbPrincipalName: hbase/hbase-regionserver-1.hbase-regionserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAD2slS5kohnFK/7lOO/KKZq3WgpivMkf7EPmnP0DSPEiaZJeDQ1VpiTWUWRgd3S3SGqOg9hcSuxU8NDkYA==
+
+dn: ou=hive,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: hive
+
+dn: uid=hive-hive-hiveserver2.zookage.svc.cluster.local,ou=hive,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hive-hive-hiveserver2.zookage.svc.cluster.local
+userPassword: hive
+krbPrincipalName: hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAMMgCQe9JMgDyM4kYdi23JclEcjw+/iQxKRdq1aUFFk5vtVVo8Fiy9fjvUPHryH7/HKfu1J5aUYsDgjd+w==
+
+dn: uid=hive-hive-metastore-server-0.hive-metastore-server.zookage.svc.cluster.local,ou=hive,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hive-hive-metastore-server-0.hive-metastore-server.zookage.svc.cluster.local
+userPassword: hive
+krbPrincipalName: hive/hive-metastore-server-0.hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAOLon151LDvDoVEiFz+hZlLQxLNg7SZS0qC8GuqpHfbut44Erur0LhW3AiJK/lOcTUQgXkYWrRrWWhUVlw==
+
+dn: ou=trino,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: trino
+
+dn: uid=trino,ou=trino,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: trino
+userPassword: trino
+krbPrincipalName: trino@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAEtkGttTQxpvuvZLvBN9533SuHocV15ULyCviGf6yr3h3vgLMOMLwvRA3dZQzb7LDFXphZZ/ys+KYUt2Sg==
+
+dn: uid=hive-trino-coordinator-0.trino-coordinator.zookage.svc.cluster.local,ou=trino,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hive-trino-coordinator-0.trino-coordinator.zookage.svc.cluster.local
+userPassword: trino
+krbPrincipalName: hive/trino-coordinator-0.trino-coordinator.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gALa4zG2JhsLsREsKup3U38CPzIIfLiThAW4ZzkC9Z6gbF/DUGSHnlvzMs/LsQEWhfPxzVjB+miygh9ko1TBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAc4FmDdF4JupNujvep6MXwbAJ81rc8wzo2Jdk3+TGeu6OuCGTja0djqNQclY=
+
+dn: ou=tez,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: tez
+
+dn: uid=tez,ou=tez,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: tez
+userPassword: tez
+krbPrincipalName: tez@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gABcrowH8a/YCTu4HDkVlxw4J3vjDvEgxKsxn/Zh0Z9Cimt5pY3/YULHvvqaXBPRAQwLTY7cNHQ6ync1NdQ==

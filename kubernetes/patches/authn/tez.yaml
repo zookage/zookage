@@ -10,54 +10,58 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-kind: ConfigMap
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: hive-metastore-env
-data:
-  HIVE_METASTORE_CATALOG_SERVLET_AUTH: oauth2
-  METASTORE_SASL_ENABLED: "true"
-  METASTORE_KERBEROS_PRINCIPAL: >-
-    hive/hive-metastore-server-0.hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-  METASTORE_CLIENT_KERBEROS_PRINCIPAL: >-
-    hive/hive-metastore-server-0.hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-  METASTORE_KERBEROS_KEYTAB_FILE: /etc/hive/secrets/hive.keytab
----
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: hive-metastore-server
+  name: tez-deploy
 spec:
   template:
     spec:
       initContainers:
-      - name: wait-for-keycloak
-        image: zookage-util
-        args:
-        - wait-for-rollout
-        - deployment/keycloak-server
       - name: wait-for-kdc
         image: zookage-util
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
+      - name: kinit
+        image: zookage-util
+        command:
+        - /usr/bin/kinit
+        args:
+        - -c
+        - /var/kerberos/krb5cc
+        - -kt
+        - /etc/tez/secrets/tez.keytab
+        - tez@ZOOKAGE.LOCAL
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: tez-secret
+          mountPath: /etc/tez/secrets
+        - name: kerberos-cache
+          mountPath: /var/kerberos
       containers:
-      - name: metastore
+      - name: upload
         env:
         - name: HADOOP_SECURITY_AUTHENTICATION
           value: kerberos
         - name: HADOOP_RPC_PROTECTION
           value: authentication
+        - name: KRB5CCNAME
+          value: FILE:/var/kerberos/krb5cc
         volumeMounts:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
-        - name: hive-secret
-          mountPath: /etc/hive/secrets
+        - name: kerberos-cache
+          mountPath: /var/kerberos
       volumes:
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
-      - name: hive-secret
+      - name: tez-secret
         secret:
-          secretName: hive-secret
+          secretName: tez-secret
+      - name: kerberos-cache
+        emptyDir: {}

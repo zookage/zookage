@@ -3,6 +3,8 @@
   "name": "trino",
   "configs": {
     "username": "trino",
+    "policy.download.auth.users": "trino",
+    "tag.download.auth.users": "trino",
     "jdbc.driverClassName": "io.trino.jdbc.TrinoDriver",
     "jdbc.url": "jdbc:trino://trino-coordinator:8090"
   }

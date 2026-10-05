@@ -8,6 +8,10 @@
     {
       "name": "trino",
       "isAdmin": false
+    },
+    {
+      "name": "zookage",
+      "isAdmin": false
     }
   ]
 }
