@@ -56,6 +56,7 @@ generate_keytab() {
   local keytab_file=$1
   local dn_pattern=$2
 
+  mkdir -p "$(dirname "${keytab_file}")"
   rm -f "${keytab_file}"
   while IFS=$'\t' read -r principal password; do
     ktutil -k "${keytab_file}" add \
@@ -66,12 +67,16 @@ generate_keytab() {
   done < <(keytab_principals "${dn_pattern}")
 }
 
-generate_keytab \
-  "${secret_dir}/client/client.keytab" \
-  '^uid=zookage,ou=users,dc=example,dc=com$'
-generate_keytab \
-  "${secret_dir}/ranger/ranger.keytab" \
-  '^uid=.*ou=ranger,ou=kerberos,dc=example,dc=com$'
-generate_keytab \
-  "${secret_dir}/yarn/yarn.keytab" \
-  '^uid=.*ou=yarn,ou=kerberos,dc=example,dc=com$'
+if [[ $# -eq 0 ]]; then
+  set -- client hive ranger yarn
+fi
+
+for service in "$@"; do
+  case "${service}" in
+    client) dn_pattern='^uid=zookage,ou=users,dc=example,dc=com$' ;;
+    hive) dn_pattern='^uid=hive,ou=users,dc=example,dc=com$' ;;
+    ranger|yarn) dn_pattern="^uid=.*ou=${service},ou=kerberos,dc=example,dc=com$" ;;
+    *) echo "Unknown keytab service: ${service}" >&2; exit 1 ;;
+  esac
+  generate_keytab "${secret_dir}/${service}/${service}.keytab" "${dn_pattern}"
+done

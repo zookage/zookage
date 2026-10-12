@@ -69,4 +69,4 @@ run_hive_on_tez_queries
 ensure_s3_bucket test
 run_hive_on_tez_queries s3a://test/hive-on-tez
 
-"${integration_dir}/tez_log.sh"
+"${integration_dir}/tez_log.sh" hive

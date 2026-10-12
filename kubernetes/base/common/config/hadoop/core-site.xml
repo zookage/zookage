@@ -23,10 +23,6 @@
     <value>/mnt/hadoop</value>
   </property>
   <property>
-    <name>hadoop.http.temp.dir</name>
-    <value>${java.io.tmpdir}/hadoop</value>
-  </property>
-  <property>
     <name>hadoop.security.credential.provider.path</name>
     <value>localjceks://file/etc/hadoop/secrets/hadoop.jceks</value>
   </property>

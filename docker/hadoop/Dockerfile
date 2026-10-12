@@ -55,8 +55,18 @@ RUN \
     "./hadoop-dist/target/hadoop-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" \
     ./hadoop-dist/target/hadoop
 
+# LinuxContainerExecutor and its native dependencies are only required by the native profile.
+RUN mkdir /home/hadoop-build/runtime-libs \
+  && case ",${active_profiles}," in \
+    *,native,*) \
+      test -x ./hadoop-dist/target/hadoop/bin/container-executor \
+      && cp /usr/lib/*-linux-gnu/libcrypto.so.1.1 /home/hadoop-build/runtime-libs/ ;; \
+  esac
+
 # hadolint ignore=DL3006
 FROM ${ubuntu_image}
+
+ARG active_profiles
 
 COPY --from=jdk_11 /opt/java/openjdk /opt/java/jdk11
 COPY --from=jdk_17 /opt/java/openjdk /opt/java/jdk17
@@ -73,7 +83,7 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 COPY --chown=root:root --from=builder /home/hadoop-build/hadoop/hadoop-dist/target/hadoop /opt/hadoop
-COPY --from=builder /usr/lib/*-linux-gnu/libcrypto.so.1.1 /usr/local/lib/
+COPY --from=builder /home/hadoop-build/runtime-libs/ /usr/local/lib/
 RUN groupadd --gid 1010 hadoop \
   && groupadd --gid 1015 yarn-executor \
   && groupadd --gid 1011 hdfs \
@@ -89,9 +99,12 @@ RUN groupadd --gid 1010 hadoop \
     -e 's|^banned.users=.*|banned.users=hdfs,yarn,mapred,bin|' \
     -e 's|^allowed.system.users=.*|allowed.system.users=|' \
     /opt/hadoop/etc/hadoop/container-executor.cfg \
-  && chown root:yarn-executor \
-    /opt/hadoop/bin/container-executor \
-    /opt/hadoop/etc/hadoop/container-executor.cfg \
-  && chmod 6050 /opt/hadoop/bin/container-executor \
-  && chmod 0400 /opt/hadoop/etc/hadoop/container-executor.cfg \
+  && case ",${active_profiles}," in \
+    *,native,*) \
+      chown root:yarn-executor \
+        /opt/hadoop/bin/container-executor \
+        /opt/hadoop/etc/hadoop/container-executor.cfg \
+      && chmod 6050 /opt/hadoop/bin/container-executor \
+      && chmod 0400 /opt/hadoop/etc/hadoop/container-executor.cfg ;; \
+  esac \
   && ldconfig

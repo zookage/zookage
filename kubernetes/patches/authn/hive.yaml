@@ -1,0 +1,95 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ranger-conf
+data:
+  ranger-service-hive.json: |
+    {
+      "type": "hive",
+      "name": "hive",
+      "configs": {
+        "username": "hive",
+        "password": "dummy",
+        "jdbc.driverClassName": "dummy",
+        "jdbc.url": "dummy",
+        "enable.hive.metastore.lookup": "true",
+        "hive.site.file.path": "/etc/hive/conf/hive-site.xml",
+        "policy.download.auth.users": "hive",
+        "tag.download.auth.users": "hive"
+      }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hive-hiveserver2
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      - name: initialize-hive-keytab
+        image: zookage-hadoop
+        command:
+        - /bin/bash
+        - -euc
+        args:
+        - |
+          install -d -o 1020 -g 1020 -m 0700 /etc/hive/secrets
+          install -o 1020 -g 1020 -m 0400 \
+            /etc/hive/keytab-source/hive.keytab /etc/hive/secrets/hive.keytab
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+        volumeMounts:
+        - name: hive-keytab-source
+          mountPath: /etc/hive/keytab-source
+          readOnly: true
+        - name: hive-secret
+          mountPath: /etc/hive/secrets
+      containers:
+      - name: hiveserver2
+        env:
+        - name: HADOOP_SECURITY_AUTHENTICATION
+          value: kerberos
+        - name: HADOOP_RPC_PROTECTION
+          value: authentication
+        - name: HADOOP_IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH_ALLOWED
+          value: "true"
+        - name: HIVE_SERVER2_KERBEROS_PRINCIPAL
+          value: hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+        - name: HIVE_SERVER2_KERBEROS_KEYTAB
+          value: /etc/hive/secrets/hive.keytab
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hive-secret
+          mountPath: /etc/hive/secrets
+          readOnly: true
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: hive-secret
+        emptyDir: {}
+      - name: hive-keytab-source
+        secret:
+          secretName: hive-secret
+          defaultMode: 0400

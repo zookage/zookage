@@ -43,6 +43,7 @@ header:
   - "kubernetes/base/common/secret/hadoop/hadoop.jceks.properties"
   - "kubernetes/base/common/secret/client/client.keytab"
   - "kubernetes/base/common/secret/hdfs/httpfs-signature.secret"
+  - "kubernetes/base/common/secret/hive/hive.keytab"
   - "kubernetes/base/common/secret/hive-metastore/hive-metastore.jceks"
   - "kubernetes/base/common/secret/hive-metastore/hive-metastore.jceks.properties"
   - "kubernetes/base/common/secret/ozone/ozone-http-auth-signature.secret"
