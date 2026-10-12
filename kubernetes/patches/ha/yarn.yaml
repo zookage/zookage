@@ -28,7 +28,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: hadoop-env
+  name: config-values
 data:
-  HADOOP_YARN_RESOURCEMANAGER_HA_ENABLED: "true"
-  HADOOP_YARN_RESOURCEMANAGER_HA_RM_IDS: resourcemanager-0,resourcemanager-1
+  hadoop_yarn_resourcemanager_ha_enabled: "true"
+  hadoop_yarn_resourcemanager_ha_rm_ids: resourcemanager-0,resourcemanager-1

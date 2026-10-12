@@ -35,6 +35,8 @@ header:
   - "docker/build.env"
   - "**/target/**"
   - "**/*.json"
+  - "**/go.mod"
+  - "**/go.sum"
   - "**/*.md"
   - "LICENSE"
   - "kubernetes/base/common/secret/hadoop/hadoop.jceks"

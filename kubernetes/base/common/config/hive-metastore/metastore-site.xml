@@ -45,11 +45,11 @@
 
   <property>
     <name>hive.security.authorization.manager</name>
-    <value>${env.METASTORE_SECURITY_AUTHORIZATION_MANAGER:-org.apache.hadoop.hive.ql.security.authorization.plugin.sqlstd.SQLStdHiveAuthorizerFactory}</value>
+    <value>{{ or (index .Values "metastore_security_authorization_manager") "org.apache.hadoop.hive.ql.security.authorization.plugin.sqlstd.SQLStdHiveAuthorizerFactory" | html }}</value>
   </property>
   <property>
     <name>metastore.pre.event.listeners</name>
-    <value>${env.METASTORE_PRE_EVENT_LISTENERS:-}</value>
+    <value>{{ or (index .Values "metastore_pre_event_listeners") "" | html }}</value>
   </property>
 
   <property>
@@ -58,7 +58,7 @@
   </property>
   <property>
     <name>metastore.catalog.servlet.auth</name>
-    <value>${env.HIVE_METASTORE_CATALOG_SERVLET_AUTH:-none}</value>
+    <value>{{ or (index .Values "hive_metastore_catalog_servlet_auth") "none" | html }}</value>
   </property>
   <property>
     <name>metastore.catalog.servlet.auth.oauth2.issuer</name>

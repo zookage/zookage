@@ -13,9 +13,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: hadoop-env
+  name: config-values
 data:
-  HADOOP_SECURITY_AUTHORIZATION: "true"
+  hadoop_security_authorization: "true"
+  hadoop_dfs_namenode_inode_attributes_provider_class: org.apache.ranger.authorization.hadoop.RangerHdfsAuthorizer
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -35,8 +36,6 @@ spec:
         env:
         - name: HADOOP_CLASSPATH
           value: /opt/ranger/ranger-hdfs-plugin/lib/*
-        - name: HADOOP_DFS_NAMENODE_INODE_ATTRIBUTES_PROVIDER_CLASS
-          value: org.apache.ranger.authorization.hadoop.RangerHdfsAuthorizer
         volumeMounts:
         - name: ranger-src
           mountPath: /opt/ranger

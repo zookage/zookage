@@ -13,18 +13,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: hive-env
+  name: config-values
 data:
-  HIVE_EXECUTION_MODE: llap
-  HIVE_LLAP_DAEMON_SERVICE_HOSTS: "@llap0"
-  HIVE_LLAP_EXECUTION_MODE: only
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: tez-env
-data:
-  TEZ_AM_SHUFFLE_AUXILIARY_SERVICE_ID: mapreduce_shuffle
+  hive_execution_mode: llap
+  hive_llap_daemon_service_hosts: "@llap0"
+  hive_llap_execution_mode: only
+  tez_am_shuffle_auxiliary_service_id: mapreduce_shuffle
 ---
 apiVersion: apps/v1
 kind: StatefulSet

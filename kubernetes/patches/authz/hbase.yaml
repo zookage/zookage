@@ -13,9 +13,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: hbase-env
+  name: config-values
 data:
-  HBASE_COPROCESSOR_CLASSES: org.apache.ranger.authorization.hbase.RangerAuthorizationCoprocessor
+  hbase_coprocessor_classes: org.apache.ranger.authorization.hbase.RangerAuthorizationCoprocessor
 ---
 apiVersion: apps/v1
 kind: StatefulSet

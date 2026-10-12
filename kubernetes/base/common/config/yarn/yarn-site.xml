@@ -19,11 +19,11 @@
   </property>
   <property>
     <name>yarn.resourcemanager.ha.enabled</name>
-    <value>${env.HADOOP_YARN_RESOURCEMANAGER_HA_ENABLED:-false}</value>
+    <value>{{ or (index .Values "hadoop_yarn_resourcemanager_ha_enabled") "false" | html }}</value>
   </property>
   <property>
     <name>yarn.resourcemanager.ha.rm-ids</name>
-    <value>${env.HADOOP_YARN_RESOURCEMANAGER_HA_RM_IDS:-resourcemanager-0}</value>
+    <value>{{ or (index .Values "hadoop_yarn_resourcemanager_ha_rm_ids") "resourcemanager-0" | html }}</value>
   </property>
   <property>
     <name>yarn.resourcemanager.hostname.resourcemanager-0</name>
@@ -49,11 +49,11 @@
 
   <property>
     <name>yarn.acl.enable</name>
-    <value>${env.HADOOP_YARN_ACL_ENABLE:-false}</value>
+    <value>{{ or (index .Values "hadoop_yarn_acl_enable") "false" | html }}</value>
   </property>
   <property>
     <name>yarn.authorization-provider</name>
-    <value>${env.HADOOP_YARN_AUTHORIZATION_PROVIDER:-org.apache.hadoop.yarn.security.ConfiguredYarnAuthorizer}</value>
+    <value>{{ or (index .Values "hadoop_yarn_authorization_provider") "org.apache.hadoop.yarn.security.ConfiguredYarnAuthorizer" | html }}</value>
   </property>
 
   <property>
@@ -87,7 +87,7 @@
   </property>
   <property>
     <name>yarn.nodemanager.env-whitelist</name>
-    <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_HOME,HADOOP_OPTIONAL_TOOLS,PATH,LANG,TZ,HADOOP_MAPRED_HOME,HADOOP_DFS_HA_NAMENODES,HADOOP_YARN_RESOURCEMANAGER_HA_ENABLED,HADOOP_YARN_RESOURCEMANAGER_HA_RM_IDS</value>
+    <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_HOME,HADOOP_OPTIONAL_TOOLS,PATH,LANG,TZ,HADOOP_MAPRED_HOME</value>
   </property>
   <property>
     <name>yarn.nodemanager.log-dirs</name>

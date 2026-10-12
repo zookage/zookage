@@ -77,16 +77,16 @@
   </property>
   <property>
     <name>hive.security.authorization.manager</name>
-    <value>${env.HIVE_SECURITY_AUTHORIZATION_MANAGER:-org.apache.hadoop.hive.ql.security.authorization.plugin.sqlstd.SQLStdHiveAuthorizerFactory}</value>
+    <value>{{ or (index .Values "hive_security_authorization_manager") "org.apache.hadoop.hive.ql.security.authorization.plugin.sqlstd.SQLStdHiveAuthorizerFactory" | html }}</value>
   </property>
 
   <property>
     <name>hive.llap.daemon.service.hosts</name>
-    <value>${env.HIVE_LLAP_DAEMON_SERVICE_HOSTS:-}</value>
+    <value>{{ or (index .Values "hive_llap_daemon_service_hosts") "" | html }}</value>
   </property>
   <property>
     <name>hive.execution.mode</name>
-    <value>${env.HIVE_EXECUTION_MODE:-container}</value>
+    <value>{{ or (index .Values "hive_execution_mode") "container" | html }}</value>
   </property>
   <property>
     <name>hive.llap.io.enabled</name>
@@ -94,7 +94,7 @@
   </property>
   <property>
     <name>hive.llap.execution.mode</name>
-    <value>${env.HIVE_LLAP_EXECUTION_MODE:-none}</value>
+    <value>{{ or (index .Values "hive_llap_execution_mode") "none" | html }}</value>
   </property>
   <property>
     <name>hive.llap.daemon.rpc.port</name>
