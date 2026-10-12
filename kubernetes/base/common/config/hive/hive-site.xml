@@ -51,6 +51,18 @@
     <value>false</value>
   </property>
   <property>
+    <name>hive.server2.authentication.kerberos.principal</name>
+    <value>${env.HIVE_SERVER2_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>hive.server2.authentication.client.kerberos.principal</name>
+    <value>${env.HIVE_SERVER2_KERBEROS_PRINCIPAL:-}</value>
+  </property>
+  <property>
+    <name>hive.server2.authentication.kerberos.keytab</name>
+    <value>${env.HIVE_SERVER2_KERBEROS_KEYTAB:-}</value>
+  </property>
+  <property>
     <name>tez.staging-dir</name>
     <value>/tmp/hive/tez/staging</value>
   </property>
