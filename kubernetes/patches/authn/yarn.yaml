@@ -13,6 +13,13 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: config-values
+data:
+  hadoop_yarn_nodemanager_principal: yarn/_HOST@ZOOKAGE.LOCAL
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
   name: hadoop-env
 data:
   HADOOP_YARN_RESOURCEMANAGER_PRINCIPAL: yarn/_HOST@ZOOKAGE.LOCAL
@@ -21,7 +28,6 @@ data:
     HTTP/_HOST@ZOOKAGE.LOCAL
   HADOOP_YARN_RESOURCEMANAGER_WEBAPP_SPNEGO_KEYTAB_FILE: >-
     /etc/yarn/secrets/yarn.keytab
-  HADOOP_YARN_NODEMANAGER_PRINCIPAL: yarn/_HOST@ZOOKAGE.LOCAL
   HADOOP_YARN_NODEMANAGER_KEYTAB: /etc/yarn/secrets/yarn.keytab
   HADOOP_YARN_NODEMANAGER_WEBAPP_SPNEGO_PRINCIPAL: >-
     HTTP/_HOST@ZOOKAGE.LOCAL
