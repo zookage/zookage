@@ -66,7 +66,7 @@ images:
   newTag: 26.5-zookage-0.5
 - name: zookage-openldap
   newName: zookage/zookage-openldap
-  newTag: ubuntu-24.04-zookage-0.5
+  newTag: experimental
 - name: zookage-ozone
   newName: zookage/zookage-ozone
   newTag: 2.0.0-zookage-0.5
@@ -90,8 +90,11 @@ images:
   newTag: 3.9.4-zookage-0.5
 ### Extensions ###
 patches:
+# - path: patches/authn/client.yaml
+# - path: patches/authn/hive.yaml
 # - path: patches/authn/hive-metastore.yaml
 # - path: patches/authn/ranger.yaml
+# - path: patches/authn/yarn.yaml
 # - path: patches/authn/trino.yaml
 # - path: patches/authz/hbase.yaml
 # - path: patches/authz/hdfs.yaml

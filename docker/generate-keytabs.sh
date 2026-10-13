@@ -15,16 +15,15 @@ set -eu
 
 readonly base_dir=$(cd "$(dirname "$0")"; pwd)
 readonly repo_dir=$(cd "${base_dir}/.."; pwd)
-readonly keytab_dir="${repo_dir}/kubernetes/base/common/secret/ranger"
-readonly keytab_file="${keytab_dir}/ranger.keytab"
+readonly secret_dir="${repo_dir}/kubernetes/base/common/secret"
 readonly principals_file="${repo_dir}/kubernetes/base/common/config/openldap/bootstrap.ldif"
 
-rm -f "${keytab_file}"
-
 keytab_principals() {
-  awk '
+  local dn_pattern=$1
+
+  awk -v dn_pattern="${dn_pattern}" '
     function emit() {
-      if (dn ~ /^uid=.*ou=ranger,ou=kerberos,dc=example,dc=com$/ && principal != "" && password != "") {
+      if (dn ~ dn_pattern && principal != "" && password != "") {
         print principal "\t" password
       }
     }
@@ -53,10 +52,31 @@ keytab_principals() {
   ' "${principals_file}"
 }
 
-while IFS=$'\t' read -r principal password; do
-  ktutil -k "${keytab_file}" add \
-    -p "${principal}" \
-    -w "${password}" \
-    -e aes256-cts-hmac-sha1-96 \
-    -V 1
-done < <(keytab_principals)
+generate_keytab() {
+  local keytab_file=$1
+  local dn_pattern=$2
+
+  mkdir -p "$(dirname "${keytab_file}")"
+  rm -f "${keytab_file}"
+  while IFS=$'\t' read -r principal password; do
+    ktutil -k "${keytab_file}" add \
+      -p "${principal}" \
+      -w "${password}" \
+      -e aes256-cts-hmac-sha1-96 \
+      -V 1
+  done < <(keytab_principals "${dn_pattern}")
+}
+
+if [[ $# -eq 0 ]]; then
+  set -- client hive ranger yarn
+fi
+
+for service in "$@"; do
+  case "${service}" in
+    client) dn_pattern='^uid=zookage,ou=users,dc=example,dc=com$' ;;
+    hive) dn_pattern='^uid=hive,ou=users,dc=example,dc=com$' ;;
+    ranger|yarn) dn_pattern="^uid=.*ou=${service},ou=kerberos,dc=example,dc=com$" ;;
+    *) echo "Unknown keytab service: ${service}" >&2; exit 1 ;;
+  esac
+  generate_keytab "${secret_dir}/${service}/${service}.keytab" "${dn_pattern}"
+done
