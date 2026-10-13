@@ -31,6 +31,15 @@ spec:
         args:
         - wait-for-job
         - ranger-policies
+      - name: wait-for-dns
+      - name: format
+        env:
+        - name: HADOOP_CLASSPATH
+          value: /opt/ranger/ranger-hdfs-plugin/lib/*
+        volumeMounts:
+        - name: ranger-src
+          mountPath: /opt/ranger
+          subPath: opt/ranger
       containers:
       - name: namenode
         env:
