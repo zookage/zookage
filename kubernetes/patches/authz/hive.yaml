@@ -13,9 +13,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: hive-env
+  name: config-values
 data:
-  HIVE_SECURITY_AUTHORIZATION_MANAGER: org.apache.ranger.authorization.hive.authorizer.RangerHiveAuthorizerFactory
+  hive_security_authorization_manager: org.apache.ranger.authorization.hive.authorizer.RangerHiveAuthorizerFactory
 ---
 apiVersion: apps/v1
 kind: Deployment

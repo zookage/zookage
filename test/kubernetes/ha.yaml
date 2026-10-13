@@ -36,6 +36,8 @@ resources:
 - base/trino
 - base/yarn
 - base/zookeeper
+transformers:
+- render-config.yaml
 images:
 - name: zookage-util
   newName: zookage/zookage-util

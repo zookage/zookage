@@ -66,6 +66,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   `# Needs TX` \
   | grep -v 'pod/hive-hiveserver2-.* metadata.Hive: Cannot get a table snapshot for' \
   | grep -v 'pod/hive-metastore-server-.*: WARNING: Unable to create a system terminal' \
+  | grep -v 'pod/hive-metastore-server-.* exec.FunctionRegistry: UDF Class org.apache.hadoop.hive.ql.udf.generic.GenericUDFToJson does not have description\.' \
   | grep -v 'pod/hive-metastore-server-.* metastore.ServletSecurity: Servlet security is disabled for org.apache.iceberg.rest.HMSCatalogServlet@.*' \
   | grep -v 'pod/postgres-database-.* WARNING:  there is no transaction in progress' \
   | grep -v 'pod/zookeeper-server-.* org.eclipse.jetty.server.handler.ContextHandler .* contextPath ends with' \

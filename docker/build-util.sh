@@ -21,5 +21,6 @@ source ./docker/prepare.sh ZOOKAGE_DIR
 docker build \
   --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-util:${image_tag}" \
   --build-arg "jdk_image=${JDK_21_IMAGE}" \
+  --build-arg "go_image=${GO_IMAGE}" \
   --file ./docker/util/Dockerfile \
   ./docker/util

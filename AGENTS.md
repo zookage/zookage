@@ -10,7 +10,7 @@ This document defines how AI coding agents should be used safely and consistentl
 - Preserve existing style and license-header expectations.
 
 ## Guidance for Repository Users
-- Run `./bin/up` to spin up a Hadoop cluster
+- Run `./bin/up` to spin up a Hadoop cluster; it builds manifests with the ConfigMap template Transformer in a local `zookage-util` Docker container before applying them, without saving evaluated configuration files locally. Set `ZOOKAGE_UTIL_IMAGE` to select a locally built renderer image.
 - Run `./bin/down` to shut down the cluster
 - Run `./bin/kubectl <args...>` to run `kubectl` in the `zookage` namespace
 - Run `./bin/logs [<pod name>]` to tail logs from all pods or a specific pod

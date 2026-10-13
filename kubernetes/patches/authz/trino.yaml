@@ -13,9 +13,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: trino-env
+  name: config-values
 data:
-  TRINO_ACCESS_CONTROL_CONFIG_FILES: /etc/trino/conf/access-control-ranger.properties
+  trino_access_control_config_files: /etc/trino/conf/access-control-ranger.properties
 ---
 apiVersion: apps/v1
 kind: StatefulSet

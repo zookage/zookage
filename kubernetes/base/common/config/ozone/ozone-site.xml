@@ -105,6 +105,6 @@
   </property>
   <property>
     <name>ozone.acl.authorizer.class</name>
-    <value>${env.OZONE_ACL_AUTHORIZER_CLASS:-org.apache.hadoop.ozone.security.acl.OzoneAccessAuthorizer}</value>
+    <value>{{ or (index .Values "ozone_acl_authorizer_class") "org.apache.hadoop.ozone.security.acl.OzoneAccessAuthorizer" | html }}</value>
   </property>
 </configuration>

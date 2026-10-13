@@ -42,10 +42,10 @@
   </property>
   <property>
     <name>hbase.coprocessor.master.classes</name>
-    <value>${env.HBASE_COPROCESSOR_CLASSES:-}</value>
+    <value>{{ or (index .Values "hbase_coprocessor_classes") "" | html }}</value>
   </property>
   <property>
     <name>hbase.coprocessor.region.classes</name>
-    <value>${env.HBASE_COPROCESSOR_CLASSES:-}</value>
+    <value>{{ or (index .Values "hbase_coprocessor_classes") "" | html }}</value>
   </property>
 </configuration>

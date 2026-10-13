@@ -15,6 +15,15 @@ set -u
 
 readonly NAMESPACE=zookage
 readonly bin_dir=$(cd "$(dirname "$0")"; pwd)
+readonly repo_dir=$(cd "${bin_dir}/.."; pwd)
+readonly util_image=${ZOOKAGE_UTIL_IMAGE:-zookage/zookage-util:experimental}
+
+# Complete template evaluation and hashing before changing the cluster.
+manifest=$(docker run --rm --network=none --read-only --tmpfs /tmp \
+  --mount "type=bind,source=${repo_dir}/kubernetes,target=/workspace,readonly" \
+  --workdir /workspace "${util_image}" \
+  kubectl kustomize . --enable-alpha-plugins) || exit $?
+readonly manifest
 
 if kubectl get namespace ${NAMESPACE} &> /dev/null; then
   read -r -p "Scrap the current namespace? [y/N]: " scrap
@@ -27,7 +36,7 @@ fi
 
 set -e
 
-kubectl apply --kustomize kubernetes
+printf '%s\n' "${manifest}" | kubectl apply --filename -
 previous=''
 while true; do
   set +e

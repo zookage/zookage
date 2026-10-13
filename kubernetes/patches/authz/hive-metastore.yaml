@@ -13,11 +13,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: hive-metastore-env
+  name: config-values
 data:
-  METASTORE_SECURITY_AUTHORIZATION_MANAGER: org.apache.ranger.authorization.hive.authorizer.RangerHiveAuthorizerFactory
+  metastore_security_authorization_manager: org.apache.ranger.authorization.hive.authorizer.RangerHiveAuthorizerFactory
   # yamllint disable-line rule:line-length
-  METASTORE_PRE_EVENT_LISTENERS: org.apache.hadoop.hive.ql.security.authorization.plugin.metastore.HiveMetaStoreAuthorizer
+  metastore_pre_event_listeners: org.apache.hadoop.hive.ql.security.authorization.plugin.metastore.HiveMetaStoreAuthorizer
 ---
 apiVersion: apps/v1
 kind: StatefulSet

@@ -37,15 +37,19 @@
 
   <property>
     <name>dfs.ha.namenodes.zookage</name>
-    <value>${env.HADOOP_DFS_HA_NAMENODES:-namenode-0}</value>
+    <value>{{ or (index .Values "hadoop_dfs_ha_namenodes") "namenode-0" | html }}</value>
   </property>
   <property>
     <name>dfs.ha.automatic-failover.enabled</name>
-    <value>${env.HADOOP_DFS_HA_AUTOMATIC_FAILOVER_ENABLED:-false}</value>
+    <value>{{ or (index .Values "hadoop_dfs_ha_automatic_failover_enabled") "false" | html }}</value>
   </property>
   <property>
     <name>dfs.ha.fencing.methods</name>
-    <value>${env.HADOOP_DFS_HA_FENCING_METHODS:-}</value>
+    <value>{{ or (index .Values "hadoop_dfs_ha_fencing_methods") "" | html }}</value>
+  </property>
+  <property>
+    <name>dfs.namenode.shared.edits.dir</name>
+    <value>{{ or (index .Values "hadoop_dfs_namenode_shared_edits_dir") "" | html }}</value>
   </property>
   <property>
     <name>dfs.journalnode.edits.dir</name>
@@ -83,7 +87,7 @@
   </property>
   <property>
     <name>dfs.namenode.inode.attributes.provider.class</name>
-    <value>${env.HADOOP_DFS_NAMENODE_INODE_ATTRIBUTES_PROVIDER_CLASS:-org.apache.hadoop.hdfs.server.namenode.DefaultINodeAttributesProvider}</value>
+    <value>{{ or (index .Values "hadoop_dfs_namenode_inode_attributes_provider_class") "org.apache.hadoop.hdfs.server.namenode.DefaultINodeAttributesProvider" | html }}</value>
   </property>
 
   <property>

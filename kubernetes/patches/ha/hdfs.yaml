@@ -16,23 +16,16 @@ metadata:
   name: hdfs-journalnode
 spec:
   replicas: 3
-  template:
-    spec:
-      containers:
-      - name: journalnode
-        args:
-        - journalnode
-        - -Ddfs.namenode.shared.edits.dir=$(HADOOP_DFS_NAMENODE_SHARED_EDITS_DIR)
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: hadoop-env
+  name: config-values
 data:
-  HADOOP_DFS_HA_NAMENODES: namenode-0,namenode-1
-  HADOOP_DFS_HA_AUTOMATIC_FAILOVER_ENABLED: "true"
-  HADOOP_DFS_HA_FENCING_METHODS: shell(true)
-  HADOOP_DFS_NAMENODE_SHARED_EDITS_DIR: "qjournal://hdfs-journalnode-0.hdfs-journalnode:8485;\
+  hadoop_dfs_ha_namenodes: namenode-0,namenode-1
+  hadoop_dfs_ha_automatic_failover_enabled: "true"
+  hadoop_dfs_ha_fencing_methods: shell(true)
+  hadoop_dfs_namenode_shared_edits_dir: "qjournal://hdfs-journalnode-0.hdfs-journalnode:8485;\
     hdfs-journalnode-1.hdfs-journalnode:8485;\
     hdfs-journalnode-2.hdfs-journalnode:8485/zookage"
 ---
@@ -82,22 +75,7 @@ spec:
         args:
         - wait-for-rollout
         - statefulset/hdfs-journalnode
-      - name: format
-        args:
-        - -c
-        - |
-          shared_edits_option="-Ddfs.namenode.shared.edits.dir=${HADOOP_DFS_NAMENODE_SHARED_EDITS_DIR}"
-          index=${POD_NAME##*-}
-          if [[ "$index" -eq 0 ]]; then
-            "${HADOOP_HOME}/bin/hdfs" namenode "${shared_edits_option}" -format -force
-          else
-            "${HADOOP_HOME}/bin/hdfs" namenode "${shared_edits_option}" -bootstrapStandby -force
-          fi
       containers:
-      - name: namenode
-        args:
-        - namenode
-        - -Ddfs.namenode.shared.edits.dir=$(HADOOP_DFS_NAMENODE_SHARED_EDITS_DIR)
       - name: zkfc
         image: zookage-hadoop
         command:

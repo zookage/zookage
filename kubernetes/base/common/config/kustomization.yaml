@@ -16,6 +16,8 @@ labels:
 - includeSelectors: true
   pairs:
     component: config
+resources:
+- config-values.yaml
 configMapGenerator:
 - files:
   - hadoop/core-site.xml

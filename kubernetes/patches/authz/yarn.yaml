@@ -13,10 +13,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: hadoop-env
+  name: config-values
 data:
-  HADOOP_YARN_ACL_ENABLE: "true"
-  HADOOP_YARN_AUTHORIZATION_PROVIDER: "org.apache.ranger.authorization.yarn.authorizer.RangerYarnAuthorizer"
+  hadoop_yarn_acl_enable: "true"
+  hadoop_yarn_authorization_provider: "org.apache.ranger.authorization.yarn.authorizer.RangerYarnAuthorizer"
 ---
 apiVersion: apps/v1
 kind: StatefulSet

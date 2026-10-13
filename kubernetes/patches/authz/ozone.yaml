@@ -13,9 +13,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ozone-env
+  name: config-values
 data:
-  OZONE_ACL_AUTHORIZER_CLASS: "org.apache.ranger.authorization.ozone.authorizer.RangerOzoneAuthorizer"
+  ozone_acl_authorizer_class: "org.apache.ranger.authorization.ozone.authorizer.RangerOzoneAuthorizer"
 ---
 apiVersion: apps/v1
 kind: StatefulSet
