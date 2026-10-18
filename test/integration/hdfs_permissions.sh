@@ -70,11 +70,11 @@ check_hdfs_permissions() {
   readonly shared_hive="/apps/hive-warehouse/${test_name}-hive"
   readonly shared_trino="/apps/hive-warehouse/${test_name}-trino"
   readonly shared_denied="/apps/hive-warehouse/${test_name}-denied"
-  readonly dedicated="/apps/zookage-warehouse/${test_name}"
+  readonly private="/user/zookage/warehouse/${test_name}"
 
   cleanup() {
     as_user hdfs -rm -r -f -skipTrash \
-      "${shared_hive}" "${shared_trino}" "${shared_denied}" "${dedicated}"
+      "${shared_hive}" "${shared_trino}" "${shared_denied}" "${private}"
   }
   trap cleanup EXIT
 
@@ -83,20 +83,21 @@ check_hdfs_permissions() {
   as_user hive -mkdir "${shared_hive}"
   as_user trino -mkdir "${shared_trino}"
 
-  expect_permission_denied httpfs -ls /apps/zookage-warehouse
-  expect_permission_denied httpfs -mkdir "${dedicated}"
-  as_user zookage -mkdir "${dedicated}"
-  as_user zookage -touchz "${dedicated}/zookage-file"
-  as_user hive -touchz "${dedicated}/hive-file"
-  as_user trino -touchz "${dedicated}/trino-file"
+  local home_permissions
+  home_permissions=$(as_user hdfs -stat '%u:%g %a' /user/zookage)
+  if [[ "${home_permissions}" != 'zookage:zookage 700' ]]; then
+    echo "Unexpected /user/zookage ownership or permissions: ${home_permissions}" >&2
+    exit 1
+  fi
 
-  # Each creator must inherit ACLs that let the other identities write below it.
-  as_user hive -mkdir "${dedicated}/hive-directory"
-  as_user zookage -touchz "${dedicated}/hive-directory/zookage-file"
-  as_user trino -touchz "${dedicated}/hive-directory/trino-file"
-  as_user zookage -mkdir "${dedicated}/zookage-directory"
-  as_user hive -touchz "${dedicated}/zookage-directory/hive-file"
-  as_user trino -touchz "${dedicated}/zookage-directory/trino-file"
+  as_user zookage -mkdir -p /user/zookage/warehouse
+  as_user zookage -mkdir "${private}"
+  as_user zookage -touchz "${private}/zookage-file"
+  for user in hive trino httpfs; do
+    expect_permission_denied "${user}" -ls /user/zookage
+    expect_permission_denied "${user}" -cat "${private}/zookage-file"
+    expect_permission_denied "${user}" -mkdir "${private}/${user}-directory"
+  done
 }
 
 "${integration_dir}/divider.sh" "Start checking HDFS permissions"
