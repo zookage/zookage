@@ -194,6 +194,10 @@ spec:
         securityContext:
           allowPrivilegeEscalation: true
         volumeMounts:
+        - name: container-executor-conf
+          mountPath: /opt/hadoop/etc/hadoop/container-executor.cfg
+          subPath: container-executor.cfg
+          readOnly: true
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
@@ -248,6 +252,10 @@ spec:
         configMap:
           name: sssd-conf
           defaultMode: 0600
+      - name: container-executor-conf
+        configMap:
+          name: container-executor-conf
+          defaultMode: 0400
       - name: sssd-pipes
         emptyDir: {}
 ---

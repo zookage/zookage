@@ -37,6 +37,7 @@ for ((ordinal = 0; ordinal < nodemanager_replicas; ordinal++)); do
 "${HADOOP_HOME}/bin/container-executor" --checksetup
 test "$(id -g)" = 1010
 test "$(stat -c '%u:%g:%a' "${HADOOP_HOME}/bin/container-executor")" = 0:1010:6050
+test "$(stat -c '%u:%g:%a' "${HADOOP_HOME}/etc/hadoop/container-executor.cfg")" = 0:0:400
 for user in zookage alice hive trino; do
   getent passwd "${user}"
   id "${user}"
@@ -48,8 +49,8 @@ test "$(stat -c '%u:%g:%a' /etc/yarn/secrets/yarn.keytab)" = 1012:1012:400
 test "$(stat -c '%u:%g:%a' /var/lib/sss/pipes)" = 0:0:755
 test "$(stat -c '%u:%g:%a' /var/lib/sss/pipes/private)" = 0:0:700
 awk '
-  ($2 == "/etc/yarn/secrets" || $2 == "/var/lib/sss/pipes") && $4 ~ /(^|,)ro(,|$)/ { protected++ }
-  END { exit protected != 2 }
+  ($2 == "/etc/yarn/secrets" || $2 == "/var/lib/sss/pipes" || $2 == "/opt/hadoop/etc/hadoop/container-executor.cfg") && $4 ~ /(^|,)ro(,|$)/ { protected++ }
+  END { exit protected != 3 }
 ' /proc/mounts
 EOF
 done

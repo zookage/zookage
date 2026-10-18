@@ -93,15 +93,9 @@ RUN groupadd --gid 1010 hadoop \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1012 --gid yarn --groups hadoop yarn \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1013 --gid mapred --groups hadoop mapred \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1014 --gid httpfs httpfs \
-  && sed -i \
-    -e 's|^yarn.nodemanager.linux-container-executor.group=.*|yarn.nodemanager.linux-container-executor.group=hadoop|' \
-    /opt/hadoop/etc/hadoop/container-executor.cfg \
   && case ",${active_profiles}," in \
     *,native,*) \
-      chown root:hadoop \
-        /opt/hadoop/bin/container-executor \
-        /opt/hadoop/etc/hadoop/container-executor.cfg \
-      && chmod 6050 /opt/hadoop/bin/container-executor \
-      && chmod 0400 /opt/hadoop/etc/hadoop/container-executor.cfg ;; \
+      chown root:hadoop /opt/hadoop/bin/container-executor \
+      && chmod 6050 /opt/hadoop/bin/container-executor ;; \
   esac \
   && ldconfig
