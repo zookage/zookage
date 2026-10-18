@@ -43,7 +43,6 @@ spec:
           docker-entrypoint.sh hdfs-mkdir /tmp/hadoop-yarn yarn:hadoop 775
           docker-entrypoint.sh hdfs-mkdir /tmp/hadoop-yarn/staging yarn:hadoop 1777
           docker-entrypoint.sh hdfs-mkdir /user hdfs:supergroup 711
-          docker-entrypoint.sh hdfs-mkdir /user/alice alice:alice 700
           docker-entrypoint.sh hdfs-mkdir /user/hive hive:hive 700
           docker-entrypoint.sh hdfs-mkdir /user/zookage zookage:zookage 700
         envFrom:
