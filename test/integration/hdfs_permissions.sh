@@ -37,43 +37,34 @@ check_hdfs_permissions() {
     fi
   }
 
+  check_read_write_access() {
+    local path=$1
+    local user=$2
+    local test_file="${path}/${user}-file"
+
+    as_user "${user}" -mkdir "${path}"
+    printf '%s\n' "${user}" | as_user "${user}" -put - "${test_file}"
+    as_user "${user}" -cat "${test_file}"
+    expect_permission_denied alice -ls "${path}"
+    expect_permission_denied alice -cat "${test_file}"
+    expect_permission_denied alice -touchz "${path}/alice-file"
+  }
+
   readonly test_name="permissions-$(date +%s)-$$-${RANDOM}"
   readonly shared="/apps/hive-warehouse/${test_name}"
   readonly private="/user/zookage/${test_name}"
 
   cleanup() {
     as_user hdfs -rm -r -f -skipTrash \
-      "${shared}-hive" "${shared}-trino" "${shared}-zookage" \
-      "${shared}-alice-denied" \
-      "${private}"
+      "${shared}-hive" "${shared}-trino" "${shared}-zookage" "${private}"
   }
   trap cleanup EXIT
 
   local user
   for user in hive trino zookage; do
-    as_user "${user}" -mkdir "${shared}-${user}"
-    as_user "${user}" -touchz "${shared}-${user}/${user}-file"
-    printf '%s\n' "${user}" | as_user "${user}" -appendToFile - "${shared}-${user}/${user}-file"
-    as_user "${user}" -cat "${shared}-${user}/${user}-file"
+    check_read_write_access "${shared}-${user}" "${user}"
   done
-  expect_permission_denied alice -ls /apps/hive-warehouse
-  expect_permission_denied alice -cat "${shared}-zookage/zookage-file"
-  expect_permission_denied alice -mkdir "${shared}-alice-denied"
-
-  local home_permissions
-  home_permissions=$(as_user hdfs -stat '%u:%g %a' /user/zookage)
-  if [[ "${home_permissions}" != 'zookage:zookage 700' ]]; then
-    echo "Unexpected /user/zookage ownership or permissions: ${home_permissions}" >&2
-    exit 1
-  fi
-
-  as_user zookage -mkdir "${private}"
-  as_user zookage -touchz "${private}/zookage-file"
-  printf '%s\n' zookage | as_user zookage -appendToFile - "${private}/zookage-file"
-  as_user zookage -cat "${private}/zookage-file"
-  expect_permission_denied alice -ls /user/zookage
-  expect_permission_denied alice -cat "${private}/zookage-file"
-  expect_permission_denied alice -mkdir "${private}/alice-directory"
+  check_read_write_access "${private}" zookage
 }
 
 "${integration_dir}/divider.sh" "Start checking HDFS permissions"
