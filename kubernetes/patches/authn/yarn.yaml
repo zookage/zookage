@@ -15,34 +15,32 @@ kind: ConfigMap
 metadata:
   name: config-values
 data:
+  hadoop_yarn_security_authorization: "false"
+  hadoop_yarn_security_authentication: kerberos
+  hadoop_yarn_rpc_protection: authentication
+  hadoop_yarn_ipc_client_fallback_to_simple_auth_allowed: "true"
   hadoop_yarn_nodemanager_principal: yarn/_HOST@ZOOKAGE.LOCAL
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: hadoop-env
-data:
-  HADOOP_YARN_RESOURCEMANAGER_PRINCIPAL: yarn/_HOST@ZOOKAGE.LOCAL
-  HADOOP_YARN_RESOURCEMANAGER_KEYTAB: /etc/yarn/secrets/yarn.keytab
-  HADOOP_YARN_RESOURCEMANAGER_WEBAPP_SPNEGO_PRINCIPAL: >-
+  hadoop_yarn_resourcemanager_principal: yarn/_HOST@ZOOKAGE.LOCAL
+  hadoop_yarn_resourcemanager_keytab: /etc/yarn/secrets/yarn.keytab
+  hadoop_yarn_resourcemanager_webapp_spnego_principal: >-
     HTTP/_HOST@ZOOKAGE.LOCAL
-  HADOOP_YARN_RESOURCEMANAGER_WEBAPP_SPNEGO_KEYTAB_FILE: >-
+  hadoop_yarn_resourcemanager_webapp_spnego_keytab_file: >-
     /etc/yarn/secrets/yarn.keytab
-  HADOOP_YARN_NODEMANAGER_KEYTAB: /etc/yarn/secrets/yarn.keytab
-  HADOOP_YARN_NODEMANAGER_WEBAPP_SPNEGO_PRINCIPAL: >-
+  hadoop_yarn_nodemanager_keytab: /etc/yarn/secrets/yarn.keytab
+  hadoop_yarn_nodemanager_webapp_spnego_principal: >-
     HTTP/_HOST@ZOOKAGE.LOCAL
-  HADOOP_YARN_NODEMANAGER_WEBAPP_SPNEGO_KEYTAB_FILE: >-
+  hadoop_yarn_nodemanager_webapp_spnego_keytab_file: >-
     /etc/yarn/secrets/yarn.keytab
-  HADOOP_YARN_NODEMANAGER_CONTAINER_EXECUTOR_CLASS: >-
+  hadoop_yarn_nodemanager_container_executor_class: >-
     org.apache.hadoop.yarn.server.nodemanager.LinuxContainerExecutor
-  HADOOP_YARN_NODEMANAGER_LINUX_CONTAINER_EXECUTOR_GROUP: yarn-executor
-  HADOOP_YARN_TIMELINE_SERVICE_PRINCIPAL: >-
+  hadoop_yarn_nodemanager_linux_container_executor_group: hadoop
+  hadoop_yarn_timeline_service_principal: >-
     yarn/yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-  HADOOP_YARN_TIMELINE_SERVICE_KEYTAB: /etc/yarn/secrets/yarn.keytab
-  HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_TYPE: kerberos
-  HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_KERBEROS_PRINCIPAL: >-
+  hadoop_yarn_timeline_service_keytab: /etc/yarn/secrets/yarn.keytab
+  hadoop_yarn_timeline_service_http_authentication_type: kerberos
+  hadoop_yarn_timeline_service_http_authentication_kerberos_principal: >-
     HTTP/yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-  HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_KERBEROS_KEYTAB: >-
+  hadoop_yarn_timeline_service_http_authentication_kerberos_keytab: >-
     /etc/yarn/secrets/yarn.keytab
 ---
 apiVersion: v1
@@ -98,13 +96,6 @@ spec:
           mountPath: /etc/yarn/secrets
       containers:
       - name: resourcemanager
-        env:
-        - name: HADOOP_SECURITY_AUTHORIZATION
-          value: "false"
-        - name: HADOOP_SECURITY_AUTHENTICATION
-          value: kerberos
-        - name: HADOOP_RPC_PROTECTION
-          value: authentication
         volumeMounts:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
@@ -113,6 +104,22 @@ spec:
           mountPath: /etc/yarn/secrets
           readOnly: true
       volumes:
+      - name: hadoop-conf
+        projected:
+          sources:
+          - configMap:
+              name: hadoop-conf
+              items:
+              - key: core-site-yarn.xml
+                path: core-site.xml
+              - key: core-site-common.xml
+                path: core-site-common.xml
+              - key: hadoop-metrics2.properties
+                path: hadoop-metrics2.properties
+              - key: log4j.properties
+                path: log4j.properties
+          - configMap:
+              name: yarn-conf
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
@@ -130,9 +137,6 @@ metadata:
 spec:
   template:
     spec:
-      securityContext:
-        supplementalGroups:
-        - 1015
       initContainers:
       - name: wait-for-kdc
         image: zookage-util
@@ -185,14 +189,6 @@ spec:
           done
           exec "${HADOOP_HOME}/bin/yarn" nodemanager
         env:
-        - name: HADOOP_SECURITY_AUTHORIZATION
-          value: "false"
-        - name: HADOOP_SECURITY_AUTHENTICATION
-          value: kerberos
-        - name: HADOOP_RPC_PROTECTION
-          value: authentication
-        - name: HADOOP_IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH_ALLOWED
-          value: "true"
         - name: JAVA_TOOL_OPTIONS
           value: --add-opens=java.base/java.lang=ALL-UNNAMED
         - name: YARN_NODEMANAGER_OPTS
@@ -233,6 +229,26 @@ spec:
         - name: sssd-pipes
           mountPath: /var/lib/sss/pipes
       volumes:
+      - name: hadoop-conf
+        projected:
+          sources:
+          - configMap:
+              name: hadoop-conf
+              items:
+              - key: core-site-yarn-client.xml
+                path: core-site.xml
+              - key: core-site-yarn.xml
+                path: core-site-yarn.xml
+              - key: core-site-common.xml
+                path: core-site-common.xml
+              - key: hadoop-metrics2.properties
+                path: hadoop-metrics2.properties
+              - key: log4j.properties
+                path: log4j.properties
+          - configMap:
+              name: hdfs-conf
+          - configMap:
+              name: yarn-conf
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
@@ -283,13 +299,6 @@ spec:
           mountPath: /etc/yarn/secrets
       containers:
       - name: timelineserver
-        env:
-        - name: HADOOP_SECURITY_AUTHORIZATION
-          value: "false"
-        - name: HADOOP_SECURITY_AUTHENTICATION
-          value: kerberos
-        - name: HADOOP_RPC_PROTECTION
-          value: authentication
         volumeMounts:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
@@ -298,6 +307,22 @@ spec:
           mountPath: /etc/yarn/secrets
           readOnly: true
       volumes:
+      - name: hadoop-conf
+        projected:
+          sources:
+          - configMap:
+              name: hadoop-conf
+              items:
+              - key: core-site-yarn.xml
+                path: core-site.xml
+              - key: core-site-common.xml
+                path: core-site-common.xml
+              - key: hadoop-metrics2.properties
+                path: hadoop-metrics2.properties
+              - key: log4j.properties
+                path: log4j.properties
+          - configMap:
+              name: yarn-conf
       - name: kerberos-conf
         configMap:
           name: kerberos-conf

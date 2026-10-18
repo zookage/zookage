@@ -27,8 +27,7 @@ fi
 readonly id
 echo "Check errors and warnings of ${id}"
 
-yarn_authentication=$("${base_dir}/bin/kubectl" get statefulset yarn-resourcemanager \
-  -o 'jsonpath={.spec.template.spec.containers[?(@.name=="resourcemanager")].env[?(@.name=="HADOOP_SECURITY_AUTHENTICATION")].value}')
+yarn_authentication=$("${integration_dir}/yarn_authentication.sh")
 logs_file=$(mktemp)
 hive_pod=
 remote_dir=

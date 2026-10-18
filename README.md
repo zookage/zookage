@@ -29,6 +29,14 @@ Use the image tag `3.4.1-zookage-0.5-kerberos-native` and enable native librarie
 Make this image available to your Kubernetes runtime before running
 `./test/integration.sh auth` (which recreates the ZooKage cluster).
 
+LinuxContainerExecutor uses the `hadoop` OS group, reserved for infrastructure
+daemons. Application users must not belong to this group, which can execute the
+setuid `container-executor` binary.
+
+Kerberos settings are rendered from `config-values` by ConfigRenderer. The auth
+patches select service-specific `core-site.xml` templates that include the common
+configuration, keeping HDFS and unrelated services in simple authentication mode.
+
 For an existing auth cluster, `./test/integration.sh` detects Kerberos and obtains
 the client ticket before running the normal integration checks. YARN and Hive
 service keytabs are copied into private volumes at Pod initialization; restart

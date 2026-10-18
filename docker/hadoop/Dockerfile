@@ -85,23 +85,22 @@ RUN apt-get update \
 COPY --chown=root:root --from=builder /home/hadoop-build/hadoop/hadoop-dist/target/hadoop /opt/hadoop
 COPY --from=builder /home/hadoop-build/runtime-libs/ /usr/local/lib/
 RUN groupadd --gid 1010 hadoop \
-  && groupadd --gid 1015 yarn-executor \
   && groupadd --gid 1011 hdfs \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1011 --gid hdfs --groups hadoop hdfs \
   && groupadd --gid 1012 yarn \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1012 --gid yarn --groups hadoop,yarn-executor yarn \
   && groupadd --gid 1013 mapred \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1013 --gid mapred --groups hadoop mapred \
   && groupadd --gid 1014 httpfs \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1011 --gid hdfs --groups hadoop hdfs \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1012 --gid yarn --groups hadoop yarn \
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1013 --gid mapred --groups hadoop mapred \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1014 --gid httpfs httpfs \
   && sed -i \
-    -e 's|^yarn.nodemanager.linux-container-executor.group=.*|yarn.nodemanager.linux-container-executor.group=yarn-executor|' \
+    -e 's|^yarn.nodemanager.linux-container-executor.group=.*|yarn.nodemanager.linux-container-executor.group=hadoop|' \
     -e 's|^banned.users=.*|banned.users=hdfs,yarn,mapred,bin|' \
     -e 's|^allowed.system.users=.*|allowed.system.users=|' \
     /opt/hadoop/etc/hadoop/container-executor.cfg \
   && case ",${active_profiles}," in \
     *,native,*) \
-      chown root:yarn-executor \
+      chown root:hadoop \
         /opt/hadoop/bin/container-executor \
         /opt/hadoop/etc/hadoop/container-executor.cfg \
       && chmod 6050 /opt/hadoop/bin/container-executor \

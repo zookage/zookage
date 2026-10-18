@@ -12,6 +12,7 @@
  * limitations under the License.
  */
 
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.yarn.client.cli.LogsCLI;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
@@ -19,10 +20,14 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration;
 class YarnLogs {
   public static void main(String[] args) throws Exception {
     YarnConfiguration conf = new YarnConfiguration();
+    conf.addResource(new Path("/etc/hive/conf/hive-site.xml"));
+    String principal = conf.getTrimmed("hive.server2.authentication.kerberos.principal");
+    String keytab = conf.getTrimmed("hive.server2.authentication.kerberos.keytab");
+    if (principal == null || principal.isEmpty() || keytab == null || keytab.isEmpty()) {
+      throw new IllegalStateException("HiveServer2 Kerberos principal and keytab must be configured");
+    }
     UserGroupInformation.setConfiguration(conf);
-    UserGroupInformation.loginUserFromKeytab(
-        System.getenv("HIVE_SERVER2_KERBEROS_PRINCIPAL"),
-        System.getenv("HIVE_SERVER2_KERBEROS_KEYTAB"));
+    UserGroupInformation.loginUserFromKeytab(principal, keytab);
     LogsCLI.main(args);
   }
 }

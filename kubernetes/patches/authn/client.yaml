@@ -10,6 +10,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-values
+data:
+  hadoop_client_security_authentication: kerberos
+  hadoop_client_rpc_protection: authentication
+  hadoop_client_ipc_client_fallback_to_simple_auth_allowed: "true"
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -19,13 +28,6 @@ spec:
     spec:
       containers:
       - name: sleep
-        env:
-        - name: HADOOP_SECURITY_AUTHENTICATION
-          value: kerberos
-        - name: HADOOP_RPC_PROTECTION
-          value: authentication
-        - name: HADOOP_IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH_ALLOWED
-          value: "true"
         volumeMounts:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
@@ -33,6 +35,26 @@ spec:
         - name: client-secret
           mountPath: /etc/kerberos/secrets
       volumes:
+      - name: hadoop-conf
+        projected:
+          sources:
+          - configMap:
+              name: hadoop-conf
+              items:
+              - key: core-site-client.xml
+                path: core-site.xml
+              - key: core-site-common.xml
+                path: core-site-common.xml
+              - key: hadoop-metrics2.properties
+                path: hadoop-metrics2.properties
+              - key: log4j.properties
+                path: log4j.properties
+          - configMap:
+              name: hdfs-conf
+          - configMap:
+              name: mapreduce-conf
+          - configMap:
+              name: yarn-conf
       - name: kerberos-conf
         configMap:
           name: kerberos-conf

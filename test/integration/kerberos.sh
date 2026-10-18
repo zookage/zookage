@@ -15,13 +15,12 @@ set -eu
 
 readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
 readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
-readonly kerberos_yarn_command="HADOOP_SECURITY_AUTHENTICATION=kerberos HADOOP_RPC_PROTECTION=authentication yarn application -list"
 
 "${integration_dir}/divider.sh" "Start checking Kerberos"
 
 "${integration_dir}/run.sh" /bin/bash -lc "kdestroy || true"
 
-if "${integration_dir}/run.sh" timeout 20s /bin/bash -lc "${kerberos_yarn_command}"; then
+if "${integration_dir}/run.sh" timeout 20s yarn application -list; then
   echo "Unauthenticated YARN access unexpectedly succeeded." >&2
   exit 1
 fi
@@ -30,16 +29,18 @@ fi
   -kt /etc/kerberos/secrets/client.keytab \
   zookage@ZOOKAGE.LOCAL
 "${integration_dir}/run.sh" klist
-"${integration_dir}/run.sh" /bin/bash -lc "${kerberos_yarn_command}"
+"${integration_dir}/run.sh" yarn application -list
 
 readonly nodemanager_replicas=$("${base_dir}/bin/kubectl" get statefulset yarn-nodemanager -o jsonpath='{.spec.replicas}')
 for ((ordinal = 0; ordinal < nodemanager_replicas; ordinal++)); do
   "${base_dir}/bin/kubectl" exec -i "yarn-nodemanager-${ordinal}" -c nodemanager -- /bin/bash -eu <<'EOF'
 "${HADOOP_HOME}/bin/container-executor" --checksetup
-for user in zookage hive; do
+test "$(id -g)" = 1010
+test "$(stat -c '%u:%g:%a' "${HADOOP_HOME}/bin/container-executor")" = 0:1010:6050
+for user in zookage alice hive trino; do
   getent passwd "${user}"
   id "${user}"
-  [[ " $(id -G "${user}") " != *" 1015 "* ]]
+  [[ " $(id -G "${user}") " != *" 1010 "* ]]
 done
 test -r /etc/yarn/secrets/yarn.keytab
 test "$(stat -c '%u:%g:%a' /etc/yarn/secrets)" = 1012:1012:700

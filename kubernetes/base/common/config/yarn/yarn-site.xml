@@ -62,19 +62,19 @@
   </property>
   <property>
     <name>yarn.resourcemanager.principal</name>
-    <value>${env.HADOOP_YARN_RESOURCEMANAGER_PRINCIPAL:-}</value>
+    <value>{{ index .Values "hadoop_yarn_resourcemanager_principal" | html }}</value>
   </property>
   <property>
     <name>yarn.resourcemanager.keytab</name>
-    <value>${env.HADOOP_YARN_RESOURCEMANAGER_KEYTAB:-}</value>
+    <value>{{ index .Values "hadoop_yarn_resourcemanager_keytab" | html }}</value>
   </property>
   <property>
     <name>yarn.resourcemanager.webapp.spnego-principal</name>
-    <value>${env.HADOOP_YARN_RESOURCEMANAGER_WEBAPP_SPNEGO_PRINCIPAL:-}</value>
+    <value>{{ index .Values "hadoop_yarn_resourcemanager_webapp_spnego_principal" | html }}</value>
   </property>
   <property>
     <name>yarn.resourcemanager.webapp.spnego-keytab-file</name>
-    <value>${env.HADOOP_YARN_RESOURCEMANAGER_WEBAPP_SPNEGO_KEYTAB_FILE:-}</value>
+    <value>{{ index .Values "hadoop_yarn_resourcemanager_webapp_spnego_keytab_file" | html }}</value>
   </property>
   <property>
     <name>yarn.resourcemanager.bind-host</name>
@@ -101,23 +101,23 @@
   {{ end }}
   <property>
     <name>yarn.nodemanager.keytab</name>
-    <value>${env.HADOOP_YARN_NODEMANAGER_KEYTAB:-}</value>
+    <value>{{ index .Values "hadoop_yarn_nodemanager_keytab" | html }}</value>
   </property>
   <property>
     <name>yarn.nodemanager.webapp.spnego-principal</name>
-    <value>${env.HADOOP_YARN_NODEMANAGER_WEBAPP_SPNEGO_PRINCIPAL:-}</value>
+    <value>{{ index .Values "hadoop_yarn_nodemanager_webapp_spnego_principal" | html }}</value>
   </property>
   <property>
     <name>yarn.nodemanager.webapp.spnego-keytab-file</name>
-    <value>${env.HADOOP_YARN_NODEMANAGER_WEBAPP_SPNEGO_KEYTAB_FILE:-}</value>
+    <value>{{ index .Values "hadoop_yarn_nodemanager_webapp_spnego_keytab_file" | html }}</value>
   </property>
   <property>
     <name>yarn.nodemanager.container-executor.class</name>
-    <value>${env.HADOOP_YARN_NODEMANAGER_CONTAINER_EXECUTOR_CLASS:-org.apache.hadoop.yarn.server.nodemanager.DefaultContainerExecutor}</value>
+    <value>{{ or (index .Values "hadoop_yarn_nodemanager_container_executor_class") "org.apache.hadoop.yarn.server.nodemanager.DefaultContainerExecutor" | html }}</value>
   </property>
   <property>
     <name>yarn.nodemanager.linux-container-executor.group</name>
-    <value>${env.HADOOP_YARN_NODEMANAGER_LINUX_CONTAINER_EXECUTOR_GROUP:-yarn-executor}</value>
+    <value>{{ or (index .Values "hadoop_yarn_nodemanager_linux_container_executor_group") "hadoop" | html }}</value>
   </property>
   <property>
     <name>yarn.nodemanager.aux-services</name>
@@ -129,7 +129,7 @@
   </property>
   <property>
     <name>yarn.nodemanager.env-whitelist</name>
-    <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_HOME,HADOOP_OPTIONAL_TOOLS,PATH,LANG,TZ,HADOOP_MAPRED_HOME,HADOOP_SECURITY_AUTHENTICATION,HADOOP_RPC_PROTECTION,HADOOP_IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH_ALLOWED,HADOOP_YARN_RESOURCEMANAGER_PRINCIPAL,HADOOP_YARN_RESOURCEMANAGER_KEYTAB,HADOOP_YARN_RESOURCEMANAGER_WEBAPP_SPNEGO_PRINCIPAL,HADOOP_YARN_RESOURCEMANAGER_WEBAPP_SPNEGO_KEYTAB_FILE,HADOOP_YARN_NODEMANAGER_KEYTAB,HADOOP_YARN_NODEMANAGER_WEBAPP_SPNEGO_PRINCIPAL,HADOOP_YARN_NODEMANAGER_WEBAPP_SPNEGO_KEYTAB_FILE,HADOOP_YARN_TIMELINE_SERVICE_PRINCIPAL,HADOOP_YARN_TIMELINE_SERVICE_KEYTAB,HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_TYPE,HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_KERBEROS_PRINCIPAL,HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_KERBEROS_KEYTAB</value>
+    <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_HOME,HADOOP_OPTIONAL_TOOLS,PATH,LANG,TZ,HADOOP_MAPRED_HOME</value>
   </property>
   <property>
     <name>yarn.nodemanager.log-dirs</name>
@@ -162,23 +162,23 @@
   </property>
   <property>
     <name>yarn.timeline-service.principal</name>
-    <value>${env.HADOOP_YARN_TIMELINE_SERVICE_PRINCIPAL:-}</value>
+    <value>{{ index .Values "hadoop_yarn_timeline_service_principal" | html }}</value>
   </property>
   <property>
     <name>yarn.timeline-service.keytab</name>
-    <value>${env.HADOOP_YARN_TIMELINE_SERVICE_KEYTAB:-}</value>
+    <value>{{ index .Values "hadoop_yarn_timeline_service_keytab" | html }}</value>
   </property>
   <property>
     <name>yarn.timeline-service.http-authentication.type</name>
-    <value>${env.HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_TYPE:-simple}</value>
+    <value>{{ or (index .Values "hadoop_yarn_timeline_service_http_authentication_type") "simple" | html }}</value>
   </property>
   <property>
     <name>yarn.timeline-service.http-authentication.kerberos.principal</name>
-    <value>${env.HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_KERBEROS_PRINCIPAL:-}</value>
+    <value>{{ index .Values "hadoop_yarn_timeline_service_http_authentication_kerberos_principal" | html }}</value>
   </property>
   <property>
     <name>yarn.timeline-service.http-authentication.kerberos.keytab</name>
-    <value>${env.HADOOP_YARN_TIMELINE_SERVICE_HTTP_AUTHENTICATION_KERBEROS_KEYTAB:-}</value>
+    <value>{{ index .Values "hadoop_yarn_timeline_service_http_authentication_kerberos_keytab" | html }}</value>
   </property>
   <property>
     <name>yarn.timeline-service.bind-host</name>

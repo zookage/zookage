@@ -13,6 +13,17 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: config-values
+data:
+  hadoop_client_security_authentication: kerberos
+  hadoop_client_rpc_protection: authentication
+  hadoop_client_ipc_client_fallback_to_simple_auth_allowed: "true"
+  hive_server2_kerberos_principal: hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+  hive_server2_kerberos_keytab: /etc/hive/secrets/hive.keytab
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
   name: ranger-conf
 data:
   ranger-service-hive.json: |
@@ -65,17 +76,6 @@ spec:
           mountPath: /etc/hive/secrets
       containers:
       - name: hiveserver2
-        env:
-        - name: HADOOP_SECURITY_AUTHENTICATION
-          value: kerberos
-        - name: HADOOP_RPC_PROTECTION
-          value: authentication
-        - name: HADOOP_IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH_ALLOWED
-          value: "true"
-        - name: HIVE_SERVER2_KERBEROS_PRINCIPAL
-          value: hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-        - name: HIVE_SERVER2_KERBEROS_KEYTAB
-          value: /etc/hive/secrets/hive.keytab
         volumeMounts:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
@@ -84,6 +84,26 @@ spec:
           mountPath: /etc/hive/secrets
           readOnly: true
       volumes:
+      - name: hadoop-conf
+        projected:
+          sources:
+          - configMap:
+              name: hadoop-conf
+              items:
+              - key: core-site-client.xml
+                path: core-site.xml
+              - key: core-site-common.xml
+                path: core-site-common.xml
+              - key: hadoop-metrics2.properties
+                path: hadoop-metrics2.properties
+              - key: log4j.properties
+                path: log4j.properties
+          - configMap:
+              name: hdfs-conf
+          - configMap:
+              name: mapreduce-conf
+          - configMap:
+              name: yarn-conf
       - name: kerberos-conf
         configMap:
           name: kerberos-conf

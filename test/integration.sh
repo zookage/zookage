@@ -39,8 +39,7 @@ if [[ $# -ge 1 ]]; then
   "${repo_dir}/bin/up"
 fi
 
-yarn_authentication=$("${repo_dir}/bin/kubectl" get statefulset yarn-resourcemanager \
-  -o 'jsonpath={.spec.template.spec.containers[?(@.name=="resourcemanager")].env[?(@.name=="HADOOP_SECURITY_AUTHENTICATION")].value}')
+yarn_authentication=$("${test_dir}/integration/yarn_authentication.sh")
 readonly yarn_authentication
 
 yarn_kerberos_enabled=false
