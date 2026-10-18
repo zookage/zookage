@@ -38,42 +38,29 @@ check_hdfs_permissions() {
   }
 
   readonly test_name="permissions-$(date +%s)-$$-${RANDOM}"
-  readonly shared_hive="/apps/hive-warehouse/${test_name}-hive"
-  readonly shared_trino="/apps/hive-warehouse/${test_name}-trino"
-  readonly shared_denied="/apps/hive-warehouse/${test_name}-denied"
-  readonly spark="/apps/zookage-warehouse/${test_name}"
+  readonly shared="/apps/hive-warehouse/${test_name}"
   readonly private="/user/zookage/${test_name}"
 
   cleanup() {
     as_user hdfs -rm -r -f -skipTrash \
-      "${shared_hive}" "${shared_trino}" "${shared_denied}" "${spark}" "${private}"
+      "${shared}-hive" "${shared}-trino" "${shared}-zookage" "${shared}-denied" "${private}"
   }
   trap cleanup EXIT
 
-  expect_permission_denied zookage -ls /apps/hive-warehouse
-  expect_permission_denied zookage -mkdir "${shared_denied}"
-  as_user hive -mkdir "${shared_hive}"
-  as_user trino -mkdir "${shared_trino}"
-  as_user trino -touchz "${shared_hive}/trino-file"
-  as_user hive -cat "${shared_hive}/trino-file"
-  printf '%s\n' hive | as_user hive -appendToFile - "${shared_hive}/trino-file"
-  as_user hive -touchz "${shared_trino}/hive-file"
-  as_user trino -cat "${shared_trino}/hive-file"
-  printf '%s\n' trino | as_user trino -appendToFile - "${shared_trino}/hive-file"
-
-  as_user hive -mkdir "${spark}"
-  as_user zookage -mkdir "${spark}/table"
-  as_user zookage -touchz "${spark}/table/zookage-file"
-  as_user hive -cat "${spark}/table/zookage-file"
-  printf '%s\n' hive | as_user hive -appendToFile - "${spark}/table/zookage-file"
-  as_user hive -touchz "${spark}/table/hive-file"
-  as_user zookage -cat "${spark}/table/hive-file"
-  printf '%s\n' zookage | as_user zookage -appendToFile - "${spark}/table/hive-file"
-  for user in trino httpfs; do
-    expect_permission_denied "${user}" -ls /apps/zookage-warehouse
-    expect_permission_denied "${user}" -cat "${spark}/table/zookage-file"
-    expect_permission_denied "${user}" -mkdir "${spark}/${user}-directory"
+  local owner user
+  for owner in hive trino zookage; do
+    as_user "${owner}" -mkdir "${shared}-${owner}"
+    as_user "${owner}" -touchz "${shared}-${owner}/${owner}-file"
+    for user in hive trino zookage; do
+      [[ "${user}" == "${owner}" ]] && continue
+      as_user "${user}" -cat "${shared}-${owner}/${owner}-file"
+      printf '%s\n' "${user}" | as_user "${user}" -appendToFile - "${shared}-${owner}/${owner}-file"
+      as_user "${user}" -touchz "${shared}-${owner}/${user}-file"
+    done
   done
+  expect_permission_denied httpfs -ls /apps/hive-warehouse
+  expect_permission_denied httpfs -cat "${shared}-zookage/zookage-file"
+  expect_permission_denied httpfs -mkdir "${shared}-denied"
 
   local home_permissions
   home_permissions=$(as_user hdfs -stat '%u:%g %a' /user/zookage)

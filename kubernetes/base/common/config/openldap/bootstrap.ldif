@@ -271,6 +271,7 @@ objectClass: top
 objectClass: posixGroup
 cn: warehouse
 gidNumber: 1100
+memberUid: zookage
 memberUid: hive
 memberUid: trino
 

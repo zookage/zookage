@@ -40,12 +40,6 @@ spec:
           docker-entrypoint.sh hdfs-mkdir /apps/mapred-history-intermediate mapred:mapred 1777
           docker-entrypoint.sh hdfs-mkdir /apps/mapred-history mapred:mapred 750
           docker-entrypoint.sh hdfs-mkdir /apps/spark-history spark:spark 1777
-          # Keep Spark access to directories created by the Metastore as hive.
-          zookage_warehouse_acl='user::rwx,group::rwx,other::---'
-          zookage_warehouse_acl+=',default:user::rwx,default:user:zookage:rwx'
-          zookage_warehouse_acl+=',default:group::rwx,default:mask::rwx,default:other::---'
-          docker-entrypoint.sh hdfs-mkdir /apps/zookage-warehouse zookage:hive 770 \
-            "${zookage_warehouse_acl}"
           docker-entrypoint.sh hdfs-mkdir /lib hdfs:supergroup 755
           docker-entrypoint.sh hdfs-mkdir /lib/tez tez:tez 755
           docker-entrypoint.sh hdfs-mkdir /tmp hdfs:supergroup 1777
