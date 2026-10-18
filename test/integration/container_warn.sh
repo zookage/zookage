@@ -90,6 +90,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hbase-master-.* hdfs.DataStreamer: DataStreamer Exception' \
   | grep -v 'pod/hbase-master-.* region.MasterRegion: failed to clean up initializing flag' \
   | grep -v 'pod/hbase-master-.* assignment.AssignmentManager: No servers available; cannot place' \
+  | grep -v 'pod/hbase-master-.* zookeeper.MetaTableLocator: Tried to set null ServerName in hbase:meta; skipping -- ServerName required' \
   | grep -v 'pod/hbase-master-.* zookeeper.ClientCnxn: Session 0x0 .* Attempting reconnect except it is a SessionExpiredException\.' \
   | grep -v 'pod/hbase-regionserver-.* zookeeper.ClientCnxn: Session 0x0 .* Attempting reconnect except it is a SessionExpiredException\.' \
   | grep -v 'pod/hbase-regionserver-.* hbase.HbaseUserUtilsImpl: HbaseUserUtilsImpl\.initialize: Unexpected: initialization called more than once!' \
