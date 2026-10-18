@@ -34,6 +34,18 @@ krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEeg
  5wk2uMCWMp0vV7qBjBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAqVR9IjqKSjFQJpjzomIFJ2rVA6
  55O6qNzRP7p8ppS4KI1asw8121r8t31D0=
 
+dn: uid=alice,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: alice
+cn: Alice
+sn: Alice
+uidNumber: 1002
+gidNumber: 1002
+homeDirectory: /home/alice
+userPassword: alice
+
 dn: uid=hdfs,ou=users,dc=example,dc=com
 objectClass: top
 objectClass: inetOrgPerson
@@ -185,17 +197,20 @@ objectClass: posixGroup
 cn: zookage
 gidNumber: 1001
 
+dn: cn=alice,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: alice
+gidNumber: 1002
+
 dn: cn=hadoop,ou=groups,dc=example,dc=com
 objectClass: top
 objectClass: posixGroup
 cn: hadoop
 gidNumber: 1010
-memberUid: zookage
 memberUid: hdfs
 memberUid: yarn
 memberUid: mapred
-memberUid: hive
-memberUid: trino
 
 dn: cn=hdfs,ou=groups,dc=example,dc=com
 objectClass: top
@@ -268,6 +283,15 @@ objectClass: top
 objectClass: posixGroup
 cn: kdc
 gidNumber: 1090
+
+dn: cn=warehouse,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: warehouse
+gidNumber: 1100
+memberUid: zookage
+memberUid: hive
+memberUid: trino
 
 dn: cn=krbContainer,dc=example,dc=com
 objectClass: krbContainer

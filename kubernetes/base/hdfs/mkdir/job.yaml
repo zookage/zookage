@@ -33,7 +33,7 @@ spec:
         - |
           docker-entrypoint.sh hdfs-mkdir /apps hdfs:supergroup 755
           docker-entrypoint.sh hdfs-mkdir /apps/hbase hbase:hbase 711
-          docker-entrypoint.sh hdfs-mkdir /apps/hive-warehouse hive:hadoop 1770
+          docker-entrypoint.sh hdfs-mkdir /apps/hive-warehouse hive:warehouse 1770
           docker-entrypoint.sh hdfs-mkdir /apps/mapred-history-intermediate mapred:mapred 1777
           docker-entrypoint.sh hdfs-mkdir /apps/mapred-history mapred:mapred 750
           docker-entrypoint.sh hdfs-mkdir /apps/spark-history spark:spark 1777
