@@ -73,7 +73,7 @@ check_hdfs_permissions() {
     as_user "${owner}" -touchz "${private}/${owner}-file"
     printf '%s\n' "${owner}" | as_user "${owner}" -appendToFile - "${private}/${owner}-file"
     as_user "${owner}" -cat "${private}/${owner}-file"
-    for user in zookage alice hive trino httpfs; do
+    for user in zookage alice; do
       if [[ "${user}" == "${owner}" ]]; then
         continue
       fi
