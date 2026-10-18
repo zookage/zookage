@@ -47,16 +47,12 @@ check_hdfs_permissions() {
   }
   trap cleanup EXIT
 
-  local owner user
-  for owner in hive trino zookage; do
-    as_user "${owner}" -mkdir "${shared}-${owner}"
-    as_user "${owner}" -touchz "${shared}-${owner}/${owner}-file"
-    for user in hive trino zookage; do
-      [[ "${user}" == "${owner}" ]] && continue
-      as_user "${user}" -cat "${shared}-${owner}/${owner}-file"
-      printf '%s\n' "${user}" | as_user "${user}" -appendToFile - "${shared}-${owner}/${owner}-file"
-      as_user "${user}" -touchz "${shared}-${owner}/${user}-file"
-    done
+  local user
+  for user in hive trino zookage; do
+    as_user "${user}" -mkdir "${shared}-${user}"
+    as_user "${user}" -touchz "${shared}-${user}/${user}-file"
+    printf '%s\n' "${user}" | as_user "${user}" -appendToFile - "${shared}-${user}/${user}-file"
+    as_user "${user}" -cat "${shared}-${user}/${user}-file"
   done
   expect_permission_denied httpfs -ls /apps/hive-warehouse
   expect_permission_denied httpfs -cat "${shared}-zookage/zookage-file"
