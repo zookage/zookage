@@ -190,12 +190,9 @@ objectClass: top
 objectClass: posixGroup
 cn: hadoop
 gidNumber: 1010
-memberUid: zookage
 memberUid: hdfs
 memberUid: yarn
 memberUid: mapred
-memberUid: hive
-memberUid: trino
 
 dn: cn=hdfs,ou=groups,dc=example,dc=com
 objectClass: top
@@ -268,6 +265,14 @@ objectClass: top
 objectClass: posixGroup
 cn: kdc
 gidNumber: 1090
+
+dn: cn=warehouse,ou=groups,dc=example,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: warehouse
+gidNumber: 1100
+memberUid: hive
+memberUid: trino
 
 dn: cn=krbContainer,dc=example,dc=com
 objectClass: krbContainer
