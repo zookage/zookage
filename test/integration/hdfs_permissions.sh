@@ -41,11 +41,12 @@ check_hdfs_permissions() {
   readonly shared_hive="/apps/hive-warehouse/${test_name}-hive"
   readonly shared_trino="/apps/hive-warehouse/${test_name}-trino"
   readonly shared_denied="/apps/hive-warehouse/${test_name}-denied"
-  readonly private="/user/zookage/warehouse/${test_name}"
+  readonly spark="/apps/zookage-warehouse/${test_name}"
+  readonly private="/user/zookage/${test_name}"
 
   cleanup() {
     as_user hdfs -rm -r -f -skipTrash \
-      "${shared_hive}" "${shared_trino}" "${shared_denied}" "${private}"
+      "${shared_hive}" "${shared_trino}" "${shared_denied}" "${spark}" "${private}"
   }
   trap cleanup EXIT
 
@@ -53,6 +54,26 @@ check_hdfs_permissions() {
   expect_permission_denied zookage -mkdir "${shared_denied}"
   as_user hive -mkdir "${shared_hive}"
   as_user trino -mkdir "${shared_trino}"
+  as_user trino -touchz "${shared_hive}/trino-file"
+  as_user hive -cat "${shared_hive}/trino-file"
+  printf '%s\n' hive | as_user hive -appendToFile - "${shared_hive}/trino-file"
+  as_user hive -touchz "${shared_trino}/hive-file"
+  as_user trino -cat "${shared_trino}/hive-file"
+  printf '%s\n' trino | as_user trino -appendToFile - "${shared_trino}/hive-file"
+
+  as_user hive -mkdir "${spark}"
+  as_user zookage -mkdir "${spark}/table"
+  as_user zookage -touchz "${spark}/table/zookage-file"
+  as_user hive -cat "${spark}/table/zookage-file"
+  printf '%s\n' hive | as_user hive -appendToFile - "${spark}/table/zookage-file"
+  as_user hive -touchz "${spark}/table/hive-file"
+  as_user zookage -cat "${spark}/table/hive-file"
+  printf '%s\n' zookage | as_user zookage -appendToFile - "${spark}/table/hive-file"
+  for user in trino httpfs; do
+    expect_permission_denied "${user}" -ls /apps/zookage-warehouse
+    expect_permission_denied "${user}" -cat "${spark}/table/zookage-file"
+    expect_permission_denied "${user}" -mkdir "${spark}/${user}-directory"
+  done
 
   local home_permissions
   home_permissions=$(as_user hdfs -stat '%u:%g %a' /user/zookage)
@@ -61,7 +82,6 @@ check_hdfs_permissions() {
     exit 1
   fi
 
-  as_user zookage -mkdir -p /user/zookage/warehouse
   as_user zookage -mkdir "${private}"
   as_user zookage -touchz "${private}/zookage-file"
   for user in hive trino httpfs; do

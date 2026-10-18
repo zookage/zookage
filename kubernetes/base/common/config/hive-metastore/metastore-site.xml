@@ -36,7 +36,7 @@
   </property>
   <property>
     <name>metastore.execute.setugi</name>
-    <value>true</value>
+    <value>false</value>
   </property>
   <property>
     <name>hive.metastore.warehouse.external.dir</name>

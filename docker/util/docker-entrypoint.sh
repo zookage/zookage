@@ -45,6 +45,7 @@ hdfs_mkdir_webhdfs() {
   directory=$1
   owner_group=$2
   mode=$3
+  acl_spec=${4:-}
   owner=${owner_group%%:*}
   group=${owner_group#*:}
 
@@ -54,6 +55,10 @@ hdfs_mkdir_webhdfs() {
     webhdfs_request PUT "${directory}" "op=SETOWNER&owner=${owner}&group=${group}"
   retry_command "set permission on ${directory}" \
     webhdfs_request PUT "${directory}" "op=SETPERMISSION&permission=${mode}"
+  if [ -n "${acl_spec}" ]; then
+    retry_command "set ACL on ${directory}" \
+      webhdfs_request PUT "${directory}" "op=SETACL&aclspec=${acl_spec}"
+  fi
 }
 
 readonly command=$1
@@ -71,7 +76,7 @@ elif [ "${command}" == "wait-for-dns" ]; then
   done
   exit 0
 elif [ "${command}" == "hdfs-mkdir" ]; then
-  hdfs_mkdir_webhdfs "$2" "$3" "$4"
+  hdfs_mkdir_webhdfs "$2" "$3" "$4" "${5:-}"
   exit 0
 fi
 

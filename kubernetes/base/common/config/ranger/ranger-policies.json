@@ -324,6 +324,49 @@
     {
       "version": 1,
       "service": "hdfs",
+      "name": "Zookage warehouse - path",
+      "policyType": 0,
+      "policyPriority": 0,
+      "description": "Policy for Zookage warehouse - path",
+      "isAuditEnabled": true,
+      "resources": {
+        "path": {
+          "values": [
+            "/apps/zookage-warehouse"
+          ],
+          "isExcludes": false,
+          "isRecursive": true
+        }
+      },
+      "policyItems": [
+        {
+          "accesses": [
+            {
+              "type": "read",
+              "isAllowed": true
+            },
+            {
+              "type": "write",
+              "isAllowed": true
+            },
+            {
+              "type": "execute",
+              "isAllowed": true
+            }
+          ],
+          "users": [
+            "zookage",
+            "hive"
+          ],
+          "delegateAdmin": false
+        }
+      ],
+      "serviceType": "hdfs",
+      "isDenyAllElse": false
+    },
+    {
+      "version": 1,
+      "service": "hdfs",
       "name": "MapReduce history intermediate root - path",
       "policyType": 0,
       "policyPriority": 0,
