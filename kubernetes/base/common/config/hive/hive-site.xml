@@ -18,10 +18,6 @@
     <value>thrift://hive-metastore-server-0.hive-metastore-server:9083</value>
   </property>
   <property>
-    <name>hive.metastore.execute.setugi</name>
-    <value>false</value>
-  </property>
-  <property>
     <name>hive.reloadable.aux.jars.path</name>
     <value>/mnt</value>
   </property>

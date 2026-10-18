@@ -35,10 +35,6 @@
     <value>/apps/hive-warehouse</value>
   </property>
   <property>
-    <name>metastore.execute.setugi</name>
-    <value>false</value>
-  </property>
-  <property>
     <name>hive.metastore.warehouse.external.dir</name>
     <value>/apps/hive-warehouse</value>
   </property>
