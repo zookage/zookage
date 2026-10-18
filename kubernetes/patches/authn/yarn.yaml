@@ -13,12 +13,18 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: config-values-yarn
+data:
+  hadoop_security_authorization: "false"
+  hadoop_security_authentication: kerberos
+  hadoop_rpc_protection: authentication
+  hadoop_ipc_client_fallback_to_simple_auth_allowed: "true"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
   name: config-values
 data:
-  hadoop_yarn_security_authorization: "false"
-  hadoop_yarn_security_authentication: kerberos
-  hadoop_yarn_rpc_protection: authentication
-  hadoop_yarn_ipc_client_fallback_to_simple_auth_allowed: "true"
   hadoop_yarn_nodemanager_principal: yarn/_HOST@ZOOKAGE.LOCAL
   hadoop_yarn_resourcemanager_principal: yarn/_HOST@ZOOKAGE.LOCAL
   hadoop_yarn_resourcemanager_keytab: /etc/yarn/secrets/yarn.keytab
@@ -108,16 +114,7 @@ spec:
         projected:
           sources:
           - configMap:
-              name: hadoop-conf
-              items:
-              - key: core-site-yarn.xml
-                path: core-site.xml
-              - key: core-site-common.xml
-                path: core-site-common.xml
-              - key: hadoop-metrics2.properties
-                path: hadoop-metrics2.properties
-              - key: log4j.properties
-                path: log4j.properties
+              name: hadoop-conf-yarn
           - configMap:
               name: yarn-conf
       - name: kerberos-conf
@@ -233,18 +230,7 @@ spec:
         projected:
           sources:
           - configMap:
-              name: hadoop-conf
-              items:
-              - key: core-site-yarn-client.xml
-                path: core-site.xml
-              - key: core-site-yarn.xml
-                path: core-site-yarn.xml
-              - key: core-site-common.xml
-                path: core-site-common.xml
-              - key: hadoop-metrics2.properties
-                path: hadoop-metrics2.properties
-              - key: log4j.properties
-                path: log4j.properties
+              name: hadoop-conf-yarn
           - configMap:
               name: hdfs-conf
           - configMap:
@@ -311,16 +297,7 @@ spec:
         projected:
           sources:
           - configMap:
-              name: hadoop-conf
-              items:
-              - key: core-site-yarn.xml
-                path: core-site.xml
-              - key: core-site-common.xml
-                path: core-site-common.xml
-              - key: hadoop-metrics2.properties
-                path: hadoop-metrics2.properties
-              - key: log4j.properties
-                path: log4j.properties
+              name: hadoop-conf-yarn
           - configMap:
               name: yarn-conf
       - name: kerberos-conf

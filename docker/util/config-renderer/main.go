@@ -52,8 +52,8 @@ func run(configPath string, input io.Reader, output io.Writer) error {
 	if err := yaml.Unmarshal(configData, &config); err != nil {
 		return fmt.Errorf("decode plugin configuration: %w", err)
 	}
-	if config.APIVersion != "zookage.io/v1" || config.Kind != "RenderConfig" {
-		return errors.New("plugin configuration must be zookage.io/v1 RenderConfig")
+	if (config.APIVersion != "zookage.io/v1" && config.APIVersion != "zookage.io/v2") || config.Kind != "RenderConfig" {
+		return errors.New("plugin configuration must be zookage.io/v1 or zookage.io/v2 RenderConfig")
 	}
 	if config.ValuesConfigMap == "" {
 		config.ValuesConfigMap = "config-values"
@@ -62,7 +62,7 @@ func run(configPath string, input io.Reader, output io.Writer) error {
 	decoder := yaml.NewDecoder(input)
 	var documents []*yaml.Node
 	var configMaps []*yaml.Node
-	var valuesNode *yaml.Node
+	namedConfigMaps := make(map[string][]*yaml.Node)
 	for {
 		var document yaml.Node
 		if err := decoder.Decode(&document); errors.Is(err, io.EOF) {
@@ -75,24 +75,40 @@ func run(configPath string, input io.Reader, output io.Writer) error {
 			continue
 		}
 		configMaps = append(configMaps, &document)
-		if scalar(field(field(&document, "metadata"), "name")) == config.ValuesConfigMap {
-			if valuesNode != nil {
-				return fmt.Errorf("multiple ConfigMaps named %s", config.ValuesConfigMap)
-			}
-			valuesNode = &document
-		}
+		name := scalar(field(field(&document, "metadata"), "name"))
+		namedConfigMaps[name] = append(namedConfigMaps[name], &document)
 	}
-	if valuesNode == nil {
-		return fmt.Errorf("values ConfigMap %s not found", config.ValuesConfigMap)
-	}
-	// Snapshot values before evaluating any resource, including the values
-	// ConfigMap itself. Rendering order must not change the template context.
-	values, err := readValues(valuesNode)
+	// Snapshot all values before evaluating any resource, including the values
+	// ConfigMaps themselves. Rendering order must not change template contexts.
+	values, err := readNamedValues(namedConfigMaps, config.ValuesConfigMap)
 	if err != nil {
 		return err
 	}
+	scopedValues := make(map[string]map[string]string)
+	for _, configMap := range configMaps {
+		name := valuesReference(configMap)
+		if name == "" || scopedValues[name] != nil {
+			continue
+		}
+		overrides, err := readNamedValues(namedConfigMaps, name)
+		if err != nil {
+			return err
+		}
+		merged := make(map[string]string, len(values)+len(overrides))
+		for key, value := range values {
+			merged[key] = value
+		}
+		for key, value := range overrides {
+			merged[key] = value
+		}
+		scopedValues[name] = merged
+	}
 	for _, configMap := range configMaps {
 		name := scalar(field(field(configMap, "metadata"), "name"))
+		templateValues := values
+		if reference := valuesReference(configMap); reference != "" {
+			templateValues = scopedValues[reference]
+		}
 		data := field(configMap, "data")
 		if err := validateStringData(data); err != nil {
 			return fmt.Errorf("ConfigMap %s: %w", name, err)
@@ -105,7 +121,7 @@ func run(configPath string, input io.Reader, output io.Writer) error {
 			if !strings.Contains(value.Value, "{{") {
 				continue
 			}
-			rendered, err := renderTemplate(name+"/"+key.Value, value.Value, values)
+			rendered, err := renderTemplate(name+"/"+key.Value, value.Value, templateValues)
 			if err != nil {
 				return err
 			}
@@ -184,6 +200,21 @@ func readValues(configMap *yaml.Node) (map[string]string, error) {
 		}
 	}
 	return values, nil
+}
+
+func valuesReference(configMap *yaml.Node) string {
+	return scalar(field(field(field(configMap, "metadata"), "annotations"), "zookage.io/config-values"))
+}
+
+func readNamedValues(configMaps map[string][]*yaml.Node, name string) (map[string]string, error) {
+	matches := configMaps[name]
+	if len(matches) == 0 {
+		return nil, fmt.Errorf("values ConfigMap %s not found", name)
+	}
+	if len(matches) != 1 {
+		return nil, fmt.Errorf("multiple ConfigMaps named %s", name)
+	}
+	return readValues(matches[0])
 }
 
 func renderTemplate(name, source string, values map[string]string) (string, error) {

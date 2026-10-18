@@ -29,14 +29,7 @@ echo "Check errors and warnings of ${id}"
 
 yarn_authentication=$("${integration_dir}/yarn_authentication.sh")
 logs_file=$(mktemp)
-hive_pod=
-remote_dir=
 cleanup() {
-  if [[ -n ${remote_dir} ]]; then
-    # shellcheck disable=SC2016
-    "${base_dir}/bin/kubectl" exec "${hive_pod}" -c hiveserver2 -- /bin/sh -c \
-      'rm -f -- "$1/YarnLogs.java"; rmdir -- "$1"' sh "${remote_dir}" || true
-  fi
   rm -f "${logs_file}"
 }
 trap cleanup EXIT
@@ -44,17 +37,18 @@ trap cleanup EXIT
 if [[ ${yarn_authentication} == kerberos && ${app_owner} == hive ]]; then
   hive_pod=$("${base_dir}/bin/kubectl" get pods -l component=hive,service=hiveserver2 \
     -o 'jsonpath={.items[0].metadata.name}')
-  remote_dir=$("${base_dir}/bin/kubectl" exec "${hive_pod}" -c hiveserver2 -- \
-    mktemp -d /tmp/zookage-yarn-logs.XXXXXX)
-  "${base_dir}/bin/kubectl" cp "${integration_dir}/YarnLogs.java" \
-    "${hive_pod}:${remote_dir}/YarnLogs.java" -c hiveserver2
   # Authenticate as Hive inside HS2 without exposing its keytab to the client.
   # shellcheck disable=SC2016
   "${base_dir}/bin/kubectl" exec "${hive_pod}" -c hiveserver2 -- /bin/bash -eu -c '
     unset JAVA_TOOL_OPTIONS
-    hadoop_classpath=$("${HADOOP_HOME}/bin/hadoop" classpath)
-    exec "${JAVA_HOME}/bin/java" --class-path "${hadoop_classpath}" --source 11 "$@"
-  ' bash "${remote_dir}/YarnLogs.java" -applicationId "${id}" -appOwner "${app_owner}" > "${logs_file}"
+    principal=$("${HADOOP_HOME}/bin/hdfs" getconf -conf /etc/hive/conf/hive-site.xml -confKey hive.server2.authentication.kerberos.principal)
+    keytab=$("${HADOOP_HOME}/bin/hdfs" getconf -conf /etc/hive/conf/hive-site.xml -confKey hive.server2.authentication.kerberos.keytab)
+    if [[ -z ${principal} || -z ${keytab} ]]; then
+      echo "HiveServer2 Kerberos principal and keytab must be configured." >&2
+      exit 1
+    fi
+    exec env KRB5PRINCIPAL="${principal}" KRB5KEYTAB="${keytab}" "${HADOOP_HOME}/bin/yarn" logs "$@"
+  ' bash -applicationId "${id}" -appOwner "${app_owner}" > "${logs_file}"
 else
   "${integration_dir}/run.sh" env HADOOP_USER_NAME=hdfs \
     yarn logs -applicationId "${id}" -appOwner "${app_owner}" > "${logs_file}"

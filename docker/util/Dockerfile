@@ -19,7 +19,8 @@ ARG kubectl_version=v1.35.2
 FROM ${go_image} AS config-renderer-build
 WORKDIR /src
 COPY config-renderer/ ./
-RUN CGO_ENABLED=0 go build -mod=readonly -trimpath -o /config-renderer .
+RUN CGO_ENABLED=0 go test -mod=readonly ./... \
+  && CGO_ENABLED=0 go build -mod=readonly -trimpath -o /config-renderer .
 
 # hadolint ignore=DL3006
 FROM ${jdk_image}
@@ -63,8 +64,9 @@ COPY docker-entrypoint.sh /usr/local/bin/
 COPY --from=config-renderer-build /config-renderer /usr/local/bin/config-renderer
 
 ENV KUSTOMIZE_PLUGIN_HOME=/opt/kustomize/plugin
-RUN mkdir -p "${KUSTOMIZE_PLUGIN_HOME}/zookage.io/v1/renderconfig" \
-  && ln -s /usr/local/bin/config-renderer "${KUSTOMIZE_PLUGIN_HOME}/zookage.io/v1/renderconfig/RenderConfig"
+RUN mkdir -p "${KUSTOMIZE_PLUGIN_HOME}/zookage.io/v1/renderconfig" "${KUSTOMIZE_PLUGIN_HOME}/zookage.io/v2/renderconfig" \
+  && ln -s /usr/local/bin/config-renderer "${KUSTOMIZE_PLUGIN_HOME}/zookage.io/v1/renderconfig/RenderConfig" \
+  && ln -s /usr/local/bin/config-renderer "${KUSTOMIZE_PLUGIN_HOME}/zookage.io/v2/renderconfig/RenderConfig"
 
 USER zookage:zookage
 ENTRYPOINT ["docker-entrypoint.sh"]

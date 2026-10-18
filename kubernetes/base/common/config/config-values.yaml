@@ -17,3 +17,19 @@ metadata:
   annotations:
     config.kubernetes.io/local-config: 'true'
 data: {}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-values-yarn
+  annotations:
+    config.kubernetes.io/local-config: 'true'
+data: {}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-values-client
+  annotations:
+    config.kubernetes.io/local-config: 'true'
+data: {}

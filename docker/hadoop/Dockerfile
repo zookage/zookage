@@ -95,8 +95,6 @@ RUN groupadd --gid 1010 hadoop \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1014 --gid httpfs httpfs \
   && sed -i \
     -e 's|^yarn.nodemanager.linux-container-executor.group=.*|yarn.nodemanager.linux-container-executor.group=hadoop|' \
-    -e 's|^banned.users=.*|banned.users=hdfs,yarn,mapred,bin|' \
-    -e 's|^allowed.system.users=.*|allowed.system.users=|' \
     /opt/hadoop/etc/hadoop/container-executor.cfg \
   && case ",${active_profiles}," in \
     *,native,*) \
