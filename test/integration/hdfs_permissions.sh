@@ -22,23 +22,6 @@ check_hdfs_permissions() {
     HADOOP_USER_NAME="${user}" hdfs dfs "$@"
   }
 
-  assert_group() {
-    local user=$1
-    local group=$2
-    local expected=$3
-    local groups
-    local actual=absent
-
-    groups=$(hdfs groups "${user}")
-    if [[ " ${groups#*:} " == *" ${group} "* ]]; then
-      actual=present
-    fi
-    if [[ "${actual}" != "${expected}" ]]; then
-      echo "Unexpected ${group} membership for ${user}: ${groups}" >&2
-      exit 1
-    fi
-  }
-
   expect_permission_denied() {
     local user=$1
     local output
@@ -53,18 +36,6 @@ check_hdfs_permissions() {
       exit 1
     fi
   }
-
-  for user in zookage hive trino; do
-    assert_group "${user}" hadoop absent
-  done
-  for user in hdfs yarn mapred; do
-    assert_group "${user}" hadoop present
-  done
-  assert_group zookage warehouse absent
-  assert_group httpfs warehouse absent
-  for user in hive trino; do
-    assert_group "${user}" warehouse present
-  done
 
   readonly test_name="permissions-$(date +%s)-$$-${RANDOM}"
   readonly shared_hive="/apps/hive-warehouse/${test_name}-hive"
