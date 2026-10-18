@@ -31,18 +31,18 @@ configMapGenerator:
   - hadoop/core-site.xml
   - hadoop/hadoop-metrics2.properties
   - hadoop/log4j.properties
-  name: hadoop-conf-yarn
+  name: hadoop-yarn-conf
   options:
     annotations:
-      zookage.io/config-values: config-values-yarn
+      zookage.io/config-values: yarn-config-values
 - files:
   - hadoop/core-site.xml
   - hadoop/hadoop-metrics2.properties
   - hadoop/log4j.properties
-  name: hadoop-conf-client
+  name: hadoop-client-conf
   options:
     annotations:
-      zookage.io/config-values: config-values-client
+      zookage.io/config-values: client-config-values
 - files:
   - hdfs/hdfs-site.xml
   - hdfs/httpfs-log4j.properties

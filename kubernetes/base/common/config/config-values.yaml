@@ -21,7 +21,7 @@ data: {}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: config-values-yarn
+  name: yarn-config-values
   annotations:
     config.kubernetes.io/local-config: 'true'
 data: {}
@@ -29,7 +29,7 @@ data: {}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: config-values-client
+  name: client-config-values
   annotations:
     config.kubernetes.io/local-config: 'true'
 data: {}

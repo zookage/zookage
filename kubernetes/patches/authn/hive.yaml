@@ -13,7 +13,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: config-values-client
+  name: client-config-values
 data:
   hadoop_security_authentication: kerberos
   hadoop_rpc_protection: authentication
@@ -94,7 +94,7 @@ spec:
         projected:
           sources:
           - configMap:
-              name: hadoop-conf-client
+              name: hadoop-client-conf
           - configMap:
               name: hdfs-conf
           - configMap:
