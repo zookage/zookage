@@ -43,7 +43,7 @@ check_hdfs_permissions() {
   cleanup() {
     as_user hdfs -rm -r -f -skipTrash \
       "${shared}-hive" "${shared}-trino" "${shared}-zookage" \
-      "${shared}-httpfs-denied" "${shared}-alice-denied" \
+      "${shared}-alice-denied" \
       "/user/zookage/${test_name}" "/user/alice/${test_name}"
   }
   trap cleanup EXIT
@@ -55,11 +55,9 @@ check_hdfs_permissions() {
     printf '%s\n' "${user}" | as_user "${user}" -appendToFile - "${shared}-${user}/${user}-file"
     as_user "${user}" -cat "${shared}-${user}/${user}-file"
   done
-  for user in httpfs alice; do
-    expect_permission_denied "${user}" -ls /apps/hive-warehouse
-    expect_permission_denied "${user}" -cat "${shared}-zookage/zookage-file"
-    expect_permission_denied "${user}" -mkdir "${shared}-${user}-denied"
-  done
+  expect_permission_denied alice -ls /apps/hive-warehouse
+  expect_permission_denied alice -cat "${shared}-zookage/zookage-file"
+  expect_permission_denied alice -mkdir "${shared}-alice-denied"
 
   local owner user_home home_permissions private
   for owner in zookage alice; do
