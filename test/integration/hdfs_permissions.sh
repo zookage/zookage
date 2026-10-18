@@ -39,11 +39,12 @@ check_hdfs_permissions() {
 
   readonly test_name="permissions-$(date +%s)-$$-${RANDOM}"
   readonly shared="/apps/hive-warehouse/${test_name}"
-  readonly private="/user/zookage/${test_name}"
 
   cleanup() {
     as_user hdfs -rm -r -f -skipTrash \
-      "${shared}-hive" "${shared}-trino" "${shared}-zookage" "${shared}-denied" "${private}"
+      "${shared}-hive" "${shared}-trino" "${shared}-zookage" \
+      "${shared}-httpfs-denied" "${shared}-alice-denied" \
+      "/user/zookage/${test_name}" "/user/alice/${test_name}"
   }
   trap cleanup EXIT
 
@@ -54,23 +55,34 @@ check_hdfs_permissions() {
     printf '%s\n' "${user}" | as_user "${user}" -appendToFile - "${shared}-${user}/${user}-file"
     as_user "${user}" -cat "${shared}-${user}/${user}-file"
   done
-  expect_permission_denied httpfs -ls /apps/hive-warehouse
-  expect_permission_denied httpfs -cat "${shared}-zookage/zookage-file"
-  expect_permission_denied httpfs -mkdir "${shared}-denied"
+  for user in httpfs alice; do
+    expect_permission_denied "${user}" -ls /apps/hive-warehouse
+    expect_permission_denied "${user}" -cat "${shared}-zookage/zookage-file"
+    expect_permission_denied "${user}" -mkdir "${shared}-${user}-denied"
+  done
 
-  local home_permissions
-  home_permissions=$(as_user hdfs -stat '%u:%g %a' /user/zookage)
-  if [[ "${home_permissions}" != 'zookage:zookage 700' ]]; then
-    echo "Unexpected /user/zookage ownership or permissions: ${home_permissions}" >&2
-    exit 1
-  fi
+  local owner user_home home_permissions private
+  for owner in zookage alice; do
+    user_home="/user/${owner}"
+    private="${user_home}/${test_name}"
+    home_permissions=$(as_user hdfs -stat '%u:%g %a' "${user_home}")
+    if [[ "${home_permissions}" != "${owner}:${owner} 700" ]]; then
+      echo "Unexpected ${user_home} ownership or permissions: ${home_permissions}" >&2
+      exit 1
+    fi
 
-  as_user zookage -mkdir "${private}"
-  as_user zookage -touchz "${private}/zookage-file"
-  for user in hive trino httpfs; do
-    expect_permission_denied "${user}" -ls /user/zookage
-    expect_permission_denied "${user}" -cat "${private}/zookage-file"
-    expect_permission_denied "${user}" -mkdir "${private}/${user}-directory"
+    as_user "${owner}" -mkdir "${private}"
+    as_user "${owner}" -touchz "${private}/${owner}-file"
+    printf '%s\n' "${owner}" | as_user "${owner}" -appendToFile - "${private}/${owner}-file"
+    as_user "${owner}" -cat "${private}/${owner}-file"
+    for user in zookage alice hive trino httpfs; do
+      if [[ "${user}" == "${owner}" ]]; then
+        continue
+      fi
+      expect_permission_denied "${user}" -ls "${user_home}"
+      expect_permission_denied "${user}" -cat "${private}/${owner}-file"
+      expect_permission_denied "${user}" -mkdir "${private}/${user}-directory"
+    done
   done
 }
 
