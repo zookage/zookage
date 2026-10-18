@@ -21,7 +21,7 @@ resources:
 configMapGenerator:
 - files:
   - hadoop/container-executor.cfg
-  name: container-executor-conf
+  name: yarn-container-executor-conf
 - files:
   - hadoop/core-site.xml
   - hadoop/hadoop-metrics2.properties
