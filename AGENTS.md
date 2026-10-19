@@ -33,4 +33,6 @@ This document defines how AI coding agents should be used safely and consistentl
 - To inspect or regenerate checked-in JCEKS secrets, use `./test/jceks show <jceks-file>` or `./test/jceks create <jceks-file>`; `create` reads key-value pairs from `<jceks-file>.properties`.
 - After changing Ranger Kerberos principals or passwords in `kubernetes/base/common/config/openldap/bootstrap.ldif`, run `./docker/generate-keytabs.sh` to regenerate `kubernetes/base/common/secret/ranger/ranger.keytab`.
 - To regenerate other checked-in Kerberos keytabs after updating LDAP principals, run `./docker/generate-keytabs.sh [client|hdfs|hbase|hive|mapreduce|ranger|spark|tez|trino|yarn]`; omit arguments to regenerate all keytabs.
-- To regenerate the development HDFS HTTPS certificate, keystore, and truststore together, run `./docker/generate-hdfs-tls.sh`.
+- To initialize the shared development private CA and public trust files, run `./docker/generate-tls-ca.sh`; it refuses to overwrite existing CA files. The signing key in `docker/tls/zookage-ca.jks` must not be deployed to Kubernetes.
+- To reissue the HDFS certificate using the existing CA, run `./docker/generate-hdfs-tls.sh`. To issue another service certificate, run `./docker/generate-tls.sh <service> <SAN>`; service issuance preserves the shared CA and truststore.
+- To validate CA/service certificate generation and shared trust, run `./test/tls.sh`.

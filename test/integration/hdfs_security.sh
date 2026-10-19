@@ -35,7 +35,7 @@ check_hdfs_security() {
   readonly token_file="${security_dir}/delegation.token"
   readonly httpfs="http://hdfs-httpfs.zookage.svc.cluster.local:14000/webhdfs/v1"
   readonly namenode="https://hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local:9871/webhdfs/v1"
-  readonly ca_certificate=/etc/hadoop/conf/hdfs-ca.crt
+  readonly ca_certificate=/etc/hadoop/conf/zookage-ca.crt
   export KRB5CCNAME="${ticket_cache}"
   unset HADOOP_TOKEN_FILE_LOCATION HADOOP_USER_NAME
 

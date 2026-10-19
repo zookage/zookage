@@ -41,10 +41,10 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   check "http://hdfs-httpfs.zookage.svc.cluster.local:14000/webhdfs/v1/?op=liststatus" "200" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
   check "https://localhost:9871/dfshealth.html" "401" \
-    curl --cacert "${base_dir}/kubernetes/base/common/config/hdfs/hdfs-ca.crt"
+    curl --cacert "${base_dir}/kubernetes/base/common/config/tls/zookage-ca.crt"
   check "https://hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local:9871/dfshealth.html" "200" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- \
-    curl --cacert /etc/hadoop/conf/hdfs-ca.crt --negotiate -u :
+    curl --cacert /etc/hadoop/conf/zookage-ca.crt --negotiate -u :
 else
   check "http://localhost:14000/webhdfs/v1/?op=liststatus&user.name=zookage"
   check "http://localhost:9870/dfshealth.html"

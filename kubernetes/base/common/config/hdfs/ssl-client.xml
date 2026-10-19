@@ -15,7 +15,7 @@
 <configuration>
   <property>
     <name>ssl.client.truststore.location</name>
-    <value>/etc/hadoop/conf/hdfs-truststore.jks</value>
+    <value>/etc/hadoop/conf/zookage-truststore.jks</value>
   </property>
   <property>
     <name>ssl.client.truststore.password</name>

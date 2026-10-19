@@ -13,13 +13,14 @@
 
 set -eu
 
-readonly base_dir=$(cd "$(dirname "$0")"; pwd)
-readonly repo_dir=$(cd "${base_dir}/.."; pwd)
-readonly util_image=${ZOOKAGE_UTIL_IMAGE:-zookage/zookage-util:experimental}
-readonly temp_dir=$(mktemp -d)
-trap 'rm -rf "${temp_dir}"' EXIT
+if [[ $# -ne 0 ]]; then
+  echo "Usage: $0" >&2
+  exit 1
+fi
 
-# A shared self-signed certificate and password for the sample cluster.
+readonly base_dir=$(cd "$(dirname "$0")"; pwd)
+
+# Keep the sample HDFS service and replica names on its service certificate.
 san='dns:hdfs-namenode,dns:hdfs-namenode.zookage.svc.cluster.local,dns:localhost,ip:127.0.0.1'
 for component in namenode datanode journalnode; do
   replicas=3
@@ -33,28 +34,4 @@ for component in namenode datanode journalnode; do
   done
 done
 
-docker run --rm -i --network=none --read-only --tmpfs /tmp \
-  --user "$(id -u):$(id -g)" \
-  --mount "type=bind,source=${temp_dir},target=/output" \
-  --env "HDFS_TLS_SAN=${san}" \
-  "${util_image}" /bin/bash -eu <<'SCRIPT'
-  keytool -genkeypair \
-    -alias hdfs -keyalg RSA -keysize 2048 -sigalg SHA256withRSA \
-    -dname "CN=hdfs-namenode,O=ZooKage" -validity 3650 \
-    -ext "SAN=${HDFS_TLS_SAN}" -ext "EKU=serverAuth" \
-    -keystore /output/hdfs.jks -storetype JKS \
-    -storepass zookage -keypass zookage
-  keytool -exportcert -rfc -alias hdfs \
-    -keystore /output/hdfs.jks -storepass zookage \
-    -file /output/hdfs-ca.crt
-  keytool -importcert -noprompt -alias hdfs \
-    -file /output/hdfs-ca.crt \
-    -keystore /output/hdfs-truststore.jks -storetype JKS \
-    -storepass zookage
-SCRIPT
-
-# keytool wraps PEM data with CRLF; keep the checked-in certificate using LF.
-tr -d '\r' < "${temp_dir}/hdfs-ca.crt" > "${temp_dir}/hdfs-ca.pem"
-install -m 0600 "${temp_dir}/hdfs.jks" "${repo_dir}/kubernetes/base/common/secret/hdfs/hdfs.jks"
-install -m 0644 "${temp_dir}/hdfs-truststore.jks" "${repo_dir}/kubernetes/base/common/config/hdfs/hdfs-truststore.jks"
-install -m 0644 "${temp_dir}/hdfs-ca.pem" "${repo_dir}/kubernetes/base/common/config/hdfs/hdfs-ca.crt"
+exec "${base_dir}/generate-tls.sh" hdfs "${san}"
