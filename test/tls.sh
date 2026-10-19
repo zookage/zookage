@@ -87,7 +87,7 @@ verify_certificates() {
     grep -q 'TLS Web Server Authentication' /tmp/leaf.txt
   done
 
-  for hostname in hdfs-namenode hdfs-namenode.zookage.svc.cluster.local localhost; do
+  for hostname in hdfs-namenode hdfs-namenode.zookage.svc.cluster.local; do
     openssl verify -CAfile "${public}/zookage-ca.crt" -verify_hostname "${hostname}" "${public}/hdfs.crt"
   done
   for component in namenode datanode journalnode; do
@@ -100,7 +100,13 @@ verify_certificates() {
       done
     done
   done
-  openssl verify -CAfile "${public}/zookage-ca.crt" -verify_ip 127.0.0.1 "${public}/hdfs.crt"
+  if openssl verify -CAfile "${public}/zookage-ca.crt" \
+    -verify_hostname localhost "${public}/hdfs.crt" > /tmp/loopback-san.log 2>&1 || \
+    openssl verify -CAfile "${public}/zookage-ca.crt" \
+      -verify_ip 127.0.0.1 "${public}/hdfs.crt" >> /tmp/loopback-san.log 2>&1; then
+    echo 'HDFS certificate still accepts a loopback hostname or IP address.' >&2
+    exit 1
+  fi
   openssl verify -CAfile "${public}/zookage-ca.crt" -verify_hostname "$1" "${public}/tls-test.crt"
   openssl verify -CAfile "${public}/zookage-ca.crt" -verify_ip 127.0.0.2 "${public}/tls-test.crt"
   if [[ $1 == tls-renewed.zookage.svc.cluster.local ]] && \

@@ -12,8 +12,6 @@
 
 dns:hdfs-namenode
 dns:hdfs-namenode.zookage.svc.cluster.local
-dns:localhost
-ip:127.0.0.1
 dns:hdfs-namenode-0
 dns:hdfs-namenode-0.hdfs-namenode
 dns:hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local
