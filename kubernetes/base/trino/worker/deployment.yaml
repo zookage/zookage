@@ -11,22 +11,16 @@
 # limitations under the License.
 
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: trino-worker
 spec:
   replicas: 1
   selector:
     matchLabels: {}
-  serviceName: trino-worker
-  podManagementPolicy: Parallel
   template:
     spec:
       initContainers:
-      - name: wait-for-dns
-        image: zookage-util
-        args:
-        - wait-for-dns
       - name: wait-for-discovery-service
         image: zookage-util
         args:

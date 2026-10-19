@@ -28,7 +28,7 @@ check_hdfs_permissions() {
       if [[ ! -f "${cache}" ]]; then
         local principal="${user}@ZOOKAGE.LOCAL"
         if [[ ${user} == trino ]]; then
-          principal=trino/trino-coordinator-0.trino-coordinator.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+          principal=trino/trino-coordinator.zookage.svc.cluster.local@ZOOKAGE.LOCAL
         fi
         case "${user}" in
           hdfs|hive|trino)

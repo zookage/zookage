@@ -18,5 +18,4 @@ labels:
     service: worker
     tier: backend
 resources:
-- statefulset.yaml
-- service.yaml
+- deployment.yaml
