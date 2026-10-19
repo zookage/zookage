@@ -186,7 +186,7 @@ spec:
           defaultMode: 0444
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: trino-worker
 spec:

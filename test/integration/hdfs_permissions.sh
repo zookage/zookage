@@ -26,12 +26,16 @@ check_hdfs_permissions() {
     if [[ "${authentication}" == "kerberos" ]]; then
       local cache="${cache_dir}/${user}.ccache"
       if [[ ! -f "${cache}" ]]; then
+        local principal="${user}@ZOOKAGE.LOCAL"
+        if [[ ${user} == trino ]]; then
+          principal=trino/trino-coordinator-0.trino-coordinator.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+        fi
         case "${user}" in
           hdfs|hive|trino)
             # These service accounts use their names as sample passwords.
-            printf '%s\n' "${user}" | kinit -c "FILE:${cache}" "${user}@ZOOKAGE.LOCAL"
+            printf '%s\n' "${user}" | kinit -c "FILE:${cache}" "${principal}"
             ;;
-          *) kinit -c "FILE:${cache}" -kt /etc/kerberos/secrets/client.keytab "${user}@ZOOKAGE.LOCAL" ;;
+          *) kinit -c "FILE:${cache}" -kt /etc/kerberos/secrets/client.keytab "${principal}" ;;
         esac
       fi
       KRB5CCNAME="FILE:${cache}" hdfs dfs "$@"

@@ -954,13 +954,24 @@ objectClass: top
 objectClass: organizationalUnit
 ou: trino
 
-dn: uid=trino,ou=trino,ou=kerberos,dc=example,dc=com
+dn: uid=trino-trino-coordinator-0.trino-coordinator.zookage.svc.cluster.local,ou=trino,ou=kerberos,dc=example,dc=com
 objectClass: top
 objectClass: account
 objectClass: simpleSecurityObject
 objectClass: krbPrincipalAux
 objectClass: krbTicketPolicyAux
-uid: trino
+uid: trino-trino-coordinator-0.trino-coordinator.zookage.svc.cluster.local
 userPassword: trino
-krbPrincipalName: trino@ZOOKAGE.LOCAL
-krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAPAz633HKXogHXqjbA69Y9Q40o40Ba69VbjuNSrQOq7vb4ckA53UrKE21eYZViRiRHmUbEa/JjnrdLUvmzBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAc+gxAVGVqx4nqFpa5d1BJ7DxTvq6y1/bveW+3oAG/GuiFj87zeGPXumoSpk=
+krbPrincipalName: trino/trino-coordinator-0.trino-coordinator.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAH4Uvsz2cAz4moLB/usf5QSYhGQ+OC/DU2N17MLtuKqYlgBucvB4cqAhqj49E3lP4pKN8t+tGee5ZIHPdDBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAABz2e0tgQKXFcTQ6wCUgBpvYEXiFX+WIDxAwtuhBdIscl0Afu7SWqJal2VKc=
+
+dn: uid=trino-trino-worker-0.trino-worker.zookage.svc.cluster.local,ou=trino,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: trino-trino-worker-0.trino-worker.zookage.svc.cluster.local
+userPassword: trino
+krbPrincipalName: trino/trino-worker-0.trino-worker.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAAoSjMbcIFZAejw6/lxHd3EXLtrLVBpfJqwOyQFF7lTYBo2EMqb3yIH3CORzCZ1DPzOsMV4z66tlEbEHqDBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAA/JFPp8/g/rYzP1FDUkIVpzjwuoxoStyop9PNkf4PF3fgKxfJQgcErDQwLFM=
