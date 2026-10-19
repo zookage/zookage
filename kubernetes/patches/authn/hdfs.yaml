@@ -20,6 +20,15 @@ data:
   hadoop_dfs_data_transfer_protection: authentication
   hadoop_dfs_http_policy: HTTPS_ONLY
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hdfs-config-values
+data:
+  hadoop_http_authentication_type: kerberos
+  hadoop_http_authentication_kerberos_principal: HTTP/_HOST@ZOOKAGE.LOCAL
+  hadoop_http_authentication_kerberos_keytab: /etc/hdfs/secrets/hdfs.keytab
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -36,12 +45,6 @@ spec:
       - name: wait-for-dns
       containers:
       - name: namenode
-        # WebHDFS uses the generic HTTP filter, independently of RPC and UI SPNEGO.
-        args:
-        - namenode
-        - -Dhadoop.http.authentication.type=kerberos
-        - -Dhadoop.http.authentication.kerberos.principal=HTTP/_HOST@ZOOKAGE.LOCAL
-        - -Dhadoop.http.authentication.kerberos.keytab=/etc/hdfs/secrets/hdfs.keytab
         volumeMounts:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
@@ -77,11 +80,6 @@ spec:
         - wait-for-dns
       containers:
       - name: datanode
-        args:
-        - datanode
-        - -Dhadoop.http.authentication.type=kerberos
-        - -Dhadoop.http.authentication.kerberos.principal=HTTP/_HOST@ZOOKAGE.LOCAL
-        - -Dhadoop.http.authentication.kerberos.keytab=/etc/hdfs/secrets/hdfs.keytab
         readinessProbe:
           tcpSocket:
             port: 9865
@@ -116,11 +114,6 @@ spec:
         - deployment/kerberos-kdc
       containers:
       - name: journalnode
-        args:
-        - journalnode
-        - -Dhadoop.http.authentication.type=kerberos
-        - -Dhadoop.http.authentication.kerberos.principal=HTTP/_HOST@ZOOKAGE.LOCAL
-        - -Dhadoop.http.authentication.kerberos.keytab=/etc/hdfs/secrets/hdfs.keytab
         volumeMounts:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
