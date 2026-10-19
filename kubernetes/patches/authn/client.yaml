@@ -35,17 +35,6 @@ spec:
         - name: client-secret
           mountPath: /etc/kerberos/secrets
       volumes:
-      - name: hadoop-conf
-        projected:
-          sources:
-          - configMap:
-              name: hadoop-client-conf
-          - configMap:
-              name: hdfs-conf
-          - configMap:
-              name: mapreduce-conf
-          - configMap:
-              name: yarn-conf
       - name: kerberos-conf
         configMap:
           name: kerberos-conf

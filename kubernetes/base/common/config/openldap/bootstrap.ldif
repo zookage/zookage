@@ -94,8 +94,6 @@ dn: uid=hive,ou=users,dc=example,dc=com
 objectClass: top
 objectClass: inetOrgPerson
 objectClass: posixAccount
-objectClass: krbPrincipalAux
-objectClass: krbTicketPolicyAux
 uid: hive
 cn: Hive
 sn: Hive
@@ -103,8 +101,6 @@ uidNumber: 1020
 gidNumber: 1020
 homeDirectory: /home/hive
 userPassword: hive
-krbPrincipalName: hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAHqmlebTLARkI2fP3Z7scf8GPTYU+/RJ+GpkA5Y+ug4NkDJo+TM/b6qV/gu/3vanittZtTgTc+aoDkCVtjBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAMzA2y3LUW46nHk8MxyfavAD1cMpFCVxbCuDlxbeiF4lvTtQDnARtA7G8KTs=
 
 dn: uid=tez,ou=users,dc=example,dc=com
 objectClass: top
@@ -382,6 +378,22 @@ dn: ou=kerberos,dc=example,dc=com
 objectClass: top
 objectClass: organizationalUnit
 ou: kerberos
+
+dn: ou=hive,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: hive
+
+dn: uid=hive-hive-hiveserver2.zookage.svc.cluster.local,ou=hive,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hive-hive-hiveserver2.zookage.svc.cluster.local
+userPassword: hive
+krbPrincipalName: hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAHqmlebTLARkI2fP3Z7scf8GPTYU+/RJ+GpkA5Y+ug4NkDJo+TM/b6qV/gu/3vanittZtTgTc+aoDkCVtjBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAMzA2y3LUW46nHk8MxyfavAD1cMpFCVxbCuDlxbeiF4lvTtQDnARtA7G8KTs=
 
 dn: ou=ranger,ou=kerberos,dc=example,dc=com
 objectClass: top

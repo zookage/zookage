@@ -74,8 +74,7 @@ fi
 for service in "$@"; do
   case "${service}" in
     client) dn_pattern='^uid=zookage,ou=users,dc=example,dc=com$' ;;
-    hive) dn_pattern='^uid=hive,ou=users,dc=example,dc=com$' ;;
-    ranger|yarn) dn_pattern="^uid=.*ou=${service},ou=kerberos,dc=example,dc=com$" ;;
+    hive|ranger|yarn) dn_pattern="^uid=.*ou=${service},ou=kerberos,dc=example,dc=com$" ;;
     *) echo "Unknown keytab service: ${service}" >&2; exit 1 ;;
   esac
   generate_keytab "${secret_dir}/${service}/${service}.keytab" "${dn_pattern}"
