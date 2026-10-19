@@ -236,7 +236,7 @@ spec:
       - name: init-schema
         env:
         - name: KRB5PRINCIPAL
-          value: hive@ZOOKAGE.LOCAL
+          value: hive/hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
         - name: KRB5KEYTAB
           value: /etc/hive/secrets/hive.keytab
         volumeMounts:
@@ -251,7 +251,7 @@ spec:
       - name: metastore
         env:
         - name: KRB5PRINCIPAL
-          value: hive@ZOOKAGE.LOCAL
+          value: hive/hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
         - name: KRB5KEYTAB
           value: /etc/hive/secrets/hive.keytab
         volumeMounts:
@@ -288,7 +288,7 @@ spec:
       - name: upload
         env:
         - name: KRB5PRINCIPAL
-          value: tez@ZOOKAGE.LOCAL
+          value: tez/tez-deploy@ZOOKAGE.LOCAL
         - name: KRB5KEYTAB
           value: /etc/tez/secrets/tez.keytab
         volumeMounts:

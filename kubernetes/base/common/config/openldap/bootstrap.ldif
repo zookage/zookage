@@ -442,16 +442,16 @@ objectClass: top
 objectClass: organizationalUnit
 ou: hive
 
-dn: uid=hive,ou=hive,ou=kerberos,dc=example,dc=com
+dn: uid=hive-hive-metastore-server.zookage.svc.cluster.local,ou=hive,ou=kerberos,dc=example,dc=com
 objectClass: top
 objectClass: account
 objectClass: simpleSecurityObject
 objectClass: krbPrincipalAux
 objectClass: krbTicketPolicyAux
-uid: hive
+uid: hive-hive-metastore-server.zookage.svc.cluster.local
 userPassword: hive
-krbPrincipalName: hive@ZOOKAGE.LOCAL
-krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAG+BG9d4RHCZTn3V1bbHnHBP86mA1HQL6stqC1nw6EZ18OXcnfuxBahJ3OaRIxxHyKJzWQNs9c8tMH+EzDBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAY5uzgvlz5B8CBB3yXVZfu0KBjQvWACMeX6PjCsNABpZN3isAPxVReCFF43g=
+krbPrincipalName: hive/hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAFOtqy5Bk5hd9adnlNTkFUdo5grsrAm2PLs6kG3PfuM5oQXOSd8xQ8bzBk6lpYgkrGUVydVpQ2bK10kQozBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAA54AtpYlZElV9gMs5CGr+9IqQFC9+ZSw4TUrbYlXk77mIH27vwg/oHb49JAQ=
 
 dn: uid=hive-hive-hiveserver2.zookage.svc.cluster.local,ou=hive,ou=kerberos,dc=example,dc=com
 objectClass: top
@@ -681,16 +681,16 @@ objectClass: top
 objectClass: organizationalUnit
 ou: hdfs
 
-dn: uid=hdfs,ou=hdfs,ou=kerberos,dc=example,dc=com
+dn: uid=hdfs-hdfs-mkdir,ou=hdfs,ou=kerberos,dc=example,dc=com
 objectClass: top
 objectClass: account
 objectClass: simpleSecurityObject
 objectClass: krbPrincipalAux
 objectClass: krbTicketPolicyAux
-uid: hdfs
+uid: hdfs-hdfs-mkdir
 userPassword: hdfs
-krbPrincipalName: hdfs@ZOOKAGE.LOCAL
-krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAByTRpPVVmzRgxpJ20kslE+MdFTjcXC6Jn4PpFpTAF26oRCu20qqucphZvh/G6ILtqI4KNgNW8asQZKzSTBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAASMhK7eJglIR4Gzcmjyy3dIJuR89NJHR2Qt2YHg34sPwWprnAbPLqh0AqQJA=
+krbPrincipalName: hdfs/hdfs-mkdir@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gACYTLM4XzWLgy1+yDxvhDjJyTr25TmgJnt0WPIE6j/W74CivuN5hqOIVaAiW3riCIzLwinxHp1TQWR+XozBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAA2ms5VkDW3MynAdRVJx6+1JLTxPFCY/AEFhBycfV59AalHK392AZuT9Bi6E8=
 
 dn: uid=hdfs-hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local,ou=hdfs,ou=kerberos,dc=example,dc=com
 objectClass: top
@@ -938,16 +938,16 @@ objectClass: top
 objectClass: organizationalUnit
 ou: tez
 
-dn: uid=tez,ou=tez,ou=kerberos,dc=example,dc=com
+dn: uid=tez-tez-deploy,ou=tez,ou=kerberos,dc=example,dc=com
 objectClass: top
 objectClass: account
 objectClass: simpleSecurityObject
 objectClass: krbPrincipalAux
 objectClass: krbTicketPolicyAux
-uid: tez
+uid: tez-tez-deploy
 userPassword: tez
-krbPrincipalName: tez@ZOOKAGE.LOCAL
-krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gALjDCAqmXUXrq0DsRsaG/pS2Z39MDqcmWjZeexj8P4zjO6rsdVnAXUlsd5LDrt1awI8NcJNfKFZZHvcx7jBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAQEi5XBZs331R+AryZ6dZ81xLuTvxx1kihSGEHBJFzlkGIK82N8g4JxP1BWM=
+krbPrincipalName: tez/tez-deploy@ZOOKAGE.LOCAL
+krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAHF/5MMOoqohnP+1nKAOtwgrVLwAJb22xPejipYwWy7zy6BiOn6+cMUSmhUujWjJJ09abWpTDODV9CvmbjBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAP4FHLQ7t3w2tQ7Na2UdwluvnOXT8LLzZcsUyZThyXy8MVIUmpei0IDWmZ8g=
 
 dn: ou=trino,ou=kerberos,dc=example,dc=com
 objectClass: top

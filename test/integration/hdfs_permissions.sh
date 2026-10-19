@@ -26,10 +26,14 @@ check_hdfs_permissions() {
     if [[ "${authentication}" == "kerberos" ]]; then
       local cache="${cache_dir}/${user}.ccache"
       if [[ ! -f "${cache}" ]]; then
-        local principal="${user}@ZOOKAGE.LOCAL"
-        if [[ ${user} == trino ]]; then
-          principal=trino/trino-coordinator.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-        fi
+        local principal
+        case "${user}" in
+          alice|zookage) principal="${user}@ZOOKAGE.LOCAL" ;;
+          hdfs) principal=hdfs/hdfs-mkdir@ZOOKAGE.LOCAL ;;
+          hive) principal=hive/hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL ;;
+          trino) principal=trino/trino-coordinator.zookage.svc.cluster.local@ZOOKAGE.LOCAL ;;
+          *) echo "Unknown HDFS test user: ${user}" >&2; return 1 ;;
+        esac
         case "${user}" in
           hdfs|hive|trino)
             # These service accounts use their names as sample passwords.
