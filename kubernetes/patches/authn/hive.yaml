@@ -19,14 +19,6 @@ data:
   hadoop_rpc_protection: authentication
   hadoop_ipc_client_fallback_to_simple_auth_allowed: "true"
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: config-values
-data:
-  hive_server2_kerberos_principal: hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-  hive_server2_kerberos_keytab: /etc/hive/secrets/hive.keytab
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:

@@ -42,25 +42,6 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
-      - name: initialize-yarn-keytab
-        image: zookage-hadoop
-        command:
-        - /bin/bash
-        - -euc
-        args:
-        - |
-          install -d -o 1012 -g 1012 -m 0700 /etc/yarn/secrets
-          install -o 1012 -g 1012 -m 0400 \
-            /etc/yarn/keytab-source/yarn.keytab /etc/yarn/secrets/yarn.keytab
-        securityContext:
-          runAsUser: 0
-          runAsGroup: 0
-        volumeMounts:
-        - name: yarn-keytab-source
-          mountPath: /etc/yarn/keytab-source
-          readOnly: true
-        - name: yarn-secret
-          mountPath: /etc/yarn/secrets
       containers:
       - name: resourcemanager
         volumeMounts:
@@ -68,7 +49,8 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: yarn-secret
-          mountPath: /etc/yarn/secrets
+          mountPath: /etc/yarn/secrets/yarn.keytab
+          subPath: yarn.keytab
           readOnly: true
       volumes:
       - name: hadoop-conf
@@ -82,11 +64,9 @@ spec:
         configMap:
           name: kerberos-conf
       - name: yarn-secret
-        emptyDir: {}
-      - name: yarn-keytab-source
         secret:
           secretName: yarn-secret
-          defaultMode: 0400
+          defaultMode: 0444
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -101,25 +81,6 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
-      - name: initialize-yarn-keytab
-        image: zookage-hadoop
-        command:
-        - /bin/bash
-        - -euc
-        args:
-        - |
-          install -d -o 1012 -g 1012 -m 0700 /etc/yarn/secrets
-          install -o 1012 -g 1012 -m 0400 \
-            /etc/yarn/keytab-source/yarn.keytab /etc/yarn/secrets/yarn.keytab
-        securityContext:
-          runAsUser: 0
-          runAsGroup: 0
-        volumeMounts:
-        - name: yarn-keytab-source
-          mountPath: /etc/yarn/keytab-source
-          readOnly: true
-        - name: yarn-secret
-          mountPath: /etc/yarn/secrets
       - name: initialize-sssd
         image: zookage-hadoop
         command:
@@ -163,7 +124,8 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: yarn-secret
-          mountPath: /etc/yarn/secrets
+          mountPath: /etc/yarn/secrets/yarn.keytab
+          subPath: yarn.keytab
           readOnly: true
         - name: sssd-pipes
           mountPath: /var/lib/sss/pipes
@@ -204,11 +166,9 @@ spec:
         configMap:
           name: kerberos-conf
       - name: yarn-secret
-        emptyDir: {}
-      - name: yarn-keytab-source
         secret:
           secretName: yarn-secret
-          defaultMode: 0400
+          defaultMode: 0444
       - name: sssd-conf
         configMap:
           name: sssd-conf
@@ -233,25 +193,6 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
-      - name: initialize-yarn-keytab
-        image: zookage-hadoop
-        command:
-        - /bin/bash
-        - -euc
-        args:
-        - |
-          install -d -o 1012 -g 1012 -m 0700 /etc/yarn/secrets
-          install -o 1012 -g 1012 -m 0400 \
-            /etc/yarn/keytab-source/yarn.keytab /etc/yarn/secrets/yarn.keytab
-        securityContext:
-          runAsUser: 0
-          runAsGroup: 0
-        volumeMounts:
-        - name: yarn-keytab-source
-          mountPath: /etc/yarn/keytab-source
-          readOnly: true
-        - name: yarn-secret
-          mountPath: /etc/yarn/secrets
       containers:
       - name: timelineserver
         volumeMounts:
@@ -259,7 +200,8 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: yarn-secret
-          mountPath: /etc/yarn/secrets
+          mountPath: /etc/yarn/secrets/yarn.keytab
+          subPath: yarn.keytab
           readOnly: true
       volumes:
       - name: hadoop-conf
@@ -273,8 +215,6 @@ spec:
         configMap:
           name: kerberos-conf
       - name: yarn-secret
-        emptyDir: {}
-      - name: yarn-keytab-source
         secret:
           secretName: yarn-secret
-          defaultMode: 0400
+          defaultMode: 0444

@@ -14,7 +14,6 @@
 set -eu
 
 readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
-readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 readonly app_owner=${1:-zookage}
 sleep 5
 
@@ -33,25 +32,8 @@ cleanup() {
 }
 trap cleanup EXIT
 
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" && ${app_owner} == hive ]]; then
-  hive_pod=$("${base_dir}/bin/kubectl" get pods -l component=hive,service=hiveserver2 \
-    -o 'jsonpath={.items[0].metadata.name}')
-  # Authenticate as Hive inside HS2 without exposing its keytab to the client.
-  # shellcheck disable=SC2016
-  "${base_dir}/bin/kubectl" exec "${hive_pod}" -c hiveserver2 -- /bin/bash -eu -c '
-    unset JAVA_TOOL_OPTIONS
-    principal=$("${HADOOP_HOME}/bin/hdfs" getconf -conf /etc/hive/conf/hive-site.xml -confKey hive.server2.authentication.kerberos.principal)
-    keytab=$("${HADOOP_HOME}/bin/hdfs" getconf -conf /etc/hive/conf/hive-site.xml -confKey hive.server2.authentication.kerberos.keytab)
-    if [[ -z ${principal} || -z ${keytab} ]]; then
-      echo "HiveServer2 Kerberos principal and keytab must be configured." >&2
-      exit 1
-    fi
-    exec env KRB5PRINCIPAL="${principal}" KRB5KEYTAB="${keytab}" "${HADOOP_HOME}/bin/yarn" logs "$@"
-  ' bash -applicationId "${id}" -appOwner "${app_owner}" > "${logs_file}"
-else
-  "${integration_dir}/run.sh" env HADOOP_USER_NAME=hdfs \
-    yarn logs -applicationId "${id}" -appOwner "${app_owner}" > "${logs_file}"
-fi
+"${integration_dir}/run.sh" yarn logs \
+  -applicationId "${id}" -appOwner "${app_owner}" > "${logs_file}"
 if ! grep -q '^LogContents:' "${logs_file}"; then
   echo "No container logs were retrieved for ${id}." >&2
   exit 1

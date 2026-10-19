@@ -50,22 +50,18 @@
     <name>hive.server2.enable.doAs</name>
     <value>false</value>
   </property>
-  {{ with index .Values "hive_server2_kerberos_principal" }}
   <property>
     <name>hive.server2.authentication.kerberos.principal</name>
-    <value>{{ . | html }}</value>
+    <value>hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
   </property>
   <property>
     <name>hive.server2.authentication.client.kerberos.principal</name>
-    <value>{{ . | html }}</value>
+    <value>${hive.server2.authentication.kerberos.principal}</value>
   </property>
-  {{ end }}
-  {{ with index .Values "hive_server2_kerberos_keytab" }}
   <property>
     <name>hive.server2.authentication.kerberos.keytab</name>
-    <value>{{ . | html }}</value>
+    <value>/etc/hive/secrets/hive.keytab</value>
   </property>
-  {{ end }}
   <property>
     <name>tez.staging-dir</name>
     <value>/tmp/hive/tez/staging</value>

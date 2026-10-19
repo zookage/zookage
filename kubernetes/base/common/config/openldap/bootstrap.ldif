@@ -195,6 +195,7 @@ objectClass: posixGroup
 cn: supergroup
 gidNumber: 1000
 memberUid: hdfs
+memberUid: zookage
 
 dn: cn=zookage,ou=groups,dc=example,dc=com
 objectClass: top
