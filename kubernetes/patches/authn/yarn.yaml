@@ -53,13 +53,6 @@ spec:
           subPath: yarn.keytab
           readOnly: true
       volumes:
-      - name: hadoop-conf
-        projected:
-          sources:
-          - configMap:
-              name: hadoop-yarn-conf
-          - configMap:
-              name: yarn-conf
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
@@ -153,15 +146,6 @@ spec:
         - name: sssd-pipes
           mountPath: /var/lib/sss/pipes
       volumes:
-      - name: hadoop-conf
-        projected:
-          sources:
-          - configMap:
-              name: hadoop-yarn-conf
-          - configMap:
-              name: hdfs-conf
-          - configMap:
-              name: yarn-conf
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
@@ -204,13 +188,6 @@ spec:
           subPath: yarn.keytab
           readOnly: true
       volumes:
-      - name: hadoop-conf
-        projected:
-          sources:
-          - configMap:
-              name: hadoop-yarn-conf
-          - configMap:
-              name: yarn-conf
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
