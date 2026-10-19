@@ -24,15 +24,17 @@ continue_on_failure=0
 dry_run=0
 list_only=0
 restore_cluster=1
+start_at=""
 original_kustomization=""
 
 usage() {
   cat <<'EOF'
-Usage: run_all_variants.sh [--continue-on-failure] [--dry-run] [--list] [--no-restore-cluster]
+Usage: run_all_variants.sh [--start-at <variant>] [--continue-on-failure] [--dry-run] [--list] [--no-restore-cluster]
 
 Run ./test/integration.sh <variant> for every test/kubernetes/*.yaml variant.
 
 Options:
+  --start-at <variant>   Start with this variant, then wrap around through every variant
   --continue-on-failure  Keep running after a failure and report all failing variants
   --dry-run              Print the commands that would run without changing the cluster
   --list                 Print the discovered variant order and exit
@@ -49,6 +51,20 @@ collect_variants() {
     variants+=("$(basename "${variant_file}" .yaml)")
   done
   shopt -u nullglob
+}
+
+rotate_variants() {
+  local index
+
+  for index in "${!variants[@]}"; do
+    if [[ "${variants[index]}" == "${start_at}" ]]; then
+      variants=("${variants[@]:${index}}" "${variants[@]:0:${index}}")
+      return 0
+    fi
+  done
+
+  echo "Unknown integration variant for --start-at: ${start_at}" >&2
+  exit 1
 }
 
 print_command() {
@@ -96,6 +112,7 @@ run_step() {
 
 cleanup() {
   local status=$?
+  trap - EXIT INT TERM
   local cleanup_failed=0
 
   if [[ -z "${original_kustomization}" ]]; then
@@ -126,6 +143,14 @@ cleanup() {
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --start-at)
+      if [[ -z "${2:-}" || "${2:-}" == --* ]]; then
+        echo "Option --start-at requires a variant name." >&2
+        exit 1
+      fi
+      start_at="$2"
+      shift
+      ;;
     --continue-on-failure)
       continue_on_failure=1
       ;;
@@ -156,6 +181,10 @@ collect_variants
 if [[ "${#variants[@]}" -eq 0 ]]; then
   echo "No integration variants found in ${variant_dir}" >&2
   exit 1
+fi
+
+if [[ -n "${start_at}" ]]; then
+  rotate_variants
 fi
 
 if [[ "${list_only}" -eq 1 ]]; then

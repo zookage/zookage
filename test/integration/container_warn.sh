@@ -134,6 +134,7 @@ readonly kerberos_warnings
   | grep -v 'pod/ranger-admin-.* WARNING: A HTTP GET method, public void org.apache.ranger.rest.ServiceREST.getPoliciesInJson.* MUST return a non-void type\.' \
   | grep -v 'pod/ranger-usersync-.*DefaultJoranConfigurator@.*logback.xml.*' \
   | grep -v 'pod/spark-historyserver-.* WARNING: Using incubator modules: jdk.incubator.vector' \
+  | grep -v '^pod/tez-ui-.* WARNING \[main\] org\.apache\.catalina\.util\.SessionIdGeneratorBase\.createSecureRandom Creation of SecureRandom instance for session ID generation using \[SHA1PRNG\] took \[[0-9][0-9]*\] milliseconds\.$' \
   | grep -v 'pod/trino-coordinator-.* WARNING: Using incubator modules: jdk.incubator.vector' \
   | grep -v 'pod/trino-coordinator-.* # WARNING: Unable to attach Serviceability Agent\.' \
   | grep -v 'pod/trino-coordinator-.*io.trino.memory.RemoteNodeMemory.*Memory info update request to http://.* has not returned in .*' \

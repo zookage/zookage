@@ -8,6 +8,7 @@
     "jdbc.url": "dummy",
     "enable.hive.metastore.lookup": "true",
     "hive.site.file.path": "/etc/hive/conf/hive-site.xml",
-    "policy.download.auth.users": "hive"
+    "policy.download.auth.users": "hive",
+    "tag.download.auth.users": "hive"
   }
 }
