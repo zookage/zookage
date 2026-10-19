@@ -77,11 +77,7 @@ for service in "$@"; do
     keytab_name=mapred
   fi
   case "${service}" in
-    client)
-      dn_pattern='^uid=(alice|zookage),ou=users,dc=example,dc=com$'
-      # HDFS permission tests also log in as these services.
-      dn_pattern+='|^uid=(hdfs|hive|trino),ou=(hdfs|hive|trino),ou=kerberos,dc=example,dc=com$'
-      ;;
+    client) dn_pattern='^uid=(alice|zookage),ou=users,dc=example,dc=com$' ;;
     hbase|hdfs|hive|mapreduce|ranger|spark|tez|trino|yarn)
       dn_pattern="^uid=.*,ou=${service},ou=kerberos,dc=example,dc=com$"
       ;;

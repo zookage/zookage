@@ -26,7 +26,13 @@ check_hdfs_permissions() {
     if [[ "${authentication}" == "kerberos" ]]; then
       local cache="${cache_dir}/${user}.ccache"
       if [[ ! -f "${cache}" ]]; then
-        kinit -c "FILE:${cache}" -kt /etc/kerberos/secrets/client.keytab "${user}@ZOOKAGE.LOCAL"
+        case "${user}" in
+          hdfs|hive|trino)
+            # These service accounts use their names as sample passwords.
+            printf '%s\n' "${user}" | kinit -c "FILE:${cache}" "${user}@ZOOKAGE.LOCAL"
+            ;;
+          *) kinit -c "FILE:${cache}" -kt /etc/kerberos/secrets/client.keytab "${user}@ZOOKAGE.LOCAL" ;;
+        esac
       fi
       KRB5CCNAME="FILE:${cache}" hdfs dfs "$@"
     else
