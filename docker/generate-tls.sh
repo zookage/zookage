@@ -13,20 +13,36 @@
 
 set -eu
 
-if [[ $# -ne 2 || -z "$2" ]]; then
-  echo "Usage: $0 <service> <SAN>" >&2
+if [[ $# -lt 1 || $# -gt 2 ]]; then
+  echo "Usage: $0 <service> [SAN]" >&2
+  echo "When SAN is omitted, read docker/tls/<service>.san." >&2
   echo "Example: $0 hive-metastore dns:hive-metastore,dns:localhost,ip:127.0.0.1" >&2
   exit 1
 fi
 
 readonly service=$1
-readonly san=$2
 if [[ ! ${service} =~ ^[a-z0-9]([a-z0-9-]*[a-z0-9])?$ || ${#service} -gt 63 || ${service} == zookage-ca ]]; then
   echo "Service must be a lowercase DNS label other than zookage-ca (at most 63 characters)." >&2
   exit 1
 fi
 
 readonly base_dir=$(cd "$(dirname "$0")"; pwd)
+if [[ $# -eq 2 ]]; then
+  san=$2
+else
+  readonly san_file="${base_dir}/tls/${service}.san"
+  if [[ ! -f "${san_file}" ]]; then
+    echo "Missing SAN file: ${san_file}. Supply SAN as the second argument." >&2
+    exit 1
+  fi
+  san=$(awk 'NF && !/^#/ { printf "%s%s", separator, $0; separator = "," }' "${san_file}")
+fi
+if [[ -z "${san}" ]]; then
+  echo "At least one SAN is required." >&2
+  exit 1
+fi
+readonly san
+
 readonly repo_dir=$(cd "${base_dir}/.."; pwd)
 readonly util_image=${ZOOKAGE_UTIL_IMAGE:-zookage/zookage-util:experimental}
 readonly ca_store="${base_dir}/tls/zookage-ca.jks"

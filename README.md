@@ -35,9 +35,10 @@ clients can use `/etc/hadoop/conf/zookage-ca.crt` and
 
 The CA signing key is in `docker/tls/zookage-ca.jks` and is not deployed to
 Kubernetes. Each service gets its own private key and a certificate chain signed
-by this CA. Run `./docker/generate-hdfs-tls.sh` to reissue the HDFS certificate
-without changing the CA or client truststore. To issue a certificate for another
-service, run `./docker/generate-tls.sh <service> <SAN>`, for example:
+by this CA. Run `./docker/generate-tls.sh hdfs` to reissue the HDFS certificate
+using the hostnames in `docker/tls/hdfs.san`, without changing the CA or client
+truststore. To issue a certificate for another service, add
+`docker/tls/<service>.san` with one SAN per line, or supply SANs directly:
 
 ```sh
 ./docker/generate-tls.sh example 'dns:example.zookage.svc.cluster.local,dns:localhost'

@@ -58,6 +58,7 @@ header:
     Java Properties:
       extensions:
       - ".properties"
+      - ".san"
       filenames:
       - "kubernetes/base/common/config/spark/spark-defaults.conf"
       - "kubernetes/base/common/config/zookeeper/zoo.cfg"

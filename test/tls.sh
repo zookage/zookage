@@ -20,9 +20,10 @@ readonly temp_dir=$(mktemp -d)
 readonly fixture_dir="${temp_dir}/repo"
 trap 'rm -rf "${temp_dir}"' EXIT
 
-mkdir -p "${fixture_dir}/docker" "${temp_dir}/original"
+mkdir -p "${fixture_dir}/docker/tls" "${temp_dir}/original"
 cp "${repo_dir}/docker/generate-tls-ca.sh" "${repo_dir}/docker/generate-tls.sh" \
-  "${repo_dir}/docker/generate-hdfs-tls.sh" "${fixture_dir}/docker/"
+  "${fixture_dir}/docker/"
+cp "${repo_dir}/docker/tls/hdfs.san" "${fixture_dir}/docker/tls/"
 
 readonly ca_files=(docker/tls/zookage-ca.jks \
   kubernetes/base/common/config/tls/zookage-ca.crt \
@@ -115,9 +116,13 @@ for path in "${ca_files[@]}"; do
 done
 
 expect_failure "${fixture_dir}/docker/generate-tls.sh" zookage-ca 'dns:zookage-ca'
+expect_failure "${fixture_dir}/docker/generate-tls.sh" tls-test
+: > "${fixture_dir}/docker/tls/tls-test.san"
+expect_failure "${fixture_dir}/docker/generate-tls.sh" tls-test
+expect_failure "${fixture_dir}/docker/generate-tls.sh" hdfs ''
 assert_ca_unchanged
 
-"${fixture_dir}/docker/generate-hdfs-tls.sh"
+"${fixture_dir}/docker/generate-tls.sh" hdfs
 "${fixture_dir}/docker/generate-tls.sh" tls-test 'dns:tls-test.zookage.svc.cluster.local,ip:127.0.0.2'
 assert_ca_unchanged
 verify_certificates tls-test.zookage.svc.cluster.local
