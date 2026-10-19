@@ -17,7 +17,7 @@ readonly integration_dir=$(cd "$(dirname "$0")" || exit; pwd)
 readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
 kerberos_warnings='^$'
-if [[ ${ZOOKAGE_YARN_KERBEROS_ENABLED:-false} == "true" ]]; then
+if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   # HDFS remains simple, and Tez job tokens are deliberately not renewable.
   kerberos_warnings='pod/hdfs-namenode-.* WARN namenode\.FSNamesystem: trying to get DT with no secret manager running$'
   kerberos_warnings+='|pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind tez\.job$'

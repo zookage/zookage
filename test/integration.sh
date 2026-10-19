@@ -15,6 +15,8 @@ set -eu
 
 readonly test_dir=$(cd "$(dirname "$0")"; pwd)
 readonly repo_dir=$(cd "${test_dir}/.."; pwd)
+readonly kustomization_name=${1:-${ZOOKAGE_TEST_MODE:-}}
+export ZOOKAGE_TEST_MODE="${kustomization_name}"
 
 run_test() {
   local name=$1
@@ -25,7 +27,6 @@ run_test() {
 }
 
 if [[ $# -ge 1 ]]; then
-  readonly kustomization_name="$1"
   readonly source_kustomization="${test_dir}/kubernetes/${kustomization_name}.yaml"
   readonly target_kustomization="${repo_dir}/kubernetes/kustomization.yaml"
 
@@ -39,20 +40,16 @@ if [[ $# -ge 1 ]]; then
   "${repo_dir}/bin/up"
 fi
 
-yarn_authentication=$("${test_dir}/integration/yarn_authentication.sh")
-readonly yarn_authentication
-
-yarn_kerberos_enabled=false
-if [[ ${yarn_authentication} == "kerberos" ]]; then
-  yarn_kerberos_enabled=true
-  run_test "Kerberos" "${test_dir}/integration/kerberos.sh"
+if [[ ${kustomization_name} == "auth" ]]; then
+  "${test_dir}/integration/run.sh" kinit \
+    -kt /etc/kerberos/secrets/client.keytab \
+    zookage@ZOOKAGE.LOCAL
 fi
-readonly yarn_kerberos_enabled
 
 run_test "HDFS permissions" "${test_dir}/integration/hdfs_permissions.sh"
 
-if [[ ${kustomization_name:-} != "llap" ]]; then
-  run_test "Web" env ZOOKAGE_YARN_KERBEROS_ENABLED="${yarn_kerberos_enabled}" "${test_dir}/integration/web.sh"
+if [[ ${kustomization_name} != "llap" ]]; then
+  run_test "Web" "${test_dir}/integration/web.sh"
   run_test "MR" "${test_dir}/integration/mr.sh"
   run_test "Spark" "${test_dir}/integration/spark.sh"
   run_test "ZooKeeper" "${test_dir}/integration/zookeeper.sh"
@@ -65,7 +62,7 @@ fi
 run_test "Hive on Tez" "${test_dir}/integration/hive_on_tez.sh"
 
 run_test "error logs" "${test_dir}/integration/container_error.sh"
-run_test "warning logs" env ZOOKAGE_YARN_KERBEROS_ENABLED="${yarn_kerberos_enabled}" "${test_dir}/integration/container_warn.sh"
+run_test "warning logs" "${test_dir}/integration/container_warn.sh"
 
 echo
 echo "All integration tests have passed."

@@ -27,14 +27,13 @@ fi
 readonly id
 echo "Check errors and warnings of ${id}"
 
-yarn_authentication=$("${integration_dir}/yarn_authentication.sh")
 logs_file=$(mktemp)
 cleanup() {
   rm -f "${logs_file}"
 }
 trap cleanup EXIT
 
-if [[ ${yarn_authentication} == kerberos && ${app_owner} == hive ]]; then
+if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" && ${app_owner} == hive ]]; then
   hive_pod=$("${base_dir}/bin/kubectl" get pods -l component=hive,service=hiveserver2 \
     -o 'jsonpath={.items[0].metadata.name}')
   # Authenticate as Hive inside HS2 without exposing its keytab to the client.

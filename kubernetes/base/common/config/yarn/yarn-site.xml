@@ -62,19 +62,19 @@
   </property>
   <property>
     <name>yarn.resourcemanager.principal</name>
-    <value>{{ index .Values "hadoop_yarn_resourcemanager_principal" | html }}</value>
+    <value>yarn/_HOST@ZOOKAGE.LOCAL</value>
   </property>
   <property>
     <name>yarn.resourcemanager.keytab</name>
-    <value>{{ index .Values "hadoop_yarn_keytab" | html }}</value>
+    <value>/etc/yarn/secrets/yarn.keytab</value>
   </property>
   <property>
     <name>yarn.resourcemanager.webapp.spnego-principal</name>
-    <value>{{ index .Values "hadoop_yarn_resourcemanager_webapp_spnego_principal" | html }}</value>
+    <value>HTTP/_HOST@ZOOKAGE.LOCAL</value>
   </property>
   <property>
     <name>yarn.resourcemanager.webapp.spnego-keytab-file</name>
-    <value>{{ index .Values "hadoop_yarn_keytab" | html }}</value>
+    <value>${yarn.resourcemanager.keytab}</value>
   </property>
   <property>
     <name>yarn.resourcemanager.bind-host</name>
@@ -93,23 +93,21 @@
     <name>yarn.nodemanager.address</name>
     <value>${yarn.nodemanager.hostname}:8041</value>
   </property>
-  {{ with index .Values "hadoop_yarn_nodemanager_principal" }}
   <property>
     <name>yarn.nodemanager.principal</name>
-    <value>{{ . | html }}</value>
+    <value>yarn/_HOST@ZOOKAGE.LOCAL</value>
   </property>
-  {{ end }}
   <property>
     <name>yarn.nodemanager.keytab</name>
-    <value>{{ index .Values "hadoop_yarn_keytab" | html }}</value>
+    <value>${yarn.resourcemanager.keytab}</value>
   </property>
   <property>
     <name>yarn.nodemanager.webapp.spnego-principal</name>
-    <value>{{ index .Values "hadoop_yarn_nodemanager_webapp_spnego_principal" | html }}</value>
+    <value>HTTP/_HOST@ZOOKAGE.LOCAL</value>
   </property>
   <property>
     <name>yarn.nodemanager.webapp.spnego-keytab-file</name>
-    <value>{{ index .Values "hadoop_yarn_keytab" | html }}</value>
+    <value>${yarn.resourcemanager.keytab}</value>
   </property>
   <property>
     <name>yarn.nodemanager.container-executor.class</name>
@@ -117,7 +115,7 @@
   </property>
   <property>
     <name>yarn.nodemanager.linux-container-executor.group</name>
-    <value>{{ or (index .Values "hadoop_yarn_nodemanager_linux_container_executor_group") "hadoop" | html }}</value>
+    <value>hadoop</value>
   </property>
   <property>
     <name>yarn.nodemanager.aux-services</name>
@@ -162,11 +160,11 @@
   </property>
   <property>
     <name>yarn.timeline-service.principal</name>
-    <value>{{ index .Values "hadoop_yarn_timeline_service_principal" | html }}</value>
+    <value>yarn/yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
   </property>
   <property>
     <name>yarn.timeline-service.keytab</name>
-    <value>{{ index .Values "hadoop_yarn_keytab" | html }}</value>
+    <value>${yarn.resourcemanager.keytab}</value>
   </property>
   <property>
     <name>yarn.timeline-service.http-authentication.type</name>
@@ -174,11 +172,11 @@
   </property>
   <property>
     <name>yarn.timeline-service.http-authentication.kerberos.principal</name>
-    <value>{{ index .Values "hadoop_yarn_timeline_service_http_authentication_kerberos_principal" | html }}</value>
+    <value>HTTP/yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
   </property>
   <property>
     <name>yarn.timeline-service.http-authentication.kerberos.keytab</name>
-    <value>{{ index .Values "hadoop_yarn_keytab" | html }}</value>
+    <value>${yarn.resourcemanager.keytab}</value>
   </property>
   <property>
     <name>yarn.timeline-service.bind-host</name>

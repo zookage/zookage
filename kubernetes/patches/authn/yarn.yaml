@@ -25,21 +25,9 @@ kind: ConfigMap
 metadata:
   name: config-values
 data:
-  hadoop_yarn_keytab: /etc/yarn/secrets/yarn.keytab
-  hadoop_yarn_nodemanager_principal: yarn/_HOST@ZOOKAGE.LOCAL
-  hadoop_yarn_resourcemanager_principal: yarn/_HOST@ZOOKAGE.LOCAL
-  hadoop_yarn_resourcemanager_webapp_spnego_principal: >-
-    HTTP/_HOST@ZOOKAGE.LOCAL
-  hadoop_yarn_nodemanager_webapp_spnego_principal: >-
-    HTTP/_HOST@ZOOKAGE.LOCAL
   hadoop_yarn_nodemanager_container_executor_class: >-
     org.apache.hadoop.yarn.server.nodemanager.LinuxContainerExecutor
-  hadoop_yarn_nodemanager_linux_container_executor_group: hadoop
-  hadoop_yarn_timeline_service_principal: >-
-    yarn/yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
   hadoop_yarn_timeline_service_http_authentication_type: kerberos
-  hadoop_yarn_timeline_service_http_authentication_kerberos_principal: >-
-    HTTP/yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
 ---
 apiVersion: apps/v1
 kind: StatefulSet
