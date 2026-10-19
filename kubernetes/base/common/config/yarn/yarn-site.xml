@@ -99,7 +99,7 @@
   </property>
   <property>
     <name>yarn.nodemanager.keytab</name>
-    <value>${yarn.resourcemanager.keytab}</value>
+    <value>/etc/yarn/secrets/yarn.keytab</value>
   </property>
   <property>
     <name>yarn.nodemanager.webapp.spnego-principal</name>
@@ -107,7 +107,7 @@
   </property>
   <property>
     <name>yarn.nodemanager.webapp.spnego-keytab-file</name>
-    <value>${yarn.resourcemanager.keytab}</value>
+    <value>${yarn.nodemanager.keytab}</value>
   </property>
   <property>
     <name>yarn.nodemanager.container-executor.class</name>
@@ -164,7 +164,7 @@
   </property>
   <property>
     <name>yarn.timeline-service.keytab</name>
-    <value>${yarn.resourcemanager.keytab}</value>
+    <value>/etc/yarn/secrets/yarn.keytab</value>
   </property>
   <property>
     <name>yarn.timeline-service.http-authentication.type</name>
@@ -176,7 +176,7 @@
   </property>
   <property>
     <name>yarn.timeline-service.http-authentication.kerberos.keytab</name>
-    <value>${yarn.resourcemanager.keytab}</value>
+    <value>${yarn.timeline-service.keytab}</value>
   </property>
   <property>
     <name>yarn.timeline-service.bind-host</name>
