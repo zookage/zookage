@@ -19,11 +19,11 @@
   </property>
   <property>
     <name>ssl.server.keystore.password</name>
-    <value>zookage</value>
+    <value>hdfs</value>
   </property>
   <property>
     <name>ssl.server.keystore.keypassword</name>
-    <value>zookage</value>
+    <value>hdfs</value>
   </property>
   <property>
     <name>ssl.server.truststore.location</name>
