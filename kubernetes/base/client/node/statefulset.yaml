@@ -107,6 +107,8 @@ spec:
           - configMap:
               name: hdfs-conf
           - configMap:
+              name: tls-conf
+          - configMap:
               name: mapreduce-conf
           - configMap:
               name: yarn-conf

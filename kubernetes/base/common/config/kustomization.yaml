@@ -21,7 +21,6 @@ resources:
 configMapGenerator:
 - files:
   - tls/zookage-ca.crt
-  - tls/zookage-truststore.jks
   name: tls-conf
 - files:
   - hadoop/container-executor.cfg
@@ -30,15 +29,11 @@ configMapGenerator:
   - hadoop/core-site.xml
   - hadoop/hadoop-metrics2.properties
   - hadoop/log4j.properties
-  - tls/zookage-ca.crt
-  - tls/zookage-truststore.jks
   name: hadoop-conf
 - files:
   - hadoop/core-site.xml
   - hadoop/hadoop-metrics2.properties
   - hadoop/log4j.properties
-  - tls/zookage-ca.crt
-  - tls/zookage-truststore.jks
   name: hadoop-yarn-conf
   options:
     annotations:
@@ -47,8 +42,6 @@ configMapGenerator:
   - hadoop/core-site.xml
   - hadoop/hadoop-metrics2.properties
   - hadoop/log4j.properties
-  - tls/zookage-ca.crt
-  - tls/zookage-truststore.jks
   name: hadoop-client-conf
   options:
     annotations:
@@ -62,6 +55,7 @@ configMapGenerator:
   - hdfs/ranger-hdfs-audit.xml
   - hdfs/ranger-hdfs-policymgr-ssl.xml
   - hdfs/ranger-hdfs-security.xml
+  - tls/zookage-truststore.jks
   name: hdfs-conf
 - files:
   - mapreduce/mapred-site.xml
