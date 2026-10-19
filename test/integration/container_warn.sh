@@ -37,11 +37,6 @@ readonly kerberos_warnings
   | grep -v "pod/hdfs-namenode-.* tools.DFSZKFailoverController: Can't get local NN thread dump due to Connection refused (Connection refused)" \
   | grep -v 'pod/hdfs-namenode-.* blockmanagement.BlockPlacementPolicy: Failed to place enough replicas' \
   | grep -v 'pod/hdfs-namenode-.* protocol.BlockStoragePolicy: Failed to place enough replicas' \
-  | grep -v '^pod/hdfs-namenode-[0-9]*: WARNING: An illegal reflective access operation has occurred$' \
-  | grep -v '^pod/hdfs-namenode-[0-9]*: WARNING: Illegal reflective access by com\.sun\.xml\.bind\.v2\.runtime\.reflect\.opt\.Injector\$1 .* to method java\.lang\.ClassLoader\.defineClass(java\.lang\.String,byte\[\],int,int)$' \
-  | grep -v '^pod/hdfs-namenode-[0-9]*: WARNING: Please consider reporting this to the maintainers of com\.sun\.xml\.bind\.v2\.runtime\.reflect\.opt\.Injector\$1$' \
-  | grep -v '^pod/hdfs-namenode-[0-9]*: WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations$' \
-  | grep -v '^pod/hdfs-namenode-[0-9]*: WARNING: All illegal access operations will be denied in a future release$' \
   | grep -v '^pod/hdfs-namenode-[0-9]*: WARNING: The following warnings have been detected with resource and/or provider classes:$' \
   | grep -v '^pod/hdfs-namenode-[0-9]*:   WARNING: A sub-resource method, public javax\.ws\.rs\.core\.Response org\.apache\.hadoop\.hdfs\.server\.namenode\.web\.resources\.NamenodeWebHdfsMethods\.[a-z]*Root(.*) throws java\.io\.IOException,java\.lang\.InterruptedException, with URI template, "/", is treated as a resource method$' \
   | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Problem connecting to server:' \

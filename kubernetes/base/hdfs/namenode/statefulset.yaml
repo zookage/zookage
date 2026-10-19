@@ -80,6 +80,9 @@ spec:
         envFrom:
         - configMapRef:
             name: hadoop-env
+        env:
+        - name: HDFS_NAMENODE_OPTS
+          value: --add-opens=java.base/java.lang=ALL-UNNAMED
         readinessProbe:
           tcpSocket:
             port: 8020
