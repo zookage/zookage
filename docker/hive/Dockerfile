@@ -56,7 +56,8 @@ FROM ${jdk_image} AS hive
 
 COPY --from=builder /root/hive/packaging/target/hive /opt/hive
 RUN groupadd --gid 1020 hive \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1020 --gid hive hive
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1020 --gid hive hive \
+  && install -d -o hive -g hive -m 0700 /etc/hive/secrets
 USER hive:hive
 
 # hadolint ignore=DL3006

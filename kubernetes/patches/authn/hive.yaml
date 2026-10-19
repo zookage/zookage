@@ -32,25 +32,6 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
-      - name: initialize-hive-keytab
-        image: zookage-hadoop
-        command:
-        - /bin/bash
-        - -euc
-        args:
-        - |
-          install -d -o 1020 -g 1020 -m 0700 /etc/hive/secrets
-          install -o 1020 -g 1020 -m 0400 \
-            /etc/hive/keytab-source/hive.keytab /etc/hive/secrets/hive.keytab
-        securityContext:
-          runAsUser: 0
-          runAsGroup: 0
-        volumeMounts:
-        - name: hive-keytab-source
-          mountPath: /etc/hive/keytab-source
-          readOnly: true
-        - name: hive-secret
-          mountPath: /etc/hive/secrets
       containers:
       - name: hiveserver2
         volumeMounts:
@@ -58,15 +39,14 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: hive-secret
-          mountPath: /etc/hive/secrets
+          mountPath: /etc/hive/secrets/hive.keytab
+          subPath: hive.keytab
           readOnly: true
       volumes:
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
       - name: hive-secret
-        emptyDir: {}
-      - name: hive-keytab-source
         secret:
           secretName: hive-secret
-          defaultMode: 0400
+          defaultMode: 0444

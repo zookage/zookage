@@ -47,7 +47,7 @@ images:
   newTag: 2.6.3-zookage-0.5
 - name: zookage-hive
   newName: zookage/zookage-hive
-  newTag: 4.2.0-zookage-0.5
+  newTag: experimental
 - name: zookage-hive-metastore
   newName: zookage/zookage-hive-metastore
   newTag: 4.2.0-zookage-0.5
