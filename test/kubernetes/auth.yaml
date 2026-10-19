@@ -90,11 +90,14 @@ images:
   newTag: 3.9.4-zookage-0.5
 patches:
 - path: patches/authn/client.yaml
+- path: patches/authn/hbase.yaml
 - path: patches/authn/hdfs.yaml
-- path: patches/authn/hdfs-clients.yaml
 - path: patches/authn/hive.yaml
 - path: patches/authn/hive-metastore.yaml
+- path: patches/authn/mapreduce.yaml
 - path: patches/authn/ranger.yaml
+- path: patches/authn/spark.yaml
+- path: patches/authn/tez.yaml
 - path: patches/authn/trino.yaml
 - path: patches/authn/yarn.yaml
 - path: patches/authz/hbase.yaml

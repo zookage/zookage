@@ -16,3 +16,67 @@ metadata:
   name: config-values
 data:
   trino_iceberg_oauth2_enabled: "true"
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: trino-coordinator
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: coordinator
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: trino-kerberos-secret
+          mountPath: /etc/trino/secrets/trino.keytab
+          subPath: trino.keytab
+          readOnly: true
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: trino-kerberos-secret
+        secret:
+          secretName: trino-kerberos-secret
+          defaultMode: 0444
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trino-worker
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: worker
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: trino-kerberos-secret
+          mountPath: /etc/trino/secrets/trino.keytab
+          subPath: trino.keytab
+          readOnly: true
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: trino-kerberos-secret
+        secret:
+          secretName: trino-kerberos-secret
+          defaultMode: 0444
