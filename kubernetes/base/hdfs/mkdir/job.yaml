@@ -32,7 +32,8 @@ spec:
         - -c
         - |
           set -eu
-          if [[ ${HADOOP_HTTP_AUTHENTICATION:-simple} == kerberos ]]; then
+          authentication=$("${HADOOP_HOME}/bin/hdfs" getconf -confKey hadoop.security.authentication)
+          if [[ ${authentication} == kerberos ]]; then
             kinit -kt /etc/hdfs/secrets/hdfs.keytab hdfs@ZOOKAGE.LOCAL
           fi
           docker-entrypoint.sh hdfs-mkdir /apps hdfs:supergroup 755

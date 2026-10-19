@@ -31,7 +31,7 @@ webhdfs_request() {
   path=$2
   query=$3
   local auth_args=()
-  if [[ ${HADOOP_HTTP_AUTHENTICATION:-simple} == kerberos ]]; then
+  if [[ ${authentication} == kerberos ]]; then
     auth_args=(--negotiate -u :)
   else
     query="user.name=${HADOOP_USER_NAME:-hdfs}&${query}"
@@ -78,6 +78,7 @@ elif [ "${command}" == "wait-for-dns" ]; then
   done
   exit 0
 elif [ "${command}" == "hdfs-mkdir" ]; then
+  authentication=$("${HADOOP_HOME}/bin/hdfs" getconf -confKey hadoop.security.authentication)
   hdfs_mkdir_webhdfs "$2" "$3" "$4"
   exit 0
 fi

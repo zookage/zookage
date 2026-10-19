@@ -170,9 +170,6 @@ spec:
     spec:
       containers:
       - name: mkdir
-        env:
-        - name: HADOOP_HTTP_AUTHENTICATION
-          value: kerberos
         volumeMounts:
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
