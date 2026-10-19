@@ -23,6 +23,10 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
+      - name: wait-for-dns
+        image: zookage-util
+        args:
+        - wait-for-dns
       containers:
       - name: master
         volumeMounts:
@@ -55,6 +59,10 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
+      - name: wait-for-dns
+        image: zookage-util
+        args:
+        - wait-for-dns
       containers:
       - name: regionserver
         volumeMounts:
@@ -73,6 +81,13 @@ spec:
         secret:
           secretName: hbase-secret
           defaultMode: 0444
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hbase-master
+spec:
+  publishNotReadyAddresses: true
 ---
 apiVersion: apps/v1
 kind: StatefulSet
