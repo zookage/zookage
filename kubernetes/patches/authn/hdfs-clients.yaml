@@ -109,8 +109,8 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: mapreduce-secret
-          mountPath: /etc/mapreduce/secrets/mapred.keytab
-          subPath: mapred.keytab
+          mountPath: /etc/mapreduce/secrets/mapreduce.keytab
+          subPath: mapreduce.keytab
           readOnly: true
       volumes:
       - name: kerberos-conf

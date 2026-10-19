@@ -72,10 +72,6 @@ if [[ $# -eq 0 ]]; then
 fi
 
 for service in "$@"; do
-  keytab_name=${service}
-  if [[ ${service} == mapreduce ]]; then
-    keytab_name=mapred
-  fi
   case "${service}" in
     client) dn_pattern='^uid=(alice|zookage),ou=users,dc=example,dc=com$' ;;
     hbase|hdfs|hive|mapreduce|ranger|spark|tez|trino|yarn)
@@ -83,5 +79,5 @@ for service in "$@"; do
       ;;
     *) echo "Unknown keytab service: ${service}" >&2; exit 1 ;;
   esac
-  generate_keytab "${secret_dir}/${service}/${keytab_name}.keytab" "${dn_pattern}"
+  generate_keytab "${secret_dir}/${service}/${service}.keytab" "${dn_pattern}"
 done

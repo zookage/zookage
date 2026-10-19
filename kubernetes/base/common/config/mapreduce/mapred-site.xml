@@ -57,7 +57,7 @@
   </property>
   <property>
     <name>mapreduce.jobhistory.keytab</name>
-    <value>/etc/mapreduce/secrets/mapred.keytab</value>
+    <value>/etc/mapreduce/secrets/mapreduce.keytab</value>
   </property>
 
   <property>
