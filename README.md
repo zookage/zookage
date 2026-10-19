@@ -50,8 +50,7 @@ to `kubernetes/base/common/config/tls/<service>.crt`. Mount the service keystore
 only in its server and distribute the shared CA certificate or truststore to
 clients. The sample keystore password is `zookage`.
 
-`./docker/generate-tls-ca.sh` initializes a new CA and refuses to overwrite
-existing CA files. Replacing the CA requires reissuing all service certificates
-and redistributing the client trust files. The checked-in CA key, service keys,
-and keytabs are sample credentials for this sandbox. Regenerate keytabs with
-`./docker/generate-keytabs.sh`.
+The CA key and public trust files are already checked in. Replacing the CA
+requires reissuing all service certificates and redistributing the client trust
+files. The checked-in CA key, service keys, and keytabs are sample credentials
+for this sandbox. Regenerate keytabs with `./docker/generate-keytabs.sh`.

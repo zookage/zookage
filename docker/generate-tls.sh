@@ -51,7 +51,7 @@ readonly secret_dir="${repo_dir}/kubernetes/base/common/secret/${service}"
 
 for input in "${ca_store}" "${public_dir}/zookage-ca.crt" "${public_dir}/zookage-truststore.jks"; do
   if [[ ! -f "${input}" ]]; then
-    echo "Missing ZooKage CA file: ${input}. Run ${base_dir}/generate-tls-ca.sh first." >&2
+    echo "Missing ZooKage CA file: ${input}. Restore the checked-in CA files before issuing certificates." >&2
     exit 1
   fi
 done

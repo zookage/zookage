@@ -21,8 +21,7 @@ readonly fixture_dir="${temp_dir}/repo"
 trap 'rm -rf "${temp_dir}"' EXIT
 
 mkdir -p "${fixture_dir}/docker/tls" "${temp_dir}/original"
-cp "${repo_dir}/docker/generate-tls-ca.sh" "${repo_dir}/docker/generate-tls.sh" \
-  "${fixture_dir}/docker/"
+cp "${repo_dir}/docker/generate-tls.sh" "${fixture_dir}/docker/"
 cp "${repo_dir}/docker/tls/hdfs.san" "${fixture_dir}/docker/tls/"
 
 readonly ca_files=(docker/tls/zookage-ca.jks \
@@ -110,9 +109,11 @@ verify_certificates() {
 SCRIPT
 }
 
-"${fixture_dir}/docker/generate-tls-ca.sh"
+# Test service issuance using a temporary copy of the checked-in sample CA.
 for path in "${ca_files[@]}"; do
-  cp "${fixture_dir}/${path}" "${temp_dir}/original/"
+  mkdir -p "$(dirname "${fixture_dir}/${path}")"
+  cp "${repo_dir}/${path}" "${fixture_dir}/${path}"
+  cp "${repo_dir}/${path}" "${temp_dir}/original/"
 done
 
 expect_failure "${fixture_dir}/docker/generate-tls.sh" zookage-ca 'dns:zookage-ca'
@@ -136,12 +137,10 @@ if cmp -s "${temp_dir}/original/tls-test.crt" "${fixture_dir}/kubernetes/base/co
 fi
 verify_certificates tls-renewed.zookage.svc.cluster.local
 
-expect_failure "${fixture_dir}/docker/generate-tls-ca.sh"
-assert_ca_unchanged
-# A partial CA installation must not silently create a replacement trust root.
+# Service issuance requires all CA files and must never create a new trust root.
 for path in "${ca_files[@]}"; do
   mv "${fixture_dir}/${path}" "${temp_dir}/missing-ca-file"
-  expect_failure "${fixture_dir}/docker/generate-tls-ca.sh"
+  expect_failure "${fixture_dir}/docker/generate-tls.sh" hdfs
   [[ ! -e "${fixture_dir}/${path}" ]]
   mv "${temp_dir}/missing-ca-file" "${fixture_dir}/${path}"
   assert_ca_unchanged
