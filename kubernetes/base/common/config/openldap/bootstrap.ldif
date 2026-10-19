@@ -60,7 +60,6 @@ sn: HDFS
 uidNumber: 1011
 gidNumber: 1011
 homeDirectory: /home/hdfs
-userPassword: hdfs
 
 dn: uid=yarn,ou=users,dc=example,dc=com
 objectClass: top
@@ -105,7 +104,6 @@ sn: Hive
 uidNumber: 1020
 gidNumber: 1020
 homeDirectory: /home/hive
-userPassword: hive
 
 dn: uid=tez,ou=users,dc=example,dc=com
 objectClass: top
@@ -117,7 +115,6 @@ sn: Tez
 uidNumber: 1030
 gidNumber: 1030
 homeDirectory: /home/tez
-userPassword: tez
 
 dn: uid=spark,ou=users,dc=example,dc=com
 objectClass: top
@@ -129,7 +126,6 @@ sn: Spark
 uidNumber: 1040
 gidNumber: 1040
 homeDirectory: /home/spark
-userPassword: spark
 
 dn: uid=zookeeper,ou=users,dc=example,dc=com
 objectClass: top
@@ -152,7 +148,6 @@ sn: HBase
 uidNumber: 1060
 gidNumber: 1060
 homeDirectory: /home/hbase
-userPassword: hbase
 
 dn: uid=ozone,ou=users,dc=example,dc=com
 objectClass: top
@@ -175,7 +170,6 @@ sn: Trino
 uidNumber: 1080
 gidNumber: 1080
 homeDirectory: /home/trino
-userPassword: trino
 
 dn: uid=kdc,ou=users,dc=example,dc=com
 objectClass: top
@@ -187,7 +181,6 @@ sn: KDC
 uidNumber: 1090
 gidNumber: 1090
 homeDirectory: /home/kdc
-userPassword: kdc
 
 dn: ou=groups,dc=example,dc=com
 objectClass: top
@@ -387,6 +380,13 @@ dn: ou=kerberos,dc=example,dc=com
 objectClass: top
 objectClass: organizationalUnit
 ou: kerberos
+
+dn: uid=kdc,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+uid: kdc
+userPassword: kdc
 
 dn: ou=hbase,ou=kerberos,dc=example,dc=com
 objectClass: top
