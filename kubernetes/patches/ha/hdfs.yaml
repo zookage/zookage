@@ -25,9 +25,9 @@ data:
   hadoop_dfs_ha_namenodes: namenode-0,namenode-1
   hadoop_dfs_ha_automatic_failover_enabled: "true"
   hadoop_dfs_ha_fencing_methods: shell(true)
-  hadoop_dfs_namenode_shared_edits_dir: "qjournal://hdfs-journalnode-0.hdfs-journalnode:8485;\
-    hdfs-journalnode-1.hdfs-journalnode:8485;\
-    hdfs-journalnode-2.hdfs-journalnode:8485/zookage"
+  hadoop_dfs_namenode_shared_edits_dir: "qjournal://hdfs-journalnode-0.hdfs-journalnode.zookage.svc.cluster.local:8485;\
+    hdfs-journalnode-1.hdfs-journalnode.zookage.svc.cluster.local:8485;\
+    hdfs-journalnode-2.hdfs-journalnode.zookage.svc.cluster.local:8485/zookage"
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -68,6 +68,12 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
+          readOnly: true
         - name: mnt
           mountPath: /mnt
       - name: wait-for-journalnode
@@ -91,5 +97,19 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
+          readOnly: true
         - name: mnt
           mountPath: /mnt
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: hdfs-secret
+        secret:
+          secretName: hdfs-secret
+          defaultMode: 0444

@@ -19,11 +19,19 @@
   </property>
   <property>
     <name>dfs.namenode.rpc-address.zookage.namenode-0</name>
-    <value>hdfs-namenode-0.hdfs-namenode:8020</value>
+    <value>hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local:8020</value>
   </property>
   <property>
     <name>dfs.namenode.http-address.zookage.namenode-0</name>
-    <value>hdfs-namenode-0.hdfs-namenode:9870</value>
+    <value>hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local:9870</value>
+  </property>
+  <property>
+    <name>dfs.namenode.https-address.zookage.namenode-0</name>
+    <value>hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local:9871</value>
+  </property>
+  <property>
+    <name>dfs.namenode.https-address.zookage.namenode-1</name>
+    <value>hdfs-namenode-1.hdfs-namenode.zookage.svc.cluster.local:9871</value>
   </property>
   <property>
     <name>dfs.client.failover.proxy.provider.zookage</name>
@@ -33,6 +41,59 @@
   <property>
     <name>hadoop.http.authentication.signer.secret.provider</name>
     <value>random</value>
+  </property>
+
+  <property>
+    <name>dfs.namenode.kerberos.principal</name>
+    <value>hdfs/_HOST@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>dfs.namenode.keytab.file</name>
+    <value>/etc/hdfs/secrets/hdfs.keytab</value>
+  </property>
+  <property>
+    <name>dfs.datanode.kerberos.principal</name>
+    <value>hdfs/_HOST@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>dfs.datanode.keytab.file</name>
+    <value>/etc/hdfs/secrets/hdfs.keytab</value>
+  </property>
+  <property>
+    <name>dfs.journalnode.kerberos.principal</name>
+    <value>hdfs/_HOST@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>dfs.journalnode.keytab.file</name>
+    <value>/etc/hdfs/secrets/hdfs.keytab</value>
+  </property>
+  <property>
+    <name>dfs.web.authentication.kerberos.principal</name>
+    <value>HTTP/_HOST@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>dfs.web.authentication.kerberos.keytab</name>
+    <value>/etc/hdfs/secrets/hdfs.keytab</value>
+  </property>
+  <property>
+    <name>dfs.namenode.kerberos.internal.spnego.principal</name>
+    <value>${dfs.web.authentication.kerberos.principal}</value>
+  </property>
+  <property>
+    <name>dfs.journalnode.kerberos.internal.spnego.principal</name>
+    <value>${dfs.web.authentication.kerberos.principal}</value>
+  </property>
+  <property>
+    <name>dfs.block.access.token.enable</name>
+    <value>{{ or (index .Values "hadoop_dfs_block_access_token_enable") "false" | html }}</value>
+  </property>
+  <property>
+    <name>dfs.data.transfer.protection</name>
+    <value>{{ or (index .Values "hadoop_dfs_data_transfer_protection") "" | html }}</value>
+  </property>
+  <property>
+    <name>dfs.http.policy</name>
+    <value>{{ or (index .Values "hadoop_dfs_http_policy") "HTTP_ONLY" | html }}</value>
   </property>
 
   <property>
@@ -57,11 +118,11 @@
   </property>
   <property>
     <name>dfs.namenode.rpc-address.zookage.namenode-1</name>
-    <value>hdfs-namenode-1.hdfs-namenode:8020</value>
+    <value>hdfs-namenode-1.hdfs-namenode.zookage.svc.cluster.local:8020</value>
   </property>
   <property>
     <name>dfs.namenode.http-address.zookage.namenode-1</name>
-    <value>hdfs-namenode-1.hdfs-namenode:9870</value>
+    <value>hdfs-namenode-1.hdfs-namenode.zookage.svc.cluster.local:9870</value>
   </property>
 
   <property>

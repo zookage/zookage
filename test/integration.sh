@@ -44,6 +44,7 @@ if [[ ${kustomization_name} == "auth" ]]; then
   "${test_dir}/integration/run.sh" kinit \
     -kt /etc/kerberos/secrets/client.keytab \
     zookage@ZOOKAGE.LOCAL
+  run_test "HDFS security" "${test_dir}/integration/hdfs_security.sh"
 fi
 
 run_test "HDFS permissions" "${test_dir}/integration/hdfs_permissions.sh"

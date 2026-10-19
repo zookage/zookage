@@ -68,14 +68,23 @@ generate_keytab() {
 }
 
 if [[ $# -eq 0 ]]; then
-  set -- client hive ranger yarn
+  set -- client hbase hdfs hive mapreduce ranger spark tez trino yarn
 fi
 
 for service in "$@"; do
+  keytab_name=${service}
   case "${service}" in
-    client) dn_pattern='^uid=zookage,ou=users,dc=example,dc=com$' ;;
-    hive|ranger|yarn) dn_pattern="^uid=.*ou=${service},ou=kerberos,dc=example,dc=com$" ;;
+    client) dn_pattern='^uid=(alice|hdfs|hive|trino|zookage),ou=users,dc=example,dc=com$' ;;
+    hbase|spark|tez|trino) dn_pattern="^uid=${service},ou=users,dc=example,dc=com$" ;;
+    hdfs|hive)
+      dn_pattern="^uid=${service},ou=users,dc=example,dc=com$|^uid=.*ou=${service},ou=kerberos,dc=example,dc=com$"
+      ;;
+    mapreduce)
+      dn_pattern='^uid=.*ou=mapreduce,ou=kerberos,dc=example,dc=com$'
+      keytab_name=mapred
+      ;;
+    ranger|yarn) dn_pattern="^uid=.*ou=${service},ou=kerberos,dc=example,dc=com$" ;;
     *) echo "Unknown keytab service: ${service}" >&2; exit 1 ;;
   esac
-  generate_keytab "${secret_dir}/${service}/${service}.keytab" "${dn_pattern}"
+  generate_keytab "${secret_dir}/${service}/${keytab_name}.keytab" "${dn_pattern}"
 done

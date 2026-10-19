@@ -47,6 +47,18 @@
     <name>mapreduce.jobhistory.done-dir</name>
     <value>/apps/mapred-history</value>
   </property>
+  <property>
+    <name>mapreduce.jobhistory.address</name>
+    <value>mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local:10020</value>
+  </property>
+  <property>
+    <name>mapreduce.jobhistory.principal</name>
+    <value>mapred/_HOST@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>mapreduce.jobhistory.keytab</name>
+    <value>/etc/mapreduce/secrets/mapred.keytab</value>
+  </property>
 
   <property>
     <name>hadoop.http.authentication.signer.secret.provider</name>

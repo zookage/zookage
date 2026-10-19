@@ -50,6 +50,7 @@ header:
   - "kubernetes/base/common/secret/ranger/ranger.keytab"
   - "kubernetes/base/common/secret/yarn/yarn.keytab"
   - "kubernetes/base/common/config/hive/llap-udfs.lst"
+  - "kubernetes/base/common/config/hdfs/hdfs-ca.crt"
   - "kubernetes/base/common/config/kerberos/.k5.ZOOKAGE.LOCAL"
   - "kubernetes/base/common/config/kerberos/service.keyfile"
   - "kubernetes/base/common/config/trino/jvm.config"

@@ -5,7 +5,16 @@
     "username": "hdfs",
     "password": "dummy",
     "fs.default.name": "hdfs://zookage",
-    "hadoop.security.authentication": "simple",
-    "hadoop.security.authorization": "true"
+    "hadoop.security.authentication": "{{ if eq (index .Values "hadoop_security_authentication") "kerberos" }}kerberos{{ else }}simple{{ end }}",
+    "hadoop.security.authorization": "true",
+    "dfs.nameservices": "zookage",
+    "dfs.ha.namenodes.zookage": {{ printf "%q" (or (index .Values "hadoop_dfs_ha_namenodes") "namenode-0") }},
+    "dfs.namenode.rpc-address.zookage.namenode-0": "hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local:8020",
+    "dfs.namenode.rpc-address.zookage.namenode-1": "hdfs-namenode-1.hdfs-namenode.zookage.svc.cluster.local:8020",
+    "dfs.client.failover.proxy.provider.zookage": "org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider",
+    "dfs.namenode.kerberos.principal": "hdfs/_HOST@ZOOKAGE.LOCAL",
+    "dfs.datanode.kerberos.principal": "hdfs/_HOST@ZOOKAGE.LOCAL",
+    "policy.download.auth.users": "hdfs",
+    "tag.download.auth.users": "hdfs"
   }
 }

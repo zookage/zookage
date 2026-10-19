@@ -30,15 +30,22 @@ webhdfs_request() {
   method=$1
   path=$2
   query=$3
+  local auth_args=()
+  if [[ ${HADOOP_HTTP_AUTHENTICATION:-simple} == kerberos ]]; then
+    auth_args=(--negotiate -u :)
+  else
+    query="user.name=${HADOOP_USER_NAME:-hdfs}&${query}"
+  fi
 
   curl \
+    "${auth_args[@]}" \
     --fail \
     --silent \
     --show-error \
     --output /dev/null \
     --request "${method}" \
     --header 'Content-Length: 0' \
-    "http://hdfs-httpfs:14000/webhdfs/v1${path}?user.name=${HADOOP_USER_NAME:-hdfs}&${query}"
+    "http://hdfs-httpfs:14000/webhdfs/v1${path}?${query}"
 }
 
 hdfs_mkdir_webhdfs() {

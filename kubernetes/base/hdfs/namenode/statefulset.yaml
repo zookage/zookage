@@ -57,6 +57,12 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
           mountPath: /etc/hadoop/secrets
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
+          readOnly: true
         - name: mnt
           mountPath: /mnt
       - name: wait-for-openldap
@@ -99,5 +105,12 @@ spec:
       - name: hadoop-secret
         secret:
           secretName: hadoop-secret
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: hdfs-secret
+        secret:
+          secretName: hdfs-secret
+          defaultMode: 0444
       - name: mnt
         emptyDir: {}

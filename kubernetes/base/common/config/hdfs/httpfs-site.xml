@@ -14,6 +14,30 @@
 
 <configuration>
   <property>
+    <name>httpfs.hadoop.authentication.type</name>
+    <value>{{ or (index .Values "hadoop_security_authentication") "simple" | html }}</value>
+  </property>
+  <property>
+    <name>httpfs.hadoop.authentication.kerberos.principal</name>
+    <value>httpfs/hdfs-httpfs.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>httpfs.hadoop.authentication.kerberos.keytab</name>
+    <value>/etc/hdfs/secrets/hdfs.keytab</value>
+  </property>
+  <property>
+    <name>hadoop.http.authentication.type</name>
+    <value>{{ or (index .Values "hadoop_security_authentication") "simple" | html }}</value>
+  </property>
+  <property>
+    <name>hadoop.http.authentication.kerberos.principal</name>
+    <value>*</value>
+  </property>
+  <property>
+    <name>hadoop.http.authentication.kerberos.keytab</name>
+    <value>/etc/hdfs/secrets/hdfs.keytab</value>
+  </property>
+  <property>
     <name>hadoop.http.authentication.signature.secret.file</name>
     <value>/etc/hadoop/secrets/httpfs-signature.secret</value>
   </property>

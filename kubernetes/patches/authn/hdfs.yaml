@@ -1,0 +1,206 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-values
+data:
+  hadoop_security_authentication: kerberos
+  hadoop_dfs_block_access_token_enable: "true"
+  hadoop_dfs_data_transfer_protection: authentication
+  hadoop_dfs_http_policy: HTTPS_ONLY
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hdfs-namenode
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      - name: wait-for-dns
+      containers:
+      - name: namenode
+        # WebHDFS uses the generic HTTP filter, independently of RPC and UI SPNEGO.
+        args:
+        - namenode
+        - -Dhadoop.http.authentication.type=kerberos
+        - -Dhadoop.http.authentication.kerberos.principal=HTTP/_HOST@ZOOKAGE.LOCAL
+        - -Dhadoop.http.authentication.kerberos.keytab=/etc/hdfs/secrets/hdfs.keytab
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
+          readOnly: true
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: hdfs-secret
+        secret:
+          secretName: hdfs-secret
+          defaultMode: 0444
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hdfs-datanode
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      - name: wait-for-dns
+        image: zookage-util
+        args:
+        - wait-for-dns
+      containers:
+      - name: datanode
+        args:
+        - datanode
+        - -Dhadoop.http.authentication.type=kerberos
+        - -Dhadoop.http.authentication.kerberos.principal=HTTP/_HOST@ZOOKAGE.LOCAL
+        - -Dhadoop.http.authentication.kerberos.keytab=/etc/hdfs/secrets/hdfs.keytab
+        readinessProbe:
+          tcpSocket:
+            port: 9865
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
+          readOnly: true
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: hdfs-secret
+        secret:
+          secretName: hdfs-secret
+          defaultMode: 0444
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hdfs-journalnode
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: journalnode
+        args:
+        - journalnode
+        - -Dhadoop.http.authentication.type=kerberos
+        - -Dhadoop.http.authentication.kerberos.principal=HTTP/_HOST@ZOOKAGE.LOCAL
+        - -Dhadoop.http.authentication.kerberos.keytab=/etc/hdfs/secrets/hdfs.keytab
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
+          readOnly: true
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: hdfs-secret
+        secret:
+          secretName: hdfs-secret
+          defaultMode: 0444
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hdfs-httpfs
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: httpfs
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
+          readOnly: true
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: hdfs-secret
+        secret:
+          secretName: hdfs-secret
+          defaultMode: 0444
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hdfs-mkdir
+spec:
+  template:
+    spec:
+      containers:
+      - name: mkdir
+        env:
+        - name: HADOOP_HTTP_AUTHENTICATION
+          value: kerberos
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
+          readOnly: true
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: hdfs-secret
+        secret:
+          secretName: hdfs-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hdfs-namenode
+spec:
+  ports:
+  - $patch: replace
+  - name: https
+    port: 9871

@@ -49,7 +49,7 @@ echo "No error is found."
 
 "${integration_dir}/divider.sh" "Start checking warnings of a Tez job"
 if grep '\[WARN\]' "${logs_file}" \
-    | grep -v '|retry.RetryInvocationHandler|: A failover has occurred since the start of call #.* ClientNamenodeProtocolTranslatorPB\.[A-Za-z0-9]* over hdfs-namenode-.*\.hdfs-namenode/.*:8020' \
+    | grep -v '|retry.RetryInvocationHandler|: A failover has occurred since the start of call #.* ClientNamenodeProtocolTranslatorPB\.[A-Za-z0-9]* over hdfs-namenode-.*\.hdfs-namenode\.zookage\.svc\.cluster\.local/.*:8020' \
     | grep -v 'Could not post history event to ATS, atsPutError=6' \
     | grep -v 'Exiting TaskReporter thread with pending queue size=' \
     | grep -v '|common.AsyncDispatcher|: AsyncDispatcher thread interrupted' \

@@ -18,9 +18,14 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
 kerberos_warnings='^$'
 if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
-  # HDFS remains simple, and Tez job tokens are deliberately not renewable.
-  kerberos_warnings='pod/hdfs-namenode-.* WARN namenode\.FSNamesystem: trying to get DT with no secret manager running$'
-  kerberos_warnings+='|pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind tez\.job$'
+  # Tez job tokens are deliberately not renewable.
+  kerberos_warnings='pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind tez\.job$'
+  # hdfs_security.sh deliberately reuses a cancelled token owned by zookage.
+  kerberos_warnings+="|pod/hdfs-namenode-[0-9]+: .* WARN delegation\\.AbstractDelegationTokenSecretManager: Token for real user: , can't be found in cache, Token=\\(token for zookage: HDFS_DELEGATION_TOKEN owner=zookage@ZOOKAGE\\.LOCAL, renewer=zookage, realUser=, issueDate=[0-9]+, maxDate=[0-9]+, sequenceNumber=[0-9]+, masterKeyId=[0-9]+\\)$"
+  kerberos_warnings+="|pod/hdfs-namenode-[0-9]+: .* WARN ipc\\.Server: Auth failed for [0-9.]+:[0-9]+:null \\(DIGEST-MD5: IO error acquiring password\\) with true cause: \\(Token for real user: , can't be found in cache\\)$"
+  # Hadoop 3.4.1 can log a null peer address after WebHDFS closes the channel.
+  # hdfs_security.sh separately verifies the HTTP response and file contents.
+  kerberos_warnings+='|pod/hdfs-datanode-[0-9]+: .* WARN webhdfs\.WebHdfsHandler: Error retrieving hostname: $'
 fi
 readonly kerberos_warnings
 
@@ -38,6 +43,13 @@ readonly kerberos_warnings
   | grep -v "pod/hdfs-namenode-.* tools.DFSZKFailoverController: Can't get local NN thread dump due to Connection refused (Connection refused)" \
   | grep -v 'pod/hdfs-namenode-.* blockmanagement.BlockPlacementPolicy: Failed to place enough replicas' \
   | grep -v 'pod/hdfs-namenode-.* protocol.BlockStoragePolicy: Failed to place enough replicas' \
+  | grep -v '^pod/hdfs-namenode-[0-9]*: WARNING: An illegal reflective access operation has occurred$' \
+  | grep -v '^pod/hdfs-namenode-[0-9]*: WARNING: Illegal reflective access by com\.sun\.xml\.bind\.v2\.runtime\.reflect\.opt\.Injector\$1 .* to method java\.lang\.ClassLoader\.defineClass(java\.lang\.String,byte\[\],int,int)$' \
+  | grep -v '^pod/hdfs-namenode-[0-9]*: WARNING: Please consider reporting this to the maintainers of com\.sun\.xml\.bind\.v2\.runtime\.reflect\.opt\.Injector\$1$' \
+  | grep -v '^pod/hdfs-namenode-[0-9]*: WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations$' \
+  | grep -v '^pod/hdfs-namenode-[0-9]*: WARNING: All illegal access operations will be denied in a future release$' \
+  | grep -v '^pod/hdfs-namenode-[0-9]*: WARNING: The following warnings have been detected with resource and/or provider classes:$' \
+  | grep -v '^pod/hdfs-namenode-[0-9]*:   WARNING: A sub-resource method, public javax\.ws\.rs\.core\.Response org\.apache\.hadoop\.hdfs\.server\.namenode\.web\.resources\.NamenodeWebHdfsMethods\.[a-z]*Root(.*) throws java\.io\.IOException,java\.lang\.InterruptedException, with URI template, "/", is treated as a resource method$' \
   | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Problem connecting to server:' \
   | grep -v 'pod/hdfs-datanode-.* hdfs.DFSUtilClient: Namenode for zookage remains unresolved for ID' \
   | grep -v 'pod/hdfs-datanode-.* impl.FsDatasetImpl: dfsUsed file missing in' \

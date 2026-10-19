@@ -41,6 +41,22 @@
     <value>true</value>
   </property>
   <property>
+    <name>hbase.master.kerberos.principal</name>
+    <value>hbase@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hbase.master.keytab.file</name>
+    <value>/etc/hbase/secrets/hbase.keytab</value>
+  </property>
+  <property>
+    <name>hbase.regionserver.kerberos.principal</name>
+    <value>hbase@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hbase.regionserver.keytab.file</name>
+    <value>/etc/hbase/secrets/hbase.keytab</value>
+  </property>
+  <property>
     <name>hbase.coprocessor.master.classes</name>
     <value>{{ or (index .Values "hbase_coprocessor_classes") "" | html }}</value>
   </property>

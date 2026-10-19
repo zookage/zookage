@@ -60,6 +60,8 @@ spec:
           - configMap:
               name: hadoop-yarn-conf
           - configMap:
+              name: hdfs-conf
+          - configMap:
               name: yarn-conf
       - name: hadoop-secret
         secret:

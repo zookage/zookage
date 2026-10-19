@@ -53,6 +53,10 @@
     <value>{{ or (index .Values "hadoop_security_authentication") "simple" | html }}</value>
   </property>
   <property>
+    <name>hadoop.kerberos.keytab.login.autorenewal.enabled</name>
+    <value>true</value>
+  </property>
+  <property>
     <name>hadoop.rpc.protection</name>
     <value>{{ or (index .Values "hadoop_rpc_protection") "authentication" | html }}</value>
   </property>

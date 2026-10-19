@@ -16,11 +16,22 @@ set -eu
 readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
 
 check_hdfs_permissions() {
+  readonly authentication=$(hdfs getconf -confKey hadoop.security.authentication)
+  readonly cache_dir=$(mktemp -d)
+  unset HADOOP_TOKEN_FILE_LOCATION
+
   as_user() {
     local user=$1
     shift
-    # HDFS stays in SIMPLE mode even when the client uses Kerberos for YARN.
-    HADOOP_USER_NAME="${user}" hdfs dfs -Dhadoop.security.authentication=simple "$@"
+    if [[ "${authentication}" == "kerberos" ]]; then
+      local cache="${cache_dir}/${user}.ccache"
+      if [[ ! -f "${cache}" ]]; then
+        kinit -c "FILE:${cache}" -kt /etc/kerberos/secrets/client.keytab "${user}@ZOOKAGE.LOCAL"
+      fi
+      KRB5CCNAME="FILE:${cache}" hdfs dfs "$@"
+    else
+      HADOOP_USER_NAME="${user}" hdfs dfs "$@"
+    fi
   }
 
   expect_permission_denied() {
@@ -56,8 +67,11 @@ check_hdfs_permissions() {
   readonly private="/user/zookage/${test_name}"
 
   cleanup() {
+    local status=$?
     as_user hdfs -rm -r -f -skipTrash \
-      "${shared}-hive" "${shared}-trino" "${shared}-zookage" "${private}"
+      "${shared}-hive" "${shared}-trino" "${shared}-zookage" "${private}" || status=1
+    rm -rf "${cache_dir}"
+    exit "${status}"
   }
   trap cleanup EXIT
 

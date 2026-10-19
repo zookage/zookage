@@ -45,6 +45,10 @@ configMapGenerator:
       zookage.io/config-values: client-config-values
 - files:
   - hdfs/hdfs-site.xml
+  - hdfs/ssl-server.xml
+  - hdfs/ssl-client.xml
+  - hdfs/hdfs-truststore.jks
+  - hdfs/hdfs-ca.crt
   - hdfs/httpfs-log4j.properties
   - hdfs/httpfs-site.xml
   - hdfs/ranger-hdfs-audit.xml

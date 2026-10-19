@@ -31,6 +31,10 @@ spec:
         args:
         - -c
         - |
+          set -eu
+          if [[ ${HADOOP_HTTP_AUTHENTICATION:-simple} == kerberos ]]; then
+            kinit -kt /etc/hdfs/secrets/hdfs.keytab hdfs@ZOOKAGE.LOCAL
+          fi
           docker-entrypoint.sh hdfs-mkdir /apps hdfs:supergroup 755
           docker-entrypoint.sh hdfs-mkdir /apps/hbase hbase:hbase 711
           docker-entrypoint.sh hdfs-mkdir /apps/hive-warehouse hive:warehouse 1770
