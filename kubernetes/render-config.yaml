@@ -10,7 +10,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Require a renderer that supports per-ConfigMap values overrides.
 apiVersion: zookage.io/v2
 kind: RenderConfig
 metadata:

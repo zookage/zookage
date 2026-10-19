@@ -66,7 +66,7 @@
   </property>
   <property>
     <name>yarn.resourcemanager.keytab</name>
-    <value>{{ index .Values "hadoop_yarn_resourcemanager_keytab" | html }}</value>
+    <value>{{ index .Values "hadoop_yarn_keytab" | html }}</value>
   </property>
   <property>
     <name>yarn.resourcemanager.webapp.spnego-principal</name>
@@ -74,7 +74,7 @@
   </property>
   <property>
     <name>yarn.resourcemanager.webapp.spnego-keytab-file</name>
-    <value>{{ index .Values "hadoop_yarn_resourcemanager_webapp_spnego_keytab_file" | html }}</value>
+    <value>{{ index .Values "hadoop_yarn_keytab" | html }}</value>
   </property>
   <property>
     <name>yarn.resourcemanager.bind-host</name>
@@ -101,7 +101,7 @@
   {{ end }}
   <property>
     <name>yarn.nodemanager.keytab</name>
-    <value>{{ index .Values "hadoop_yarn_nodemanager_keytab" | html }}</value>
+    <value>{{ index .Values "hadoop_yarn_keytab" | html }}</value>
   </property>
   <property>
     <name>yarn.nodemanager.webapp.spnego-principal</name>
@@ -109,7 +109,7 @@
   </property>
   <property>
     <name>yarn.nodemanager.webapp.spnego-keytab-file</name>
-    <value>{{ index .Values "hadoop_yarn_nodemanager_webapp_spnego_keytab_file" | html }}</value>
+    <value>{{ index .Values "hadoop_yarn_keytab" | html }}</value>
   </property>
   <property>
     <name>yarn.nodemanager.container-executor.class</name>
@@ -166,7 +166,7 @@
   </property>
   <property>
     <name>yarn.timeline-service.keytab</name>
-    <value>{{ index .Values "hadoop_yarn_timeline_service_keytab" | html }}</value>
+    <value>{{ index .Values "hadoop_yarn_keytab" | html }}</value>
   </property>
   <property>
     <name>yarn.timeline-service.http-authentication.type</name>
@@ -178,7 +178,7 @@
   </property>
   <property>
     <name>yarn.timeline-service.http-authentication.kerberos.keytab</name>
-    <value>{{ index .Values "hadoop_yarn_timeline_service_http_authentication_kerberos_keytab" | html }}</value>
+    <value>{{ index .Values "hadoop_yarn_keytab" | html }}</value>
   </property>
   <property>
     <name>yarn.timeline-service.bind-host</name>

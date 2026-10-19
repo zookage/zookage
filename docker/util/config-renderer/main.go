@@ -52,8 +52,8 @@ func run(configPath string, input io.Reader, output io.Writer) error {
 	if err := yaml.Unmarshal(configData, &config); err != nil {
 		return fmt.Errorf("decode plugin configuration: %w", err)
 	}
-	if (config.APIVersion != "zookage.io/v1" && config.APIVersion != "zookage.io/v2") || config.Kind != "RenderConfig" {
-		return errors.New("plugin configuration must be zookage.io/v1 or zookage.io/v2 RenderConfig")
+	if config.APIVersion != "zookage.io/v2" || config.Kind != "RenderConfig" {
+		return errors.New("plugin configuration must be zookage.io/v2 RenderConfig")
 	}
 	if config.ValuesConfigMap == "" {
 		config.ValuesConfigMap = "config-values"

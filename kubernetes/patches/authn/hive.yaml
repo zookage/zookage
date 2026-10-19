@@ -27,27 +27,6 @@ data:
   hive_server2_kerberos_principal: hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL
   hive_server2_kerberos_keytab: /etc/hive/secrets/hive.keytab
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: ranger-conf
-data:
-  ranger-service-hive.json: |
-    {
-      "type": "hive",
-      "name": "hive",
-      "configs": {
-        "username": "hive",
-        "password": "dummy",
-        "jdbc.driverClassName": "dummy",
-        "jdbc.url": "dummy",
-        "enable.hive.metastore.lookup": "true",
-        "hive.site.file.path": "/etc/hive/conf/hive-site.xml",
-        "policy.download.auth.users": "hive",
-        "tag.download.auth.users": "hive"
-      }
-    }
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
