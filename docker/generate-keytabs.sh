@@ -77,9 +77,13 @@ for service in "$@"; do
     keytab_name=mapred
   fi
   case "${service}" in
-    client) dn_pattern='^uid=(alice|hdfs|hive|trino|zookage),ou=users,dc=example,dc=com$' ;;
+    client)
+      dn_pattern='^uid=(alice|zookage),ou=users,dc=example,dc=com$'
+      # HDFS permission tests also log in as these services.
+      dn_pattern+='|^uid=(hdfs|hive|trino),ou=(hdfs|hive|trino),ou=kerberos,dc=example,dc=com$'
+      ;;
     hbase|hdfs|hive|mapreduce|ranger|spark|tez|trino|yarn)
-      dn_pattern="^uid=${keytab_name},ou=users,dc=example,dc=com$|^uid=.*,ou=${service},ou=kerberos,dc=example,dc=com$"
+      dn_pattern="^uid=.*,ou=${service},ou=kerberos,dc=example,dc=com$"
       ;;
     *) echo "Unknown keytab service: ${service}" >&2; exit 1 ;;
   esac
