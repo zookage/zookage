@@ -20,12 +20,6 @@ kerberos_warnings='^$'
 if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   # Tez job tokens are deliberately not renewable.
   kerberos_warnings='pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind tez\.job$'
-  # hdfs_security.sh deliberately reuses a cancelled token owned by zookage.
-  kerberos_warnings+="|pod/hdfs-namenode-[0-9]+: .* WARN delegation\\.AbstractDelegationTokenSecretManager: Token for real user: , can't be found in cache, Token=\\(token for zookage: HDFS_DELEGATION_TOKEN owner=zookage@ZOOKAGE\\.LOCAL, renewer=zookage, realUser=, issueDate=[0-9]+, maxDate=[0-9]+, sequenceNumber=[0-9]+, masterKeyId=[0-9]+\\)$"
-  kerberos_warnings+="|pod/hdfs-namenode-[0-9]+: .* WARN ipc\\.Server: Auth failed for [0-9.]+:[0-9]+:null \\(DIGEST-MD5: IO error acquiring password\\) with true cause: \\(Token for real user: , can't be found in cache\\)$"
-  # Hadoop 3.4.1 can log a null peer address after WebHDFS closes the channel.
-  # hdfs_security.sh separately verifies the HTTP response and file contents.
-  kerberos_warnings+='|pod/hdfs-datanode-[0-9]+: .* WARN webhdfs\.WebHdfsHandler: Error retrieving hostname: $'
 fi
 readonly kerberos_warnings
 
