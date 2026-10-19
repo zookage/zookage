@@ -66,18 +66,18 @@ verify_certificates() {
   for service in hdfs tls-test; do
     keystore="${secret}/${service}/${service}.jks"
     certificate="${public}/${service}.crt"
-    keytool -list -v -keystore "${keystore}" -storepass "${service}" > /tmp/keystore.txt
+    keytool -list -v -keystore "${keystore}" -storepass zookage > /tmp/keystore.txt
     [[ "$(grep -c '^Entry type: PrivateKeyEntry$' /tmp/keystore.txt)" == 1 ]]
-    # Creating a CSR also verifies that the private key uses the service password.
+    # Creating a CSR also verifies that the private key uses the configured password.
     keytool -certreq -alias "${service}" -keystore "${keystore}" \
-      -storepass "${service}" -keypass "${service}" -file /tmp/service.csr
-    keytool -list -v -alias "${service}" -keystore "${keystore}" -storepass "${service}" > /tmp/leaf.txt
+      -storepass zookage -keypass zookage -file /tmp/service.csr
+    keytool -list -v -alias "${service}" -keystore "${keystore}" -storepass zookage > /tmp/leaf.txt
     grep -q '^Entry type: PrivateKeyEntry$' /tmp/leaf.txt
     grep -q '^Certificate chain length: 2$' /tmp/leaf.txt
-    keytool -exportcert -alias "${service}" -keystore "${keystore}" -storepass "${service}" > /tmp/leaf.der
+    keytool -exportcert -alias "${service}" -keystore "${keystore}" -storepass zookage > /tmp/leaf.der
     openssl x509 -in "${certificate}" -outform DER > /tmp/public-leaf.der
     cmp /tmp/leaf.der /tmp/public-leaf.der
-    keytool -list -rfc -alias "${service}" -keystore "${keystore}" -storepass "${service}" \
+    keytool -list -rfc -alias "${service}" -keystore "${keystore}" -storepass zookage \
       | awk '/BEGIN CERTIFICATE/ { certificate++ } certificate == 2 { print }' > /tmp/chain-ca.crt
     openssl x509 -in /tmp/chain-ca.crt -outform DER > /tmp/chain-ca.der
     cmp /tmp/ca.der /tmp/chain-ca.der

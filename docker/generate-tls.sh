@@ -89,33 +89,6 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
   keytool -exportcert -rfc -alias "${TLS_SERVICE}" \
     -keystore /output/service.jks -storepass zookage \
     -file /output/service.crt
-
-  # keytool requires six characters for new passwords. JKS supports short
-  # service names too, so replace the temporary password using the Java API.
-  cat > /tmp/SetServicePassword.java <<'JAVA'
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.security.KeyStore;
-
-class SetServicePassword {
-  public static void main(String[] args) throws Exception {
-    String service = System.getenv("TLS_SERVICE");
-    Path path = Path.of("/output/service.jks");
-    char[] temporaryPassword = "zookage".toCharArray();
-    char[] servicePassword = service.toCharArray();
-    KeyStore store = KeyStore.getInstance("JKS");
-    try (var input = Files.newInputStream(path)) {
-      store.load(input, temporaryPassword);
-    }
-    store.setKeyEntry(service, store.getKey(service, temporaryPassword),
-      servicePassword, store.getCertificateChain(service));
-    try (var output = Files.newOutputStream(path)) {
-      store.store(output, servicePassword);
-    }
-  }
-}
-JAVA
-  java /tmp/SetServicePassword.java
 SCRIPT
 
 tr -d '\r' < "${temp_dir}/service.crt" > "${temp_dir}/service.pem"

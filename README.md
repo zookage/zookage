@@ -48,8 +48,8 @@ This writes the service keystore to
 `kubernetes/base/common/secret/<service>/<service>.jks` and its public certificate
 to `kubernetes/base/common/config/tls/<service>.crt`. Mount the service keystore
 only in its server and distribute the shared CA certificate or truststore to
-clients. Each service keystore and private key use the service name as their
-password (`hdfs` for `hdfs.jks`). The shared CA and truststore use `zookage`.
+clients. All service keystores, private keys, the shared CA, and the truststore
+use `zookage` as their password.
 
 The CA key and public trust files are already checked in. Replacing the CA
 requires reissuing all service certificates and redistributing the client trust
