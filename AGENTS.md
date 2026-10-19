@@ -35,4 +35,3 @@ This document defines how AI coding agents should be used safely and consistentl
 - To regenerate checked-in Kerberos keytabs after updating LDAP principals, run `./docker/generate-keytabs.sh [service ...]`; omit arguments to regenerate `client` and every service OU listed under `ou=kerberos` in `bootstrap.ldif`.
 - The shared development CA key and public trust files are checked in. The signing key in `docker/tls/zookage-ca.jks` must not be deployed to Kubernetes.
 - To issue or reissue a service certificate using the existing CA, run `./docker/generate-tls.sh <service> [SAN]`. When SAN is omitted, it reads `docker/tls/<service>.san`; for HDFS, run `./docker/generate-tls.sh hdfs`. Service issuance preserves the shared CA and truststore.
-- To validate service certificate generation and shared CA trust, run `./test/tls.sh`.
