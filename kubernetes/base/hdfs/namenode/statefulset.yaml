@@ -22,7 +22,7 @@ spec:
   template:
     spec:
       initContainers:
-      - name: wait-for-dns
+      - name: wait-for-dependencies
         image: zookage-util
         args:
         - wait-for-dns

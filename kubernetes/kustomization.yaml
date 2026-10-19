@@ -91,6 +91,7 @@ images:
 ### Extensions ###
 patches:
 # - path: patches/authn/client.yaml
+# - path: patches/authn/hdfs.yaml
 # - path: patches/authn/hdfs-clients.yaml
 # - path: patches/authn/hive.yaml
 # - path: patches/authn/hive-metastore.yaml
@@ -107,5 +108,3 @@ patches:
 # - path: patches/ha/hdfs.yaml
 # - path: patches/ha/yarn.yaml
 # - path: patches/llap/hive.yaml
-# Apply HDFS authentication last to keep KDC and DNS waits before HA setup.
-# - path: patches/authn/hdfs.yaml

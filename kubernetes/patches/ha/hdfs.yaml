@@ -38,6 +38,7 @@ spec:
   template:
     spec:
       initContainers:
+      - name: wait-for-dependencies
       - name: wait-for-zookeeper
         image: zookage-util
         args:

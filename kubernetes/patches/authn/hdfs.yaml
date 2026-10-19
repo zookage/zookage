@@ -37,12 +37,13 @@ spec:
   template:
     spec:
       initContainers:
-      - name: wait-for-kdc
-        image: zookage-util
+      - name: wait-for-dependencies
         args:
-        - wait-for-rollout
-        - deployment/kerberos-kdc
-      - name: wait-for-dns
+        - /bin/bash
+        - -ec
+        - |
+          docker-entrypoint.sh wait-for-rollout deployment/kerberos-kdc
+          docker-entrypoint.sh wait-for-dns
       containers:
       - name: namenode
         volumeMounts:
