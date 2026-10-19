@@ -65,7 +65,7 @@ spec:
         projected:
           sources:
           - configMap:
-              name: hadoop-conf
+              name: hadoop-yarn-conf
           - configMap:
               name: hdfs-conf
           - configMap:

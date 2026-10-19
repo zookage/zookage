@@ -14,24 +14,41 @@
 set -eu
 
 readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
+readonly app_owner=${1:-zookage}
 sleep 5
 
-readonly id=$("${integration_dir}/run.sh" yarn application -list -appStates FINISHED 2> /dev/null | cut -f 1 | sort | tail -n 1)
+applications=$("${integration_dir}/run.sh" yarn application -list -appStates FINISHED -appTypes TEZ)
+id=$(printf '%s\n' "${applications}" | awk -v owner="${app_owner}" '$1 ~ /^application_/ && $4 == owner { print $1 }' | sort | tail -n 1)
+if [[ -z ${id} ]]; then
+  echo "No finished Tez application found for ${app_owner}." >&2
+  exit 1
+fi
+readonly id
 echo "Check errors and warnings of ${id}"
 
+logs_file=$(mktemp)
+cleanup() {
+  rm -f "${logs_file}"
+}
+trap cleanup EXIT
+
+"${integration_dir}/run.sh" yarn logs \
+  -applicationId "${id}" -appOwner "${app_owner}" > "${logs_file}"
+if ! grep -q '^LogContents:' "${logs_file}"; then
+  echo "No container logs were retrieved for ${id}." >&2
+  exit 1
+fi
+
 "${integration_dir}/divider.sh" "Start checking errors of a Tez job"
-"${integration_dir}/run.sh" bash -c "
-  export HADOOP_USER_NAME=hdfs
-  ! yarn logs -applicationId '${id}' | grep '\[ERROR\]' \
-    | grep -v '|yarn.YarnUncaughtExceptionHandler|: Thread .* threw an Exception'
-"
+if grep '\[ERROR\]' "${logs_file}" \
+  | grep -v '|yarn.YarnUncaughtExceptionHandler|: Thread .* threw an Exception'; then
+  exit 1
+fi
 "${integration_dir}/divider.sh" "Finished checking errors of a Tez job"
 echo "No error is found."
 
 "${integration_dir}/divider.sh" "Start checking warnings of a Tez job"
-"${integration_dir}/run.sh" bash -c "
-  export HADOOP_USER_NAME=hdfs
-  ! yarn logs -applicationId '${id}' | grep '\[WARN\]' \
+if grep '\[WARN\]' "${logs_file}" \
     | grep -v '|retry.RetryInvocationHandler|: A failover has occurred since the start of call #.* ClientNamenodeProtocolTranslatorPB\.[A-Za-z0-9]* over hdfs-namenode-.*\.hdfs-namenode/.*:8020' \
     | grep -v 'Could not post history event to ATS, atsPutError=6' \
     | grep -v 'Exiting TaskReporter thread with pending queue size=' \
@@ -46,7 +63,8 @@ echo "No error is found."
     | grep -v '|rm.YarnTaskSchedulerService|: Held container expected to be not null for a non-AM-released container' \
     | grep -v 'does not have description. Please annotate the class with' \
     | grep -v '|exec.FunctionRegistry|: iceberg_bucket function could not be registered' \
-    | grep -v '|util.LoggingUtils|: Cannot set log4j global MDC'
-"
+    | grep -v '|util.LoggingUtils|: Cannot set log4j global MDC'; then
+  exit 1
+fi
 "${integration_dir}/divider.sh" "Finished checking warnings of a Tez job"
 echo "No warning is found."

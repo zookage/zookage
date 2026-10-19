@@ -5,6 +5,8 @@
     "username": "yarn",
     "password": "dummy",
     "yarn.url": "http://yarn-resourcemanager:8088",
+    "policy.download.auth.users": "yarn",
+    "tag.download.auth.users": "yarn",
     "ranger.add-yarn-authorization": "false"
   }
 }

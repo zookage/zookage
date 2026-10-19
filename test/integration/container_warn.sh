@@ -16,10 +16,19 @@ set -u
 readonly integration_dir=$(cd "$(dirname "$0")" || exit; pwd)
 readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
+kerberos_warnings='^$'
+if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+  # HDFS remains simple, and Tez job tokens are deliberately not renewable.
+  kerberos_warnings='pod/hdfs-namenode-.* WARN namenode\.FSNamesystem: trying to get DT with no secret manager running$'
+  kerberos_warnings+='|pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind tez\.job$'
+fi
+readonly kerberos_warnings
+
 "${integration_dir}/divider.sh" "Start fetching warnings of all containers"
 
 # shellcheck disable=SC2016
 "${base_dir}/bin/logs" | grep WARN \
+  | grep -Ev "${kerberos_warnings}" \
   | grep -v 'WARNING: .* does not exist. Creating.' \
   | grep -v 'pod/hdfs-namenode-.* hdfs.DFSUtilClient: Namenode for .* remains unresolved for ID' \
   | grep -v 'pod/hdfs-namenode-.* ha.HealthMonitor: Transport-level exception trying to monitor health of NameNode' \
@@ -47,6 +56,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hdfs-journalnode-.* server.JournalNodeSyncer: Journal at .* has no edit logs' \
   | grep -v 'pod/hdfs-journalnode-.* ipc.Server: IPC Server handler .* org.apache.hadoop.hdfs.qjournal.protocol.QJournalProtocol.getEditLogManifest .*: output error' \
   | grep -v 'pod/yarn-nodemanager-.* nodemanager.DefaultContainerExecutor: Exit code from container' \
+  | grep -v 'pod/yarn-nodemanager-.* nodemanager.LinuxContainerExecutor: Exit code from container .* is : 143' \
   | grep -v 'pod/yarn-nodemanager-.* launcher.ContainerCleanup: Exception when trying to cleanup container .*: java.io.FileNotFoundException: .*\.pid (No such file or directory)' \
   | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find container" \
   | grep -v "pod/yarn-nodemanager-.* containermanager.ContainerManagerImpl: couldn't find app" \
@@ -124,6 +134,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/ranger-admin-.* WARNING: A HTTP GET method, public void org.apache.ranger.rest.ServiceREST.getPoliciesInJson.* MUST return a non-void type\.' \
   | grep -v 'pod/ranger-usersync-.*DefaultJoranConfigurator@.*logback.xml.*' \
   | grep -v 'pod/spark-historyserver-.* WARNING: Using incubator modules: jdk.incubator.vector' \
+  | grep -v '^pod/tez-ui-.* WARNING \[main\] org\.apache\.catalina\.util\.SessionIdGeneratorBase\.createSecureRandom Creation of SecureRandom instance for session ID generation using \[SHA1PRNG\] took \[[0-9][0-9]*\] milliseconds\.$' \
   | grep -v 'pod/trino-coordinator-.* WARNING: Using incubator modules: jdk.incubator.vector' \
   | grep -v 'pod/trino-coordinator-.* # WARNING: Unable to attach Serviceability Agent\.' \
   | grep -v 'pod/trino-coordinator-.*io.trino.memory.RemoteNodeMemory.*Memory info update request to http://.* has not returned in .*' \

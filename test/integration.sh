@@ -15,17 +15,18 @@ set -eu
 
 readonly test_dir=$(cd "$(dirname "$0")"; pwd)
 readonly repo_dir=$(cd "${test_dir}/.."; pwd)
+readonly kustomization_name=${1:-${ZOOKAGE_TEST_MODE:-}}
+export ZOOKAGE_TEST_MODE="${kustomization_name}"
 
 run_test() {
   local name=$1
-  local script=$2
+  shift
 
   "${test_dir}/integration/divider.sh" "Test ${name}"
-  "${script}"
+  "$@"
 }
 
 if [[ $# -ge 1 ]]; then
-  readonly kustomization_name="$1"
   readonly source_kustomization="${test_dir}/kubernetes/${kustomization_name}.yaml"
   readonly target_kustomization="${repo_dir}/kubernetes/kustomization.yaml"
 
@@ -39,9 +40,15 @@ if [[ $# -ge 1 ]]; then
   "${repo_dir}/bin/up"
 fi
 
+if [[ ${kustomization_name} == "auth" ]]; then
+  "${test_dir}/integration/run.sh" kinit \
+    -kt /etc/kerberos/secrets/client.keytab \
+    zookage@ZOOKAGE.LOCAL
+fi
+
 run_test "HDFS permissions" "${test_dir}/integration/hdfs_permissions.sh"
 
-if [[ ${kustomization_name:-} != "llap" ]]; then
+if [[ ${kustomization_name} != "llap" ]]; then
   run_test "Web" "${test_dir}/integration/web.sh"
   run_test "MR" "${test_dir}/integration/mr.sh"
   run_test "Spark" "${test_dir}/integration/spark.sh"

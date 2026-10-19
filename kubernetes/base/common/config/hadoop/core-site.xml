@@ -23,10 +23,6 @@
     <value>/mnt/hadoop</value>
   </property>
   <property>
-    <name>hadoop.http.temp.dir</name>
-    <value>/tmp/hadoop</value>
-  </property>
-  <property>
     <name>hadoop.security.credential.provider.path</name>
     <value>localjceks://file/etc/hadoop/secrets/hadoop.jceks</value>
   </property>
@@ -51,6 +47,18 @@
   <property>
     <name>hadoop.security.authorization</name>
     <value>{{ or (index .Values "hadoop_security_authorization") "false" | html }}</value>
+  </property>
+  <property>
+    <name>hadoop.security.authentication</name>
+    <value>{{ or (index .Values "hadoop_security_authentication") "simple" | html }}</value>
+  </property>
+  <property>
+    <name>hadoop.rpc.protection</name>
+    <value>{{ or (index .Values "hadoop_rpc_protection") "authentication" | html }}</value>
+  </property>
+  <property>
+    <name>ipc.client.fallback-to-simple-auth-allowed</name>
+    <value>{{ or (index .Values "hadoop_ipc_client_fallback_to_simple_auth_allowed") "false" | html }}</value>
   </property>
   <property>
     <name>hadoop.security.group.mapping</name>

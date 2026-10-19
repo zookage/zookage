@@ -47,13 +47,13 @@ images:
   newTag: experimental
 - name: zookage-hadoop
   newName: zookage/zookage-hadoop
-  newTag: 3.4.1-zookage-0.5
+  newTag: experimental
 - name: zookage-hbase
   newName: zookage/zookage-hbase
   newTag: 2.6.3-zookage-0.5
 - name: zookage-hive
   newName: zookage/zookage-hive
-  newTag: 4.2.0-zookage-0.5
+  newTag: experimental
 - name: zookage-hive-metastore
   newName: zookage/zookage-hive-metastore
   newTag: 4.2.0-zookage-0.5

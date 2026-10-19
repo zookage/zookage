@@ -63,8 +63,8 @@ COPY docker-entrypoint.sh /usr/local/bin/
 COPY --from=config-renderer-build /config-renderer /usr/local/bin/config-renderer
 
 ENV KUSTOMIZE_PLUGIN_HOME=/opt/kustomize/plugin
-RUN mkdir -p "${KUSTOMIZE_PLUGIN_HOME}/zookage.io/v1/renderconfig" \
-  && ln -s /usr/local/bin/config-renderer "${KUSTOMIZE_PLUGIN_HOME}/zookage.io/v1/renderconfig/RenderConfig"
+RUN mkdir -p "${KUSTOMIZE_PLUGIN_HOME}/zookage.io/v2/renderconfig" \
+  && ln -s /usr/local/bin/config-renderer "${KUSTOMIZE_PLUGIN_HOME}/zookage.io/v2/renderconfig/RenderConfig"
 
 USER zookage:zookage
 ENTRYPOINT ["docker-entrypoint.sh"]

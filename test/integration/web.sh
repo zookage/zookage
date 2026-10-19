@@ -13,13 +13,23 @@
 
 set -eu
 
+readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
+readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
+
 check () {
   local -r url=$1
+  local -r expected_responses=${2:-"200 307"}
+  local -a curl_command=(curl)
+  if [[ $# -gt 2 ]]; then
+    shift 2
+    curl_command=("$@")
+  fi
+  local response
   echo "Check ${url}"
-  local -r response=$(curl -o /dev/null -w '%{http_code}' -s "${url}")
+  response=$("${curl_command[@]}" -o /dev/null -w '%{http_code}' -sS "${url}")
   echo "${url} returned ${response}"
   echo
-  if [ "$response" = 200 ] || [ "$response" = 307 ]; then
+  if [[ " ${expected_responses} " == *" ${response} "* ]]; then
     return 0
   else
     return 1
@@ -34,7 +44,13 @@ check "http://localhost:9876/#!/"
 check "http://localhost:9888/#/Overview"
 check "http://localhost:8088/cluster"
 check "http://localhost:8088/ui2/"
-check "http://localhost:8188/applicationhistory"
+if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+  check "http://localhost:8188/applicationhistory" "401"
+  check "http://yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188/applicationhistory" "200" \
+    "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
+else
+  check "http://localhost:8188/applicationhistory"
+fi
 check "http://localhost:19888/jobhistory"
 check "http://localhost:9999/tez-ui/"
 check "http://localhost:10002/"

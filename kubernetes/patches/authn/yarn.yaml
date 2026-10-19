@@ -1,0 +1,197 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: yarn-config-values
+data:
+  hadoop_security_authorization: "false"
+  hadoop_security_authentication: kerberos
+  hadoop_rpc_protection: authentication
+  hadoop_ipc_client_fallback_to_simple_auth_allowed: "true"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-values
+data:
+  hadoop_yarn_nodemanager_container_executor_class: >-
+    org.apache.hadoop.yarn.server.nodemanager.LinuxContainerExecutor
+  hadoop_yarn_timeline_service_http_authentication_type: kerberos
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: yarn-resourcemanager
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: resourcemanager
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: yarn-secret
+          mountPath: /etc/yarn/secrets/yarn.keytab
+          subPath: yarn.keytab
+          readOnly: true
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: yarn-secret
+        secret:
+          secretName: yarn-secret
+          defaultMode: 0444
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: yarn-nodemanager
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      - name: initialize-sssd
+        image: zookage-hadoop
+        command:
+        - /bin/bash
+        - -euc
+        args:
+        - |
+          install -d -o 0 -g 0 -m 0755 /var/lib/sss/pipes
+          install -d -o 0 -g 0 -m 0700 /var/lib/sss/pipes/private
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+        volumeMounts:
+        - name: sssd-pipes
+          mountPath: /var/lib/sss/pipes
+      containers:
+      - name: nodemanager
+        command:
+        - /bin/bash
+        - -c
+        args:
+        - |
+          until getent passwd zookage > /dev/null; do
+            sleep 1
+          done
+          exec "${HADOOP_HOME}/bin/yarn" nodemanager
+        env:
+        - name: JAVA_TOOL_OPTIONS
+          value: --add-opens=java.base/java.lang=ALL-UNNAMED
+        - name: YARN_NODEMANAGER_OPTS
+          # yamllint disable-line rule:line-length
+          value: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+        securityContext:
+          allowPrivilegeEscalation: true
+        volumeMounts:
+        - name: yarn-container-executor-conf
+          mountPath: /opt/hadoop/etc/hadoop/container-executor.cfg
+          subPath: container-executor.cfg
+          readOnly: true
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: yarn-secret
+          mountPath: /etc/yarn/secrets/yarn.keytab
+          subPath: yarn.keytab
+          readOnly: true
+        - name: sssd-pipes
+          mountPath: /var/lib/sss/pipes
+          readOnly: true
+      - name: sssd
+        image: zookage-hadoop
+        command:
+        - /usr/sbin/sssd
+        args:
+        - --interactive
+        - --logger=stderr
+        readinessProbe:
+          exec:
+            command:
+            - getent
+            - passwd
+            - zookage
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+        volumeMounts:
+        - name: sssd-conf
+          mountPath: /etc/sssd/sssd.conf
+          subPath: sssd.conf
+        - name: sssd-pipes
+          mountPath: /var/lib/sss/pipes
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: yarn-secret
+        secret:
+          secretName: yarn-secret
+          defaultMode: 0444
+      - name: sssd-conf
+        configMap:
+          name: sssd-conf
+          defaultMode: 0600
+      - name: yarn-container-executor-conf
+        configMap:
+          name: yarn-container-executor-conf
+          defaultMode: 0400
+      - name: sssd-pipes
+        emptyDir: {}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: yarn-timelineserver
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: timelineserver
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: yarn-secret
+          mountPath: /etc/yarn/secrets/yarn.keytab
+          subPath: yarn.keytab
+          readOnly: true
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: yarn-secret
+        secret:
+          secretName: yarn-secret
+          defaultMode: 0444

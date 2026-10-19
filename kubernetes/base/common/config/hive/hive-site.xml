@@ -51,6 +51,18 @@
     <value>false</value>
   </property>
   <property>
+    <name>hive.server2.authentication.kerberos.principal</name>
+    <value>hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hive.server2.authentication.client.kerberos.principal</name>
+    <value>${hive.server2.authentication.kerberos.principal}</value>
+  </property>
+  <property>
+    <name>hive.server2.authentication.kerberos.keytab</name>
+    <value>/etc/hive/secrets/hive.keytab</value>
+  </property>
+  <property>
     <name>tez.staging-dir</name>
     <value>/tmp/hive/tez/staging</value>
   </property>

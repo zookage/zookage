@@ -20,10 +20,29 @@ resources:
 - config-values.yaml
 configMapGenerator:
 - files:
+  - hadoop/container-executor.cfg
+  name: yarn-container-executor-conf
+- files:
   - hadoop/core-site.xml
   - hadoop/hadoop-metrics2.properties
   - hadoop/log4j.properties
   name: hadoop-conf
+- files:
+  - hadoop/core-site.xml
+  - hadoop/hadoop-metrics2.properties
+  - hadoop/log4j.properties
+  name: hadoop-yarn-conf
+  options:
+    annotations:
+      zookage.io/config-values: yarn-config-values
+- files:
+  - hadoop/core-site.xml
+  - hadoop/hadoop-metrics2.properties
+  - hadoop/log4j.properties
+  name: hadoop-client-conf
+  options:
+    annotations:
+      zookage.io/config-values: client-config-values
 - files:
   - hdfs/hdfs-site.xml
   - hdfs/httpfs-log4j.properties
@@ -79,6 +98,9 @@ configMapGenerator:
 - files:
   - openldap/bootstrap.ldif
   name: openldap-conf
+- files:
+  - sssd/sssd.conf
+  name: sssd-conf
 - files:
   - ozone/dn-audit-log4j2.properties
   - ozone/hadoop-metrics2-hddsdatanode.properties

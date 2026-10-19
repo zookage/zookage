@@ -50,7 +50,7 @@ spec:
         projected:
           sources:
           - configMap:
-              name: hadoop-conf
+              name: hadoop-yarn-conf
           - configMap:
               name: yarn-conf
       - name: mnt

@@ -19,7 +19,8 @@ check_hdfs_permissions() {
   as_user() {
     local user=$1
     shift
-    HADOOP_USER_NAME="${user}" hdfs dfs "$@"
+    # HDFS stays in SIMPLE mode even when the client uses Kerberos for YARN.
+    HADOOP_USER_NAME="${user}" hdfs dfs -Dhadoop.security.authentication=simple "$@"
   }
 
   expect_permission_denied() {

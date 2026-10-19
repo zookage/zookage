@@ -10,7 +10,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: zookage.io/v1
+apiVersion: zookage.io/v2
 kind: RenderConfig
 metadata:
   name: render-config
