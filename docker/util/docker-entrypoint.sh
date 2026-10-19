@@ -78,7 +78,7 @@ elif [ "${command}" == "wait-for-dns" ]; then
   done
   exit 0
 elif [ "${command}" == "hdfs-mkdir" ]; then
-  authentication=$("${HADOOP_HOME}/bin/hdfs" getconf -confKey hadoop.security.authentication)
+  authentication=${HADOOP_SECURITY_AUTHENTICATION:-$("${HADOOP_HOME}/bin/hdfs" getconf -confKey hadoop.security.authentication)}
   hdfs_mkdir_webhdfs "$2" "$3" "$4"
   exit 0
 fi
