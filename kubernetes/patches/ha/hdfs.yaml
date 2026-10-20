@@ -73,17 +73,9 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: hadoop-secret
-          mountPath: /etc/hadoop/secrets/hadoop.jceks
-          subPath: hadoop.jceks
+          mountPath: /etc/hadoop/secrets/hadoop
         - name: hdfs-secret
-          mountPath: /etc/hadoop/secrets/hdfs.jks
-          subPath: hdfs.jks
-        - name: hdfs-secret
-          mountPath: /etc/hadoop/secrets/hdfs.keytab
-          subPath: hdfs.keytab
-        - name: hdfs-secret
-          mountPath: /etc/hadoop/secrets/httpfs-signature.secret
-          subPath: httpfs-signature.secret
+          mountPath: /etc/hadoop/secrets/hdfs
         - name: mnt
           mountPath: /mnt
       - name: wait-for-journalnode
@@ -111,16 +103,8 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: hadoop-secret
-          mountPath: /etc/hadoop/secrets/hadoop.jceks
-          subPath: hadoop.jceks
+          mountPath: /etc/hadoop/secrets/hadoop
         - name: hdfs-secret
-          mountPath: /etc/hadoop/secrets/hdfs.jks
-          subPath: hdfs.jks
-        - name: hdfs-secret
-          mountPath: /etc/hadoop/secrets/hdfs.keytab
-          subPath: hdfs.keytab
-        - name: hdfs-secret
-          mountPath: /etc/hadoop/secrets/httpfs-signature.secret
-          subPath: httpfs-signature.secret
+          mountPath: /etc/hadoop/secrets/hdfs
         - name: mnt
           mountPath: /mnt

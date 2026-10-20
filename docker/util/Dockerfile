@@ -33,7 +33,10 @@ RUN apt-get update \
   && groupadd --gid 1001 zookage \
   && groupadd --gid 1010 hadoop \
   && useradd --create-home --uid 1001 --gid zookage zookage \
-  && install -d -o root -g hadoop -m 0750 /etc/hadoop/secrets
+  && install -d -o root -g hadoop -m 0750 /etc/hadoop/secrets \
+  && ln -s hdfs/hdfs.jks /etc/hadoop/secrets/hdfs.jks \
+  && ln -s hdfs/hdfs.keytab /etc/hadoop/secrets/hdfs.keytab \
+  && ln -s hdfs/httpfs-signature.secret /etc/hadoop/secrets/httpfs-signature.secret
 
 ARG TARGETARCH
 RUN curl \

@@ -56,17 +56,9 @@ spec:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
-          mountPath: /etc/hadoop/secrets/hadoop.jceks
-          subPath: hadoop.jceks
+          mountPath: /etc/hadoop/secrets/hadoop
         - name: hdfs-secret
-          mountPath: /etc/hadoop/secrets/hdfs.jks
-          subPath: hdfs.jks
-        - name: hdfs-secret
-          mountPath: /etc/hadoop/secrets/hdfs.keytab
-          subPath: hdfs.keytab
-        - name: hdfs-secret
-          mountPath: /etc/hadoop/secrets/httpfs-signature.secret
-          subPath: httpfs-signature.secret
+          mountPath: /etc/hadoop/secrets/hdfs
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
@@ -100,17 +92,9 @@ spec:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
-          mountPath: /etc/hadoop/secrets/hadoop.jceks
-          subPath: hadoop.jceks
+          mountPath: /etc/hadoop/secrets/hadoop
         - name: hdfs-secret
-          mountPath: /etc/hadoop/secrets/hdfs.jks
-          subPath: hdfs.jks
-        - name: hdfs-secret
-          mountPath: /etc/hadoop/secrets/hdfs.keytab
-          subPath: hdfs.keytab
-        - name: hdfs-secret
-          mountPath: /etc/hadoop/secrets/httpfs-signature.secret
-          subPath: httpfs-signature.secret
+          mountPath: /etc/hadoop/secrets/hdfs
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
