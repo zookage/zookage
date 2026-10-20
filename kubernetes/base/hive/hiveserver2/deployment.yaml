@@ -53,6 +53,12 @@ spec:
           mountPath: /etc/hadoop/secrets
         - name: hive-conf
           mountPath: /etc/hive/conf
+        - name: hive-secret
+          mountPath: /etc/hive/secrets/hive.keytab
+          subPath: hive.keytab
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
         - name: tez-conf
           mountPath: /etc/tez/conf
         - name: hadoop-src
@@ -80,6 +86,13 @@ spec:
       - name: hive-conf
         configMap:
           name: hive-conf
+      - name: hive-secret
+        secret:
+          secretName: hive-secret
+          defaultMode: 0444
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
       - name: tez-conf
         configMap:
           name: tez-conf

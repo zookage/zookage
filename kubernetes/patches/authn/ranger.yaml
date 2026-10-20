@@ -23,34 +23,12 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
-      - name: wait-for-postgres
-      - name: create-ranger-database
-      - name: setup-database
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: ranger-secret
-          mountPath: /etc/ranger/secrets
       containers:
       - name: ranger-admin
         env:
         - name: JAVA_TOOL_OPTIONS
           # yamllint disable-line rule:line-length
           value: -Dhadoop.security.authentication=kerberos -Dranger.admin.kerberos.principal=rangeradmin/ranger-admin@ZOOKAGE.LOCAL -Dranger.admin.kerberos.keytab=/etc/ranger/secrets/ranger.keytab -Dranger.spnego.kerberos.principal=HTTP/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL -Dranger.spnego.kerberos.keytab=/etc/ranger/secrets/ranger.keytab -Dranger.lookup.kerberos.principal=rangerlookup/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL -Dranger.lookup.kerberos.keytab=/etc/ranger/secrets/ranger.keytab
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: ranger-secret
-          mountPath: /etc/ranger/secrets
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
-      - name: ranger-secret
-        secret:
-          secretName: ranger-secret
 ---
 apiVersion: batch/v1
 kind: Job
@@ -109,16 +87,3 @@ spec:
            -H "Content-Type: multipart/form-data" \
            -F "file=@/etc//ranger/conf/ranger-policies.json" \
            "http://ranger-admin:6080/service/plugins/policies/importPoliciesFromFile?isOverride=true"
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: ranger-secret
-          mountPath: /etc/ranger/secrets
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
-      - name: ranger-secret
-        secret:
-          secretName: ranger-secret

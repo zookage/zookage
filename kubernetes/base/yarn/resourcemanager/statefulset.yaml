@@ -50,6 +50,12 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
           mountPath: /etc/hadoop/secrets
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: yarn-secret
+          mountPath: /etc/yarn/secrets/yarn.keytab
+          subPath: yarn.keytab
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
@@ -66,5 +72,12 @@ spec:
       - name: hadoop-secret
         secret:
           secretName: hadoop-secret
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: yarn-secret
+        secret:
+          secretName: yarn-secret
+          defaultMode: 0444
       - name: mnt
         emptyDir: {}

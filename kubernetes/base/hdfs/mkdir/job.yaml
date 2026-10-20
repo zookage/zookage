@@ -60,6 +60,11 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
         - name: hadoop-src
           mountPath: /opt/hadoop
           subPath: opt/hadoop
@@ -76,3 +81,9 @@ spec:
         image:
           reference: zookage-hadoop
           pullPolicy: IfNotPresent
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: hdfs-secret
+        secret:
+          secretName: hdfs-secret

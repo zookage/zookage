@@ -44,14 +44,6 @@ spec:
           value: hive/hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
         - name: KRB5KEYTAB
           value: /etc/hive/secrets/hive.keytab
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: hive-secret
-          mountPath: /etc/hive/secrets/hive.keytab
-          subPath: hive.keytab
-          readOnly: true
       containers:
       - name: metastore
         env:
@@ -59,19 +51,3 @@ spec:
           value: hive/hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
         - name: KRB5KEYTAB
           value: /etc/hive/secrets/hive.keytab
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: hive-secret
-          mountPath: /etc/hive/secrets/hive.keytab
-          subPath: hive.keytab
-          readOnly: true
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
-      - name: hive-secret
-        secret:
-          secretName: hive-secret
-          defaultMode: 0444

@@ -45,6 +45,12 @@ spec:
           tcpSocket:
             port: 18080
         volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: spark-secret
+          mountPath: /etc/spark/secrets/spark.keytab
+          subPath: spark.keytab
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: spark-conf
@@ -56,6 +62,13 @@ spec:
           subPath: opt/hadoop
       terminationGracePeriodSeconds: 5
       volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: spark-secret
+        secret:
+          secretName: spark-secret
+          defaultMode: 0444
       - name: hadoop-conf
         projected:
           sources:

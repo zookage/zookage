@@ -53,6 +53,11 @@ spec:
           # yamllint disable-line rule:line-length
           value: $(TRINO_HOME)/trino-cli/bin:$(HBASE_HOME)/bin:$(HIVE_HOME)/bin:$(OZONE_HOME)/bin:$(SPARK_HOME)/bin:$(HADOOP_HOME)/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: client-secret
+          mountPath: /etc/kerberos/secrets
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
@@ -99,6 +104,12 @@ spec:
         workingDir: /home/zookage
       terminationGracePeriodSeconds: 0
       volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: client-secret
+        secret:
+          secretName: client-secret
       - name: hadoop-conf
         projected:
           sources:

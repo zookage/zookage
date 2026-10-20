@@ -54,8 +54,13 @@ spec:
         - name: RANGER_ADMIN_HOME
           value: $(RANGER_HOME)/ranger-admin
         volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
         - name: ranger-conf
           mountPath: /etc/ranger/conf
+        - name: ranger-secret
+          mountPath: /etc/ranger/secrets
       containers:
       - name: ranger-admin
         image: zookage-ranger
@@ -81,8 +86,13 @@ spec:
         volumeMounts:
         - name: hive-conf
           mountPath: /etc/hive/conf
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
         - name: ranger-conf
           mountPath: /etc/ranger/conf
+        - name: ranger-secret
+          mountPath: /etc/ranger/secrets
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
@@ -90,8 +100,14 @@ spec:
       - name: hive-conf
         configMap:
           name: hive-conf
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
       - name: ranger-conf
         configMap:
           name: ranger-conf
+      - name: ranger-secret
+        secret:
+          secretName: ranger-secret
       - name: mnt
         emptyDir: {}

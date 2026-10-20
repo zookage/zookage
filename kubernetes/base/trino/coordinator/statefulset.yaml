@@ -54,6 +54,12 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: trino-kerberos-secret
+          mountPath: /etc/trino/secrets/trino.keytab
+          subPath: trino.keytab
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: trino-catalog
@@ -64,6 +70,13 @@ spec:
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
       volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: trino-kerberos-secret
+        secret:
+          secretName: trino-kerberos-secret
+          defaultMode: 0444
       - name: hadoop-conf
         projected:
           sources:

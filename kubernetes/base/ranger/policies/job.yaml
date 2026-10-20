@@ -89,10 +89,21 @@ spec:
            -F "file=@/etc/ranger/conf/ranger-policies.json" \
            "http://ranger-admin:6080/service/plugins/policies/importPoliciesFromFile?isOverride=true"
         volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
         - name: ranger-conf
           mountPath: /etc/ranger/conf
+        - name: ranger-secret
+          mountPath: /etc/ranger/secrets
       restartPolicy: Never
       volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
       - name: ranger-conf
         configMap:
           name: ranger-conf
+      - name: ranger-secret
+        secret:
+          secretName: ranger-secret
