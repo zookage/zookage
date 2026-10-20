@@ -45,10 +45,3 @@ spec:
         image: zookage-util
         args:
         - wait-for-dns
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: hbase-master
-spec:
-  publishNotReadyAddresses: true
