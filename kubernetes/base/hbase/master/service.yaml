@@ -17,6 +17,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector: {}
+  publishNotReadyAddresses: true
   ports:
   - name: http
     port: 16010
