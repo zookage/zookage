@@ -17,6 +17,9 @@ metadata:
 spec:
   template:
     spec:
+      securityContext:
+        supplementalGroups:
+        - 1010
       initContainers:
       - name: wait-for-httpfs
         image: zookage-util
@@ -35,7 +38,7 @@ spec:
           HADOOP_SECURITY_AUTHENTICATION=$("${HADOOP_HOME}/bin/hdfs" getconf -confKey hadoop.security.authentication)
           export HADOOP_SECURITY_AUTHENTICATION
           if [[ ${HADOOP_SECURITY_AUTHENTICATION} == kerberos ]]; then
-            kinit -kt /etc/hdfs/secrets/hdfs.keytab hdfs/hdfs-mkdir@ZOOKAGE.LOCAL
+            kinit -kt /etc/hadoop/secrets/hdfs.keytab hdfs/hdfs-mkdir@ZOOKAGE.LOCAL
           fi
           docker-entrypoint.sh hdfs-mkdir /apps hdfs:supergroup 755
           docker-entrypoint.sh hdfs-mkdir /apps/hbase hbase:hbase 711
@@ -64,7 +67,14 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: hdfs-secret
-          mountPath: /etc/hdfs/secrets
+          mountPath: /etc/hadoop/secrets/hdfs.jks
+          subPath: hdfs.jks
+        - name: hdfs-secret
+          mountPath: /etc/hadoop/secrets/hdfs.keytab
+          subPath: hdfs.keytab
+        - name: hdfs-secret
+          mountPath: /etc/hadoop/secrets/httpfs-signature.secret
+          subPath: httpfs-signature.secret
         - name: hadoop-src
           mountPath: /opt/hadoop
           subPath: opt/hadoop

@@ -49,12 +49,13 @@ spec:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
-          mountPath: /etc/hadoop/secrets
+          mountPath: /etc/hadoop/secrets/hadoop.jceks
+          subPath: hadoop.jceks
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: yarn-secret
-          mountPath: /etc/yarn/secrets/yarn.keytab
+          mountPath: /etc/hadoop/secrets/yarn.keytab
           subPath: yarn.keytab
         - name: mnt
           mountPath: /mnt

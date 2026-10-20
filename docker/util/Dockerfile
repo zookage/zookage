@@ -31,7 +31,9 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && groupadd --gid 1001 zookage \
-  && useradd --create-home --uid 1001 --gid zookage zookage
+  && groupadd --gid 1010 hadoop \
+  && useradd --create-home --uid 1001 --gid zookage zookage \
+  && install -d -o root -g hadoop -m 0750 /etc/hadoop/secrets
 
 ARG TARGETARCH
 RUN curl \

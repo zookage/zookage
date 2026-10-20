@@ -27,7 +27,7 @@ metadata:
 data:
   hadoop_http_authentication_type: kerberos
   hadoop_http_authentication_kerberos_principal: HTTP/_HOST@ZOOKAGE.LOCAL
-  hadoop_http_authentication_kerberos_keytab: /etc/hdfs/secrets/hdfs.keytab
+  hadoop_http_authentication_kerberos_keytab: /etc/hadoop/secrets/hdfs.keytab
 ---
 apiVersion: apps/v1
 kind: StatefulSet

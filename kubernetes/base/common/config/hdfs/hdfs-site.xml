@@ -49,7 +49,7 @@
   </property>
   <property>
     <name>dfs.namenode.keytab.file</name>
-    <value>/etc/hdfs/secrets/hdfs.keytab</value>
+    <value>/etc/hadoop/secrets/hdfs.keytab</value>
   </property>
   <property>
     <name>dfs.datanode.kerberos.principal</name>
@@ -57,7 +57,7 @@
   </property>
   <property>
     <name>dfs.datanode.keytab.file</name>
-    <value>/etc/hdfs/secrets/hdfs.keytab</value>
+    <value>/etc/hadoop/secrets/hdfs.keytab</value>
   </property>
   <property>
     <name>dfs.journalnode.kerberos.principal</name>
@@ -65,7 +65,7 @@
   </property>
   <property>
     <name>dfs.journalnode.keytab.file</name>
-    <value>/etc/hdfs/secrets/hdfs.keytab</value>
+    <value>/etc/hadoop/secrets/hdfs.keytab</value>
   </property>
   <property>
     <name>dfs.web.authentication.kerberos.principal</name>
@@ -73,7 +73,7 @@
   </property>
   <property>
     <name>dfs.web.authentication.kerberos.keytab</name>
-    <value>/etc/hdfs/secrets/hdfs.keytab</value>
+    <value>/etc/hadoop/secrets/hdfs.keytab</value>
   </property>
   <property>
     <name>dfs.namenode.kerberos.internal.spnego.principal</name>
