@@ -58,13 +58,13 @@ spec:
         - name: hadoop-secret
           mountPath: /etc/hadoop/secrets/hadoop.jceks
           subPath: hadoop.jceks
-        - name: hadoop-secret
+        - name: hdfs-secret
           mountPath: /etc/hadoop/secrets/hdfs.jks
           subPath: hdfs.jks
-        - name: hadoop-secret
+        - name: hdfs-secret
           mountPath: /etc/hadoop/secrets/hdfs.keytab
           subPath: hdfs.keytab
-        - name: hadoop-secret
+        - name: hdfs-secret
           mountPath: /etc/hadoop/secrets/httpfs-signature.secret
           subPath: httpfs-signature.secret
         - name: kerberos-conf
@@ -102,13 +102,13 @@ spec:
         - name: hadoop-secret
           mountPath: /etc/hadoop/secrets/hadoop.jceks
           subPath: hadoop.jceks
-        - name: hadoop-secret
+        - name: hdfs-secret
           mountPath: /etc/hadoop/secrets/hdfs.jks
           subPath: hdfs.jks
-        - name: hadoop-secret
+        - name: hdfs-secret
           mountPath: /etc/hadoop/secrets/hdfs.keytab
           subPath: hdfs.keytab
-        - name: hadoop-secret
+        - name: hdfs-secret
           mountPath: /etc/hadoop/secrets/httpfs-signature.secret
           subPath: httpfs-signature.secret
         - name: kerberos-conf
@@ -126,24 +126,14 @@ spec:
           - configMap:
               name: hdfs-conf
       - name: hadoop-secret
-        projected:
-          sources:
-          - secret:
-              name: hadoop-secret
-          - secret:
-              name: hdfs-secret
-              items:
-              - key: hdfs.jks
-                path: hdfs.jks
-                mode: 0444
-              - key: hdfs.keytab
-                path: hdfs.keytab
-                mode: 0444
-              - key: httpfs-signature.secret
-                path: httpfs-signature.secret
-                mode: 0444
+        secret:
+          secretName: hadoop-secret
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
+      - name: hdfs-secret
+        secret:
+          secretName: hdfs-secret
+          defaultMode: 0444
       - name: mnt
         emptyDir: {}
