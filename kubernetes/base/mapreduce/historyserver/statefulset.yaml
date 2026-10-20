@@ -46,12 +46,25 @@ spec:
           runAsUser: 1013
           runAsGroup: 1010
         volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: mapreduce-secret
+          mountPath: /etc/mapreduce/secrets/mapreduce.keytab
+          subPath: mapreduce.keytab
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
       volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: mapreduce-secret
+        secret:
+          secretName: mapreduce-secret
+          defaultMode: 0444
       - name: hadoop-conf
         projected:
           sources:

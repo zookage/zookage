@@ -78,6 +78,11 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: hdfs-secret
           mountPath: /etc/hadoop/secrets
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hdfs-secret
+          mountPath: /etc/hdfs/secrets
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
@@ -92,5 +97,9 @@ spec:
       - name: hdfs-secret
         secret:
           secretName: hdfs-secret
+          defaultMode: 0444
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
       - name: mnt
         emptyDir: {}

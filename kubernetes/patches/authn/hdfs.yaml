@@ -44,23 +44,6 @@ spec:
         - |
           docker-entrypoint.sh wait-for-rollout deployment/kerberos-kdc
           docker-entrypoint.sh wait-for-dns
-      containers:
-      - name: namenode
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: hdfs-secret
-          mountPath: /etc/hdfs/secrets
-          readOnly: true
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
-      - name: hdfs-secret
-        secret:
-          secretName: hdfs-secret
-          defaultMode: 0444
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -84,21 +67,6 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 9865
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: hdfs-secret
-          mountPath: /etc/hdfs/secrets
-          readOnly: true
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
-      - name: hdfs-secret
-        secret:
-          secretName: hdfs-secret
-          defaultMode: 0444
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -113,23 +81,6 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
-      containers:
-      - name: journalnode
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: hdfs-secret
-          mountPath: /etc/hdfs/secrets
-          readOnly: true
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
-      - name: hdfs-secret
-        secret:
-          secretName: hdfs-secret
-          defaultMode: 0444
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -144,47 +95,6 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
-      containers:
-      - name: httpfs
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: hdfs-secret
-          mountPath: /etc/hdfs/secrets
-          readOnly: true
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
-      - name: hdfs-secret
-        secret:
-          secretName: hdfs-secret
-          defaultMode: 0444
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: hdfs-mkdir
-spec:
-  template:
-    spec:
-      containers:
-      - name: mkdir
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: hdfs-secret
-          mountPath: /etc/hdfs/secrets
-          readOnly: true
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
-      - name: hdfs-secret
-        secret:
-          secretName: hdfs-secret
 ---
 apiVersion: v1
 kind: Service

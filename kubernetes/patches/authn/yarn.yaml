@@ -42,24 +42,6 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
-      containers:
-      - name: resourcemanager
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: yarn-secret
-          mountPath: /etc/yarn/secrets/yarn.keytab
-          subPath: yarn.keytab
-          readOnly: true
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
-      - name: yarn-secret
-        secret:
-          secretName: yarn-secret
-          defaultMode: 0444
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -109,17 +91,6 @@ spec:
         securityContext:
           allowPrivilegeEscalation: true
         volumeMounts:
-        - name: yarn-container-executor-conf
-          mountPath: /opt/hadoop/etc/hadoop/container-executor.cfg
-          subPath: container-executor.cfg
-          readOnly: true
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: yarn-secret
-          mountPath: /etc/yarn/secrets/yarn.keytab
-          subPath: yarn.keytab
-          readOnly: true
         - name: sssd-pipes
           mountPath: /var/lib/sss/pipes
           readOnly: true
@@ -146,21 +117,10 @@ spec:
         - name: sssd-pipes
           mountPath: /var/lib/sss/pipes
       volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
-      - name: yarn-secret
-        secret:
-          secretName: yarn-secret
-          defaultMode: 0444
       - name: sssd-conf
         configMap:
           name: sssd-conf
           defaultMode: 0600
-      - name: yarn-container-executor-conf
-        configMap:
-          name: yarn-container-executor-conf
-          defaultMode: 0400
       - name: sssd-pipes
         emptyDir: {}
 ---
@@ -177,21 +137,3 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
-      containers:
-      - name: timelineserver
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: yarn-secret
-          mountPath: /etc/yarn/secrets/yarn.keytab
-          subPath: yarn.keytab
-          readOnly: true
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
-      - name: yarn-secret
-        secret:
-          secretName: yarn-secret
-          defaultMode: 0444

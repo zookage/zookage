@@ -48,6 +48,12 @@ spec:
           tcpSocket:
             port: 16020
         volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hbase-secret
+          mountPath: /etc/hbase/secrets/hbase.keytab
+          subPath: hbase.keytab
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
@@ -61,6 +67,13 @@ spec:
           subPath: opt/hadoop
       terminationGracePeriodSeconds: 5
       volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: hbase-secret
+        secret:
+          secretName: hbase-secret
+          defaultMode: 0444
       - name: hadoop-conf
         projected:
           sources:

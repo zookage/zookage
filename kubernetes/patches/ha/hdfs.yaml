@@ -74,7 +74,6 @@ spec:
           subPath: krb5.conf
         - name: hdfs-secret
           mountPath: /etc/hdfs/secrets
-          readOnly: true
         - name: mnt
           mountPath: /mnt
       - name: wait-for-journalnode
@@ -103,14 +102,5 @@ spec:
           subPath: krb5.conf
         - name: hdfs-secret
           mountPath: /etc/hdfs/secrets
-          readOnly: true
         - name: mnt
           mountPath: /mnt
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
-      - name: hdfs-secret
-        secret:
-          secretName: hdfs-secret
-          defaultMode: 0444
