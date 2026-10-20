@@ -59,14 +59,13 @@ spec:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
-          mountPath: /etc/hadoop/secrets
+          mountPath: /etc/secrets/hadoop
         - name: hive-metastore-conf
           mountPath: /etc/hive-metastore/conf
         - name: hive-metastore-secret
-          mountPath: /etc/hive-metastore/secrets
+          mountPath: /etc/secrets/hive-metastore
         - name: hive-secret
-          mountPath: /etc/hive/secrets/hive.keytab
-          subPath: hive.keytab
+          mountPath: /etc/secrets/hive
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
@@ -96,14 +95,13 @@ spec:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
-          mountPath: /etc/hadoop/secrets
+          mountPath: /etc/secrets/hadoop
         - name: hive-metastore-conf
           mountPath: /etc/hive-metastore/conf
         - name: hive-metastore-secret
-          mountPath: /etc/hive-metastore/secrets
+          mountPath: /etc/secrets/hive-metastore
         - name: hive-secret
-          mountPath: /etc/hive/secrets/hive.keytab
-          subPath: hive.keytab
+          mountPath: /etc/secrets/hive
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf

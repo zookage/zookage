@@ -51,8 +51,7 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: tez-secret
-          mountPath: /etc/tez/secrets/tez.keytab
-          subPath: tez.keytab
+          mountPath: /etc/secrets/tez
         - name: tez-src
           mountPath: /opt/tez
           subPath: opt/tez

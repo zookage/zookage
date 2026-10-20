@@ -15,7 +15,7 @@
 <configuration>
   <property>
     <name>ssl.server.keystore.location</name>
-    <value>/etc/hadoop/secrets/hdfs.jks</value>
+    <value>/etc/secrets/hdfs/hdfs.jks</value>
   </property>
   <property>
     <name>ssl.server.keystore.password</name>

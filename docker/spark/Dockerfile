@@ -42,5 +42,6 @@ FROM ${jdk_image}
 
 COPY --from=builder /root/spark/dist /opt/spark
 RUN groupadd --gid 1040 spark \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1040 --gid spark spark
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1040 --gid spark spark \
+  && install -d -o spark -g spark -m 0700 /etc/secrets
 USER spark:spark

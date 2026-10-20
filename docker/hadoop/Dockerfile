@@ -93,13 +93,7 @@ RUN groupadd --gid 1010 hadoop \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1012 --gid yarn --groups hadoop yarn \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1013 --gid mapred --groups hadoop mapred \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1014 --gid httpfs httpfs \
-  && install -d -o root -g hadoop -m 0750 /etc/hadoop/secrets \
-  && ln -s hadoop/hadoop.jceks /etc/hadoop/secrets/hadoop.jceks \
-  && ln -s hdfs/hdfs.jks /etc/hadoop/secrets/hdfs.jks \
-  && ln -s hdfs/hdfs.keytab /etc/hadoop/secrets/hdfs.keytab \
-  && ln -s hdfs/httpfs-signature.secret /etc/hadoop/secrets/httpfs-signature.secret \
-  && ln -s yarn/yarn.keytab /etc/hadoop/secrets/yarn.keytab \
-  && ln -s mapreduce/mapreduce.keytab /etc/hadoop/secrets/mapreduce.keytab \
+  && install -d -o root -g hadoop -m 0750 /etc/secrets \
   && case ",${active_profiles}," in \
     *,native,*) \
       chown root:hadoop /opt/hadoop/bin/container-executor \

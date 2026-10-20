@@ -47,7 +47,7 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: hdfs-secret
-          mountPath: /etc/hadoop/secrets/hdfs
+          mountPath: /etc/secrets/hdfs
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5

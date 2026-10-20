@@ -57,11 +57,11 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: client-secret
-          mountPath: /etc/kerberos/secrets
+          mountPath: /etc/secrets/client
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
-          mountPath: /etc/hadoop/secrets
+          mountPath: /etc/secrets/hadoop
         - name: hbase-conf
           mountPath: /etc/hbase/conf
         - name: hive-conf

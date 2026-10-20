@@ -38,7 +38,7 @@ spec:
           HADOOP_SECURITY_AUTHENTICATION=$("${HADOOP_HOME}/bin/hdfs" getconf -confKey hadoop.security.authentication)
           export HADOOP_SECURITY_AUTHENTICATION
           if [[ ${HADOOP_SECURITY_AUTHENTICATION} == kerberos ]]; then
-            kinit -kt /etc/hadoop/secrets/hdfs.keytab hdfs/hdfs-mkdir@ZOOKAGE.LOCAL
+            kinit -kt /etc/secrets/hdfs/hdfs.keytab hdfs/hdfs-mkdir@ZOOKAGE.LOCAL
           fi
           docker-entrypoint.sh hdfs-mkdir /apps hdfs:supergroup 755
           docker-entrypoint.sh hdfs-mkdir /apps/hbase hbase:hbase 711
@@ -67,7 +67,7 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: hdfs-secret
-          mountPath: /etc/hadoop/secrets/hdfs
+          mountPath: /etc/secrets/hdfs
         - name: hadoop-src
           mountPath: /opt/hadoop
           subPath: opt/hadoop

@@ -57,7 +57,7 @@
   </property>
   <property>
     <name>mapreduce.jobhistory.keytab</name>
-    <value>/etc/hadoop/secrets/mapreduce.keytab</value>
+    <value>/etc/secrets/mapreduce/mapreduce.keytab</value>
   </property>
   <property>
     <name>mapreduce.jobhistory.webapp.spnego-principal</name>

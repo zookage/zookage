@@ -51,5 +51,6 @@ FROM ${jdk_image}
 
 COPY --from=builder /root/zookeeper/apache-zookeeper-bin /opt/zookeeper
 RUN groupadd --gid 1050 zookeeper \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1050 --gid zookeeper zookeeper
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1050 --gid zookeeper zookeeper \
+  && install -d -o zookeeper -g zookeeper -m 0700 /etc/secrets
 USER zookeeper:zookeeper

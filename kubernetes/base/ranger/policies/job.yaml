@@ -95,7 +95,7 @@ spec:
         - name: ranger-conf
           mountPath: /etc/ranger/conf
         - name: ranger-secret
-          mountPath: /etc/ranger/secrets
+          mountPath: /etc/secrets/ranger
       restartPolicy: Never
       volumes:
       - name: kerberos-conf

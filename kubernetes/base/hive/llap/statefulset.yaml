@@ -93,7 +93,7 @@ spec:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
-          mountPath: /etc/hadoop/secrets
+          mountPath: /etc/secrets/hadoop
         - name: hive-conf
           mountPath: /etc/hive/conf
         - name: tez-conf

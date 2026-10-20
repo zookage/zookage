@@ -60,7 +60,7 @@
   </property>
   <property>
     <name>hive.server2.authentication.kerberos.keytab</name>
-    <value>/etc/hive/secrets/hive.keytab</value>
+    <value>/etc/secrets/hive/hive.keytab</value>
   </property>
   <property>
     <name>tez.staging-dir</name>

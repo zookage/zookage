@@ -19,7 +19,7 @@ data:
   hadoop_http_authentication_type: kerberos
   hadoop_http_authentication_kerberos_principal: >-
     HTTP/mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-  hadoop_http_authentication_kerberos_keytab: /etc/hadoop/secrets/mapreduce.keytab
+  hadoop_http_authentication_kerberos_keytab: /etc/secrets/mapreduce/mapreduce.keytab
 ---
 apiVersion: apps/v1
 kind: StatefulSet

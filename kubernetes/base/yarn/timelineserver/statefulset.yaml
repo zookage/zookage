@@ -46,7 +46,7 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: yarn-secret
-          mountPath: /etc/hadoop/secrets/yarn
+          mountPath: /etc/secrets/yarn
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5

@@ -57,12 +57,11 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: hbase-secret
-          mountPath: /etc/hbase/secrets/hbase.keytab
-          subPath: hbase.keytab
+          mountPath: /etc/secrets/hbase
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
-          mountPath: /etc/hadoop/secrets
+          mountPath: /etc/secrets/hadoop
         - name: hbase-conf
           mountPath: /etc/hbase/conf
         - name: mnt
