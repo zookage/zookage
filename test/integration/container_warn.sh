@@ -18,9 +18,8 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
 kerberos_warnings='^$'
 if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
-  # HDFS remains simple, and Tez job tokens are deliberately not renewable.
-  kerberos_warnings='pod/hdfs-namenode-.* WARN namenode\.FSNamesystem: trying to get DT with no secret manager running$'
-  kerberos_warnings+='|pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind tez\.job$'
+  # Tez job tokens are deliberately not renewable.
+  kerberos_warnings='pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind tez\.job$'
 fi
 readonly kerberos_warnings
 
@@ -38,6 +37,8 @@ readonly kerberos_warnings
   | grep -v "pod/hdfs-namenode-.* tools.DFSZKFailoverController: Can't get local NN thread dump due to Connection refused (Connection refused)" \
   | grep -v 'pod/hdfs-namenode-.* blockmanagement.BlockPlacementPolicy: Failed to place enough replicas' \
   | grep -v 'pod/hdfs-namenode-.* protocol.BlockStoragePolicy: Failed to place enough replicas' \
+  | grep -v '^pod/hdfs-namenode-[0-9]*: WARNING: The following warnings have been detected with resource and/or provider classes:$' \
+  | grep -v '^pod/hdfs-namenode-[0-9]*:   WARNING: A sub-resource method, public javax\.ws\.rs\.core\.Response org\.apache\.hadoop\.hdfs\.server\.namenode\.web\.resources\.NamenodeWebHdfsMethods\.[a-z]*Root(.*) throws java\.io\.IOException,java\.lang\.InterruptedException, with URI template, "/", is treated as a resource method$' \
   | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Problem connecting to server:' \
   | grep -v 'pod/hdfs-datanode-.* hdfs.DFSUtilClient: Namenode for zookage remains unresolved for ID' \
   | grep -v 'pod/hdfs-datanode-.* impl.FsDatasetImpl: dfsUsed file missing in' \

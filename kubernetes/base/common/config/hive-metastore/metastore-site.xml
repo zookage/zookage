@@ -51,6 +51,12 @@
     <name>metastore.pre.event.listeners</name>
     <value>{{ or (index .Values "metastore_pre_event_listeners") "" | html }}</value>
   </property>
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+  <property>
+    <name>metastore.execute.setugi</name>
+    <value>false</value>
+  </property>
+{{- end }}
 
   <property>
     <name>metastore.catalog.servlet.port</name>

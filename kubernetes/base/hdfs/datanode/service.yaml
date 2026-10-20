@@ -16,4 +16,5 @@ metadata:
   name: hdfs-datanode
 spec:
   clusterIP: None
+  publishNotReadyAddresses: true
   selector: {}

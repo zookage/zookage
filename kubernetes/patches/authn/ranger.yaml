@@ -77,6 +77,14 @@ spec:
             curl --fail --negotiate -u : "$@"
           }
 
+          # Service creation also creates users; wait for LDAP sync to avoid duplicate inserts.
+          for user in hbase hdfs hive mapred ozone spark tez trino yarn zookage; do
+            until ranger_curl \
+              "http://ranger-admin:6080/service/public/v2/api/roles/user/${user}"; do
+              sleep 1
+            done
+          done
+
           for conf in /etc/ranger/conf/ranger-service-*.json; do
             echo "Applying $conf"
             ranger_curl \
@@ -86,10 +94,6 @@ spec:
              "http://ranger-admin:6080/service/public/v2/api/service"
           done
 
-          until ranger_curl \
-            "http://ranger-admin:6080/service/public/v2/api/roles/user/zookage"; do
-            sleep 1
-          done
           for conf in /etc//ranger/conf/ranger-role-*.json; do
             echo "Applying $conf"
             ranger_curl \

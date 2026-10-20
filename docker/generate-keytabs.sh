@@ -68,14 +68,16 @@ generate_keytab() {
 }
 
 if [[ $# -eq 0 ]]; then
-  set -- client hive ranger yarn
+  set -- client
+  while IFS= read -r service; do
+    set -- "$@" "${service}"
+  done < <(awk -F '[=,]' '/^dn: ou=[^,]+,ou=kerberos,dc=example,dc=com$/ { print $2 }' "${principals_file}")
 fi
 
 for service in "$@"; do
   case "${service}" in
-    client) dn_pattern='^uid=zookage,ou=users,dc=example,dc=com$' ;;
-    hive|ranger|yarn) dn_pattern="^uid=.*ou=${service},ou=kerberos,dc=example,dc=com$" ;;
-    *) echo "Unknown keytab service: ${service}" >&2; exit 1 ;;
+    client) dn_pattern='^uid=(alice|zookage),ou=users,dc=example,dc=com$' ;;
+    *) dn_pattern="^uid=.*,ou=${service},ou=kerberos,dc=example,dc=com$" ;;
   esac
   generate_keytab "${secret_dir}/${service}/${service}.keytab" "${dn_pattern}"
 done

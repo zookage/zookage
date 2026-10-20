@@ -1,1 +1,1 @@
-uid=kdc,ou=users,dc=example,dc=com#{HEX}6b6463
+uid=kdc,ou=kerberos,dc=example,dc=com#{HEX}6b6463

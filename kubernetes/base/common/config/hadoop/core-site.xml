@@ -53,6 +53,10 @@
     <value>{{ or (index .Values "hadoop_security_authentication") "simple" | html }}</value>
   </property>
   <property>
+    <name>hadoop.kerberos.keytab.login.autorenewal.enabled</name>
+    <value>true</value>
+  </property>
+  <property>
     <name>hadoop.rpc.protection</name>
     <value>{{ or (index .Values "hadoop_rpc_protection") "authentication" | html }}</value>
   </property>
@@ -60,6 +64,20 @@
     <name>ipc.client.fallback-to-simple-auth-allowed</name>
     <value>{{ or (index .Values "hadoop_ipc_client_fallback_to_simple_auth_allowed") "false" | html }}</value>
   </property>
+{{- if index .Values "hadoop_http_authentication_type" }}
+  <property>
+    <name>hadoop.http.authentication.type</name>
+    <value>{{ index .Values "hadoop_http_authentication_type" | html }}</value>
+  </property>
+  <property>
+    <name>hadoop.http.authentication.kerberos.principal</name>
+    <value>{{ index .Values "hadoop_http_authentication_kerberos_principal" | html }}</value>
+  </property>
+  <property>
+    <name>hadoop.http.authentication.kerberos.keytab</name>
+    <value>{{ index .Values "hadoop_http_authentication_kerberos_keytab" | html }}</value>
+  </property>
+{{- end }}
   <property>
     <name>hadoop.security.group.mapping</name>
     <value>org.apache.hadoop.security.LdapGroupsMapping</value>

@@ -51,7 +51,7 @@ spec:
         projected:
           sources:
           - configMap:
-              name: hadoop-conf
+              name: hadoop-hdfs-conf
           - configMap:
               name: hdfs-conf
       - name: mnt
