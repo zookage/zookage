@@ -17,9 +17,6 @@ metadata:
 spec:
   template:
     spec:
-      securityContext:
-        supplementalGroups:
-        - 1010
       initContainers:
       - name: wait-for-httpfs
         image: zookage-util
