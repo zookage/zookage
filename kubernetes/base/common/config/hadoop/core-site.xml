@@ -65,6 +65,12 @@
     <value>{{ or (index .Values "hadoop_ipc_client_fallback_to_simple_auth_allowed") "false" | html }}</value>
   </property>
 {{- if index .Values "hadoop_http_authentication_type" }}
+{{- if index .Values "hadoop_http_filter_initializers" }}
+  <property>
+    <name>hadoop.http.filter.initializers</name>
+    <value>{{ index .Values "hadoop_http_filter_initializers" | html }}</value>
+  </property>
+{{- end }}
   <property>
     <name>hadoop.http.authentication.type</name>
     <value>{{ index .Values "hadoop_http_authentication_type" | html }}</value>

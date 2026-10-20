@@ -59,6 +59,14 @@
     <name>mapreduce.jobhistory.keytab</name>
     <value>/etc/mapreduce/secrets/mapreduce.keytab</value>
   </property>
+  <property>
+    <name>mapreduce.jobhistory.webapp.spnego-principal</name>
+    <value>HTTP/mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>mapreduce.jobhistory.webapp.spnego-keytab-file</name>
+    <value>${mapreduce.jobhistory.keytab}</value>
+  </property>
 
   <property>
     <name>hadoop.http.authentication.signer.secret.provider</name>

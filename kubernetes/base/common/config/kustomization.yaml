@@ -42,6 +42,14 @@ configMapGenerator:
   - hadoop/core-site.xml
   - hadoop/hadoop-metrics2.properties
   - hadoop/log4j.properties
+  name: hadoop-mapreduce-conf
+  options:
+    annotations:
+      zookage.io/config-values: mapreduce-config-values
+- files:
+  - hadoop/core-site.xml
+  - hadoop/hadoop-metrics2.properties
+  - hadoop/log4j.properties
   name: hadoop-yarn-conf
   options:
     annotations:
