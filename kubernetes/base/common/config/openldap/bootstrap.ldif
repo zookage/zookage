@@ -917,6 +917,17 @@ userPassword: mapred
 krbPrincipalName: mapred/mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
 krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gADqQKSmV3eMuMFfSajzZkcI5i7fzijj0wK6aEDmUKiXwoeH11OZT/ic5hXUbHi0EsS1AIZlOABaOrvZusjBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAhTPrxYKMZxInNx/pyXMKWhLk09pIUCM15+5qI0XPECTWdVoYO1aY4BFKpfc=
 
+dn: uid=http-mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local,ou=mapreduce,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local
+userPassword: mapred
+krbPrincipalName: HTTP/mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAHo1L11+8I1tSpS74i9L4InjlDk5FvxJUsialLZINliHa+O2bzU8UFZpFvGG1EBgjZUrDDWfdGwGSlo7Vg==
+
 dn: ou=spark,ou=kerberos,dc=example,dc=com
 objectClass: top
 objectClass: organizationalUnit

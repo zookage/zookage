@@ -64,7 +64,13 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
 else
   check "http://localhost:8188/applicationhistory"
 fi
-check "http://localhost:19888/jobhistory"
+if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+  check "http://localhost:19888/jobhistory" "401"
+  check "http://mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local:19888/jobhistory" "200" \
+    "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
+else
+  check "http://localhost:19888/jobhistory"
+fi
 check "http://localhost:9999/tez-ui/"
 check "http://localhost:10002/"
 check "http://localhost:16010/master-status"

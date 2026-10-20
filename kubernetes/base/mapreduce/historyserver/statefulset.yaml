@@ -69,7 +69,7 @@ spec:
         projected:
           sources:
           - configMap:
-              name: hadoop-conf
+              name: hadoop-mapreduce-conf
           - configMap:
               name: hdfs-conf
           - configMap:
