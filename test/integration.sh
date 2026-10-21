@@ -42,7 +42,7 @@ fi
 
 if [[ ${kustomization_name} == "auth" ]]; then
   "${test_dir}/integration/run.sh" kinit \
-    -kt /etc/kerberos/secrets/client.keytab \
+    -kt /etc/secrets/client/client.keytab \
     zookage@ZOOKAGE.LOCAL
 fi
 

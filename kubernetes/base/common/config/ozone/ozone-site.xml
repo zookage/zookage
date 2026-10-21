@@ -97,7 +97,7 @@
 
   <property>
     <name>hadoop.http.authentication.signature.secret.file</name>
-    <value>/etc/ozone/secrets/ozone-http-auth-signature.secret</value>
+    <value>/etc/secrets/ozone/ozone-http-auth-signature.secret</value>
   </property>
   <property>
     <name>ozone.acl.enabled</name>

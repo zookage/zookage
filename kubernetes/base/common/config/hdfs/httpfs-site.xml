@@ -23,7 +23,7 @@
   </property>
   <property>
     <name>httpfs.hadoop.authentication.kerberos.keytab</name>
-    <value>/etc/hdfs/secrets/hdfs.keytab</value>
+    <value>/etc/secrets/hdfs/hdfs.keytab</value>
   </property>
   <property>
     <name>hadoop.http.authentication.type</name>
@@ -35,10 +35,10 @@
   </property>
   <property>
     <name>hadoop.http.authentication.kerberos.keytab</name>
-    <value>/etc/hdfs/secrets/hdfs.keytab</value>
+    <value>/etc/secrets/hdfs/hdfs.keytab</value>
   </property>
   <property>
     <name>hadoop.http.authentication.signature.secret.file</name>
-    <value>/etc/hadoop/secrets/httpfs-signature.secret</value>
+    <value>/etc/secrets/hdfs/httpfs-signature.secret</value>
   </property>
 </configuration>

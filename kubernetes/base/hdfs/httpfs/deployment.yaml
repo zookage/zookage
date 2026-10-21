@@ -20,6 +20,9 @@ spec:
     matchLabels: {}
   template:
     spec:
+      securityContext:
+        supplementalGroups:
+        - 1010
       initContainers:
       - name: httpfs-cp-tomcat
         image: zookage-hadoop
@@ -77,12 +80,10 @@ spec:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hdfs-secret
-          mountPath: /etc/hadoop/secrets
+          mountPath: /etc/secrets/hdfs
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
-        - name: hdfs-secret
-          mountPath: /etc/hdfs/secrets
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5

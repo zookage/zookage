@@ -24,6 +24,7 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* \
   && groupadd --gid 1090 kdc \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1090 --gid kdc kdc \
+  && install -d -o kdc -g kdc -m 0700 /etc/secrets \
   && chown -R kdc:kdc /etc/krb5kdc /var/lib/krb5kdc
 
 USER kdc:kdc

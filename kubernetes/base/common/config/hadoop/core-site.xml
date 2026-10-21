@@ -24,7 +24,7 @@
   </property>
   <property>
     <name>hadoop.security.credential.provider.path</name>
-    <value>localjceks://file/etc/hadoop/secrets/hadoop.jceks</value>
+    <value>localjceks://file/etc/secrets/hadoop/hadoop.jceks</value>
   </property>
 
   <property>

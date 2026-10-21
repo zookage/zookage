@@ -43,5 +43,6 @@ FROM ${jdk_image}
 COPY --from=builder /root/hbase/hbase-assembly/target/hbase /opt/hbase
 COPY --from=builder /root/hbase/hbase-assembly/target/hbase-client /opt/hbase-client
 RUN groupadd --gid 1060 hbase \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1060 --gid hbase hbase
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1060 --gid hbase hbase \
+  && install -d -o hbase -g hbase -m 0700 /etc/secrets
 USER hbase:hbase

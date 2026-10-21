@@ -28,7 +28,7 @@ spec:
         env:
         - name: JAVA_TOOL_OPTIONS
           # yamllint disable-line rule:line-length
-          value: -Dhadoop.security.authentication=kerberos -Dranger.admin.kerberos.principal=rangeradmin/ranger-admin@ZOOKAGE.LOCAL -Dranger.admin.kerberos.keytab=/etc/ranger/secrets/ranger.keytab -Dranger.spnego.kerberos.principal=HTTP/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL -Dranger.spnego.kerberos.keytab=/etc/ranger/secrets/ranger.keytab -Dranger.lookup.kerberos.principal=rangerlookup/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL -Dranger.lookup.kerberos.keytab=/etc/ranger/secrets/ranger.keytab
+          value: -Dhadoop.security.authentication=kerberos -Dranger.admin.kerberos.principal=rangeradmin/ranger-admin@ZOOKAGE.LOCAL -Dranger.admin.kerberos.keytab=/etc/secrets/ranger/ranger.keytab -Dranger.spnego.kerberos.principal=HTTP/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL -Dranger.spnego.kerberos.keytab=/etc/secrets/ranger/ranger.keytab -Dranger.lookup.kerberos.principal=rangerlookup/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL -Dranger.lookup.kerberos.keytab=/etc/secrets/ranger/ranger.keytab
 ---
 apiVersion: batch/v1
 kind: Job
@@ -49,7 +49,7 @@ spec:
         - -c
         - |
           set -euo pipefail
-          kinit -kt /etc/ranger/secrets/ranger.keytab admin/ranger-admin@ZOOKAGE.LOCAL
+          kinit -kt /etc/secrets/ranger/ranger.keytab admin/ranger-admin@ZOOKAGE.LOCAL
 
           ranger_curl() {
             curl --fail --negotiate -u : "$@"

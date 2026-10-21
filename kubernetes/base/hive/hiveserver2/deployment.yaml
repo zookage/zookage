@@ -50,12 +50,11 @@ spec:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
-          mountPath: /etc/hadoop/secrets
+          mountPath: /etc/secrets/hadoop
         - name: hive-conf
           mountPath: /etc/hive/conf
         - name: hive-secret
-          mountPath: /etc/hive/secrets/hive.keytab
-          subPath: hive.keytab
+          mountPath: /etc/secrets/hive
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf

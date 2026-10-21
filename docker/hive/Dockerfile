@@ -57,7 +57,7 @@ FROM ${jdk_image} AS hive
 COPY --from=builder /root/hive/packaging/target/hive /opt/hive
 RUN groupadd --gid 1020 hive \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1020 --gid hive hive \
-  && install -d -o hive -g hive -m 0700 /etc/hive/secrets
+  && install -d -o hive -g hive -m 0700 /etc/secrets
 USER hive:hive
 
 # hadolint ignore=DL3006
@@ -65,5 +65,6 @@ FROM ${jdk_image} AS hive-metastore
 
 COPY --from=builder /root/hive/standalone-metastore/packaging/target/hive-metastore /opt/hive-metastore
 RUN groupadd --gid 1020 hive \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1020 --gid hive hive
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1020 --gid hive hive \
+  && install -d -o hive -g hive -m 0700 /etc/secrets
 USER hive:hive

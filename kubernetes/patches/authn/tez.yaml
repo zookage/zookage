@@ -29,4 +29,4 @@ spec:
         - name: KRB5PRINCIPAL
           value: tez/tez-deploy@ZOOKAGE.LOCAL
         - name: KRB5KEYTAB
-          value: /etc/tez/secrets/tez.keytab
+          value: /etc/secrets/tez/tez.keytab

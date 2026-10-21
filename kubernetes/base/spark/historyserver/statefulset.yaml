@@ -49,8 +49,7 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: spark-secret
-          mountPath: /etc/spark/secrets/spark.keytab
-          subPath: spark.keytab
+          mountPath: /etc/secrets/spark
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: spark-conf

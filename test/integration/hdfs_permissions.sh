@@ -39,7 +39,7 @@ check_hdfs_permissions() {
             # These service accounts use their names as sample passwords.
             printf '%s\n' "${user}" | kinit -c "FILE:${cache}" "${principal}"
             ;;
-          *) kinit -c "FILE:${cache}" -kt /etc/kerberos/secrets/client.keytab "${principal}" ;;
+          *) kinit -c "FILE:${cache}" -kt /etc/secrets/client/client.keytab "${principal}" ;;
         esac
       fi
       KRB5CCNAME="FILE:${cache}" hdfs dfs "$@"

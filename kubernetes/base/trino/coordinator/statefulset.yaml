@@ -58,8 +58,7 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: trino-kerberos-secret
-          mountPath: /etc/trino/secrets/trino.keytab
-          subPath: trino.keytab
+          mountPath: /etc/secrets/trino-kerberos
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: trino-catalog
