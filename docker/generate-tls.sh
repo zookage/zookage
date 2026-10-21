@@ -16,6 +16,7 @@ set -eu
 if [[ $# -lt 1 || $# -gt 2 ]]; then
   echo "Usage: $0 <service> [SAN]" >&2
   echo "When SAN is omitted, read docker/tls/<service>.san." >&2
+  echo "Set TLS_EXTENDED_KEY_USAGE=clientAuth for a client certificate." >&2
   echo "Example: $0 hive-metastore dns:hive-metastore,dns:localhost,ip:127.0.0.1" >&2
   exit 1
 fi
@@ -23,6 +24,12 @@ fi
 readonly service=$1
 if [[ ! ${service} =~ ^[a-z0-9]([a-z0-9-]*[a-z0-9])?$ || ${#service} -gt 63 || ${service} == zookage-ca ]]; then
   echo "Service must be a lowercase DNS label other than zookage-ca (at most 63 characters)." >&2
+  exit 1
+fi
+
+readonly extended_key_usage=${TLS_EXTENDED_KEY_USAGE:-serverAuth}
+if [[ ${extended_key_usage} != serverAuth && ${extended_key_usage} != clientAuth ]]; then
+  echo "TLS_EXTENDED_KEY_USAGE must be serverAuth or clientAuth." >&2
   exit 1
 fi
 
@@ -66,6 +73,7 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
   --mount "type=bind,source=${ca_store},target=/ca/zookage-ca.jks,readonly" \
   --mount "type=bind,source=${public_dir}/zookage-ca.crt,target=/ca/zookage-ca.crt,readonly" \
   --env "TLS_SERVICE=${service}" --env "TLS_SAN=${san}" \
+  --env "TLS_EXTENDED_KEY_USAGE=${extended_key_usage}" \
   "${util_image}" /bin/bash -eu <<'SCRIPT'
   keytool -genkeypair \
     -alias "${TLS_SERVICE}" -keyalg RSA -keysize 2048 -sigalg SHA256withRSA \
@@ -79,7 +87,7 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
     -keystore /ca/zookage-ca.jks -storepass zookage -keypass zookage \
     -infile /output/service.csr -outfile /output/service-reply.crt -validity 3650 \
     -ext "BC:critical=ca:false" -ext "KU:critical=digitalSignature,keyEncipherment" \
-    -ext "EKU=serverAuth" -ext "SAN=${TLS_SAN}"
+    -ext "EKU=${TLS_EXTENDED_KEY_USAGE}" -ext "SAN=${TLS_SAN}"
   keytool -importcert -noprompt -alias zookage-ca \
     -file /ca/zookage-ca.crt \
     -keystore /output/service.jks -storepass zookage
@@ -89,9 +97,17 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
   keytool -exportcert -rfc -alias "${TLS_SERVICE}" \
     -keystore /output/service.jks -storepass zookage \
     -file /output/service.crt
+  if [[ ${TLS_EXTENDED_KEY_USAGE} == clientAuth ]]; then
+    keytool -importkeystore -noprompt \
+      -srckeystore /output/service.jks -srcstorepass zookage \
+      -destkeystore /output/service.p12 -deststoretype PKCS12 -deststorepass zookage
+  fi
 SCRIPT
 
 tr -d '\r' < "${temp_dir}/service.crt" > "${temp_dir}/service.pem"
 mkdir -p "${secret_dir}"
 install -m 0600 "${temp_dir}/service.jks" "${secret_dir}/${service}.jks"
+if [[ ${extended_key_usage} == clientAuth ]]; then
+  install -m 0600 "${temp_dir}/service.p12" "${secret_dir}/${service}.p12"
+fi
 install -m 0644 "${temp_dir}/service.pem" "${public_dir}/${service}.crt"

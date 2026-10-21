@@ -128,7 +128,7 @@ spec:
           secretName: hadoop-secret
       - name: hbase-conf
         configMap:
-          name: hbase-conf
+          name: hbase-client-conf
       - name: hbase-src
         image:
           reference: zookage-hbase

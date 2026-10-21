@@ -1,0 +1,118 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-values
+data:
+  zookeeper_security_authentication: kerberos
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zookeeper-server
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: server
+        command:
+        - /bin/bash
+        - -euc
+        args:
+        - |
+          readonly principal="zookeeper/${POD_NAME}.zookeeper-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL"
+          umask 077
+          cat > /mnt/zookeeper-jaas.conf <<EOF
+          Server {
+            com.sun.security.auth.module.Krb5LoginModule required
+            useKeyTab=true
+            keyTab="/etc/secrets/zookeeper/zookeeper.keytab"
+            storeKey=true
+            useTicketCache=false
+            principal="${principal}";
+          };
+          QuorumServer {
+            com.sun.security.auth.module.Krb5LoginModule required
+            useKeyTab=true
+            keyTab="/etc/secrets/zookeeper/zookeeper.keytab"
+            storeKey=true
+            useTicketCache=false
+            principal="${principal}";
+          };
+          QuorumLearner {
+            com.sun.security.auth.module.Krb5LoginModule required
+            useKeyTab=true
+            keyTab="/etc/secrets/zookeeper/zookeeper.keytab"
+            storeKey=true
+            useTicketCache=false
+            principal="${principal}";
+          };
+          EOF
+          exec /opt/zookeeper/bin/zkServer.sh start-foreground
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: JAVA_TOOL_OPTIONS
+          value: --add-opens=java.base/java.lang=ALL-UNNAMED
+        - name: JMXDISABLE
+          value: "true"
+        - name: SERVER_JVMFLAGS
+          value: >-
+            -Djava.security.auth.login.config=/mnt/zookeeper-jaas.conf
+            -Dzookeeper.serverCnxnFactory=org.apache.zookeeper.server.NettyServerCnxnFactory
+        - name: CLIENT_JVMFLAGS
+          value: >-
+            -Dzookeeper.client.secure=true
+            -Dzookeeper.clientCnxnSocket=org.apache.zookeeper.ClientCnxnSocketNetty
+            -Dzookeeper.ssl.keyStore.location=/etc/secrets/zookeeper-client/zookeeper-client.jks
+            -Dzookeeper.ssl.keyStore.password=zookage
+            -Dzookeeper.ssl.trustStore.location=/etc/zookeeper/conf/zookage-truststore.jks
+            -Dzookeeper.ssl.trustStore.password=zookage
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: zookeeper-secret
+          mountPath: /etc/secrets/zookeeper
+        - name: zookeeper-client-secret
+          mountPath: /etc/secrets/zookeeper-client
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: zookeeper-secret
+        secret:
+          secretName: zookeeper-secret
+          defaultMode: 0444
+      - name: zookeeper-client-secret
+        secret:
+          secretName: zookeeper-client-secret
+          defaultMode: 0444
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper-server
+spec:
+  ports:
+  - name: admin-https
+    port: 8080

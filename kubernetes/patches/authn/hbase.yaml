@@ -17,6 +17,8 @@ metadata:
 data:
   hbase_security_authentication: kerberos
   hbase_security_authentication_ui: kerberos
+  hbase_zookeeper_client_keytab_file: /etc/secrets/hbase/hbase.keytab
+  hbase_zookeeper_client_kerberos_principal: hbase/_HOST@ZOOKAGE.LOCAL
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -35,6 +37,25 @@ spec:
         image: zookage-util
         args:
         - wait-for-dns
+      containers:
+      - name: master
+        env:
+        - name: JAVA_TOOL_OPTIONS
+          value: >-
+            -Dzookeeper.client.secure=true
+            -Dzookeeper.clientCnxnSocket=org.apache.zookeeper.ClientCnxnSocketNetty
+            -Dzookeeper.ssl.keyStore.location=/etc/secrets/zookeeper-client/zookeeper-client.jks
+            -Dzookeeper.ssl.keyStore.password=zookage
+            -Dzookeeper.ssl.trustStore.location=/etc/hadoop/conf/zookage-truststore.jks
+            -Dzookeeper.ssl.trustStore.password=zookage
+        volumeMounts:
+        - name: zookeeper-client-secret
+          mountPath: /etc/secrets/zookeeper-client
+      volumes:
+      - name: zookeeper-client-secret
+        secret:
+          secretName: zookeeper-client-secret
+          defaultMode: 0444
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -53,3 +74,22 @@ spec:
         image: zookage-util
         args:
         - wait-for-dns
+      containers:
+      - name: regionserver
+        env:
+        - name: JAVA_TOOL_OPTIONS
+          value: >-
+            -Dzookeeper.client.secure=true
+            -Dzookeeper.clientCnxnSocket=org.apache.zookeeper.ClientCnxnSocketNetty
+            -Dzookeeper.ssl.keyStore.location=/etc/secrets/zookeeper-client/zookeeper-client.jks
+            -Dzookeeper.ssl.keyStore.password=zookage
+            -Dzookeeper.ssl.trustStore.location=/etc/hadoop/conf/zookage-truststore.jks
+            -Dzookeeper.ssl.trustStore.password=zookage
+        volumeMounts:
+        - name: zookeeper-client-secret
+          mountPath: /etc/secrets/zookeeper-client
+      volumes:
+      - name: zookeeper-client-secret
+        secret:
+          secretName: zookeeper-client-secret
+          defaultMode: 0444

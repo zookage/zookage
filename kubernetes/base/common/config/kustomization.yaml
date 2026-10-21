@@ -92,6 +92,17 @@ configMapGenerator:
   - hbase/ranger-hbase-security.xml
   name: hbase-conf
 - files:
+  - hbase/hadoop-metrics2-hbase.properties
+  - hbase/hbase-site.xml
+  - hbase/log4j2.properties
+  - hbase/ranger-hbase-audit.xml
+  - hbase/ranger-hbase-policymgr-ssl.xml
+  - hbase/ranger-hbase-security.xml
+  name: hbase-client-conf
+  options:
+    annotations:
+      zookage.io/config-values: client-config-values
+- files:
   - hive/beeline-hs2-connection.xml
   - hive/hive-log4j2.properties
   - hive/hive-site.xml
@@ -194,6 +205,9 @@ configMapGenerator:
   - trino/ranger-trino-security.xml
   name: trino-conf
 - files:
+  - tls/zookage-ca.crt
+  - tls/zookage-truststore.jks
+  - zookeeper/client-jaas.conf
   - zookeeper/log4j.properties
   - zookeeper/zoo.cfg
   name: zookeeper-conf

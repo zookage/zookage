@@ -18,3 +18,35 @@ data:
   hadoop_security_authentication: kerberos
   hadoop_rpc_protection: authentication
   hadoop_ipc_client_fallback_to_simple_auth_allowed: "true"
+  hbase_security_authentication: kerberos
+  hbase_security_authentication_ui: kerberos
+  hbase_zookeeper_client_keytab_file: /etc/secrets/client/client.keytab
+  hbase_zookeeper_client_kerberos_principal: zookage@ZOOKAGE.LOCAL
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: client-node
+spec:
+  template:
+    spec:
+      containers:
+      - name: sleep
+        env:
+        - name: JAVA_TOOL_OPTIONS
+          value: >-
+            -Djava.security.auth.login.config=/etc/zookeeper/conf/client-jaas.conf
+            -Dzookeeper.client.secure=true
+            -Dzookeeper.clientCnxnSocket=org.apache.zookeeper.ClientCnxnSocketNetty
+            -Dzookeeper.ssl.keyStore.location=/etc/secrets/zookeeper-client/zookeeper-client.jks
+            -Dzookeeper.ssl.keyStore.password=zookage
+            -Dzookeeper.ssl.trustStore.location=/etc/zookeeper/conf/zookage-truststore.jks
+            -Dzookeeper.ssl.trustStore.password=zookage
+        volumeMounts:
+        - name: zookeeper-client-secret
+          mountPath: /etc/secrets/zookeeper-client
+      volumes:
+      - name: zookeeper-client-secret
+        secret:
+          secretName: zookeeper-client-secret
+          defaultMode: 0444
