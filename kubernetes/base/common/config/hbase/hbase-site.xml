@@ -81,6 +81,30 @@
     <name>hbase.zookeeper.client.kerberos.principal</name>
     <value>{{ index .Values "hbase_zookeeper_client_kerberos_principal" | html }}</value>
   </property>
+  <property>
+    <name>hbase.zookeeper.property.client.secure</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.property.clientCnxnSocket</name>
+    <value>org.apache.zookeeper.ClientCnxnSocketNetty</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.property.ssl.keyStore.location</name>
+    <value>/etc/secrets/zookeeper-client/zookeeper-client.jks</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.property.ssl.keyStore.password</name>
+    <value>zookage</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.property.ssl.trustStore.location</name>
+    <value>/etc/hadoop/conf/zookage-truststore.jks</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.property.ssl.trustStore.password</name>
+    <value>zookage</value>
+  </property>
 {{- end }}
   <property>
     <name>hbase.coprocessor.master.classes</name>

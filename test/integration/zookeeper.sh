@@ -76,7 +76,7 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
     -server "${zookeeper_host}:2181" -timeout 3000 -waitforconnection ls /
   expect_failure "ZooKeeper client access without SASL" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- \
-    env CLIENT_JVMFLAGS=-Dzookeeper.sasl.client=false \
+    env JAVA_TOOL_OPTIONS=-Dzookeeper.sasl.client=false \
     /opt/zookeeper/bin/zkCli.sh \
     -server "${zookeeper_host}:2181" -timeout 10000 -waitforconnection ls /
 fi
