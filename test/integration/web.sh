@@ -73,7 +73,21 @@ else
 fi
 check "http://localhost:9999/tez-ui/"
 check "http://localhost:10002/"
-check "http://localhost:16010/master-status"
+if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+  check "http://localhost:16010/master-status" "401"
+  for ordinal in 0 1; do
+    for endpoint in \
+      "hbase-master-${ordinal}.hbase-master.zookage.svc.cluster.local:16010/master-status" \
+      "hbase-regionserver-${ordinal}.hbase-regionserver.zookage.svc.cluster.local:16030/rs-status"; do
+      check "http://${endpoint}" "401" \
+        "${base_dir}/bin/kubectl" exec client-node-0 -- curl
+      check "http://${endpoint}" "200" \
+        "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
+    done
+  done
+else
+  check "http://localhost:16010/master-status"
+fi
 check "http://localhost:8090/ui/"
 check "http://localhost:8080/admin/master/console/"
 check "http://localhost:6080/login.jsp"

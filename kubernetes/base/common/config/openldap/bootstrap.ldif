@@ -437,6 +437,50 @@ userPassword: hbase
 krbPrincipalName: hbase/hbase-regionserver-1.hbase-regionserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
 krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gABZm6f4k94PROuj+Td4CGuCxp6kU8OReNqRAfvc4V3mbbZkiN4rnk5PIufw3KJjl/uRV3PQWe4M8kpC9cDBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAMX9zWL9skoNd0+X24dz0oQSWnB2WXl485+Ja4IDUevZ0b0unXZBc4loVTrw=
 
+dn: uid=http-hbase-master-0.hbase-master.zookage.svc.cluster.local,ou=hbase,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hbase-master-0.hbase-master.zookage.svc.cluster.local
+userPassword: hbase
+krbPrincipalName: HTTP/hbase-master-0.hbase-master.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gABwW3AsxiCKun5+utR1hi1a2f7G9q4HuSPavZSYJQc83T+wILLoWZFr4z/pFWLc7VS9m8FurjTdk3iR3uw==
+
+dn: uid=http-hbase-master-1.hbase-master.zookage.svc.cluster.local,ou=hbase,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hbase-master-1.hbase-master.zookage.svc.cluster.local
+userPassword: hbase
+krbPrincipalName: HTTP/hbase-master-1.hbase-master.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAKTdknP2LAHS6I3hydOCNIFpGd35UeacbARtnc7WwkvrS91iGgmCoPE/IRgcsN5vHJEW9bLFNTmkh9qL1Q==
+
+dn: uid=http-hbase-regionserver-0.hbase-regionserver.zookage.svc.cluster.local,ou=hbase,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hbase-regionserver-0.hbase-regionserver.zookage.svc.cluster.local
+userPassword: hbase
+krbPrincipalName: HTTP/hbase-regionserver-0.hbase-regionserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAHyUALlCkP9VknapOoaIUovxAWqPPsbwmwpfQxZWGFOXo1NMxUvdnGDFP8NqdcIVnHg1MvwWYrKAhTScVA==
+
+dn: uid=http-hbase-regionserver-1.hbase-regionserver.zookage.svc.cluster.local,ou=hbase,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hbase-regionserver-1.hbase-regionserver.zookage.svc.cluster.local
+userPassword: hbase
+krbPrincipalName: HTTP/hbase-regionserver-1.hbase-regionserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAPSbOHutHRuOcBBC8xUiz3yi1veTLvdqb7txZ7bimAFvaRcI6c/LbdyWq5O5teNpgZNg7fr3/ctX3sCqeA==
+
 dn: ou=hive,ou=kerberos,dc=example,dc=com
 objectClass: top
 objectClass: organizationalUnit
