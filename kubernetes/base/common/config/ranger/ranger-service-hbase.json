@@ -4,8 +4,9 @@
   "configs": {
     "username": "hbase",
     "password": "dummy",
-    "hadoop.security.authentication": "simple",
-    "hbase.security.authentication": "simple",
+    "hadoop.security.authentication": "{{ if eq (index .Values "hadoop_security_authentication") "kerberos" }}kerberos{{ else }}simple{{ end }}",
+    "hbase.security.authentication": "{{ if eq (index .Values "hbase_security_authentication") "kerberos" }}kerberos{{ else }}simple{{ end }}",
+    "hbase.master.kerberos.principal": "hbase/_HOST@ZOOKAGE.LOCAL",
     "policy.download.auth.users": "hbase",
     "tag.download.auth.users": "hbase",
     "hbase.zookeeper.property.clientPort": "2181",

@@ -41,6 +41,10 @@
     <value>true</value>
   </property>
   <property>
+    <name>hbase.security.authentication</name>
+    <value>{{ or (index .Values "hbase_security_authentication") "simple" | html }}</value>
+  </property>
+  <property>
     <name>hbase.master.kerberos.principal</name>
     <value>hbase/_HOST@ZOOKAGE.LOCAL</value>
   </property>
