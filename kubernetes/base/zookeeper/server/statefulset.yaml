@@ -53,24 +53,83 @@ spec:
       - name: server
         image: zookage-zookeeper
         command:
-        - /opt/zookeeper/bin/zkServer.sh
+        - /bin/bash
+        - -euc
         args:
-        - start-foreground
+        - |
+          if grep -qx 'quorum.auth.enableSasl=true' "${ZOOCFGDIR}/zoo.cfg"; then
+            readonly principal="zookeeper/${POD_NAME}.zookeeper-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL"
+            (
+              umask 077
+              cat > /mnt/zookeeper-jaas.conf <<EOF
+          Server {
+            com.sun.security.auth.module.Krb5LoginModule required
+            useKeyTab=true
+            keyTab="/etc/secrets/zookeeper/zookeeper.keytab"
+            storeKey=true
+            useTicketCache=false
+            principal="${principal}";
+          };
+          QuorumServer {
+            com.sun.security.auth.module.Krb5LoginModule required
+            useKeyTab=true
+            keyTab="/etc/secrets/zookeeper/zookeeper.keytab"
+            storeKey=true
+            useTicketCache=false
+            principal="${principal}";
+          };
+          QuorumLearner {
+            com.sun.security.auth.module.Krb5LoginModule required
+            useKeyTab=true
+            keyTab="/etc/secrets/zookeeper/zookeeper.keytab"
+            storeKey=true
+            useTicketCache=false
+            principal="${principal}";
+          };
+          EOF
+            )
+          fi
+          exec /opt/zookeeper/bin/zkServer.sh start-foreground
         envFrom:
         - configMapRef:
             name: zookeeper-env
         - configMapRef:
             name: java-env
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ZOOKEEPER_SERVER
+          value: "true"
         readinessProbe:
           tcpSocket:
             port: 2181
         volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: zookeeper-secret
+          mountPath: /etc/secrets/zookeeper
+        - name: zookeeper-client-secret
+          mountPath: /etc/secrets/zookeeper-client
         - name: zookeeper-conf
           mountPath: /etc/zookeeper/conf
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
       volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: zookeeper-secret
+        secret:
+          secretName: zookeeper-secret
+          defaultMode: 0444
+      - name: zookeeper-client-secret
+        secret:
+          secretName: zookeeper-client-secret
+          defaultMode: 0444
       - name: zookeeper-conf
         configMap:
           name: zookeeper-conf
