@@ -80,9 +80,11 @@ spec:
             -Djava.security.auth.login.config=/mnt/zookeeper-jaas.conf
             -Dzookeeper.serverCnxnFactory=org.apache.zookeeper.server.NettyServerCnxnFactory
         - name: CLIENT_JVMFLAGS
+          # zkServer.sh status connects to localhost, which is not in the server certificate SAN.
           value: >-
             -Dzookeeper.client.secure=true
             -Dzookeeper.clientCnxnSocket=org.apache.zookeeper.ClientCnxnSocketNetty
+            -Dzookeeper.ssl.hostnameVerification=false
             -Dzookeeper.ssl.keyStore.location=/etc/secrets/zookeeper-client/zookeeper-client.jks
             -Dzookeeper.ssl.keyStore.password=zookage
             -Dzookeeper.ssl.trustStore.location=/etc/zookeeper/conf/zookage-truststore.jks

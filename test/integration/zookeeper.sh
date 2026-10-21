@@ -66,7 +66,7 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   expect_failure "Four-letter-word access without a client certificate" \
     "${base_dir}/bin/kubectl" exec zookeeper-server-0 -- \
     env JAVA_TOOL_OPTIONS= \
-    CLIENT_JVMFLAGS="-Dzookeeper.client.secure=true -Dzookeeper.clientCnxnSocket=org.apache.zookeeper.ClientCnxnSocketNetty -Dzookeeper.ssl.trustStore.location=/etc/zookeeper/conf/zookage-truststore.jks -Dzookeeper.ssl.trustStore.password=zookage" \
+    CLIENT_JVMFLAGS="-Dzookeeper.client.secure=true -Dzookeeper.clientCnxnSocket=org.apache.zookeeper.ClientCnxnSocketNetty -Dzookeeper.ssl.hostnameVerification=false -Dzookeeper.ssl.trustStore.location=/etc/zookeeper/conf/zookage-truststore.jks -Dzookeeper.ssl.trustStore.password=zookage" \
     /opt/zookeeper/bin/zkServer.sh status
   expect_failure "Plaintext ZooKeeper client access" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- \

@@ -21,5 +21,3 @@ dns:zookeeper-server-1.zookeeper-server.zookage.svc.cluster.local
 dns:zookeeper-server-2
 dns:zookeeper-server-2.zookeeper-server
 dns:zookeeper-server-2.zookeeper-server.zookage.svc.cluster.local
-dns:localhost
-ip:127.0.0.1

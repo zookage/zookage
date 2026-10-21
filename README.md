@@ -30,5 +30,7 @@ configured for the authenticated client port in this profile.
 To access AdminServer in a browser, import
 `kubernetes/base/common/secret/zookeeper-client/zookeeper-client.p12` with
 password `zookage`, trust `kubernetes/base/common/config/tls/zookage-ca.crt`,
-then run `./bin/kubectl port-forward svc/zookeeper-server 8080:8080` and open
-`https://localhost:8080/commands`.
+and make `zookeeper-server.zookage.svc.cluster.local` resolve to `127.0.0.1`
+on your workstation. Then run
+`./bin/kubectl port-forward svc/zookeeper-server 8080:8080` and open
+`https://zookeeper-server.zookage.svc.cluster.local:8080/commands`.
