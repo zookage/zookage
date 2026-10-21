@@ -1,0 +1,68 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zookeeper-server
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: server
+        command:
+        - /bin/sh
+        - -ec
+        args:
+        - |
+          cat > /mnt/server-jaas.conf <<EOF
+          Server {
+            com.sun.security.auth.module.Krb5LoginModule required
+            useKeyTab=true
+            keyTab="/etc/secrets/zookeeper/zookeeper.keytab"
+            storeKey=true
+            useTicketCache=false
+            principal="zookeeper/${POD_NAME}.zookeeper-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL";
+          };
+          EOF
+          chmod 0600 /mnt/server-jaas.conf
+          export SERVER_JVMFLAGS="${SERVER_JVMFLAGS:-} \
+            -Djava.security.auth.login.config=/mnt/server-jaas.conf \
+            -Dzookeeper.authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider \
+            -Dzookeeper.kerberos.removeHostFromPrincipal=true \
+            -Dzookeeper.kerberos.removeRealmFromPrincipal=true"
+          exec /opt/zookeeper/bin/zkServer.sh start-foreground
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        volumeMounts:
+        - name: zookeeper-secret
+          mountPath: /etc/secrets/zookeeper
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+      volumes:
+      - name: zookeeper-secret
+        secret:
+          secretName: zookeeper-secret
+          defaultMode: 0444
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf

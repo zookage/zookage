@@ -16,6 +16,10 @@ set -eu
 readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
 readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
+is_auth_profile() {
+  [[ ${ZOOKAGE_TEST_MODE:-} == "auth" || ${ZOOKAGE_TEST_MODE:-} == "auth-llap" ]]
+}
+
 check () {
   local -r url=$1
   local -r expected_responses=${2:-"200 307"}
@@ -36,7 +40,7 @@ check () {
   fi
 }
 
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+if is_auth_profile; then
   check "http://localhost:14000/webhdfs/v1/?op=liststatus&user.name=zookage" "401"
   check "http://hdfs-httpfs.zookage.svc.cluster.local:14000/webhdfs/v1/?op=liststatus" "200" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
@@ -57,14 +61,14 @@ check "http://localhost:9876/#!/"
 check "http://localhost:9888/#/Overview"
 check "http://localhost:8088/cluster"
 check "http://localhost:8088/ui2/"
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+if is_auth_profile; then
   check "http://localhost:8188/applicationhistory" "401"
   check "http://yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188/applicationhistory" "200" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
 else
   check "http://localhost:8188/applicationhistory"
 fi
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+if is_auth_profile; then
   check "http://localhost:19888/jobhistory" "401"
   check "http://mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local:19888/jobhistory" "200" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
@@ -72,8 +76,25 @@ else
   check "http://localhost:19888/jobhistory"
 fi
 check "http://localhost:9999/tez-ui/"
-check "http://localhost:10002/"
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+if is_auth_profile; then
+  readonly hiveserver2_ui="http://hive-hiveserver2.zookage.svc.cluster.local:10002/hiveserver2.jsp"
+  check "${hiveserver2_ui}" "401" \
+    "${base_dir}/bin/kubectl" exec client-node-0 -- curl
+  check "${hiveserver2_ui}" "200" \
+    "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
+else
+  check "http://localhost:10002/"
+fi
+if [[ ${ZOOKAGE_TEST_MODE:-} == "auth-llap" ]]; then
+  for ordinal in 0 1; do
+    llap_ui="http://hive-llap-${ordinal}.hive-llap.zookage.svc.cluster.local:15002/"
+    check "${llap_ui}" "401" \
+      "${base_dir}/bin/kubectl" exec client-node-0 -- curl
+    check "${llap_ui}" "200" \
+      "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
+  done
+fi
+if is_auth_profile; then
   check "http://localhost:16010/master-status" "401"
   for ordinal in 0 1; do
     for endpoint in \

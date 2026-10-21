@@ -45,6 +45,7 @@ spec:
           -Xms512m
           -Xmx1024m
           -Dhttp.maxConnections=5
+          -Dzookeeper.sasl.client.canonicalize.hostname=false
           -server
           -Djava.net.preferIPv4Stack=true
           --add-opens=java.base/java.lang=ALL-UNNAMED
@@ -96,6 +97,11 @@ spec:
           mountPath: /etc/secrets/hadoop
         - name: hive-conf
           mountPath: /etc/hive/conf
+        - name: hive-secret
+          mountPath: /etc/secrets/hive
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
         - name: tez-conf
           mountPath: /etc/tez/conf
         - name: mnt
@@ -117,6 +123,13 @@ spec:
       - name: hive-conf
         configMap:
           name: hive-conf
+      - name: hive-secret
+        secret:
+          secretName: hive-secret
+          defaultMode: 0444
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
       - name: tez-conf
         configMap:
           name: tez-conf

@@ -508,6 +508,77 @@ userPassword: hive
 krbPrincipalName: hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL
 krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAHqmlebTLARkI2fP3Z7scf8GPTYU+/RJ+GpkA5Y+ug4NkDJo+TM/b6qV/gu/3vanittZtTgTc+aoDkCVtjBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAMzA2y3LUW46nHk8MxyfavAD1cMpFCVxbCuDlxbeiF4lvTtQDnARtA7G8KTs=
 
+dn: uid=http-hive-hiveserver2.zookage.svc.cluster.local,ou=hive,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hive-hiveserver2.zookage.svc.cluster.local
+userPassword: hive
+krbPrincipalName: HTTP/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAB4tXgMevlc3HYFQKy1/9qFsK+BKoWerKNU5YD+TpxaFNRO8qs+Movv5+R3C3CjkrNr77cWsjmVng4OqQg==
+
+dn: uid=hive-hive-llap-0.hive-llap.zookage.svc.cluster.local,ou=hive,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hive-hive-llap-0.hive-llap.zookage.svc.cluster.local
+userPassword: hive
+krbPrincipalName: hive/hive-llap-0.hive-llap.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAMdF38JNeN8oQjwYSfsymxiiaFLBZoLgp1QXw0QI0z+B5plFsQBneutIvnrid769zn6kCTUiHSTHACxb5g==
+
+dn: uid=http-hive-llap-0.hive-llap.zookage.svc.cluster.local,ou=hive,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hive-llap-0.hive-llap.zookage.svc.cluster.local
+userPassword: hive
+krbPrincipalName: HTTP/hive-llap-0.hive-llap.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAK1f/6+O85DsAZpU9Vbsii872NJ19D5i7cSTooJDOem2jxSopLlWGaV5BH8h/AlVCxoHYOBDS/lusKR15A==
+
+dn: uid=hive-hive-llap-1.hive-llap.zookage.svc.cluster.local,ou=hive,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hive-hive-llap-1.hive-llap.zookage.svc.cluster.local
+userPassword: hive
+krbPrincipalName: hive/hive-llap-1.hive-llap.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAAdJTEEQ4EdI+m7rhdIYuEnujOhKim0KH3/VdghXNfbJXCKXceEWT+z/XD4dU9yHSAyQhMi1rcxbSzvQ1A==
+
+dn: uid=http-hive-llap-1.hive-llap.zookage.svc.cluster.local,ou=hive,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hive-llap-1.hive-llap.zookage.svc.cluster.local
+userPassword: hive
+krbPrincipalName: HTTP/hive-llap-1.hive-llap.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAAotjqPYOKTJni4x+DEs8tHrd9c9QGQ51X5bYwg5QVSb2zfCkpIZLlqWmZwxsPO7mgktA0C/z+x9H4V97A==
+
+dn: ou=hive-tez-am,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: hive-tez-am
+
+dn: uid=hive-tez-am-registry,ou=hive-tez-am,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: hive-tez-am-registry
+userPassword: hive-tez-am
+krbPrincipalName: hive-tez-am/registry@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gACv/hvPKUEervWGytwHv1I78pg4Xa9aD/c4JgAvXAQxDclGOG4vS2OElM6cLdyORGJ0lX4QKom9Sr5nIAw==
+
 dn: ou=ranger,ou=kerberos,dc=example,dc=com
 objectClass: top
 objectClass: organizationalUnit
@@ -1003,6 +1074,44 @@ uid: tez-tez-deploy
 userPassword: tez
 krbPrincipalName: tez/tez-deploy@ZOOKAGE.LOCAL
 krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAHF/5MMOoqohnP+1nKAOtwgrVLwAJb22xPejipYwWy7zy6BiOn6+cMUSmhUujWjJJ09abWpTDODV9CvmbjBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAP4FHLQ7t3w2tQ7Na2UdwluvnOXT8LLzZcsUyZThyXy8MVIUmpei0IDWmZ8g=
+
+dn: ou=zookeeper,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: zookeeper
+
+dn: uid=zookeeper-zookeeper-server-0.zookeeper-server.zookage.svc.cluster.local,ou=zookeeper,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: zookeeper-zookeeper-server-0.zookeeper-server.zookage.svc.cluster.local
+userPassword: zookeeper
+krbPrincipalName: zookeeper/zookeeper-server-0.zookeeper-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAE4LeNhucWrvEudf7WFr0aTga54oNc4Z9Drknfwl+06nRhTZIGaO5DcQeJOXR4oOhTWXnTZUvc4J08rOiw==
+
+dn: uid=zookeeper-zookeeper-server-1.zookeeper-server.zookage.svc.cluster.local,ou=zookeeper,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: zookeeper-zookeeper-server-1.zookeeper-server.zookage.svc.cluster.local
+userPassword: zookeeper
+krbPrincipalName: zookeeper/zookeeper-server-1.zookeeper-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAOKsrUpiv2Jclr1Vf0oMwE7k/LT3EwoYRCZZjX01pQKyQIwJbXwszc3GCmeP/o3Yy1LkgYjdBGJwF0swaA==
+
+dn: uid=zookeeper-zookeeper-server-2.zookeeper-server.zookage.svc.cluster.local,ou=zookeeper,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: zookeeper-zookeeper-server-2.zookeeper-server.zookage.svc.cluster.local
+userPassword: zookeeper
+krbPrincipalName: zookeeper/zookeeper-server-2.zookeeper-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAJpnlyrbAAH1igjMKuOK2Xr1M3Z9MwjUh+dkvEOACjnuDVN3xkXo78zCoDnuj6FwAlc6OKF8f58FXRu1Ag==
 
 dn: ou=trino,ou=kerberos,dc=example,dc=com
 objectClass: top
