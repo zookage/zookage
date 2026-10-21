@@ -208,6 +208,7 @@ configMapGenerator:
   - tls/zookage-ca.crt
   - tls/zookage-truststore.jks
   - zookeeper/client-jaas.conf
+  - zookeeper/client.properties
   - zookeeper/java.env
   - zookeeper/log4j.properties
   - zookeeper/zoo.cfg

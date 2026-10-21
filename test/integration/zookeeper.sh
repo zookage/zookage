@@ -62,6 +62,7 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   zookeeper_host=zookeeper-server-0.zookeeper-server.zookage.svc.cluster.local
   "${base_dir}/bin/kubectl" exec client-node-0 -- \
     /opt/zookeeper/bin/zkCli.sh \
+    -client-configuration /etc/zookeeper/conf/client.properties \
     -server "${zookeeper_host}:2181" -timeout 10000 -waitforconnection ls /
   expect_failure "Four-letter-word access without a client certificate" \
     "${base_dir}/bin/kubectl" exec zookeeper-server-0 -- \
@@ -78,6 +79,7 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
     "${base_dir}/bin/kubectl" exec client-node-0 -- \
     env JAVA_TOOL_OPTIONS=-Dzookeeper.sasl.client=false \
     /opt/zookeeper/bin/zkCli.sh \
+    -client-configuration /etc/zookeeper/conf/client.properties \
     -server "${zookeeper_host}:2181" -timeout 10000 -waitforconnection ls /
 fi
 
