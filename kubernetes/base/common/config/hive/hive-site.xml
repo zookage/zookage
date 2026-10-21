@@ -45,7 +45,11 @@
   </property>
   <property>
     <name>hive.zookeeper.quorum</name>
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+    <value>zookeeper-server-0.zookeeper-server.zookage.svc.cluster.local:2181,zookeeper-server-1.zookeeper-server.zookage.svc.cluster.local:2181,zookeeper-server-2.zookeeper-server.zookage.svc.cluster.local:2181</value>
+{{- else }}
     <value>zookeeper-server-0.zookeeper-server:2181,zookeeper-server-1.zookeeper-server:2181,zookeeper-server-2.zookeeper-server:2181</value>
+{{- end }}
   </property>
 
   <property>
@@ -64,6 +68,26 @@
   <property>
     <name>hive.server2.authentication</name>
     <value>KERBEROS</value>
+  </property>
+  <property>
+    <name>hive.server2.authentication.spnego.principal</name>
+    <value>HTTP/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hive.server2.authentication.spnego.keytab</name>
+    <value>/etc/secrets/hive/hive.keytab</value>
+  </property>
+  <property>
+    <name>hive.server2.webui.use.spnego</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hive.server2.webui.spnego.principal</name>
+    <value>HTTP/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hive.server2.webui.spnego.keytab</name>
+    <value>/etc/secrets/hive/hive.keytab</value>
   </property>
 {{- end }}
   <property>
@@ -108,6 +132,42 @@
     <value>{{ or (index .Values "hive_security_authorization_manager") "org.apache.hadoop.hive.ql.security.authorization.plugin.sqlstd.SQLStdHiveAuthorizerFactory" | html }}</value>
   </property>
 
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+  <property>
+    <name>hive.llap.daemon.service.principal</name>
+    <value>hive/_HOST@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hive.llap.daemon.keytab.file</name>
+    <value>/etc/secrets/hive/hive.keytab</value>
+  </property>
+  <property>
+    <name>hive.llap.zk.sm.connectionString</name>
+    <value>zookeeper-server-0.zookeeper-server.zookage.svc.cluster.local:2181,zookeeper-server-1.zookeeper-server.zookage.svc.cluster.local:2181,zookeeper-server-2.zookeeper-server.zookage.svc.cluster.local:2181</value>
+  </property>
+  <property>
+    <name>hive.llap.auto.auth</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hive.llap.webui.spnego.principal</name>
+    <value>HTTP/_HOST@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hive.llap.webui.spnego.keytab</name>
+    <value>/etc/secrets/hive/hive.keytab</value>
+  </property>
+{{- if eq (index .Values "hive_llap_execution_mode") "only" }}
+  <property>
+    <name>hive.llap.task.scheduler.am.registry.principal</name>
+    <value>hive-tez-am/registry@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hive.llap.task.scheduler.am.registry.keytab.file</name>
+    <value>/etc/secrets/hive-tez-am/hive-tez-am.keytab</value>
+  </property>
+{{- end }}
+{{- end }}
   <property>
     <name>hive.llap.daemon.service.hosts</name>
     <value>{{ or (index .Values "hive_llap_daemon_service_hosts") "" | html }}</value>

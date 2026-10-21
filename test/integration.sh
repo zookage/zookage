@@ -40,7 +40,7 @@ if [[ $# -ge 1 ]]; then
   "${repo_dir}/bin/up"
 fi
 
-if [[ ${kustomization_name} == "auth" ]]; then
+if [[ ${kustomization_name} == "auth" || ${kustomization_name} == "auth-llap" ]]; then
   "${test_dir}/integration/run.sh" kinit \
     -kt /etc/secrets/client/client.keytab \
     zookage@ZOOKAGE.LOCAL
@@ -57,6 +57,10 @@ if [[ ${kustomization_name} != "llap" ]]; then
   run_test "Ozone" "${test_dir}/integration/ozone.sh"
   run_test "Trino" "${test_dir}/integration/trino.sh"
   run_test "Tez" "${test_dir}/integration/tez.sh"
+fi
+
+if [[ ${kustomization_name} == "auth" || ${kustomization_name} == "auth-llap" ]]; then
+  run_test "Hive Kerberos authentication" "${test_dir}/integration/hive_kerberos.sh"
 fi
 
 run_test "Hive on Tez" "${test_dir}/integration/hive_on_tez.sh"

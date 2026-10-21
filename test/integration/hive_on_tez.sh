@@ -23,15 +23,6 @@ run_beeline() {
   "${integration_dir}/run.sh" /bin/bash -lc "TERM=dumb JAVA_TOOL_OPTIONS=\"-Djline.terminal=dumb -Dorg.jline.terminal.dumb=true\" beeline -e \"${sql}\""
 }
 
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
-  "${integration_dir}/divider.sh" "Check that HiveServer2 rejects clients without Kerberos credentials"
-  if "${integration_dir}/run.sh" env KRB5CCNAME="FILE:/tmp/zookage-no-ticket-$$" \
-    beeline -e "SELECT 1"; then
-    echo "HiveServer2 accepted a client without Kerberos credentials." >&2
-    exit 1
-  fi
-fi
-
 run_hive_on_tez_queries() {
   local location_prefix=${1:-}
   local name="Hive on Tez queries"

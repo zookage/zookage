@@ -25,7 +25,7 @@ This document defines how AI coding agents should be used safely and consistentl
 - To build a Docker image, run the matching `docker/build-<component>.sh` script (for example, `docker/build-console.sh` or `docker/build-hadoop.sh`).
 - Before dependency bumps, run `./.agents/skills/update-dependencies/scripts/find_dependency_refs.sh [pattern]` to find repo-local pins and mirrored consumers.
 - Integration test suite on the current Kubernetes profile: `./test/integration.sh`
-- To switch Kubernetes profile and run the integration suite: `./test/integration.sh [all|auth|ha|llap]` (copies `test/kubernetes/<name>.yaml` to `kubernetes/kustomization.yaml` and restarts the cluster)
+- To switch Kubernetes profile and run the integration suite: `./test/integration.sh [all|auth|auth-llap|ha|llap]` (copies `test/kubernetes/<name>.yaml` to `kubernetes/kustomization.yaml` and restarts the cluster)
 - For full pre-merge validation across every checked-in Kubernetes profile, use `./.agents/skills/final-validation/scripts/run_all_variants.sh` (`--list`, `--dry-run`, `--continue-on-failure`, and `--no-restore-cluster` are available).
 - To run an individual integration check directly: `./test/integration/<name>.sh` (for example, `./test/integration/web.sh`, `./test/integration/spark_sql.sh`, or `./test/integration/container_warn.sh`)
 - To execute a one-off command in `client-node-0` during integration/debugging: `./test/integration/run.sh <args...>`
