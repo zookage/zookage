@@ -17,6 +17,16 @@
     <name>hive.metastore.uris</name>
     <value>thrift://hive-metastore-server-0.hive-metastore-server:9083</value>
   </property>
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+  <property>
+    <name>hive.metastore.sasl.enabled</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hive.metastore.kerberos.principal</name>
+    <value>hive/hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+{{- end }}
   <property>
     <name>hive.reloadable.aux.jars.path</name>
     <value>/mnt</value>
@@ -50,6 +60,12 @@
     <name>hive.server2.enable.doAs</name>
     <value>false</value>
   </property>
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+  <property>
+    <name>hive.server2.authentication</name>
+    <value>KERBEROS</value>
+  </property>
+{{- end }}
   <property>
     <name>hive.server2.authentication.kerberos.principal</name>
     <value>hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
