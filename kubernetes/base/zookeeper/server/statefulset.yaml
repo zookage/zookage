@@ -53,43 +53,9 @@ spec:
       - name: server
         image: zookage-zookeeper
         command:
-        - /bin/bash
-        - -euc
+        - /opt/zookeeper/bin/zkServer.sh
         args:
-        - |
-          if grep -qx 'quorum.auth.enableSasl=true' "${ZOOCFGDIR}/zoo.cfg"; then
-            readonly principal="zookeeper/${POD_NAME}.zookeeper-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL"
-            (
-              umask 077
-              cat > /mnt/zookeeper-jaas.conf <<EOF
-          Server {
-            com.sun.security.auth.module.Krb5LoginModule required
-            useKeyTab=true
-            keyTab="/etc/secrets/zookeeper/zookeeper.keytab"
-            storeKey=true
-            useTicketCache=false
-            principal="${principal}";
-          };
-          QuorumServer {
-            com.sun.security.auth.module.Krb5LoginModule required
-            useKeyTab=true
-            keyTab="/etc/secrets/zookeeper/zookeeper.keytab"
-            storeKey=true
-            useTicketCache=false
-            principal="${principal}";
-          };
-          QuorumLearner {
-            com.sun.security.auth.module.Krb5LoginModule required
-            useKeyTab=true
-            keyTab="/etc/secrets/zookeeper/zookeeper.keytab"
-            storeKey=true
-            useTicketCache=false
-            principal="${principal}";
-          };
-          EOF
-            )
-          fi
-          exec /opt/zookeeper/bin/zkServer.sh start-foreground
+        - start-foreground
         envFrom:
         - configMapRef:
             name: zookeeper-env
