@@ -16,6 +16,7 @@ metadata:
   name: config-values
 data:
   hbase_security_authentication: kerberos
+  hbase_security_authentication_ui: kerberos
 ---
 apiVersion: apps/v1
 kind: StatefulSet

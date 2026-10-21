@@ -45,6 +45,18 @@
     <value>{{ or (index .Values "hbase_security_authentication") "simple" | html }}</value>
   </property>
   <property>
+    <name>hbase.security.authentication.ui</name>
+    <value>{{ or (index .Values "hbase_security_authentication_ui") "simple" | html }}</value>
+  </property>
+  <property>
+    <name>hbase.security.authentication.spnego.kerberos.principal</name>
+    <value>HTTP/_HOST@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hbase.security.authentication.spnego.kerberos.keytab</name>
+    <value>/etc/secrets/hbase/hbase.keytab</value>
+  </property>
+  <property>
     <name>hbase.master.kerberos.principal</name>
     <value>hbase/_HOST@ZOOKAGE.LOCAL</value>
   </property>
