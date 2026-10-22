@@ -58,6 +58,8 @@ spec:
           subPath: krb5.conf
         - name: client-secret
           mountPath: /etc/secrets/client
+        - name: zookeeper-client-secret
+          mountPath: /etc/secrets/zookeeper-client
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
@@ -75,7 +77,7 @@ spec:
         - name: trino-conf
           mountPath: /etc/trino/conf/cli.properties
           subPath: cli.properties
-        - name: zookeeper-conf
+        - name: zookeeper-client-conf
           mountPath: /etc/zookeeper/conf
         - name: hadoop-src
           mountPath: /opt/hadoop
@@ -110,6 +112,10 @@ spec:
       - name: client-secret
         secret:
           secretName: client-secret
+      - name: zookeeper-client-secret
+        secret:
+          secretName: zookeeper-client-secret
+          defaultMode: 0444
       - name: hadoop-conf
         projected:
           sources:
@@ -128,7 +134,7 @@ spec:
           secretName: hadoop-secret
       - name: hbase-conf
         configMap:
-          name: hbase-conf
+          name: hbase-client-conf
       - name: hbase-src
         image:
           reference: zookage-hbase
@@ -156,9 +162,9 @@ spec:
       - name: trino-conf
         configMap:
           name: trino-conf
-      - name: zookeeper-conf
+      - name: zookeeper-client-conf
         configMap:
-          name: zookeeper-conf
+          name: zookeeper-client-conf
       - name: zookeeper-src
         image:
           reference: zookage-zookeeper

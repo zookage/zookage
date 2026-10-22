@@ -15,7 +15,8 @@ set -eu
 
 if [[ $# -lt 1 || $# -gt 2 ]]; then
   echo "Usage: $0 <service> [SAN]" >&2
-  echo "When SAN is omitted, read docker/tls/<service>.san." >&2
+  echo "When SAN is omitted, read docker/tls/<service>.san (optional for client certificates)." >&2
+  echo "Set TLS_EXTENDED_KEY_USAGE=clientAuth for a client certificate." >&2
   echo "Example: $0 hive-metastore dns:hive-metastore,dns:localhost,ip:127.0.0.1" >&2
   exit 1
 fi
@@ -26,19 +27,28 @@ if [[ ! ${service} =~ ^[a-z0-9]([a-z0-9-]*[a-z0-9])?$ || ${#service} -gt 63 || $
   exit 1
 fi
 
+readonly extended_key_usage=${TLS_EXTENDED_KEY_USAGE:-serverAuth}
+if [[ ${extended_key_usage} != serverAuth && ${extended_key_usage} != clientAuth ]]; then
+  echo "TLS_EXTENDED_KEY_USAGE must be serverAuth or clientAuth." >&2
+  exit 1
+fi
+
 readonly base_dir=$(cd "$(dirname "$0")"; pwd)
 if [[ $# -eq 2 ]]; then
   san=$2
 else
   readonly san_file="${base_dir}/tls/${service}.san"
-  if [[ ! -f "${san_file}" ]]; then
+  if [[ -f "${san_file}" ]]; then
+    san=$(awk 'NF && !/^#/ { printf "%s%s", separator, $0; separator = "," }' "${san_file}")
+  elif [[ ${extended_key_usage} == clientAuth ]]; then
+    san=
+  else
     echo "Missing SAN file: ${san_file}. Supply SAN as the second argument." >&2
     exit 1
   fi
-  san=$(awk 'NF && !/^#/ { printf "%s%s", separator, $0; separator = "," }' "${san_file}")
 fi
-if [[ -z "${san}" ]]; then
-  echo "At least one SAN is required." >&2
+if [[ -z "${san}" && ${extended_key_usage} == serverAuth ]]; then
+  echo "At least one SAN is required for a server certificate." >&2
   exit 1
 fi
 readonly san
@@ -66,6 +76,7 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
   --mount "type=bind,source=${ca_store},target=/ca/zookage-ca.jks,readonly" \
   --mount "type=bind,source=${public_dir}/zookage-ca.crt,target=/ca/zookage-ca.crt,readonly" \
   --env "TLS_SERVICE=${service}" --env "TLS_SAN=${san}" \
+  --env "TLS_EXTENDED_KEY_USAGE=${extended_key_usage}" \
   "${util_image}" /bin/bash -eu <<'SCRIPT'
   keytool -genkeypair \
     -alias "${TLS_SERVICE}" -keyalg RSA -keysize 2048 -sigalg SHA256withRSA \
@@ -75,11 +86,15 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
   keytool -certreq -alias "${TLS_SERVICE}" \
     -keystore /output/service.jks -storepass zookage -keypass zookage \
     -file /output/service.csr
+  san_extension=()
+  if [[ -n ${TLS_SAN} ]]; then
+    san_extension=(-ext "SAN=${TLS_SAN}")
+  fi
   keytool -gencert -rfc -alias zookage-ca -sigalg SHA256withRSA \
     -keystore /ca/zookage-ca.jks -storepass zookage -keypass zookage \
     -infile /output/service.csr -outfile /output/service-reply.crt -validity 3650 \
     -ext "BC:critical=ca:false" -ext "KU:critical=digitalSignature,keyEncipherment" \
-    -ext "EKU=serverAuth" -ext "SAN=${TLS_SAN}"
+    -ext "EKU=${TLS_EXTENDED_KEY_USAGE}" "${san_extension[@]}"
   keytool -importcert -noprompt -alias zookage-ca \
     -file /ca/zookage-ca.crt \
     -keystore /output/service.jks -storepass zookage
@@ -89,9 +104,17 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
   keytool -exportcert -rfc -alias "${TLS_SERVICE}" \
     -keystore /output/service.jks -storepass zookage \
     -file /output/service.crt
+  if [[ ${TLS_EXTENDED_KEY_USAGE} == clientAuth ]]; then
+    keytool -importkeystore -noprompt \
+      -srckeystore /output/service.jks -srcstorepass zookage \
+      -destkeystore /output/service.p12 -deststoretype PKCS12 -deststorepass zookage
+  fi
 SCRIPT
 
 tr -d '\r' < "${temp_dir}/service.crt" > "${temp_dir}/service.pem"
 mkdir -p "${secret_dir}"
 install -m 0600 "${temp_dir}/service.jks" "${secret_dir}/${service}.jks"
+if [[ ${extended_key_usage} == clientAuth ]]; then
+  install -m 0600 "${temp_dir}/service.p12" "${secret_dir}/${service}.p12"
+fi
 install -m 0644 "${temp_dir}/service.pem" "${public_dir}/${service}.crt"

@@ -58,6 +58,8 @@ spec:
           subPath: krb5.conf
         - name: hbase-secret
           mountPath: /etc/secrets/hbase
+        - name: zookeeper-client-secret
+          mountPath: /etc/secrets/zookeeper-client
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
@@ -77,6 +79,10 @@ spec:
       - name: hbase-secret
         secret:
           secretName: hbase-secret
+          defaultMode: 0444
+      - name: zookeeper-client-secret
+        secret:
+          secretName: zookeeper-client-secret
           defaultMode: 0444
       - name: hadoop-conf
         projected:

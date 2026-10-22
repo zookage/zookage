@@ -17,6 +17,8 @@ metadata:
 data:
   hbase_security_authentication: kerberos
   hbase_security_authentication_ui: kerberos
+  hbase_zookeeper_client_keytab_file: /etc/secrets/hbase/hbase.keytab
+  hbase_zookeeper_client_kerberos_principal: hbase/_HOST@ZOOKAGE.LOCAL
 ---
 apiVersion: apps/v1
 kind: StatefulSet

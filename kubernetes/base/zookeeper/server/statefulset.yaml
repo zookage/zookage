@@ -65,12 +65,24 @@ spec:
           tcpSocket:
             port: 2181
         volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: zookeeper-secret
+          mountPath: /etc/secrets/zookeeper
         - name: zookeeper-conf
           mountPath: /etc/zookeeper/conf
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
       volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: zookeeper-secret
+        secret:
+          secretName: zookeeper-secret
+          defaultMode: 0444
       - name: zookeeper-conf
         configMap:
           name: zookeeper-conf

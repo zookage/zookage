@@ -48,4 +48,5 @@ metadata:
   name: client-config-values
   annotations:
     config.kubernetes.io/local-config: 'true'
-data: {}
+data:
+  hbase_coprocessor_classes: ""
