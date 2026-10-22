@@ -209,6 +209,7 @@ configMapGenerator:
   - tls/zookage-truststore.jks
   - zookeeper/client-jaas.conf
   - zookeeper/client.jvmopts
+  - zookeeper/client-no-cert.properties
   - zookeeper/client.properties
   - zookeeper/java.env
   - zookeeper/log4j.properties
