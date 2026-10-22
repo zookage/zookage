@@ -29,41 +29,47 @@ expect_failure() {
 }
 
 for i in {0..2}; do
-  "${base_dir}/bin/kubectl" exec -it \
-    "zookeeper-server-${i}" \
-    -- \
-    env JAVA_TOOL_OPTIONS= \
-    /opt/zookeeper/bin/zkServer.sh \
-    status
-
   if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
     zookeeper_host="zookeeper-server-${i}.zookeeper-server.zookage.svc.cluster.local"
-    admin_url="https://${zookeeper_host}:8080/commands/ruok"
+    admin_url="https://${zookeeper_host}:8080/commands/monitor"
 
     expect_failure "Plain HTTP AdminServer access" \
       "${base_dir}/bin/kubectl" exec client-node-0 -- \
       curl --fail --silent --show-error --max-time 10 \
-      "http://${zookeeper_host}:8080/commands/ruok"
+      "http://${zookeeper_host}:8080/commands/monitor"
     expect_failure "AdminServer access without a client certificate" \
       "${base_dir}/bin/kubectl" exec client-node-0 -- \
       curl --fail --silent --show-error --max-time 10 \
       --cacert /etc/zookeeper/conf/zookage-ca.crt \
       "${admin_url}"
-    "${base_dir}/bin/kubectl" exec client-node-0 -- \
+    monitor_response=$("${base_dir}/bin/kubectl" exec client-node-0 -- \
       curl --fail --silent --show-error --max-time 10 \
       --cacert /etc/zookeeper/conf/zookage-ca.crt \
       --cert-type P12 \
       --cert /etc/secrets/zookeeper-client/zookeeper-client.p12:zookage \
-      "${admin_url}"
+      "${admin_url}")
+    if ! grep -Eq '"error"[[:space:]]*:[[:space:]]*null' <<< "${monitor_response}" ||
+      ! grep -Eq '"server_state"[[:space:]]*:[[:space:]]*"(leader|follower)"' <<< "${monitor_response}"; then
+      echo "ZooKeeper server ${i} is not serving as a leader or follower: ${monitor_response}" >&2
+      exit 1
+    fi
+    echo "${monitor_response}"
+    "${base_dir}/bin/kubectl" exec client-node-0 -- \
+      /opt/zookeeper/bin/zkCli.sh \
+      -client-configuration /etc/zookeeper/conf/client.properties \
+      -server "${zookeeper_host}:2181" -timeout 10000 -waitforconnection ls /
+  else
+    "${base_dir}/bin/kubectl" exec -it \
+      "zookeeper-server-${i}" \
+      -- \
+      env JAVA_TOOL_OPTIONS= \
+      /opt/zookeeper/bin/zkServer.sh \
+      status
   fi
 done
 
 if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   zookeeper_host=zookeeper-server-0.zookeeper-server.zookage.svc.cluster.local
-  "${base_dir}/bin/kubectl" exec client-node-0 -- \
-    /opt/zookeeper/bin/zkCli.sh \
-    -client-configuration /etc/zookeeper/conf/client.properties \
-    -server "${zookeeper_host}:2181" -timeout 10000 -waitforconnection ls /
   expect_failure "Four-letter-word access without a client certificate" \
     "${base_dir}/bin/kubectl" exec zookeeper-server-0 -- \
     env JAVA_TOOL_OPTIONS= \

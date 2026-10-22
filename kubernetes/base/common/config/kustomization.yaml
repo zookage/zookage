@@ -214,6 +214,5 @@ configMapGenerator:
   - zookeeper/log4j.properties
   - zookeeper/server-jaas.conf
   - zookeeper/server.jvmopts
-  - zookeeper/status.jvmopts
   - zookeeper/zoo.cfg
   name: zookeeper-conf
