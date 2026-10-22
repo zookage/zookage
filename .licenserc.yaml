@@ -49,7 +49,6 @@ header:
   - "kubernetes/base/common/secret/ozone/ozone-http-auth-signature.secret"
   - "kubernetes/base/common/secret/ranger/ranger.keytab"
   - "kubernetes/base/common/secret/yarn/yarn.keytab"
-  - "kubernetes/base/common/secret/zookeeper-client/store.password"
   - "kubernetes/base/common/config/hive/llap-udfs.lst"
   - "kubernetes/base/common/config/tls/*.crt"
   - "kubernetes/base/common/config/kerberos/.k5.ZOOKAGE.LOCAL"

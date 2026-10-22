@@ -15,7 +15,7 @@ set -eu
 
 if [[ $# -lt 1 || $# -gt 2 ]]; then
   echo "Usage: $0 <service> [SAN]" >&2
-  echo "When SAN is omitted, read docker/tls/<service>.san." >&2
+  echo "When SAN is omitted, read docker/tls/<service>.san (optional for client certificates)." >&2
   echo "Set TLS_EXTENDED_KEY_USAGE=clientAuth for a client certificate." >&2
   echo "Example: $0 hive-metastore dns:hive-metastore,dns:localhost,ip:127.0.0.1" >&2
   exit 1
@@ -38,14 +38,17 @@ if [[ $# -eq 2 ]]; then
   san=$2
 else
   readonly san_file="${base_dir}/tls/${service}.san"
-  if [[ ! -f "${san_file}" ]]; then
+  if [[ -f "${san_file}" ]]; then
+    san=$(awk 'NF && !/^#/ { printf "%s%s", separator, $0; separator = "," }' "${san_file}")
+  elif [[ ${extended_key_usage} == clientAuth ]]; then
+    san=
+  else
     echo "Missing SAN file: ${san_file}. Supply SAN as the second argument." >&2
     exit 1
   fi
-  san=$(awk 'NF && !/^#/ { printf "%s%s", separator, $0; separator = "," }' "${san_file}")
 fi
-if [[ -z "${san}" ]]; then
-  echo "At least one SAN is required." >&2
+if [[ -z "${san}" && ${extended_key_usage} == serverAuth ]]; then
+  echo "At least one SAN is required for a server certificate." >&2
   exit 1
 fi
 readonly san
@@ -83,11 +86,15 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
   keytool -certreq -alias "${TLS_SERVICE}" \
     -keystore /output/service.jks -storepass zookage -keypass zookage \
     -file /output/service.csr
+  san_extension=()
+  if [[ -n ${TLS_SAN} ]]; then
+    san_extension=(-ext "SAN=${TLS_SAN}")
+  fi
   keytool -gencert -rfc -alias zookage-ca -sigalg SHA256withRSA \
     -keystore /ca/zookage-ca.jks -storepass zookage -keypass zookage \
     -infile /output/service.csr -outfile /output/service-reply.crt -validity 3650 \
     -ext "BC:critical=ca:false" -ext "KU:critical=digitalSignature,keyEncipherment" \
-    -ext "EKU=${TLS_EXTENDED_KEY_USAGE}" -ext "SAN=${TLS_SAN}"
+    -ext "EKU=${TLS_EXTENDED_KEY_USAGE}" "${san_extension[@]}"
   keytool -importcert -noprompt -alias zookage-ca \
     -file /ca/zookage-ca.crt \
     -keystore /output/service.jks -storepass zookage
