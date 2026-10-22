@@ -202,10 +202,12 @@ configMapGenerator:
   - trino/ranger-trino-security.xml
   name: trino-conf
 - files:
-  - tls/zookage-ca.crt
   - tls/zookage-truststore.jks
-  - zookeeper/client-jaas.conf
   - zookeeper/log4j.properties
   - zookeeper/server-jaas.conf
   - zookeeper/zoo.cfg
   name: zookeeper-conf
+- files:
+  - tls/zookage-ca.crt
+  - zookeeper/client-jaas.conf
+  name: zookeeper-client-conf
