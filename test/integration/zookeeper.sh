@@ -75,13 +75,12 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
     -server "${zookeeper_host}:2181" -timeout 10000 -waitforconnection ls /
   expect_failure "Plaintext ZooKeeper client access" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- \
-    env JAVA_TOOL_OPTIONS=-Djava.security.auth.login.config=/etc/zookeeper/conf/client-jaas.conf \
-    CLIENT_JVMFLAGS= \
+    env CLIENT_JVMFLAGS=-Djava.security.auth.login.config=/etc/zookeeper/conf/client-jaas.conf \
     /opt/zookeeper/bin/zkCli.sh \
     -server "${zookeeper_host}:2181" -timeout 3000 -waitforconnection ls /
   expect_failure "ZooKeeper client access without SASL" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- \
-    env JAVA_TOOL_OPTIONS=-Dzookeeper.sasl.client=false \
+    env CLIENT_JVMFLAGS="-Djava.security.auth.login.config=/etc/zookeeper/conf/client-jaas.conf -Dzookeeper.sasl.client=false" \
     /opt/zookeeper/bin/zkCli.sh \
     -client-configuration /etc/zookeeper/conf/client.properties \
     -server "${zookeeper_host}:2181" -timeout 10000 -waitforconnection ls /

@@ -66,8 +66,6 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: ZOOKEEPER_SERVER
-          value: "true"
         readinessProbe:
           tcpSocket:
             port: 2181

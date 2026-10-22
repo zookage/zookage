@@ -22,3 +22,16 @@ data:
   hbase_security_authentication_ui: kerberos
   hbase_zookeeper_client_keytab_file: /etc/secrets/client/client.keytab
   hbase_zookeeper_client_kerberos_principal: zookage@ZOOKAGE.LOCAL
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: client-node
+spec:
+  template:
+    spec:
+      containers:
+      - name: sleep
+        env:
+        - name: CLIENT_JVMFLAGS
+          value: -Djava.security.auth.login.config=/etc/zookeeper/conf/client-jaas.conf

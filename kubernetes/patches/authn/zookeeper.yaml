@@ -30,6 +30,20 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
+      containers:
+      - name: server
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: JMXDISABLE
+          value: "true"
+        - name: SERVER_JVMFLAGS
+          value: >-
+            --add-opens=java.base/java.lang=ALL-UNNAMED
+            -Djava.security.auth.login.config=/etc/zookeeper/conf/server-jaas.conf
+            -Dzookage.zookeeper.server.principal=zookeeper/$(POD_NAME).zookeeper-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL
 ---
 apiVersion: v1
 kind: Service
