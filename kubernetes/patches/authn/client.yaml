@@ -33,5 +33,5 @@ spec:
       containers:
       - name: sleep
         env:
-        - name: CLIENT_JVMFLAGS
+        - name: HBASE_OPTS
           value: -Djava.security.auth.login.config=/etc/zookeeper/conf/client-jaas.conf

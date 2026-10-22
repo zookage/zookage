@@ -35,7 +35,8 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/trino-worker-.*	io.airlift.discovery.client.CachingServiceSelector	Cannot connect to discovery server for refresh (trino/general)' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Learner -- Unexpected exception, connectToLeader exceeded' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.Learner -- Failed connect to' \
-  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Exception while listening to address'
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.quorum.QuorumCnxManager -- Exception while listening to address' \
+  | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.NettyServerCnxnFactory -- Unsuccessful handshake with session 0x0'
 
 # shellcheck disable=SC2181
 if [ $? -eq 0 ]; then

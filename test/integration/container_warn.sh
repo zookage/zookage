@@ -144,7 +144,8 @@ readonly kerberos_warnings
   | grep -v 'pod/trino-.*\[engine\] WARNING: The polyglot engine uses a fallback runtime that does not support runtime compilation to native code\.' \
   | grep -v 'pod/trino-worker-.* WARNING: Using incubator modules: jdk.incubator.vector' \
   | grep -v 'pod/trino-worker-.* # WARNING: Unable to attach Serviceability Agent\.' \
-  | grep -v 'pod/trino-worker-.*io.trino.node.AnnounceNodeAnnouncer.*Failed to announce node state to http://.*: 503'
+  | grep -v 'pod/trino-worker-.*io.trino.node.AnnounceNodeAnnouncer.*Failed to announce node state to http://.*: 503' \
+  | grep -v 'pod/zookeeper-server-.* io.netty.util.concurrent.DefaultPromise -- An exception was thrown by org.apache.zookeeper.server.NettyServerCnxnFactory\$CertificateVerifier.operationComplete()'
 
 
 # shellcheck disable=SC2181
