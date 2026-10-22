@@ -60,31 +60,7 @@ for i in {0..2}; do
     exit 1
   fi
   echo "${monitor_response}"
-  "${base_dir}/bin/kubectl" exec client-node-0 -- \
-    /opt/zookeeper/bin/zkCli.sh \
-    -client-configuration /etc/zookeeper/conf/client.properties \
-    -server "${zookeeper_host}:2181" -timeout 10000 -waitforconnection ls /
 done
-
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
-  zookeeper_host=zookeeper-server-0.zookeeper-server.zookage.svc.cluster.local
-  expect_failure "ZooKeeper client access without a client certificate" \
-    "${base_dir}/bin/kubectl" exec client-node-0 -- \
-    /opt/zookeeper/bin/zkCli.sh \
-    -client-configuration /etc/zookeeper/conf/client-no-cert.properties \
-    -server "${zookeeper_host}:2181" -timeout 10000 -waitforconnection ls /
-  expect_failure "Plaintext ZooKeeper client access" \
-    "${base_dir}/bin/kubectl" exec client-node-0 -- \
-    env CLIENT_JVMFLAGS=-Djava.security.auth.login.config=/etc/zookeeper/conf/client-jaas.conf \
-    /opt/zookeeper/bin/zkCli.sh \
-    -server "${zookeeper_host}:2181" -timeout 3000 -waitforconnection ls /
-  expect_failure "ZooKeeper client access without SASL" \
-    "${base_dir}/bin/kubectl" exec client-node-0 -- \
-    env CLIENT_JVMFLAGS="-Djava.security.auth.login.config=/etc/zookeeper/conf/client-jaas.conf -Dzookeeper.sasl.client=false" \
-    /opt/zookeeper/bin/zkCli.sh \
-    -client-configuration /etc/zookeeper/conf/client.properties \
-    -server "${zookeeper_host}:2181" -timeout 10000 -waitforconnection ls /
-fi
 
 "${integration_dir}/divider.sh" "Finished checking ZooKeeper"
 echo "The test command succeeded."

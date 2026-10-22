@@ -70,8 +70,6 @@ spec:
           subPath: krb5.conf
         - name: zookeeper-secret
           mountPath: /etc/secrets/zookeeper
-        - name: zookeeper-client-secret
-          mountPath: /etc/secrets/zookeeper-client
         - name: zookeeper-conf
           mountPath: /etc/zookeeper/conf
         - name: mnt
@@ -84,10 +82,6 @@ spec:
       - name: zookeeper-secret
         secret:
           secretName: zookeeper-secret
-          defaultMode: 0444
-      - name: zookeeper-client-secret
-        secret:
-          secretName: zookeeper-client-secret
           defaultMode: 0444
       - name: zookeeper-conf
         configMap:

@@ -95,9 +95,6 @@ configMapGenerator:
   - hbase/hadoop-metrics2-hbase.properties
   - hbase/hbase-site.xml
   - hbase/log4j2.properties
-  - hbase/ranger-hbase-audit.xml
-  - hbase/ranger-hbase-policymgr-ssl.xml
-  - hbase/ranger-hbase-security.xml
   name: hbase-client-conf
   options:
     annotations:
@@ -208,8 +205,6 @@ configMapGenerator:
   - tls/zookage-ca.crt
   - tls/zookage-truststore.jks
   - zookeeper/client-jaas.conf
-  - zookeeper/client-no-cert.properties
-  - zookeeper/client.properties
   - zookeeper/log4j.properties
   - zookeeper/server-jaas.conf
   - zookeeper/zoo.cfg
