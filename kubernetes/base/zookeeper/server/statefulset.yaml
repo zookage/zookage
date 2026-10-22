@@ -61,11 +61,6 @@ spec:
             name: zookeeper-env
         - configMapRef:
             name: java-env
-        env:
-        - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
         readinessProbe:
           tcpSocket:
             port: 2181
