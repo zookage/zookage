@@ -64,10 +64,12 @@
     <name>ipc.client.fallback-to-simple-auth-allowed</name>
     <value>{{ or (index .Values "hadoop_ipc_client_fallback_to_simple_auth_allowed") "false" | html }}</value>
   </property>
+{{- if index .Values "hadoop_http_filter_initializers" }}
   <property>
     <name>hadoop.http.filter.initializers</name>
-    <value>org.apache.hadoop.security.HttpCrossOriginFilterInitializer{{ if index .Values "hadoop_http_additional_filter_initializers" }},{{ index .Values "hadoop_http_additional_filter_initializers" | html }}{{ end }}</value>
+    <value>{{ index .Values "hadoop_http_filter_initializers" | html }}</value>
   </property>
+{{- end }}
   <property>
     <name>hadoop.http.cross-origin.allowed-origins</name>
     <value>http://localhost:9999,http://tez-ui.zookage:9999,http://tez-ui.zookage.svc.cluster.local:9999</value>
