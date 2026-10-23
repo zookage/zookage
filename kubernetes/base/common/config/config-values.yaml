@@ -40,7 +40,8 @@ metadata:
   name: yarn-config-values
   annotations:
     config.kubernetes.io/local-config: 'true'
-data: {}
+data:
+  hadoop_http_filter_initializers: org.apache.hadoop.security.HttpCrossOriginFilterInitializer
 ---
 apiVersion: v1
 kind: ConfigMap

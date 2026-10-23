@@ -1004,6 +1004,17 @@ userPassword: tez
 krbPrincipalName: tez/tez-deploy@ZOOKAGE.LOCAL
 krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAHF/5MMOoqohnP+1nKAOtwgrVLwAJb22xPejipYwWy7zy6BiOn6+cMUSmhUujWjJJ09abWpTDODV9CvmbjBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAP4FHLQ7t3w2tQ7Na2UdwluvnOXT8LLzZcsUyZThyXy8MVIUmpei0IDWmZ8g=
 
+dn: uid=http-tez-ui.zookage.svc.cluster.local,ou=tez,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-tez-ui.zookage.svc.cluster.local
+userPassword: tez
+krbPrincipalName: HTTP/tez-ui.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gALJQ8iyajhqf2Ei2k6Vtni9cpT08i/4JvPMoly5PS97hAw5pM+HPB0NhajjY7+vEmpGU0ixsDfEstmFArw==
+
 dn: ou=trino,ou=kerberos,dc=example,dc=com
 objectClass: top
 objectClass: organizationalUnit

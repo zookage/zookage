@@ -30,3 +30,35 @@ spec:
           value: tez/tez-deploy@ZOOKAGE.LOCAL
         - name: KRB5KEYTAB
           value: /etc/secrets/tez/tez.keytab
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tez-ui
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: tez-ui
+        env:
+        - name: CATALINA_OPTS
+          value: >-
+            -Djava.security.auth.login.config=/usr/local/tomcat/conf/Catalina/localhost/auth/jaas.conf
+            -Djava.security.krb5.conf=/etc/krb5.conf
+      volumes:
+      - name: tez-ui-context-conf
+        configMap:
+          name: tez-ui-conf
+          items:
+          - key: tez-ui-auth.xml
+            path: tez-ui.xml
+          - key: jaas.conf
+            path: auth/jaas.conf
+          - key: web.xml
+            path: auth/web.xml

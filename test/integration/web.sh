@@ -71,7 +71,13 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
 else
   check "http://localhost:19888/jobhistory"
 fi
-check "http://localhost:9999/tez-ui/"
+if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+  check "http://localhost:9999/tez-ui/" "401"
+  check "http://tez-ui.zookage.svc.cluster.local:9999/tez-ui/" "200" \
+    "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
+else
+  check "http://localhost:9999/tez-ui/"
+fi
 check "http://localhost:10002/"
 if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   check "http://localhost:16010/master-status" "401"
