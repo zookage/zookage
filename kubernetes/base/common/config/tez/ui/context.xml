@@ -12,6 +12,12 @@
   ~ limitations under the License.
 -->
 
-<Context altDDName="/usr/local/tomcat/conf/Catalina/localhost/auth/web.xml">
+<Context docBase="/opt/tez/share/tez-ui.war" unpackWAR="false"
+         altDDName="/usr/local/tomcat/conf/Catalina/localhost/auth/web.xml">
+  <Resources>
+    <PreResources className="org.apache.catalina.webresources.FileResourceSet"
+                  base="/etc/tez-ui-conf/configs.js"
+                  webAppMount="/config/configs.js" />
+  </Resources>
   <Realm className="org.apache.catalina.realm.AuthenticatedUserRealm" />
 </Context>

@@ -23,17 +23,6 @@ spec:
       containers:
       - name: tez-ui
         image: tomcat:11.0.18-jdk21-temurin
-        command:
-        - /bin/sh
-        - -ec
-        args:
-        - |
-          mkdir -p /usr/local/tomcat/webapps/tez-ui
-          cd /usr/local/tomcat/webapps/tez-ui
-          jar xf /opt/tez/share/tez-ui.war
-          test -f config/configs.js
-          cp /etc/tez-ui-conf/configs.js config/configs.js
-          exec /usr/local/tomcat/bin/catalina.sh run
         readinessProbe:
           tcpSocket:
             port: 8080
@@ -43,6 +32,8 @@ spec:
           subPath: opt/tez
         - name: tez-ui-conf
           mountPath: /etc/tez-ui-conf
+        - name: tez-ui-context-conf
+          mountPath: /usr/local/tomcat/conf/Catalina/localhost
       volumes:
       - name: tez-src
         image:
@@ -51,3 +42,9 @@ spec:
       - name: tez-ui-conf
         configMap:
           name: tez-ui-conf
+      - name: tez-ui-context-conf
+        configMap:
+          name: tez-ui-conf
+          items:
+          - key: context.xml
+            path: tez-ui.xml
