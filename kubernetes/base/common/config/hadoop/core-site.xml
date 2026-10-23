@@ -72,7 +72,7 @@
 {{- end }}
   <property>
     <name>hadoop.http.cross-origin.allowed-origins</name>
-    <value>{{ or (index .Values "hadoop_http_cross_origin_allowed_origins") "*" | html }}</value>
+    <value>{{ index .Values "hadoop_http_cross_origin_allowed_origins" | html }}</value>
   </property>
 {{- if index .Values "hadoop_http_authentication_type" }}
   <property>

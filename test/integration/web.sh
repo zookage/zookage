@@ -88,12 +88,25 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
     printf '%s\n' "${headers}" | grep -Fiq "Access-Control-Allow-Origin: ${tez_ui_origin}"
     printf '%s\n' "${headers}" | grep -Fiq "Access-Control-Allow-Credentials: true"
   done
-  readonly yarn_ui2_origin=http://yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local:8088
-  echo "Check Timeline Server allows the YARN UI2 origin"
-  headers=$("${base_dir}/bin/kubectl" exec client-node-0 -- curl -fsS -D - -o /dev/null \
-    --negotiate -u : -H "Origin: ${yarn_ui2_origin}" \
-    "http://yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188/applicationhistory")
-  printf '%s\n' "${headers}" | grep -Fiq "Access-Control-Allow-Origin: ${yarn_ui2_origin}"
+  for origin in http://localhost:9999 http://tez-ui.zookage:9999; do
+    for endpoint in \
+      yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188/applicationhistory \
+      yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local:8088/ws/v1/cluster/info; do
+      echo "Check ${endpoint} allows ${origin}"
+      headers=$("${base_dir}/bin/kubectl" exec client-node-0 -- curl -fsS -D - -o /dev/null \
+        --negotiate -u : -H "Origin: ${origin}" "http://${endpoint}")
+      printf '%s\n' "${headers}" | grep -Fiq "Access-Control-Allow-Origin: ${origin}"
+    done
+  done
+  for yarn_ui2_origin in \
+    http://localhost:8088 \
+    http://yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local:8088; do
+    echo "Check Timeline Server allows ${yarn_ui2_origin}"
+    headers=$("${base_dir}/bin/kubectl" exec client-node-0 -- curl -fsS -D - -o /dev/null \
+      --negotiate -u : -H "Origin: ${yarn_ui2_origin}" \
+      "http://yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188/applicationhistory")
+    printf '%s\n' "${headers}" | grep -Fiq "Access-Control-Allow-Origin: ${yarn_ui2_origin}"
+  done
 else
   check "http://localhost:9999/tez-ui/"
   tez_ui_config=$(curl -fsS http://localhost:9999/tez-ui/config/configs.js)
@@ -101,6 +114,15 @@ else
   rm_headers=$(curl -fsS -D - -o /dev/null -H "Origin: http://localhost:9999" \
     "http://localhost:8088/ws/v1/cluster/info")
   printf '%s\n' "${rm_headers}" | grep -Fiq "Access-Control-Allow-Origin: http://localhost:9999"
+  for origin in \
+    http://localhost:9999 \
+    http://localhost:8088 \
+    http://yarn-resourcemanager.zookage:8088; do
+    echo "Check Timeline Server allows ${origin}"
+    ats_headers=$(curl -fsS -D - -o /dev/null -H "Origin: ${origin}" \
+      "http://localhost:8188/applicationhistory")
+    printf '%s\n' "${ats_headers}" | grep -Fiq "Access-Control-Allow-Origin: ${origin}"
+  done
 fi
 readonly tez_ui_config
 echo "Check Tez UI backend hosts"
