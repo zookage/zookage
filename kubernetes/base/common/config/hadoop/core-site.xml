@@ -70,12 +70,10 @@
     <value>{{ index .Values "hadoop_http_filter_initializers" | html }}</value>
   </property>
 {{- end }}
-{{- if index .Values "hadoop_http_cross_origin_allowed_origins" }}
   <property>
     <name>hadoop.http.cross-origin.allowed-origins</name>
-    <value>{{ index .Values "hadoop_http_cross_origin_allowed_origins" | html }}</value>
+    <value>{{ or (index .Values "hadoop_http_cross_origin_allowed_origins") "*" | html }}</value>
   </property>
-{{- end }}
 {{- if index .Values "hadoop_http_authentication_type" }}
   <property>
     <name>hadoop.http.authentication.type</name>
