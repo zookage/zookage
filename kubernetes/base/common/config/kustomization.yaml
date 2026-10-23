@@ -185,12 +185,10 @@ configMapGenerator:
 - files:
   - tez/ui/configs.js
   - tez/ui/tez-ui.xml
-  name: tez-ui-conf
-- files:
-  - tez/ui/auth/tez-ui.xml
+  - tez/ui/tez-ui-auth.xml
   - tez/ui/jaas.conf
   - tez/ui/web.xml
-  name: tez-ui-auth-conf
+  name: tez-ui-conf
 - files:
   - trino/catalog/hive.properties
   - trino/catalog/iceberg.properties
