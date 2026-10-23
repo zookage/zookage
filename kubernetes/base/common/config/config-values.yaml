@@ -43,7 +43,7 @@ metadata:
 data:
   hadoop_http_filter_initializers: org.apache.hadoop.security.HttpCrossOriginFilterInitializer
   hadoop_http_cross_origin_allowed_origins: >-
-    http://localhost:9999,http://tez-ui.zookage:9999
+    http://localhost:9999,http://tez-ui.zookage:9999,http://tez-ui.zookage.svc.cluster.local:9999
 ---
 apiVersion: v1
 kind: ConfigMap

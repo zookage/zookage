@@ -10,13 +10,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: config-values
-data:
-  tez_ui_history_url_base: http://tez-ui.zookage.svc.cluster.local:9999/tez-ui/
----
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -53,20 +46,6 @@ spec:
         - deployment/kerberos-kdc
       containers:
       - name: tez-ui
-        args:
-        - |
-          mkdir -p /usr/local/tomcat/webapps/tez-ui
-          cd /usr/local/tomcat/webapps/tez-ui
-          jar xf /opt/tez/share/tez-ui.war
-          test -f config/configs.js
-          printf '\n%s\n' \
-            'ENV.hosts.timeline = "http://yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188";' \
-            'ENV.hosts.rm = "http://yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local:8088";' \
-            >> config/configs.js
-          mkdir -p WEB-INF META-INF
-          cp /etc/tez-ui-auth/web.xml WEB-INF/web.xml
-          cp /etc/tez-ui-auth/context.xml META-INF/context.xml
-          exec /usr/local/tomcat/bin/catalina.sh run
         env:
         - name: CATALINA_OPTS
           value: >-

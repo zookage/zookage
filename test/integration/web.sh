@@ -78,10 +78,6 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   readonly tez_ui_config_url=http://tez-ui.zookage.svc.cluster.local:9999/tez-ui/config/configs.js
   tez_ui_config=$("${base_dir}/bin/kubectl" exec client-node-0 -- \
     curl -fsS --negotiate -u : "${tez_ui_config_url}")
-  readonly tez_ui_config
-  echo "Check Tez UI backend hosts"
-  [[ ${tez_ui_config} == *'ENV.hosts.timeline = "http://yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188";'* ]]
-  [[ ${tez_ui_config} == *'ENV.hosts.rm = "http://yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local:8088";'* ]]
   readonly tez_ui_origin=http://tez-ui.zookage.svc.cluster.local:9999
   for endpoint in \
     yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188/applicationhistory \
@@ -92,13 +88,24 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
     printf '%s\n' "${headers}" | grep -Fiq "Access-Control-Allow-Origin: ${tez_ui_origin}"
     printf '%s\n' "${headers}" | grep -Fiq "Access-Control-Allow-Credentials: true"
   done
+  readonly yarn_ui2_origin=http://yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local:8088
+  echo "Check Timeline Server allows the YARN UI2 origin"
+  headers=$("${base_dir}/bin/kubectl" exec client-node-0 -- curl -fsS -D - -o /dev/null \
+    --negotiate -u : -H "Origin: ${yarn_ui2_origin}" \
+    "http://yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188/applicationhistory")
+  printf '%s\n' "${headers}" | grep -Fiq "Access-Control-Allow-Origin: ${yarn_ui2_origin}"
 else
   check "http://localhost:9999/tez-ui/"
+  tez_ui_config=$(curl -fsS http://localhost:9999/tez-ui/config/configs.js)
   echo "Check ResourceManager allows the Tez UI origin"
   rm_headers=$(curl -fsS -D - -o /dev/null -H "Origin: http://localhost:9999" \
     "http://localhost:8088/ws/v1/cluster/info")
   printf '%s\n' "${rm_headers}" | grep -Fiq "Access-Control-Allow-Origin: http://localhost:9999"
 fi
+readonly tez_ui_config
+echo "Check Tez UI backend hosts"
+[[ ${tez_ui_config} == *'ENV.hosts.timeline = "http://yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188";'* ]]
+[[ ${tez_ui_config} == *'ENV.hosts.rm = "http://yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local:8088";'* ]]
 check "http://localhost:10002/"
 if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   check "http://localhost:16010/master-status" "401"

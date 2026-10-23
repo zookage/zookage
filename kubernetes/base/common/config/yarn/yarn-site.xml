@@ -190,12 +190,10 @@
     <name>yarn.timeline-service.http-cross-origin.enabled</name>
     <value>true</value>
   </property>
-{{- if index .Values "hadoop_yarn_timeline_service_http_cross_origin_allowed_origins" }}
   <property>
     <name>yarn.timeline-service.http-cross-origin.allowed-origins</name>
-    <value>{{ index .Values "hadoop_yarn_timeline_service_http_cross_origin_allowed_origins" | html }}</value>
+    <value>{{ or (index .Values "hadoop_yarn_timeline_service_http_cross_origin_allowed_origins") "*" | html }}</value>
   </property>
-{{- end }}
   <property>
     <name>yarn.timeline-service.generic-application-history.enabled</name>
     <value>true</value>

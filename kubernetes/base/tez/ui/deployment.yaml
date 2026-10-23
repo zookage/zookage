@@ -28,7 +28,19 @@ spec:
         - -ec
         args:
         - |
-          cp /opt/tez/share/tez-ui.war /usr/local/tomcat/webapps/tez-ui.war
+          mkdir -p /usr/local/tomcat/webapps/tez-ui
+          cd /usr/local/tomcat/webapps/tez-ui
+          jar xf /opt/tez/share/tez-ui.war
+          test -f config/configs.js
+          printf '\n%s\n' \
+            'ENV.hosts.timeline = "http://yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188";' \
+            'ENV.hosts.rm = "http://yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local:8088";' \
+            >> config/configs.js
+          if [ -f /etc/tez-ui-auth/web.xml ]; then
+            mkdir -p WEB-INF META-INF
+            cp /etc/tez-ui-auth/web.xml WEB-INF/web.xml
+            cp /etc/tez-ui-auth/context.xml META-INF/context.xml
+          fi
           exec /usr/local/tomcat/bin/catalina.sh run
         readinessProbe:
           tcpSocket:
