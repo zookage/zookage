@@ -15,7 +15,7 @@ kind: ConfigMap
 metadata:
   name: mapreduce-config-values
 data:
-  hadoop_http_filter_initializers: org.apache.hadoop.security.AuthenticationFilterInitializer
+  hadoop_http_additional_filter_initializers: org.apache.hadoop.security.AuthenticationFilterInitializer
   hadoop_http_authentication_type: kerberos
   hadoop_http_authentication_kerberos_principal: >-
     HTTP/mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL

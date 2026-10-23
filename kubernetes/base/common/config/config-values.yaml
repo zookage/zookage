@@ -16,7 +16,8 @@ metadata:
   name: config-values
   annotations:
     config.kubernetes.io/local-config: 'true'
-data: {}
+data:
+  hadoop_http_additional_filter_initializers: org.apache.hadoop.http.lib.StaticUserWebFilter
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -41,7 +42,7 @@ metadata:
   annotations:
     config.kubernetes.io/local-config: 'true'
 data:
-  hadoop_http_filter_initializers: org.apache.hadoop.security.HttpCrossOriginFilterInitializer
+  hadoop_http_additional_filter_initializers: ""
 ---
 apiVersion: v1
 kind: ConfigMap
