@@ -49,7 +49,7 @@ spec:
         env:
         - name: CATALINA_OPTS
           value: >-
-            -Djava.security.auth.login.config=/etc/tez-ui-auth/jaas.conf
+            -Djava.security.auth.login.config=/usr/local/tomcat/conf/Catalina/localhost/auth/jaas.conf
             -Djava.security.krb5.conf=/etc/krb5.conf
         volumeMounts:
         - name: kerberos-conf
@@ -58,7 +58,7 @@ spec:
         - name: tez-secret
           mountPath: /etc/secrets/tez
         - name: tez-ui-auth-conf
-          mountPath: /etc/tez-ui-auth
+          mountPath: /usr/local/tomcat/conf/Catalina/localhost
       volumes:
       - name: kerberos-conf
         configMap:
@@ -70,3 +70,10 @@ spec:
       - name: tez-ui-auth-conf
         configMap:
           name: tez-ui-auth-conf
+          items:
+          - key: context.xml
+            path: tez-ui.xml
+          - key: jaas.conf
+            path: auth/jaas.conf
+          - key: web.xml
+            path: auth/web.xml

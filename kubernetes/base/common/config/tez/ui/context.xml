@@ -12,6 +12,6 @@
   ~ limitations under the License.
 -->
 
-<Context>
+<Context altDDName="/usr/local/tomcat/conf/Catalina/localhost/auth/web.xml">
   <Realm className="org.apache.catalina.realm.AuthenticatedUserRealm" />
 </Context>

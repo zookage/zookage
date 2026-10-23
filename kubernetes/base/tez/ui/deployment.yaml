@@ -33,11 +33,6 @@ spec:
           jar xf /opt/tez/share/tez-ui.war
           test -f config/configs.js
           cp /etc/tez-ui-conf/configs.js config/configs.js
-          if [ -f /etc/tez-ui-auth/web.xml ]; then
-            mkdir -p WEB-INF META-INF
-            cp /etc/tez-ui-auth/web.xml WEB-INF/web.xml
-            cp /etc/tez-ui-auth/context.xml META-INF/context.xml
-          fi
           exec /usr/local/tomcat/bin/catalina.sh run
         readinessProbe:
           tcpSocket:
