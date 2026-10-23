@@ -71,7 +71,7 @@ spec:
         configMap:
           name: tez-ui-auth-conf
           items:
-          - key: context.xml
+          - key: tez-ui.xml
             path: tez-ui.xml
           - key: jaas.conf
             path: auth/jaas.conf

@@ -184,10 +184,10 @@ configMapGenerator:
   name: tez-conf
 - files:
   - tez/ui/configs.js
-  - tez/ui/context.xml
+  - tez/ui/tez-ui.xml
   name: tez-ui-conf
 - files:
-  - tez/ui/auth/context.xml
+  - tez/ui/auth/tez-ui.xml
   - tez/ui/jaas.conf
   - tez/ui/web.xml
   name: tez-ui-auth-conf

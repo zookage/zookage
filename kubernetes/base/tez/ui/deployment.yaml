@@ -46,5 +46,5 @@ spec:
         configMap:
           name: tez-ui-conf
           items:
-          - key: context.xml
+          - key: tez-ui.xml
             path: tez-ui.xml
