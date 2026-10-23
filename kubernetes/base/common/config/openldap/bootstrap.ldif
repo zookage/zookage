@@ -160,6 +160,17 @@ uidNumber: 1070
 gidNumber: 1070
 homeDirectory: /home/ozone
 
+dn: uid=om,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: om
+cn: Ozone Manager
+sn: Ozone Manager
+uidNumber: 1071
+gidNumber: 1070
+homeDirectory: /home/om
+
 dn: uid=trino,ou=users,dc=example,dc=com
 objectClass: top
 objectClass: inetOrgPerson
@@ -971,6 +982,165 @@ uid: http-mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.
 userPassword: mapred
 krbPrincipalName: HTTP/mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
 krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAHo1L11+8I1tSpS74i9L4InjlDk5FvxJUsialLZINliHa+O2bzU8UFZpFvGG1EBgjZUrDDWfdGwGSlo7Vg==
+
+dn: ou=ozone,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: ozone
+
+dn: uid=scm-ozone-scm-0.ozone-scm.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: scm-ozone-scm-0.ozone-scm.zookage.svc.cluster.local
+userPassword: ozone
+krbPrincipalName: scm/ozone-scm-0.ozone-scm.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAJFqKSVcHP0g3adG04voxte0Kx7T1Sy5Y5CQHWQIknpkT6D+6XqwWPAGQg/O/xu7CCq9JyWw5hmboR+CPw==
+
+dn: uid=http-ozone-scm-0.ozone-scm.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-ozone-scm-0.ozone-scm.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/ozone-scm-0.ozone-scm.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAIm3PXM1W40gryK7ItOAwPORCLYRsNUfpD7VHcWOtBBXSyzEDtDzOw2OMbJwdkafUcMh4Zo0B4LoF0y8cw==
+
+dn: uid=om-ozone-om-0.ozone-om.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: om-ozone-om-0.ozone-om.zookage.svc.cluster.local
+userPassword: ozone
+krbPrincipalName: om/ozone-om-0.ozone-om.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAJSZio1KPz7PACotBbTvjy466b8r1BrQQH6xxzSWCF3g2rtGvGqfLIJW3GgSSwe360xWEhcfxPaLuxnqsQ==
+
+dn: uid=http-ozone-om-0.ozone-om.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-ozone-om-0.ozone-om.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/ozone-om-0.ozone-om.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gALu4s8UtOjqLsgXeuH4g7IBCflN1dIe8yvD5BjS2OofdgRfJRyZu9hPD0YuU8l2TlWFinnMO1fVlPEPWmQ==
+
+dn: uid=dn-ozone-datanode-0.ozone-datanode.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: dn-ozone-datanode-0.ozone-datanode.zookage.svc.cluster.local
+userPassword: ozone
+krbPrincipalName: dn/ozone-datanode-0.ozone-datanode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAP/mzkpgePvJfXe1KIjslFYwUHYmLD3py6gGG6H+eK4CjsZJ4EHC7iJQ+55QhEaTtv/YJtG5trl2yIQe5w==
+
+dn: uid=http-ozone-datanode-0.ozone-datanode.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-ozone-datanode-0.ozone-datanode.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/ozone-datanode-0.ozone-datanode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAJ2QlVIBEGKDbutYxibUDsnUvW0/dlAzqHTgFVG529HhgQHDSFbY7/bTilgNps+4/bVJxso2qJFyZVyxfQ==
+
+dn: uid=dn-ozone-datanode-1.ozone-datanode.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: dn-ozone-datanode-1.ozone-datanode.zookage.svc.cluster.local
+userPassword: ozone
+krbPrincipalName: dn/ozone-datanode-1.ozone-datanode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAI7qsVseP05IGLqHHrtKhYqaw8nO28OySQCY5TpH4QI8tVDDPqdRiQbTe1T4pT1bzFsicmNFHGXYb7FEbg==
+
+dn: uid=http-ozone-datanode-1.ozone-datanode.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-ozone-datanode-1.ozone-datanode.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/ozone-datanode-1.ozone-datanode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAN3w1crFKL07Ww+e4Azz231PYChFqiwngIKlToufbjZzpPaJWk8vAurNl/2P8r6XebaPIFiL7ILM1F9yOw==
+
+dn: uid=dn-ozone-datanode-2.ozone-datanode.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: dn-ozone-datanode-2.ozone-datanode.zookage.svc.cluster.local
+userPassword: ozone
+krbPrincipalName: dn/ozone-datanode-2.ozone-datanode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAMGkXjHBOcOV4YAXimTw77r+d/XrSs+YvnqGMf1aVGaJoQVUFsvpDB/0ruDAEonXC8IVbEXJ6cIBjKrOGQ==
+
+dn: uid=http-ozone-datanode-2.ozone-datanode.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-ozone-datanode-2.ozone-datanode.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/ozone-datanode-2.ozone-datanode.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAPF3PNIDFTyW6GFAfoPwFZSGivfP+xC5j+5W0bX6X67boDZcxYti+TOliKxToB+XqyLMzSVx1SkJt0XwnQ==
+
+dn: uid=recon-ozone-recon-0.ozone-recon.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: recon-ozone-recon-0.ozone-recon.zookage.svc.cluster.local
+userPassword: ozone
+krbPrincipalName: recon/ozone-recon-0.ozone-recon.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAFRQ7j8mZaK5pFo2eGrgIZHAhlGNbeYubC+GOX6GJXaSZXSkJJA5SoZd1eLZpLVI1YSPQ0gTHojJrcxNXQ==
+
+dn: uid=http-ozone-recon-0.ozone-recon.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-ozone-recon-0.ozone-recon.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/ozone-recon-0.ozone-recon.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAHOIC4bwV6yIS8QsZ0MirZmHW8U062R1RPRKImlPphZdfulGRlH4luojINpz0tCqMGWhbpJx4Bv/c4iP8w==
+
+dn: uid=s3g-ozone-s3g.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: s3g-ozone-s3g.zookage.svc.cluster.local
+userPassword: ozone
+krbPrincipalName: s3g/ozone-s3g.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAEbfHCTdGjndFo8F4GwIch03NJWEBKOy+fA6LDlv2gG9YR61EkkpMQKd7kUZ7L+Kcr0kATrUYfIbbc5aQg==
+
+dn: uid=http-ozone-s3g.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-ozone-s3g.zookage.svc.cluster.local
+userPassword: HTTP
+krbPrincipalName: HTTP/ozone-s3g.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAA44Yz8730Z+On5QdPVQlpRcZEaRGPydRYAJQJcnTOHqKi/XH1D1O5zSOz0x+wrhc8lMO1g2CONj6nkL1g==
 
 dn: ou=spark,ou=kerberos,dc=example,dc=com
 objectClass: top

@@ -27,6 +27,13 @@ readonly kerberos_warnings
 
 # shellcheck disable=SC2016
 "${base_dir}/bin/logs" | grep WARN \
+  | awk -v auth="${ZOOKAGE_TEST_MODE:-}" '
+    auth == "auth" && $1 ~ /^pod\/ozone-scm-[0-9]+:$/ &&
+      / WARN ha\.SequenceIdGenerator: Failed to allocate a batch for CertificateId, expected lastId is 0, actual lastId is [0-9]+\.$/ {
+      if (++seen[$1] == 1) next
+    }
+    { print }
+  ' \
   | grep -Ev "${kerberos_warnings}" \
   | grep -v 'WARNING: .* does not exist. Creating.' \
   | grep -v 'pod/hdfs-namenode-.* hdfs.DFSUtilClient: Namenode for .* remains unresolved for ID' \

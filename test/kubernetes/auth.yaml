@@ -37,6 +37,7 @@ resources:
 - base/trino
 - base/yarn
 - base/zookeeper
+- patches/authn/ozone-s3-secret.yaml
 transformers:
 - render-config.yaml
 images:
@@ -95,6 +96,7 @@ patches:
 - path: patches/authn/hive.yaml
 - path: patches/authn/hive-metastore.yaml
 - path: patches/authn/mapreduce.yaml
+- path: patches/authn/ozone.yaml
 - path: patches/authn/ranger.yaml
 - path: patches/authn/spark.yaml
 - path: patches/authn/tez.yaml

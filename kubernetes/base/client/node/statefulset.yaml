@@ -143,8 +143,15 @@ spec:
         configMap:
           name: hive-conf
       - name: ozone-conf
-        configMap:
-          name: ozone-conf
+        projected:
+          sources:
+          - configMap:
+              name: ozone-conf
+          - configMap:
+              name: hadoop-client-conf
+              items:
+              - key: core-site.xml
+                path: core-site.xml
       - name: ozone-src
         image:
           reference: zookage-ozone

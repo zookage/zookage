@@ -1,0 +1,207 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-values
+data:
+  ozone_security_enabled: "true"
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ozone-scm
+spec:
+  template:
+    spec:
+      initContainers:
+      - $patch: replace
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      - name: wait-for-dns
+        image: zookage-util
+        args:
+        - wait-for-dns
+      - name: scm-init
+        image: zookage-ozone
+        command:
+        - /opt/ozone/bin/ozone
+        args:
+        - scm
+        - --init
+        envFrom:
+        - configMapRef:
+            name: ozone-env
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: ozone-conf
+          mountPath: /etc/ozone/conf
+        - name: ozone-secret
+          mountPath: /etc/secrets/ozone
+        - name: mnt
+          mountPath: /mnt
+      containers:
+      - name: scm
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ozone-om
+spec:
+  template:
+    spec:
+      initContainers:
+      - $patch: replace
+      - name: wait-for-scm
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/ozone-scm
+      - name: wait-for-dns
+        image: zookage-util
+        args:
+        - wait-for-dns
+      - name: om-init
+        image: zookage-ozone
+        command:
+        - /opt/ozone/bin/ozone
+        args:
+        - om
+        - --init
+        envFrom:
+        - configMapRef:
+            name: java-env
+        - configMapRef:
+            name: ozone-env
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: ozone-conf
+          mountPath: /etc/ozone/conf
+        - name: ozone-secret
+          mountPath: /etc/secrets/ozone
+        - name: mnt
+          mountPath: /mnt
+      containers:
+      - name: om
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ozone-datanode
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-dns
+        image: zookage-util
+        args:
+        - wait-for-dns
+      containers:
+      - name: datanode
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ozone-recon
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-dns
+        image: zookage-util
+        args:
+        - wait-for-dns
+      containers:
+      - name: recon
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ozone-s3g
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-om
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/ozone-om
+      - name: wait-for-s3-secret
+        image: zookage-util
+        args:
+        - wait-for-job
+        - ozone-s3-secret
+      containers:
+      - name: s3g
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: client-node
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-ozone-s3-secret
+        image: zookage-util
+        args:
+        - wait-for-job
+        - ozone-s3-secret

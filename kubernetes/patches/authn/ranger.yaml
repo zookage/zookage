@@ -56,7 +56,7 @@ spec:
           }
 
           # Service creation also creates users; wait for LDAP sync to avoid duplicate inserts.
-          for user in hbase hdfs hive mapred ozone spark tez trino yarn zookage; do
+          for user in hbase hdfs hive mapred om ozone spark tez trino yarn zookage; do
             until ranger_curl \
               "http://ranger-admin:6080/service/public/v2/api/roles/user/${user}"; do
               sleep 1
