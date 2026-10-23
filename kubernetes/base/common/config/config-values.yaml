@@ -16,16 +16,7 @@ metadata:
   name: config-values
   annotations:
     config.kubernetes.io/local-config: 'true'
-data:
-  hadoop_http_cross_origin_allowed_origins: >-
-    http://localhost:9999,http://tez-ui.zookage:9999,http://tez-ui.zookage.svc.cluster.local:9999
-  hadoop_yarn_timeline_service_http_cross_origin_allowed_origins: "http://localhost:9999,\
-    http://tez-ui.zookage:9999,http://tez-ui.zookage.svc.cluster.local:9999,\
-    http://localhost:8088,http://yarn-resourcemanager:8088,\
-    http://yarn-resourcemanager.zookage:8088,\
-    http://yarn-resourcemanager.zookage.svc.cluster.local:8088,\
-    http://yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local:8088,\
-    http://yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local:8088"
+data: {}
 ---
 apiVersion: v1
 kind: ConfigMap
