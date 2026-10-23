@@ -32,10 +32,7 @@ spec:
           cd /usr/local/tomcat/webapps/tez-ui
           jar xf /opt/tez/share/tez-ui.war
           test -f config/configs.js
-          printf '\n%s\n' \
-            'ENV.hosts.timeline = "http://yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188";' \
-            'ENV.hosts.rm = "http://yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local:8088";' \
-            >> config/configs.js
+          cp /etc/tez-ui-conf/configs.js config/configs.js
           if [ -f /etc/tez-ui-auth/web.xml ]; then
             mkdir -p WEB-INF META-INF
             cp /etc/tez-ui-auth/web.xml WEB-INF/web.xml
@@ -49,8 +46,13 @@ spec:
         - name: tez-src
           mountPath: /opt/tez
           subPath: opt/tez
+        - name: tez-ui-conf
+          mountPath: /etc/tez-ui-conf
       volumes:
       - name: tez-src
         image:
           reference: zookage-tez
           pullPolicy: IfNotPresent
+      - name: tez-ui-conf
+        configMap:
+          name: tez-ui-conf
