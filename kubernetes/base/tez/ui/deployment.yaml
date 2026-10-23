@@ -34,6 +34,11 @@ spec:
           mountPath: /etc/tez-ui-conf
         - name: tez-ui-context-conf
           mountPath: /usr/local/tomcat/conf/Catalina/localhost
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: tez-secret
+          mountPath: /etc/secrets/tez
       volumes:
       - name: tez-src
         image:
@@ -48,3 +53,10 @@ spec:
           items:
           - key: tez-ui.xml
             path: tez-ui.xml
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: tez-secret
+        secret:
+          secretName: tez-secret
+          defaultMode: 0444
