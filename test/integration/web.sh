@@ -94,6 +94,10 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   done
 else
   check "http://localhost:9999/tez-ui/"
+  echo "Check ResourceManager allows the Tez UI origin"
+  rm_headers=$(curl -fsS -D - -o /dev/null -H "Origin: http://localhost:9999" \
+    "http://localhost:8088/ws/v1/cluster/info")
+  printf '%s\n' "${rm_headers}" | grep -Fiq "Access-Control-Allow-Origin: http://localhost:9999"
 fi
 check "http://localhost:10002/"
 if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then

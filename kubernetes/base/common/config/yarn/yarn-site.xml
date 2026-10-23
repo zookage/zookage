@@ -76,12 +76,10 @@
     <name>yarn.resourcemanager.webapp.spnego-keytab-file</name>
     <value>${yarn.resourcemanager.keytab}</value>
   </property>
-{{- if index .Values "hadoop_yarn_resourcemanager_webapp_cross_origin_enabled" }}
   <property>
     <name>yarn.resourcemanager.webapp.cross-origin.enabled</name>
-    <value>{{ index .Values "hadoop_yarn_resourcemanager_webapp_cross_origin_enabled" | html }}</value>
+    <value>true</value>
   </property>
-{{- end }}
   <property>
     <name>yarn.resourcemanager.bind-host</name>
     <value>0.0.0.0</value>
