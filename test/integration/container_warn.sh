@@ -44,6 +44,7 @@ readonly kerberos_warnings
   | grep -v 'pod/hdfs-datanode-.* impl.FsDatasetImpl: dfsUsed file missing in' \
   | grep -v 'pod/hdfs-datanode-.* ipc.Client: Address change detected' \
   | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow flushOrSync took .*ms (threshold=.*ms), isSync:.*, flushTotalNanos=.*ns, volume=.*' \
+  | grep -v 'pod/hdfs-datanode-.* datanode.DataNode: Slow PacketResponder send ack to upstream took .*ms (threshold=.*ms), PacketResponder:' \
   | grep -v 'pod/hdfs-httpfs-.* hdfs.DFSUtilClient: Namenode for zookage remains unresolved for ID' \
   | grep -v 'pod/hdfs-httpfs-.* ipc.Client: Address change detected' \
   | grep -v 'pod/hdfs-httpfs-.* ipc.Client: Exception when handle ConnectionFailure: Invalid host name:' \
