@@ -71,7 +71,30 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
 else
   check "http://localhost:19888/jobhistory"
 fi
-check "http://localhost:9999/tez-ui/"
+if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+  check "http://localhost:9999/tez-ui/" "401"
+  check "http://tez-ui.zookage.svc.cluster.local:9999/tez-ui/" "200" \
+    "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
+  readonly tez_ui_config_url=http://tez-ui.zookage.svc.cluster.local:9999/tez-ui/config/configs.js
+  tez_ui_config=$("${base_dir}/bin/kubectl" exec client-node-0 -- \
+    curl -fsS --negotiate -u : "${tez_ui_config_url}")
+  readonly tez_ui_config
+  echo "Check Tez UI backend hosts"
+  [[ ${tez_ui_config} == *'ENV.hosts.timeline = "http://yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188";'* ]]
+  [[ ${tez_ui_config} == *'ENV.hosts.rm = "http://yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local:8088";'* ]]
+  readonly tez_ui_origin=http://tez-ui.zookage.svc.cluster.local:9999
+  for endpoint in \
+    yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188/applicationhistory \
+    yarn-resourcemanager-0.yarn-resourcemanager.zookage.svc.cluster.local:8088/ws/v1/cluster/info; do
+    echo "Check ${endpoint} allows the Tez UI origin"
+    headers=$("${base_dir}/bin/kubectl" exec client-node-0 -- curl -fsS -D - -o /dev/null \
+      --negotiate -u : -H "Origin: ${tez_ui_origin}" "http://${endpoint}")
+    printf '%s\n' "${headers}" | grep -Fiq "Access-Control-Allow-Origin: ${tez_ui_origin}"
+    printf '%s\n' "${headers}" | grep -Fiq "Access-Control-Allow-Credentials: true"
+  done
+else
+  check "http://localhost:9999/tez-ui/"
+fi
 check "http://localhost:10002/"
 if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   check "http://localhost:16010/master-status" "401"

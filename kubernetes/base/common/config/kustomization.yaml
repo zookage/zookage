@@ -183,6 +183,11 @@ configMapGenerator:
   - tez/tez-site.xml
   name: tez-conf
 - files:
+  - tez/ui/context.xml
+  - tez/ui/jaas.conf
+  - tez/ui/web.xml
+  name: tez-ui-auth-conf
+- files:
   - trino/catalog/hive.properties
   - trino/catalog/iceberg.properties
   - trino/catalog/tpcds.properties

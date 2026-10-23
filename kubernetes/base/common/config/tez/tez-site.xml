@@ -31,7 +31,7 @@
   </property>
   <property>
     <name>tez.tez-ui.history-url.base</name>
-    <value>http://tez-ui.zookage:9999/tez-ui/</value>
+    <value>{{ or (index .Values "tez_ui_history_url_base") "http://tez-ui.zookage:9999/tez-ui/" | html }}</value>
   </property>
   <property>
     <name>tez.runtime.convert.user-payload.to.history-text</name>
