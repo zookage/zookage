@@ -16,6 +16,7 @@ metadata:
   name: config-values
 data:
   ozone_security_enabled: "true"
+  hadoop_rpc_protection: privacy
 ---
 apiVersion: apps/v1
 kind: StatefulSet
