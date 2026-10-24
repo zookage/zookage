@@ -160,17 +160,6 @@ uidNumber: 1070
 gidNumber: 1070
 homeDirectory: /home/ozone
 
-dn: uid=om,ou=users,dc=example,dc=com
-objectClass: top
-objectClass: inetOrgPerson
-objectClass: posixAccount
-uid: om
-cn: Ozone Manager
-sn: Ozone Manager
-uidNumber: 1071
-gidNumber: 1070
-homeDirectory: /home/om
-
 dn: uid=trino,ou=users,dc=example,dc=com
 objectClass: top
 objectClass: inetOrgPerson
@@ -1010,16 +999,16 @@ userPassword: HTTP
 krbPrincipalName: HTTP/ozone-scm-0.ozone-scm.zookage.svc.cluster.local@ZOOKAGE.LOCAL
 krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAIm3PXM1W40gryK7ItOAwPORCLYRsNUfpD7VHcWOtBBXSyzEDtDzOw2OMbJwdkafUcMh4Zo0B4LoF0y8cw==
 
-dn: uid=om-ozone-om-0.ozone-om.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
+dn: uid=ozone-ozone-om-0.ozone-om.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
 objectClass: top
 objectClass: account
 objectClass: simpleSecurityObject
 objectClass: krbPrincipalAux
 objectClass: krbTicketPolicyAux
-uid: om-ozone-om-0.ozone-om.zookage.svc.cluster.local
+uid: ozone-ozone-om-0.ozone-om.zookage.svc.cluster.local
 userPassword: ozone
-krbPrincipalName: om/ozone-om-0.ozone-om.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAJSZio1KPz7PACotBbTvjy466b8r1BrQQH6xxzSWCF3g2rtGvGqfLIJW3GgSSwe360xWEhcfxPaLuxnqsQ==
+krbPrincipalName: ozone/ozone-om-0.ozone-om.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAP4YxuLMS6f9LzUUMXQZD/rUeN5QQlhQGUGSaeJTGYBlcnh+YOU61wsHJry0i0UJ/LBICOG2p1iqubh/pA==
 
 dn: uid=http-ozone-om-0.ozone-om.zookage.svc.cluster.local,ou=ozone,ou=kerberos,dc=example,dc=com
 objectClass: top

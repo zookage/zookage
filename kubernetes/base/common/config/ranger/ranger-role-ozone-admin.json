@@ -4,10 +4,6 @@
     {
       "name": "ozone",
       "isAdmin": false
-    },
-    {
-      "name": "om",
-      "isAdmin": false
     }
   ]
 }

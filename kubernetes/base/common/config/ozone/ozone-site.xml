@@ -110,7 +110,7 @@
   </property>
   <property>
     <name>ozone.administrators</name>
-    <value>om,recon,zookage</value>
+    <value>ozone,recon,zookage</value>
   </property>
   <property>
     <name>ozone.s3.administrators</name>
@@ -126,7 +126,7 @@
   </property>
   <property>
     <name>ozone.om.kerberos.principal</name>
-    <value>om/ozone-om-0.ozone-om.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+    <value>ozone/ozone-om-0.ozone-om.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
   </property>
   <property>
     <name>ozone.om.kerberos.keytab.file</name>
