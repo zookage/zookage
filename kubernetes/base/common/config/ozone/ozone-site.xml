@@ -99,15 +99,6 @@
     <name>hadoop.http.authentication.signature.secret.file</name>
     <value>/etc/secrets/ozone/ozone-http-auth-signature.secret</value>
   </property>
-{{- if eq (index .Values "ozone_security_enabled") "true" }}
-  <property>
-    <name>ozone.security.enabled</name>
-    <value>true</value>
-  </property>
-  <property>
-    <name>hadoop.security.authentication</name>
-    <value>kerberos</value>
-  </property>
   <property>
     <name>hdds.scm.kerberos.principal</name>
     <value>scm/ozone-scm-0.ozone-scm.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
@@ -149,6 +140,55 @@
     <value>/etc/secrets/ozone/ozone.keytab</value>
   </property>
   <property>
+    <name>hdds.scm.http.auth.kerberos.principal</name>
+    <value>HTTP/ozone-scm-0.ozone-scm.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hdds.scm.http.auth.kerberos.keytab</name>
+    <value>/etc/secrets/ozone/ozone.keytab</value>
+  </property>
+  <property>
+    <name>ozone.om.http.auth.kerberos.principal</name>
+    <value>HTTP/ozone-om-0.ozone-om.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>ozone.om.http.auth.kerberos.keytab</name>
+    <value>/etc/secrets/ozone/ozone.keytab</value>
+  </property>
+  <property>
+    <name>hdds.datanode.http.auth.kerberos.principal</name>
+    <value>HTTP/_HOST@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hdds.datanode.http.auth.kerberos.keytab</name>
+    <value>/etc/secrets/ozone/ozone.keytab</value>
+  </property>
+  <property>
+    <name>ozone.recon.http.auth.kerberos.principal</name>
+    <value>HTTP/ozone-recon-0.ozone-recon.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>ozone.recon.http.auth.kerberos.keytab</name>
+    <value>/etc/secrets/ozone/ozone.keytab</value>
+  </property>
+  <property>
+    <name>ozone.s3g.http.auth.kerberos.principal</name>
+    <value>HTTP/ozone-s3g.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>ozone.s3g.http.auth.kerberos.keytab</name>
+    <value>/etc/secrets/ozone/ozone.keytab</value>
+  </property>
+{{- if eq (index .Values "ozone_security_enabled") "true" }}
+  <property>
+    <name>ozone.security.enabled</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hadoop.security.authentication</name>
+    <value>kerberos</value>
+  </property>
+  <property>
     <name>ozone.security.http.kerberos.enabled</name>
     <value>true</value>
   </property>
@@ -161,60 +201,20 @@
     <value>kerberos</value>
   </property>
   <property>
-    <name>hdds.scm.http.auth.kerberos.principal</name>
-    <value>HTTP/ozone-scm-0.ozone-scm.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
-  </property>
-  <property>
-    <name>hdds.scm.http.auth.kerberos.keytab</name>
-    <value>/etc/secrets/ozone/ozone.keytab</value>
-  </property>
-  <property>
     <name>ozone.om.http.auth.type</name>
     <value>kerberos</value>
-  </property>
-  <property>
-    <name>ozone.om.http.auth.kerberos.principal</name>
-    <value>HTTP/ozone-om-0.ozone-om.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
-  </property>
-  <property>
-    <name>ozone.om.http.auth.kerberos.keytab</name>
-    <value>/etc/secrets/ozone/ozone.keytab</value>
   </property>
   <property>
     <name>hdds.datanode.http.auth.type</name>
     <value>kerberos</value>
   </property>
   <property>
-    <name>hdds.datanode.http.auth.kerberos.principal</name>
-    <value>HTTP/_HOST@ZOOKAGE.LOCAL</value>
-  </property>
-  <property>
-    <name>hdds.datanode.http.auth.kerberos.keytab</name>
-    <value>/etc/secrets/ozone/ozone.keytab</value>
-  </property>
-  <property>
     <name>ozone.recon.http.auth.type</name>
     <value>kerberos</value>
   </property>
   <property>
-    <name>ozone.recon.http.auth.kerberos.principal</name>
-    <value>HTTP/ozone-recon-0.ozone-recon.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
-  </property>
-  <property>
-    <name>ozone.recon.http.auth.kerberos.keytab</name>
-    <value>/etc/secrets/ozone/ozone.keytab</value>
-  </property>
-  <property>
     <name>ozone.s3g.http.auth.type</name>
     <value>kerberos</value>
-  </property>
-  <property>
-    <name>ozone.s3g.http.auth.kerberos.principal</name>
-    <value>HTTP/ozone-s3g.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
-  </property>
-  <property>
-    <name>ozone.s3g.http.auth.kerberos.keytab</name>
-    <value>/etc/secrets/ozone/ozone.keytab</value>
   </property>
 {{- end }}
   <property>

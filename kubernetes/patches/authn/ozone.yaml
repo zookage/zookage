@@ -25,7 +25,6 @@ spec:
   template:
     spec:
       initContainers:
-      - $patch: replace
       - name: wait-for-kdc
         image: zookage-util
         args:
@@ -35,36 +34,6 @@ spec:
         image: zookage-util
         args:
         - wait-for-dns
-      - name: scm-init
-        image: zookage-ozone
-        command:
-        - /opt/ozone/bin/ozone
-        args:
-        - scm
-        - --init
-        envFrom:
-        - configMapRef:
-            name: ozone-env
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: ozone-conf
-          mountPath: /etc/ozone/conf
-        - name: ozone-secret
-          mountPath: /etc/secrets/ozone
-        - name: mnt
-          mountPath: /mnt
-      containers:
-      - name: scm
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -74,48 +43,11 @@ spec:
   template:
     spec:
       initContainers:
-      - $patch: replace
       - name: wait-for-scm
-        image: zookage-util
-        args:
-        - wait-for-rollout
-        - statefulset/ozone-scm
       - name: wait-for-dns
         image: zookage-util
         args:
         - wait-for-dns
-      - name: om-init
-        image: zookage-ozone
-        command:
-        - /opt/ozone/bin/ozone
-        args:
-        - om
-        - --init
-        envFrom:
-        - configMapRef:
-            name: java-env
-        - configMapRef:
-            name: ozone-env
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-        - name: ozone-conf
-          mountPath: /etc/ozone/conf
-        - name: ozone-secret
-          mountPath: /etc/secrets/ozone
-        - name: mnt
-          mountPath: /mnt
-      containers:
-      - name: om
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -129,16 +61,6 @@ spec:
         image: zookage-util
         args:
         - wait-for-dns
-      containers:
-      - name: datanode
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -152,16 +74,6 @@ spec:
         image: zookage-util
         args:
         - wait-for-dns
-      containers:
-      - name: recon
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -181,16 +93,6 @@ spec:
         args:
         - wait-for-job
         - ozone-s3-secret
-      containers:
-      - name: s3g
-        volumeMounts:
-        - name: kerberos-conf
-          mountPath: /etc/krb5.conf
-          subPath: krb5.conf
-      volumes:
-      - name: kerberos-conf
-        configMap:
-          name: kerberos-conf
 ---
 apiVersion: apps/v1
 kind: StatefulSet

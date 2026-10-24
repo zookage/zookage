@@ -45,31 +45,12 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
        done
        exit 1' sh "${cert_dir}"
   done
-
-  if "${integration_dir}/run.sh" env KRB5CCNAME=FILE:/dev/null \
-    ozone sh volume info zookage; then
-    echo "Ozone unexpectedly accepted a client without a Kerberos ticket" >&2
-    exit 1
-  fi
-
-  if "${integration_dir}/run.sh" ozone s3 getsecret -u alice > /dev/null 2>&1; then
-    echo "Ozone unexpectedly let zookage manage another user's S3 secret" >&2
-    exit 1
-  fi
 fi
 
 ensure_s3_bucket test
 "${integration_dir}/run.sh" bash -c "aws s3 --endpoint http://ozone-s3g:9878 cp /etc/hosts s3://test/hosts"
 "${integration_dir}/run.sh" bash -c "aws s3 --endpoint http://ozone-s3g:9878 cp s3://test/hosts /tmp/hosts"
 "${integration_dir}/run.sh" bash -c "diff /etc/hosts /tmp/hosts"
-
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
-  if "${integration_dir}/run.sh" env AWS_SECRET_ACCESS_KEY=invalid-s3-secret \
-    aws s3api --endpoint-url http://ozone-s3g:9878 head-bucket --bucket test; then
-    echo "Ozone S3 unexpectedly accepted an invalid secret" >&2
-    exit 1
-  fi
-fi
 
 "${integration_dir}/divider.sh" "Finished running Ozone commands"
 

@@ -34,8 +34,13 @@ spec:
         - configMapRef:
             name: ozone-env
         volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
         - name: ozone-conf
           mountPath: /etc/ozone/conf
+        - name: ozone-secret
+          mountPath: /etc/secrets/ozone
         - name: mnt
           mountPath: /mnt
       containers:
@@ -51,6 +56,9 @@ spec:
         - configMapRef:
             name: ozone-env
         volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
         - name: ozone-conf
           mountPath: /etc/ozone/conf
         - name: ozone-secret
@@ -59,6 +67,9 @@ spec:
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
       volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
       - name: ozone-conf
         configMap:
           name: ozone-conf
