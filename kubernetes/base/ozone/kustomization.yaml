@@ -19,6 +19,7 @@ labels:
 resources:
 - scm
 - om
+- setup
 - recon
 - datanode
 - s3g

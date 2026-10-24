@@ -19,7 +19,6 @@ source "${integration_dir}/s3.sh"
 
 "${integration_dir}/divider.sh" "Start running Ozone commands"
 
-"${integration_dir}/run.sh" bash -c "ozone sh volume info zookage > /dev/null 2>&1 || ozone sh volume create zookage"
 "${integration_dir}/run.sh" bash -c "ozone sh bucket info zookage/test > /dev/null 2>&1 || ozone sh bucket create zookage/test"
 "${integration_dir}/run.sh" bash -c "ozone sh key put zookage/test/hosts /etc/hosts"
 "${integration_dir}/run.sh" bash -c "ozone sh key cat zookage/test/hosts"

@@ -52,9 +52,22 @@ else
   check "http://localhost:9870/dfshealth.html"
 fi
 check "http://localhost:3000/"
-check "http://localhost:9874/#!/"
-check "http://localhost:9876/#!/"
-check "http://localhost:9888/#/Overview"
+if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+  for endpoint in \
+    "ozone-om-0.ozone-om.zookage.svc.cluster.local:9874" \
+    "ozone-scm-0.ozone-scm.zookage.svc.cluster.local:9876" \
+    "ozone-datanode-0.ozone-datanode.zookage.svc.cluster.local:9882" \
+    "ozone-recon-0.ozone-recon.zookage.svc.cluster.local:9888"; do
+    check "http://${endpoint}/index.html" "401" \
+      "${base_dir}/bin/kubectl" exec client-node-0 -- curl
+    check "http://${endpoint}/index.html" "200" \
+      "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
+  done
+else
+  check "http://localhost:9874/#!/"
+  check "http://localhost:9876/#!/"
+  check "http://localhost:9888/#/Overview"
+fi
 check "http://localhost:8088/cluster"
 check "http://localhost:8088/ui2/"
 if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then

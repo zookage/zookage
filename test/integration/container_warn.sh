@@ -27,6 +27,13 @@ readonly kerberos_warnings
 
 # shellcheck disable=SC2016
 "${base_dir}/bin/logs" | grep WARN \
+  | awk -v auth="${ZOOKAGE_TEST_MODE:-}" '
+    auth == "auth" && $1 ~ /^pod\/ozone-scm-[0-9]+:$/ &&
+      / WARN ha\.SequenceIdGenerator: Failed to allocate a batch for CertificateId, expected lastId is 0, actual lastId is [0-9]+\.$/ {
+      if (++seen[$1] == 1) next
+    }
+    { print }
+  ' \
   | grep -Ev "${kerberos_warnings}" \
   | grep -v 'WARNING: .* does not exist. Creating.' \
   | grep -v 'pod/hdfs-namenode-.* hdfs.DFSUtilClient: Namenode for .* remains unresolved for ID' \
@@ -145,7 +152,7 @@ readonly kerberos_warnings
   | grep -v 'pod/trino-.*\[engine\] WARNING: The polyglot engine uses a fallback runtime that does not support runtime compilation to native code\.' \
   | grep -v 'pod/trino-worker-.* WARNING: Using incubator modules: jdk.incubator.vector' \
   | grep -v 'pod/trino-worker-.* # WARNING: Unable to attach Serviceability Agent\.' \
-  | grep -v 'pod/trino-worker-.*io.trino.node.AnnounceNodeAnnouncer.*Failed to announce node state to http://.*: 503' \
+  | grep -v 'pod/trino-.*io.trino.node.AnnounceNodeAnnouncer.*Failed to announce node state to http://.*: 503' \
   | grep -v 'pod/zookeeper-server-.* io.netty.util.concurrent.DefaultPromise -- An exception was thrown by org.apache.zookeeper.server.NettyServerCnxnFactory\$CertificateVerifier.operationComplete()'
 
 

@@ -20,6 +20,17 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
 # shellcheck disable=SC2016
 "${base_dir}/bin/logs" | grep ' ERROR ' \
+  | awk -v auth="${ZOOKAGE_TEST_MODE:-}" '
+    auth == "auth" && $1 ~ /^pod\/ozone-(datanode|om|recon|scm)-[0-9]+:$/ && /\[main\] ERROR/ {
+      kind = ""
+      if (/CertificateClient: Default certificate serial id is not set\. Can.t locate the default certificate for this client\.$/) kind = "serial"
+      else if ($1 ~ /^pod\/ozone-scm-/ && /keys\.KeyStorage: Failed to read the public key\.$/) kind = "key"
+      else if (/utils\.CertificateSignRequest: Invalid domain ozone-.*\.zookage\.svc\.cluster\.local$/) kind = "csr"
+      else if (/utils\.SelfSignedCertificate: Invalid domain ozone-.*\.zookage\.svc\.cluster\.local$/) kind = "self"
+      if (kind != "" && ++seen[$1 SUBSEP kind] == 1) next
+    }
+    { print }
+  ' \
   | grep -v 'pod/hive-llap-.* impl.LlapDaemon: Cannot find CONTAINER_ID; LLAP tokens may grant access to subsequent instances of the cluster with the same name' \
   | grep -v 'pod/hive-llap-.* impl.QueryTracker: Ignore this\. Log line to interact with logger\. Query complete:' \
   | grep -v 'pod/hive-metastore-server-.*:   "CQ_ERROR_MESSAGE"' \

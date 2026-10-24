@@ -5,7 +5,9 @@
     "username": "ozone",
     "password": "dummy",
     "ozone.om.http-address": "ozone-om-0.ozone-om:9874",
-    "hadoop.security.authentication": "simple",
-    "hadoop.security.authorization": "true"
+    "hadoop.security.authentication": "{{ if eq (index .Values "hadoop_security_authentication") "kerberos" }}kerberos{{ else }}simple{{ end }}",
+    "hadoop.security.authorization": "true",
+    "policy.download.auth.users": "ozone",
+    "tag.download.auth.users": "ozone"
   }
 }

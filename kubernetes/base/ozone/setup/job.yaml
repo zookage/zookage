@@ -1,0 +1,102 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ozone-setup
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-om
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - statefulset/ozone-om
+      containers:
+      - name: create-volume
+        image: zookage-util
+        command:
+        - /bin/bash
+        args:
+        - -c
+        - |
+          set -euo pipefail
+
+          security_enabled=$(/opt/ozone/bin/ozone getconf -confKey ozone.security.enabled)
+          if [[ ${security_enabled} == true ]]; then
+            kinit -kt /etc/secrets/ozone/ozone.keytab \
+              ozone/ozone-om-0.ozone-om.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+          fi
+
+          if ! /opt/ozone/bin/ozone sh volume info zookage > /dev/null 2>&1; then
+            /opt/ozone/bin/ozone sh volume create --user zookage zookage
+          fi
+
+          if [[ ${security_enabled} == true ]]; then
+            if output=$(/opt/ozone/bin/ozone s3 getsecret -u zookage 2>&1); then
+              :
+            elif [[ "${output}" == *"Secret for 'zookage' already exists"* ]]; then
+              :
+            else
+              printf '%s\n' "${output}" >&2
+              exit 1
+            fi
+
+            /opt/ozone/bin/ozone s3 setsecret -u zookage \
+              --secret "${AWS_SECRET_ACCESS_KEY}" > /dev/null
+          fi
+        envFrom:
+        - configMapRef:
+            name: ozone-env
+        - secretRef:
+            name: aws-secret
+        env:
+        - name: HADOOP_USER_NAME
+          value: ozone
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: ozone-secret
+          mountPath: /etc/secrets/ozone
+        - name: ozone-conf
+          mountPath: /etc/ozone/conf
+        - name: ozone-src
+          mountPath: /opt/ozone
+          subPath: opt/ozone
+      restartPolicy: Never
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: ozone-secret
+        secret:
+          secretName: ozone-secret
+          items:
+          - key: ozone.keytab
+            path: ozone.keytab
+      - name: ozone-conf
+        projected:
+          sources:
+          - configMap:
+              name: ozone-conf
+          - configMap:
+              name: hadoop-client-conf
+              items:
+              - key: core-site.xml
+                path: core-site.xml
+      - name: ozone-src
+        image:
+          reference: zookage-ozone
+          pullPolicy: IfNotPresent
