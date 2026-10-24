@@ -76,25 +76,6 @@ spec:
         - wait-for-dns
 ---
 apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: ozone-s3g
-spec:
-  template:
-    spec:
-      initContainers:
-      - name: wait-for-om
-        image: zookage-util
-        args:
-        - wait-for-rollout
-        - statefulset/ozone-om
-      - name: wait-for-s3-secret
-        image: zookage-util
-        args:
-        - wait-for-job
-        - ozone-s3-secret
----
-apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: client-node
@@ -102,8 +83,8 @@ spec:
   template:
     spec:
       initContainers:
-      - name: wait-for-ozone-s3-secret
+      - name: wait-for-ozone-setup
         image: zookage-util
         args:
         - wait-for-job
-        - ozone-s3-secret
+        - ozone-setup

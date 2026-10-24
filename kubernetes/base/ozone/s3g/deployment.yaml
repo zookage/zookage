@@ -20,6 +20,12 @@ spec:
     matchLabels: {}
   template:
     spec:
+      initContainers:
+      - name: wait-for-setup
+        image: zookage-util
+        args:
+        - wait-for-job
+        - ozone-setup
       containers:
       - name: s3g
         image: zookage-ozone
