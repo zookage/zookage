@@ -33,7 +33,8 @@ spec:
         - |
           set -euo pipefail
 
-          if [[ $(/opt/ozone/bin/ozone getconf -confKey ozone.security.enabled) == true ]]; then
+          security_enabled=$(/opt/ozone/bin/ozone getconf -confKey ozone.security.enabled)
+          if [[ ${security_enabled} == true ]]; then
             kinit -kt /etc/secrets/ozone/ozone.keytab \
               ozone/ozone-om-0.ozone-om.zookage.svc.cluster.local@ZOOKAGE.LOCAL
           fi
@@ -41,9 +42,25 @@ spec:
           if ! /opt/ozone/bin/ozone sh volume info zookage > /dev/null 2>&1; then
             /opt/ozone/bin/ozone sh volume create --user zookage zookage
           fi
+
+          if [[ ${security_enabled} == true ]]; then
+            if output=$(/opt/ozone/bin/ozone s3 getsecret -u zookage 2>&1); then
+              :
+            elif [[ "${output}" == *"Secret for 'zookage' already exists"* ]]; then
+              :
+            else
+              printf '%s\n' "${output}" >&2
+              exit 1
+            fi
+
+            /opt/ozone/bin/ozone s3 setsecret -u zookage \
+              --secret "${AWS_SECRET_ACCESS_KEY}" > /dev/null
+          fi
         envFrom:
         - configMapRef:
             name: ozone-env
+        - secretRef:
+            name: aws-secret
         env:
         - name: HADOOP_USER_NAME
           value: ozone
