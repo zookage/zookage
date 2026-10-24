@@ -109,14 +109,6 @@
     <value>kerberos</value>
   </property>
   <property>
-    <name>ozone.administrators</name>
-    <value>ozone</value>
-  </property>
-  <property>
-    <name>ozone.s3.administrators</name>
-    <value>ozone</value>
-  </property>
-  <property>
     <name>hdds.scm.kerberos.principal</name>
     <value>scm/ozone-scm-0.ozone-scm.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
   </property>
@@ -232,5 +224,13 @@
   <property>
     <name>ozone.acl.authorizer.class</name>
     <value>{{ or (index .Values "ozone_acl_authorizer_class") "org.apache.hadoop.ozone.security.acl.OzoneAccessAuthorizer" | html }}</value>
+  </property>
+  <property>
+    <name>ozone.administrators</name>
+    <value>ozone</value>
+  </property>
+  <property>
+    <name>ozone.s3.administrators</name>
+    <value>ozone</value>
   </property>
 </configuration>
