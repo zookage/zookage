@@ -110,11 +110,11 @@
   </property>
   <property>
     <name>ozone.administrators</name>
-    <value>ozone,recon,zookage</value>
+    <value>ozone</value>
   </property>
   <property>
     <name>ozone.s3.administrators</name>
-    <value>s3g,zookage</value>
+    <value>ozone</value>
   </property>
   <property>
     <name>hdds.scm.kerberos.principal</name>

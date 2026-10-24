@@ -51,6 +51,11 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
     echo "Ozone unexpectedly accepted a client without a Kerberos ticket" >&2
     exit 1
   fi
+
+  if "${integration_dir}/run.sh" ozone s3 getsecret -u alice > /dev/null 2>&1; then
+    echo "Ozone unexpectedly let zookage manage another user's S3 secret" >&2
+    exit 1
+  fi
 fi
 
 ensure_s3_bucket test
