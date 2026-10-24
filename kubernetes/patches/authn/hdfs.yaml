@@ -16,6 +16,7 @@ metadata:
   name: config-values
 data:
   hadoop_security_authentication: kerberos
+  hadoop_rpc_protection: privacy
   hadoop_dfs_block_access_token_enable: "true"
   hadoop_dfs_data_transfer_protection: authentication
   hadoop_dfs_http_policy: HTTPS_ONLY

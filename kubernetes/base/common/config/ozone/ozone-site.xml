@@ -14,6 +14,11 @@
 
 <configuration>
   <property>
+    <name>hadoop.rpc.protection</name>
+    <value>{{ or (index .Values "hadoop_rpc_protection") "authentication" | html }}</value>
+  </property>
+
+  <property>
     <name>ozone.metadata.dirs</name>
     <value>/mnt/ozone</value>
   </property>

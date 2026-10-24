@@ -23,3 +23,18 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
+      containers:
+      - name: historyserver
+        env:
+        - name: SPARK_JWS_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: spark-secret
+              key: spark-jws.key
+        - name: SPARK_HISTORY_OPTS
+          # JWSFilter gates access with a shared token; it does not identify users for Spark ACLs.
+          # yamllint disable rule:line-length
+          value: >-
+            -Dspark.ui.filters=org.apache.spark.ui.JWSFilter
+            -Dspark.org.apache.spark.ui.JWSFilter.param.secretKey=$(SPARK_JWS_SECRET_KEY)
+          # yamllint enable rule:line-length
