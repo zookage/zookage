@@ -78,7 +78,7 @@ images:
   newTag: 2.7.0-zookage-0.5
 - name: zookage-spark
   newName: zookage/zookage-spark
-  newTag: 4.1.1-zookage-0.5
+  newTag: experimental
 - name: zookage-tez
   newName: zookage/zookage-tez
   newTag: 0.10.5-zookage-0.5

@@ -23,3 +23,14 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
+      containers:
+      - name: historyserver
+        env:
+        - name: SPARK_HISTORY_OPTS
+          # yamllint disable rule:line-length
+          value: >-
+            -Dspark.ui.filters=io.zookage.spark.ui.SpnegoAuthenticationFilter
+            -Dspark.io.zookage.spark.ui.SpnegoAuthenticationFilter.param.principal=HTTP/spark-historyserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+            -Dspark.io.zookage.spark.ui.SpnegoAuthenticationFilter.param.keytab=/etc/secrets/spark/spark.keytab
+            -Dspark.history.ui.acls.enable=true
+          # yamllint enable rule:line-length

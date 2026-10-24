@@ -16,7 +16,7 @@ metadata:
   name: client-config-values
 data:
   hadoop_security_authentication: kerberos
-  hadoop_rpc_protection: authentication
+  hadoop_rpc_protection: privacy
   hadoop_ipc_client_fallback_to_simple_auth_allowed: "true"
   hbase_security_authentication: kerberos
   hbase_security_authentication_ui: kerberos

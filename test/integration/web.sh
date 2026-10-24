@@ -107,6 +107,18 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
 else
   check "http://localhost:16010/master-status"
 fi
+if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+  check "http://localhost:18080/" "401"
+  if ! curl -sS -D - -o /dev/null "http://localhost:18080/" \
+    | tr -d '\r' | grep -Eiq '^WWW-Authenticate:[[:space:]]*Negotiate$'; then
+    echo "Spark History Server did not offer SPNEGO authentication." >&2
+    exit 1
+  fi
+  check "http://spark-historyserver.zookage.svc.cluster.local:18080/" "200" \
+    "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
+else
+  check "http://localhost:18080/"
+fi
 check "http://localhost:8090/ui/"
 check "http://localhost:8080/admin/master/console/"
 check "http://localhost:6080/login.jsp"
