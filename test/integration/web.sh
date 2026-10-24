@@ -36,6 +36,31 @@ check () {
   fi
 }
 
+spark_jws () {
+  python3 - "${base_dir}/kubernetes/base/common/secret/spark/spark-jws.key" "${1:-300}" <<'PY'
+import base64
+import hashlib
+import hmac
+import json
+import sys
+import time
+
+
+def base64url(value):
+    return base64.urlsafe_b64encode(value).rstrip(b"=").decode("ascii")
+
+
+with open(sys.argv[1], encoding="ascii") as key_file:
+    encoded_key = key_file.read().strip()
+key = base64.urlsafe_b64decode(encoded_key + "=" * (-len(encoded_key) % 4))
+header = base64url(b'{"alg":"HS256","typ":"JWT"}')
+payload = base64url(json.dumps({"exp": int(time.time()) + int(sys.argv[2])}).encode())
+signed = f"{header}.{payload}"
+signature = base64url(hmac.new(key, signed.encode("ascii"), hashlib.sha256).digest())
+print(f"{signed}.{signature}")
+PY
+}
+
 if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   check "http://localhost:14000/webhdfs/v1/?op=liststatus&user.name=zookage" "401"
   check "http://hdfs-httpfs.zookage.svc.cluster.local:14000/webhdfs/v1/?op=liststatus" "200" \
@@ -108,14 +133,22 @@ else
   check "http://localhost:16010/master-status"
 fi
 if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
-  check "http://localhost:18080/" "401"
-  if ! curl -sS -D - -o /dev/null "http://localhost:18080/" \
-    | tr -d '\r' | grep -Eiq '^WWW-Authenticate:[[:space:]]*Negotiate$'; then
-    echo "Spark History Server did not offer SPNEGO authentication." >&2
-    exit 1
+  check "http://localhost:18080/" "403"
+  check "http://localhost:18080/" "403" \
+    curl --header "Authorization: Bearer invalid"
+  readonly expired_spark_jws=$(spark_jws -300)
+  check "http://localhost:18080/" "403" \
+    curl --header "Authorization: Bearer ${expired_spark_jws}"
+  readonly valid_spark_jws=$(spark_jws)
+  check "http://localhost:18080/" "200" \
+    curl --header "Authorization: Bearer ${valid_spark_jws}"
+  if [[ "${valid_spark_jws: -1}" == A ]]; then
+    tampered_spark_jws="${valid_spark_jws%?}Q"
+  else
+    tampered_spark_jws="${valid_spark_jws%?}A"
   fi
-  check "http://spark-historyserver.zookage.svc.cluster.local:18080/" "200" \
-    "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
+  check "http://localhost:18080/" "403" \
+    curl --header "Authorization: Bearer ${tampered_spark_jws}"
 else
   check "http://localhost:18080/"
 fi

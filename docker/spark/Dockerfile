@@ -37,18 +37,6 @@ RUN \
     -Phive \
     -Phive-thriftserver
 
-# hadolint ignore=DL3022
-COPY --from=spark-auth \
-  /src/main/java/io/zookage/spark/ui/SpnegoAuthenticationFilter.java \
-  /root/spark-auth/SpnegoAuthenticationFilter.java
-RUN install -d /root/spark-auth/classes \
-  && javac --release 17 -proc:none -cp '/root/spark/dist/jars/*' \
-    -d /root/spark-auth/classes \
-    /root/spark-auth/SpnegoAuthenticationFilter.java \
-  && jar --create \
-    --file /root/spark/dist/jars/zookage-spark-auth.jar \
-    -C /root/spark-auth/classes .
-
 # hadolint ignore=DL3006
 FROM ${jdk_image}
 
