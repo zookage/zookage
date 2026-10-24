@@ -1147,17 +1147,6 @@ userPassword: spark
 krbPrincipalName: spark/spark-historyserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
 krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAAtyf/ZWaHaYMKZFB3Wh0O72m2KKxwIfFLxiryp+X8QSaKJl5yn4so5BtnLIIWIdUb0DUjOffnUhlfVDnzBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAorJI3JLx+eCUJM9aEWUvvg8ktk/LJ3x3w7VBEgT2aaDFtUiSLEoytgZA050=
 
-dn: uid=http-spark-historyserver.zookage.svc.cluster.local,ou=spark,ou=kerberos,dc=example,dc=com
-objectClass: top
-objectClass: account
-objectClass: simpleSecurityObject
-objectClass: krbPrincipalAux
-objectClass: krbTicketPolicyAux
-uid: http-spark-historyserver.zookage.svc.cluster.local
-userPassword: spark
-krbPrincipalName: HTTP/spark-historyserver.zookage.svc.cluster.local@ZOOKAGE.LOCAL
-krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAGZFwF5R9KUE0ObBQy8H/tYm8Y0sYESpFCcOCdquQWtK5HyRczrVNDbXi8CGVnAzUwAC873x9stbO+5xyA==
-
 dn: ou=tez,ou=kerberos,dc=example,dc=com
 objectClass: top
 objectClass: organizationalUnit

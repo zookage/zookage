@@ -26,6 +26,5 @@ docker build \
   --tag "${DOCKER_IMAGE_NAME_PREFIX}/zookage-spark:${image_tag}" \
   --build-arg "spark_rm_image=${DOCKER_IMAGE_NAME_PREFIX}/spark-rm:${image_tag}" \
   --build-arg "jdk_image=${JDK_21_IMAGE}" \
-  --build-context spark-auth=./docker/spark/auth \
   --file ./docker/spark/Dockerfile \
   "${SPARK_SOURCE_DIR}"
