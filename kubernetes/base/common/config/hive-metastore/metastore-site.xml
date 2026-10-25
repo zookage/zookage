@@ -57,6 +57,11 @@
     <value>true</value>
   </property>
   <property>
+    <name>metastore.execute.setugi</name>
+    <value>false</value>
+  </property>
+{{- end }}
+  <property>
     <name>metastore.kerberos.principal</name>
     <value>hive/hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
   </property>
@@ -64,11 +69,6 @@
     <name>metastore.kerberos.keytab.file</name>
     <value>/etc/secrets/hive/hive.keytab</value>
   </property>
-  <property>
-    <name>metastore.execute.setugi</name>
-    <value>false</value>
-  </property>
-{{- end }}
 
   <property>
     <name>metastore.catalog.servlet.port</name>
