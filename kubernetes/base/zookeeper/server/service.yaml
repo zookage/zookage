@@ -15,7 +15,7 @@ kind: Service
 metadata:
   name: zookeeper-server
 spec:
-  type: LoadBalancer
+  clusterIP: None
   selector: {}
   publishNotReadyAddresses: true
   ports:

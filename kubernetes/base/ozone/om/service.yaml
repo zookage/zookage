@@ -19,7 +19,5 @@ spec:
   selector: {}
   publishNotReadyAddresses: true
   ports:
-  - name: om
-    port: 9862
   - name: http
     port: 9874
