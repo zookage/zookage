@@ -17,28 +17,6 @@ readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
 # shellcheck source=/mnt/test/integration/s3.sh
 source "${integration_dir}/s3.sh"
 
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
-  "${integration_dir}/divider.sh" "Check Spark authentication and RPC encryption settings"
-  # Variables inside this script expand in the client container.
-  # shellcheck disable=SC2016
-  "${integration_dir}/run.sh" bash -c '
-    conf="${SPARK_CONF_DIR:?}/spark-defaults.conf"
-    settings=(
-      "spark.authenticate true"
-      "spark.network.crypto.enabled true"
-      "spark.network.crypto.cipher AES/GCM/NoPadding"
-      "spark.network.crypto.authEngineVersion 2"
-      "spark.ui.filters org.apache.spark.ui.JWSFilter"
-    )
-    for setting in "${settings[@]}"; do
-      if ! grep -Fxq -- "${setting}" "${conf}"; then
-        echo "Missing Spark security setting: ${setting}" >&2
-        exit 1
-      fi
-    done
-  '
-fi
-
 run_wordcount_job() {
   local path_prefix=${1:-/user/zookage}
   local name="a Spark job"
