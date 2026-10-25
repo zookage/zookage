@@ -102,7 +102,6 @@ patches:
 - path: patches/authn/tez.yaml
 - path: patches/authn/trino.yaml
 - path: patches/authn/yarn.yaml
-- path: patches/authn/yarn-llap.yaml
 - path: patches/authn/zookeeper.yaml
 - path: patches/authz/hbase.yaml
 - path: patches/authz/hdfs.yaml
