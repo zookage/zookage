@@ -48,7 +48,6 @@ header:
   - "kubernetes/base/common/secret/hive-metastore/hive-metastore.jceks.properties"
   - "kubernetes/base/common/secret/ozone/ozone-http-auth-signature.secret"
   - "kubernetes/base/common/secret/ranger/ranger.keytab"
-  - "kubernetes/base/common/secret/spark/spark-jws.key"
   - "kubernetes/base/common/secret/yarn/yarn.keytab"
   - "kubernetes/base/common/config/hive/llap-udfs.lst"
   - "kubernetes/base/common/config/tls/*.crt"
