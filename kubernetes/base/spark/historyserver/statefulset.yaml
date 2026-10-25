@@ -68,6 +68,9 @@ spec:
         secret:
           secretName: spark-secret
           defaultMode: 0444
+          items:
+          - key: spark.keytab
+            path: spark.keytab
       - name: hadoop-conf
         projected:
           sources:

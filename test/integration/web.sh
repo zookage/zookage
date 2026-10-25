@@ -37,11 +37,12 @@ check () {
 }
 
 spark_jws () {
-  python3 - "${base_dir}/kubernetes/base/common/secret/spark/spark-jws.key" "${1:-300}" <<'PY'
+  python3 - "${base_dir}/bin/kubectl" "${1:-300}" <<'PY'
 import base64
 import hashlib
 import hmac
 import json
+import subprocess
 import sys
 import time
 
@@ -50,8 +51,10 @@ def base64url(value):
     return base64.urlsafe_b64encode(value).rstrip(b"=").decode("ascii")
 
 
-with open(sys.argv[1], encoding="ascii") as key_file:
-    encoded_key = key_file.read().strip()
+encoded_key = subprocess.check_output(
+    [sys.argv[1], "exec", "client-node-0", "-c", "sleep", "--", "printenv", "SPARK_JWS_SECRET_KEY"],
+    text=True,
+).strip()
 key = base64.urlsafe_b64decode(encoded_key + "=" * (-len(encoded_key) % 4))
 header = base64url(b'{"alg":"HS256","typ":"JWT"}')
 payload = base64url(json.dumps({"exp": int(time.time()) + int(sys.argv[2])}).encode())

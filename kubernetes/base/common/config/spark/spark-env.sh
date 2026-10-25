@@ -17,9 +17,8 @@ export SPARK_DIST_CLASSPATH
 
 if grep -Fxq 'spark.ui.filters org.apache.spark.ui.JWSFilter' "${SPARK_CONF_DIR}/spark-defaults.conf" &&
    ! grep -Fq 'spark.org.apache.spark.ui.JWSFilter.param.secretKey ' "${SPARK_CONF_DIR}/spark-defaults.conf"; then
-  spark_jws_key=/etc/secrets/spark/spark-jws.key
-  if [[ ! -r "${spark_jws_key}" ]]; then
-    echo "Spark JWS signing key is not readable" >&2
+  if [[ -z ${SPARK_JWS_SECRET_KEY:-} ]]; then
+    echo "Spark JWS signing key is not set" >&2
     exit 1
   fi
   spark_jws_conf_dir=/dev/shm/zookage-spark-conf
@@ -27,11 +26,10 @@ if grep -Fxq 'spark.ui.filters org.apache.spark.ui.JWSFilter' "${SPARK_CONF_DIR}
     spark_jws_new_dir=$(mktemp -d /dev/shm/zookage-spark-conf.XXXXXXXX) || exit 1
     cp -LR "${SPARK_CONF_DIR}/." "${spark_jws_new_dir}/" || exit 1
     chmod 0600 "${spark_jws_new_dir}/spark-defaults.conf" || exit 1
-    printf '\nspark.org.apache.spark.ui.JWSFilter.param.secretKey ' >> "${spark_jws_new_dir}/spark-defaults.conf" || exit 1
-    cat "${spark_jws_key}" >> "${spark_jws_new_dir}/spark-defaults.conf" || exit 1
-    printf '\n' >> "${spark_jws_new_dir}/spark-defaults.conf" || exit 1
+    printf '\nspark.org.apache.spark.ui.JWSFilter.param.secretKey %s\n' "${SPARK_JWS_SECRET_KEY}" >> "${spark_jws_new_dir}/spark-defaults.conf" || exit 1
     mv -T "${spark_jws_new_dir}" "${spark_jws_conf_dir}" 2>/dev/null || rm -rf "${spark_jws_new_dir}"
   fi
   [[ -r "${spark_jws_conf_dir}/spark-defaults.conf" ]] || exit 1
   export SPARK_CONF_DIR="${spark_jws_conf_dir}"
 fi
+unset SPARK_JWS_SECRET_KEY

@@ -35,15 +35,8 @@ spec:
         env:
         - name: HBASE_OPTS
           value: -Djava.security.auth.login.config=/etc/zookeeper/conf/client-jaas.conf
-        volumeMounts:
-        - name: spark-jws-key
-          mountPath: /etc/secrets/spark
-          readOnly: true
-      volumes:
-      - name: spark-jws-key
-        secret:
-          secretName: spark-secret
-          defaultMode: 0444
-          items:
-          - key: spark-jws.key
-            path: spark-jws.key
+        - name: SPARK_JWS_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: spark-secret
+              key: SPARK_JWS_SECRET_KEY
