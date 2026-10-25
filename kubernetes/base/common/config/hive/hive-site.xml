@@ -62,7 +62,7 @@
     <value>/etc/hadoop/conf/zookage-truststore.jks</value>
   </property>
 {{- if and (eq (index .Values "hadoop_security_authentication") "kerberos") (eq (index .Values "hive_execution_mode") "llap") }}
-  <!-- Keep Hive's default hidden keys except the ZooKeeper TLS file paths needed by the Tez AM. -->
+  <!-- Keep Hive's default hidden keys except the Tez AM's ZooKeeper TLS paths, and hide LLAP TLS passwords. -->
   <property>
     <name>hive.conf.hidden.list</name>
     <value>javax.jdo.option.ConnectionPassword,
@@ -80,7 +80,9 @@
       fs.adl.oauth2.credential,
       fs.azure.account.oauth2.client.secret,
       hive.zookeeper.ssl.keystore.password,
-      hive.zookeeper.ssl.truststore.password</value>
+      hive.zookeeper.ssl.truststore.password,
+      hive.llap.zk.sm.ssl.keystore.password,
+      hive.llap.zk.sm.ssl.truststore.password</value>
   </property>
 {{- end }}
 
@@ -206,16 +208,8 @@
     <value>/etc/secrets/zookeeper-client/zookeeper-client.jks</value>
   </property>
   <property>
-    <name>hive.llap.zk.sm.ssl.keystore.password</name>
-    <value>zookage</value>
-  </property>
-  <property>
     <name>hive.llap.zk.sm.ssl.truststore.location</name>
     <value>/etc/hadoop/conf/zookage-truststore.jks</value>
-  </property>
-  <property>
-    <name>hive.llap.zk.sm.ssl.truststore.password</name>
-    <value>zookage</value>
   </property>
   <property>
     <name>hive.execution.mode</name>
