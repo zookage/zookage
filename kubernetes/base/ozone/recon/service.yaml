@@ -21,5 +21,3 @@ spec:
   ports:
   - name: http
     port: 9888
-  - name: rpc
-    port: 9891
