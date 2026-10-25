@@ -107,6 +107,15 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
 else
   check "http://localhost:16010/master-status"
 fi
+if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+  check "http://localhost:18080/" "403"
+  # Regenerate this fixture if SPARK_JWS_SECRET_KEY changes; it expires in 2100.
+  readonly valid_spark_jws=$(< "${integration_dir}/spark-jws.jwt")
+  check "http://localhost:18080/" "200" \
+    curl --header "Authorization: Bearer ${valid_spark_jws}"
+else
+  check "http://localhost:18080/"
+fi
 check "http://localhost:8090/ui/"
 check "http://localhost:8080/admin/master/console/"
 check "http://localhost:6080/login.jsp"

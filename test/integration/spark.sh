@@ -22,6 +22,7 @@ run_wordcount_job() {
   local name="a Spark job"
   local success_message="The test job succeeded."
   local input="${path_prefix}/spark-wordcount-input"
+  local -a spark_options=(--class org.apache.spark.examples.JavaWordCount)
 
   if [[ "${path_prefix}" != "/user/zookage" ]]; then
     name="${name} on ${path_prefix}"
@@ -32,12 +33,26 @@ run_wordcount_job() {
 
   "${integration_dir}/run.sh" hadoop fs -rm -r -f "${input}"
   "${integration_dir}/run.sh" hadoop fs -put /etc/hosts "${input}"
-  "${integration_dir}/run.sh" bash -c "
-    spark-submit \
-    --class org.apache.spark.examples.JavaWordCount \
-    "/opt/spark/examples/jars/spark-examples_*.jar" \
-    ${input}
-  "
+  if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+    spark_options=(
+      --principal zookage@ZOOKAGE.LOCAL
+      --keytab /etc/secrets/client/client.keytab
+      "${spark_options[@]}"
+    )
+  fi
+  # Variables inside this script expand in the client container.
+  # shellcheck disable=SC2016
+  "${integration_dir}/run.sh" bash -c '
+    input=$1
+    mode=$2
+    shift 2
+    if [[ ${mode} == "auth" ]]; then
+      # The job must acquire Kerberos credentials from its keytab.
+      export KRB5CCNAME="FILE:/tmp/zookage-spark-no-ticket-$$-${RANDOM}"
+      test ! -e "${KRB5CCNAME#FILE:}" || exit 1
+    fi
+    spark-submit "$@" /opt/spark/examples/jars/spark-examples_*.jar "${input}"
+  ' _ "${input}" "${ZOOKAGE_TEST_MODE:-}" "${spark_options[@]}"
   "${integration_dir}/divider.sh" "Finished running ${name}"
   echo "${success_message}"
   echo
