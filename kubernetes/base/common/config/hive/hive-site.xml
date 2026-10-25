@@ -160,6 +160,7 @@
     <name>hive.llap.daemon.service.hosts</name>
     <value>{{ or (index .Values "hive_llap_daemon_service_hosts") "" | html }}</value>
   </property>
+  <!-- HS2, LLAP daemons, and Tez AM use the shared keytab; _HOST would resolve to each Pod hostname. -->
   <property>
     <name>hive.llap.daemon.service.principal</name>
     <value>hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
