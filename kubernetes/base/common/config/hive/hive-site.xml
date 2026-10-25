@@ -58,16 +58,8 @@
     <value>/etc/secrets/zookeeper-client/zookeeper-client.jks</value>
   </property>
   <property>
-    <name>hive.zookeeper.ssl.keystore.password</name>
-    <value>zookage</value>
-  </property>
-  <property>
     <name>hive.zookeeper.ssl.truststore.location</name>
     <value>/etc/hadoop/conf/zookage-truststore.jks</value>
-  </property>
-  <property>
-    <name>hive.zookeeper.ssl.truststore.password</name>
-    <value>zookage</value>
   </property>
 
   <property>
