@@ -40,19 +40,9 @@ spec:
       containers:
       - name: ranger-admin
         env:
-        - name: CLASSPATH
-          # yamllint disable-line rule:line-length
-          value: /etc/hadoop/conf:$(RANGER_CONF):$(RANGER_HOME)/ranger-admin/ews/webapp/WEB-INF/classes/conf.dist:$(RANGER_HOME)/lib/*:$(RANGER_HOME)/ranger-admin/ews/lib/*:$(RANGER_HOME)/ranger-admin/ews/webapp/WEB-INF/lib/*:$(RANGER_HOME)/ranger-admin/ews/ranger_jaas/*
         - name: JAVA_TOOL_OPTIONS
           # yamllint disable-line rule:line-length
           value: -Dhadoop.security.authentication=kerberos -Dranger.admin.kerberos.principal=rangeradmin/ranger-admin@ZOOKAGE.LOCAL -Dranger.admin.kerberos.keytab=/etc/secrets/ranger/ranger.keytab -Dranger.spnego.kerberos.principal=HTTP/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL -Dranger.spnego.kerberos.keytab=/etc/secrets/ranger/ranger.keytab -Dranger.lookup.kerberos.principal=rangerlookup/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL -Dranger.lookup.kerberos.keytab=/etc/secrets/ranger/ranger.keytab
-        volumeMounts:
-        - name: hadoop-conf
-          mountPath: /etc/hadoop/conf
-      volumes:
-      - name: hadoop-conf
-        configMap:
-          name: hadoop-conf
 ---
 apiVersion: batch/v1
 kind: Job
