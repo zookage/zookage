@@ -93,7 +93,7 @@ else
 fi
 if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   check "http://localhost:10002/" "401"
-  check "http://hive-hiveserver2.zookage.svc.cluster.local:10002/" "200 302 307" \
+  check "http://hive-hiveserver2.zookage.svc.cluster.local:10002/" "200" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
   llap_replicas=$("${base_dir}/bin/kubectl" get statefulset hive-llap -o jsonpath='{.spec.replicas}')
   readonly llap_replicas
