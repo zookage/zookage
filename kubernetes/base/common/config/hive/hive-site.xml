@@ -55,7 +55,7 @@
 {{- end }}
   <property>
     <name>hive.zookeeper.ssl.keystore.location</name>
-    <value>/etc/secrets/zookeeper-client/zookeeper-client.jks</value>
+    <value>/etc/secrets/hive/hive-zookeeper-client.jks</value>
   </property>
   <property>
     <name>hive.zookeeper.ssl.truststore.location</name>
@@ -79,10 +79,16 @@
       dfs.adls.oauth2.credential,
       fs.adl.oauth2.credential,
       fs.azure.account.oauth2.client.secret,
+      iceberg.vended.storage.credentials,
+      s3.access-key-id,
+      s3.secret-access-key,
+      s3.session-token,
       hive.zookeeper.ssl.keystore.password,
       hive.zookeeper.ssl.truststore.password,
       hive.llap.zk.sm.ssl.keystore.password,
-      hive.llap.zk.sm.ssl.truststore.password</value>
+      hive.llap.zk.sm.ssl.truststore.password,
+      hadoop.zk.ssl.keystore.password,
+      hadoop.zk.ssl.truststore.password</value>
   </property>
 {{- end }}
 
@@ -176,6 +182,17 @@
     <name>hive.llap.auto.auth</name>
     <value>true</value>
   </property>
+{{- if eq (index .Values "hive_execution_mode") "llap" }}
+  <property>
+    <name>hive.llap.management.acl</name>
+    <value>hive</value>
+  </property>
+  <!-- Tez does not sign LLAP fragments; keep signing required for callers other than the LLAP owner. -->
+  <property>
+    <name>hive.llap.remote.token.requires.signing</name>
+    <value>except_llap_owner</value>
+  </property>
+{{- end }}
 {{- end }}
   <property>
     <name>hive.llap.webui.spnego.principal</name>
@@ -205,7 +222,7 @@
 {{- end }}
   <property>
     <name>hive.llap.zk.sm.ssl.keystore.location</name>
-    <value>/etc/secrets/zookeeper-client/zookeeper-client.jks</value>
+    <value>/etc/secrets/hive/hive-zookeeper-client.jks</value>
   </property>
   <property>
     <name>hive.llap.zk.sm.ssl.truststore.location</name>
@@ -218,6 +235,23 @@
   </property>
   <property>
     <name>hive.llap.zk.sm.ssl.truststore.password</name>
+    <value>zookage</value>
+  </property>
+  <!-- Hadoop's ZooKeeper client reads these keys when LLAP starts its token SecretManager. -->
+  <property>
+    <name>hadoop.zk.ssl.keystore.location</name>
+    <value>/etc/secrets/hive/hive-zookeeper-client.jks</value>
+  </property>
+  <property>
+    <name>hadoop.zk.ssl.keystore.password</name>
+    <value>zookage</value>
+  </property>
+  <property>
+    <name>hadoop.zk.ssl.truststore.location</name>
+    <value>/etc/hadoop/conf/zookage-truststore.jks</value>
+  </property>
+  <property>
+    <name>hadoop.zk.ssl.truststore.password</name>
     <value>zookage</value>
   </property>
 {{- end }}

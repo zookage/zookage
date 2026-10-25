@@ -65,7 +65,7 @@
   </property>
   <property>
     <name>tez.am.launch.cluster-default.cmd-opts</name>
-    <value>-server -Djava.net.preferIPv4Stack=true -Dhadoop.metrics.log.level=WARN --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED</value>
+    <value>-server -Djava.net.preferIPv4Stack=true -Dhadoop.metrics.log.level=WARN --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED{{ if and (eq (index .Values "hadoop_security_authentication") "kerberos") (eq (index .Values "hive_execution_mode") "llap") }} -Djava.security.auth.login.config=/etc/hadoop/conf/tez-am-jaas.conf{{ end }}</value>
   </property>
   <property>
     <name>tez.task.launch.cluster-default.cmd-opts</name>

@@ -4,6 +4,9 @@
   "configs": {
     "username": "trino",
     "jdbc.driverClassName": "io.trino.jdbc.TrinoDriver",
-    "jdbc.url": "jdbc:trino://trino-coordinator:8090"
+    "jdbc.url": "jdbc:trino://trino-coordinator:8090",
+    "policy.download.auth.users": "trino",
+    "tag.download.auth.users": "trino",
+    "userstore.download.auth.users": "trino"
   }
 }

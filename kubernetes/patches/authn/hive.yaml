@@ -33,6 +33,11 @@ metadata:
 spec:
   template:
     spec:
+      containers:
+      - name: hiveserver2
+        env:
+        - name: HADOOP_HEAPSIZE
+          value: "1024"
       initContainers:
       - name: wait-for-kdc
         image: zookage-util

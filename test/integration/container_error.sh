@@ -19,8 +19,52 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 "${integration_dir}/divider.sh" "Start fetching errors of all containers"
 
 # shellcheck disable=SC2016
-"${base_dir}/bin/logs" | grep ' ERROR ' \
+"${base_dir}/bin/logs" \
   | awk -v auth="${ZOOKAGE_TEST_MODE:-}" '
+    function flushCuratorErrors() {
+      if (curatorError != "") print curatorError
+      if (listenerError != "") print listenerError
+      curatorError = listenerError = curatorPod = curatorKind = ""
+    }
+    # Hadoop 3.4.1 tries to parse the root of each LLAP token cache as a token.
+    # Suppress only the startup exception identified by its stack trace.
+    {
+      if (curatorError != "") {
+        if ($1 != curatorPod) flushCuratorErrors()
+        else if ($0 ~ / ERROR /) {
+          if (listenerError == "" &&
+              /listen\.MappingListenerManager: Listener \(org\.apache\.curator\.framework\.recipes\.cache\.CuratorCacheListenerBuilderImpl\$2@[0-9a-f]+\) threw an exception$/) {
+            listenerError = $0
+            next
+          }
+          flushCuratorErrors()
+        } else if (listenerError != "" && /Caused by:/) {
+          if (curatorKind == "key") expectedCause = /Caused by: java\.io\.EOFException$/
+          else expectedCause = /Caused by: java\.io\.IOException: Unknown version of delegation token 49$/
+          max = curatorPod ~ /^pod\/hive-llap-/ ? 2 : 1
+          if (!expectedCause || ++rootEvents[curatorPod SUBSEP curatorKind] > max) flushCuratorErrors()
+          else curatorError = listenerError = curatorPod = curatorKind = ""
+        }
+      }
+      if (auth == "auth" && $0 ~ / ERROR / &&
+          ($1 ~ /^pod\/hive-hiveserver2-[^:]+:$/ || $1 ~ /^pod\/hive-llap-[0-9]+:$/) &&
+          /delegation\.ZKDelegationTokenSecretManager: Error while processing Curator (keyCacheListener|tokenCacheListener) NODE_CREATED \/ NODE_CHANGED event$/) {
+        curatorError = $0
+        curatorPod = $1
+        curatorKind = /keyCacheListener/ ? "key" : "token"
+        next
+      }
+      print
+    }
+    END { flushCuratorErrors() }
+  ' \
+  | grep ' ERROR ' \
+  | awk -v auth="${ZOOKAGE_TEST_MODE:-}" '
+    # Hive registers the query-routing appender before starting it at startup.
+    $1 ~ /^pod\/hive-hiveserver2-[^:]+:$/ &&
+        / Log4j2-TF-[0-9]+-AsyncLogger\[AsyncContext@[0-9a-f]+\]-[0-9]+ ERROR Attempted to append to non-started appender query-routing$/ {
+      if (++seen[$1 SUBSEP "query-routing"] == 1) next
+    }
     auth == "auth" && $1 ~ /^pod\/ozone-(datanode|om|recon|scm)-[0-9]+:$/ && /\[main\] ERROR/ {
       kind = ""
       if (/CertificateClient: Default certificate serial id is not set\. Can.t locate the default certificate for this client\.$/) kind = "serial"

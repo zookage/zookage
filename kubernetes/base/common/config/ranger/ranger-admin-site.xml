@@ -65,6 +65,16 @@
     <name>ranger.authentication.method</name>
     <value>NONE</value>
   </property>
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+  <property>
+    <name>ranger.lookup.kerberos.principal</name>
+    <value>rangerlookup/ranger-admin.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>ranger.lookup.kerberos.keytab</name>
+    <value>/etc/secrets/ranger/ranger.keytab</value>
+  </property>
+{{- end }}
   <property>
     <name>ranger.tomcat.work.dir</name>
     <value>/mnt</value>
