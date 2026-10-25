@@ -39,12 +39,3 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
-      containers:
-      - name: hiveserver2
-        volumeMounts:
-        - name: zookeeper-client-secret
-          mountPath: /etc/secrets/zookeeper-client
-      volumes:
-      - name: zookeeper-client-secret
-        secret:
-          secretName: zookeeper-client-secret
