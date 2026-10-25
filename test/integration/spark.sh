@@ -28,6 +28,7 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
       "spark.network.crypto.enabled true"
       "spark.network.crypto.cipher AES/GCM/NoPadding"
       "spark.network.crypto.authEngineVersion 2"
+      "spark.ui.filters org.apache.spark.ui.JWSFilter"
     )
     for setting in "${settings[@]}"; do
       if ! grep -Fxq -- "${setting}" "${conf}"; then

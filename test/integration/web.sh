@@ -37,7 +37,7 @@ check () {
 }
 
 spark_jws () {
-  python3 - "${base_dir}/kubernetes/base/common/secret/spark/spark-auth-defaults.conf" "${1:-300}" <<'PY'
+  python3 - "${base_dir}/kubernetes/base/common/secret/spark/spark-jws.key" "${1:-300}" <<'PY'
 import base64
 import hashlib
 import hmac
@@ -50,12 +50,8 @@ def base64url(value):
     return base64.urlsafe_b64encode(value).rstrip(b"=").decode("ascii")
 
 
-with open(sys.argv[1], encoding="ascii") as conf_file:
-    keys = [line.split(None, 1)[1].strip() for line in conf_file
-            if line.startswith("spark.org.apache.spark.ui.JWSFilter.param.secretKey ")]
-if len(keys) != 1:
-    raise ValueError("Expected one JWS signing key in Spark defaults")
-encoded_key = keys[0]
+with open(sys.argv[1], encoding="ascii") as key_file:
+    encoded_key = key_file.read().strip()
 key = base64.urlsafe_b64decode(encoded_key + "=" * (-len(encoded_key) % 4))
 header = base64url(b'{"alg":"HS256","typ":"JWT"}')
 payload = base64url(json.dumps({"exp": int(time.time()) + int(sys.argv[2])}).encode())
