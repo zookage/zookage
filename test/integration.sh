@@ -16,7 +16,10 @@ set -eu
 readonly test_dir=$(cd "$(dirname "$0")"; pwd)
 readonly repo_dir=$(cd "${test_dir}/.."; pwd)
 readonly kustomization_name=${1:-${ZOOKAGE_TEST_MODE:-}}
-export ZOOKAGE_TEST_MODE="${kustomization_name}"
+case "${kustomization_name}" in
+  auth-llap) export ZOOKAGE_TEST_MODE=auth ;;
+  *) export ZOOKAGE_TEST_MODE="${kustomization_name}" ;;
+esac
 
 run_test() {
   local name=$1
@@ -40,7 +43,7 @@ if [[ $# -ge 1 ]]; then
   "${repo_dir}/bin/up"
 fi
 
-if [[ ${kustomization_name} == "auth" ]]; then
+if [[ ${ZOOKAGE_TEST_MODE} == "auth" ]]; then
   "${test_dir}/integration/run.sh" kinit \
     -kt /etc/secrets/client/client.keytab \
     zookage@ZOOKAGE.LOCAL

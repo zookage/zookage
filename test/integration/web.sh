@@ -91,7 +91,22 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
 else
   check "http://localhost:9999/tez-ui/"
 fi
-check "http://localhost:10002/"
+if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+  check "http://localhost:10002/" "401"
+  check "http://hive-hiveserver2.zookage.svc.cluster.local:10002/" "200 302 307" \
+    "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
+  llap_replicas=$("${base_dir}/bin/kubectl" get statefulset hive-llap -o jsonpath='{.spec.replicas}')
+  readonly llap_replicas
+  for ((ordinal = 0; ordinal < llap_replicas; ordinal++)); do
+    endpoint="hive-llap-${ordinal}.hive-llap.zookage.svc.cluster.local:15002/status"
+    check "http://${endpoint}" "401" \
+      "${base_dir}/bin/kubectl" exec client-node-0 -- curl
+    check "http://${endpoint}" "200" \
+      "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
+  done
+else
+  check "http://localhost:10002/"
+fi
 if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   check "http://localhost:16010/master-status" "401"
   for ordinal in 0 1; do

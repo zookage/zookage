@@ -19,8 +19,36 @@ source "${integration_dir}/s3.sh"
 
 run_beeline() {
   local sql=$1
+  local krb5ccname=${2:-}
+  local env_prefix=""
 
-  "${integration_dir}/run.sh" /bin/bash -lc "TERM=dumb JAVA_TOOL_OPTIONS=\"-Djline.terminal=dumb -Dorg.jline.terminal.dumb=true\" beeline -e \"${sql}\""
+  if [[ -n "${krb5ccname}" ]]; then
+    env_prefix="KRB5CCNAME=${krb5ccname} "
+  fi
+
+  "${integration_dir}/run.sh" /bin/bash -lc "${env_prefix}TERM=dumb JAVA_TOOL_OPTIONS=\"-Djline.terminal=dumb -Dorg.jline.terminal.dumb=true\" beeline -e \"${sql}\""
+}
+
+verify_hive_requires_ticket() {
+  local output
+  local empty_cache="FILE:/tmp/zookage-hive-no-ticket-$$-${RANDOM}"
+
+  "${integration_dir}/divider.sh" "Check HiveServer2 rejects clients without Kerberos tickets"
+  "${integration_dir}/run.sh" /bin/bash -lc "test ! -e \"${empty_cache#FILE:}\""
+
+  if output=$(run_beeline "SELECT 1" "${empty_cache}" 2>&1); then
+    echo "HiveServer2 accepted a Beeline connection without a Kerberos ticket." >&2
+    echo "${output}" >&2
+    return 1
+  fi
+  if ! grep -Eiq 'GSS|Kerberos|credential|TGT' <<< "${output}"; then
+    echo "Beeline failed for a reason other than Kerberos authentication:" >&2
+    echo "${output}" >&2
+    return 1
+  fi
+
+  echo "HiveServer2 rejected the connection without a Kerberos ticket."
+  echo
 }
 
 run_hive_on_tez_queries() {
@@ -65,6 +93,10 @@ run_hive_on_tez_queries() {
 }
 
 run_hive_on_tez_queries
+
+if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+  verify_hive_requires_ticket
+fi
 
 ensure_s3_bucket test
 run_hive_on_tez_queries s3a://test/hive-on-tez
