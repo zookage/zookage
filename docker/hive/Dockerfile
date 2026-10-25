@@ -22,12 +22,9 @@ ARG clean
 WORKDIR /root/hive
 
 # hadolint ignore=DL3008
-RUN apt-get update && apt-get install -y --no-install-recommends patch unzip
+RUN apt-get update && apt-get install -y --no-install-recommends unzip
 
 COPY . .
-# hadolint ignore=DL3022
-COPY --from=hive-patches /tez-am-local-resources.patch /tmp/tez-am-local-resources.patch
-RUN patch -p1 < /tmp/tez-am-local-resources.patch
 RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   mvn --threads 1C ${clean} install \
     -Pdist \

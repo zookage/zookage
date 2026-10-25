@@ -61,6 +61,28 @@
     <name>hive.zookeeper.ssl.truststore.location</name>
     <value>/etc/hadoop/conf/zookage-truststore.jks</value>
   </property>
+{{- if and (eq (index .Values "hadoop_security_authentication") "kerberos") (eq (index .Values "hive_execution_mode") "llap") }}
+  <!-- Keep Hive's default hidden keys except the ZooKeeper TLS file paths needed by the Tez AM. -->
+  <property>
+    <name>hive.conf.hidden.list</name>
+    <value>javax.jdo.option.ConnectionPassword,
+      hive.server2.keystore.password,
+      hive.server2.webui.keystore.password,
+      hive.druid.metadata.password,
+      fs.s3.awsAccessKeyId,
+      fs.s3.awsSecretAccessKey,
+      fs.s3n.awsAccessKeyId,
+      fs.s3n.awsSecretAccessKey,
+      fs.s3a.access.key,
+      fs.s3a.secret.key,
+      fs.s3a.proxy.password,
+      dfs.adls.oauth2.credential,
+      fs.adl.oauth2.credential,
+      fs.azure.account.oauth2.client.secret,
+      hive.zookeeper.ssl.keystore.password,
+      hive.zookeeper.ssl.truststore.password</value>
+  </property>
+{{- end }}
 
   <property>
     <name>hive.compactor.worker.threads</name>
