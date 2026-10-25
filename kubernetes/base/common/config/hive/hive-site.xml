@@ -211,6 +211,16 @@
     <name>hive.llap.zk.sm.ssl.truststore.location</name>
     <value>/etc/hadoop/conf/zookage-truststore.jks</value>
   </property>
+{{- if and (eq (index .Values "hadoop_security_authentication") "kerberos") (eq (index .Values "hive_execution_mode") "llap") }}
+  <property>
+    <name>hive.llap.zk.sm.ssl.keystore.password</name>
+    <value>zookage</value>
+  </property>
+  <property>
+    <name>hive.llap.zk.sm.ssl.truststore.password</name>
+    <value>zookage</value>
+  </property>
+{{- end }}
   <property>
     <name>hive.execution.mode</name>
     <value>{{ or (index .Values "hive_execution_mode") "container" | html }}</value>
