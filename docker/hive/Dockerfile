@@ -64,7 +64,11 @@ USER hive:hive
 FROM ${jdk_image} AS hive-metastore
 
 COPY --from=builder /root/hive/standalone-metastore/packaging/target/hive-metastore /opt/hive-metastore
-RUN groupadd --gid 1020 hive \
+# hadolint ignore=DL3008
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends iproute2 \
+  && rm -rf /var/lib/apt/lists/* \
+  && groupadd --gid 1020 hive \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1020 --gid hive hive \
   && install -d -o hive -g hive -m 0700 /etc/secrets
 USER hive:hive

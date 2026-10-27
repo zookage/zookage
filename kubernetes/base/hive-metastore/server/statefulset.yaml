@@ -89,16 +89,11 @@ spec:
         - configMapRef:
             name: java-env
         readinessProbe:
-          # A bare connection to SASL Thrift logs an error; 0A means LISTEN in /proc/net/tcp*.
           exec:
             command:
-            - awk
-            - >-
-              BEGIN { port = sprintf(":%04X$", 9083) }
-              $2 ~ port && $4 == "0A" { ready = 1 }
-              END { exit !ready }
-            - /proc/net/tcp
-            - /proc/net/tcp6
+            - /bin/sh
+            - -c
+            - ss -Hltn 'sport = :9083' | grep -q .
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
