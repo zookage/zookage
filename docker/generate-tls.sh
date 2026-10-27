@@ -57,7 +57,11 @@ readonly repo_dir=$(cd "${base_dir}/.."; pwd)
 readonly util_image=${ZOOKAGE_UTIL_IMAGE:-zookage/zookage-util:experimental}
 readonly ca_store="${base_dir}/tls/zookage-ca.jks"
 readonly public_dir="${repo_dir}/kubernetes/base/common/config/tls"
-readonly secret_dir="${repo_dir}/kubernetes/base/common/secret/${service}"
+secret_name=${service}
+if [[ ${service} == hive-zookeeper-client ]]; then
+  secret_name=hive
+fi
+readonly secret_dir="${repo_dir}/kubernetes/base/common/secret/${secret_name}"
 
 for input in "${ca_store}" "${public_dir}/zookage-ca.crt" "${public_dir}/zookage-truststore.jks"; do
   if [[ ! -f "${input}" ]]; then
