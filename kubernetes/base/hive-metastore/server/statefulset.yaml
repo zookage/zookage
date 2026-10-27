@@ -89,13 +89,14 @@ spec:
         - configMapRef:
             name: java-env
         readinessProbe:
-          # A bare connection to the SASL Thrift port is logged as an error.
+          # A bare connection to SASL Thrift logs an error; 0A means LISTEN in /proc/net/tcp*.
           exec:
             command:
             - awk
             - >-
-              $2 ~ /:237B$/ && $4 == "0A" { found = 1 }
-              END { exit !found }
+              BEGIN { port = sprintf(":%04X$", 9083) }
+              $2 ~ port && $4 == "0A" { ready = 1 }
+              END { exit !ready }
             - /proc/net/tcp
             - /proc/net/tcp6
         volumeMounts:
