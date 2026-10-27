@@ -66,8 +66,26 @@
 
   <property>
     <name>ranger.usersync.policymanager.baseURL</name>
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+    <value>http://ranger-admin.zookage.svc.cluster.local:6080</value>
+{{- else }}
     <value>http://ranger-admin:6080</value>
+{{- end }}
   </property>
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+  <property>
+    <name>hadoop.security.authentication</name>
+    <value>kerberos</value>
+  </property>
+  <property>
+    <name>ranger.usersync.kerberos.principal</name>
+    <value>admin/ranger-admin@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>ranger.usersync.kerberos.keytab</name>
+    <value>/etc/secrets/ranger/ranger.keytab</value>
+  </property>
+{{- else }}
   <property>
     <name>ranger.usersync.policymgr.keystore</name>
     <value>dummy</value>
@@ -76,4 +94,5 @@
     <name>ranger.usersync.policymgr.password</name>
     <value>rangerusersync</value>
   </property>
+{{- end }}
 </configuration>

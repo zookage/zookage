@@ -13,6 +13,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: ranger-usersync
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+      containers:
+      - name: ranger-usersync
+        volumeMounts:
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: ranger-secret
+          mountPath: /etc/secrets/ranger
+      volumes:
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
+      - name: ranger-secret
+        secret:
+          secretName: ranger-secret
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: ranger-admin
 spec:
   template:

@@ -48,6 +48,10 @@ fi
 
 run_test "HDFS permissions" "${test_dir}/integration/hdfs_permissions.sh"
 
+if [[ ${kustomization_name} == "auth" ]]; then
+  run_test "Ranger Usersync Kerberos" "${test_dir}/integration/ranger_usersync.sh"
+fi
+
 if [[ ${kustomization_name} != "llap" ]]; then
   run_test "Web" "${test_dir}/integration/web.sh"
   run_test "MR" "${test_dir}/integration/mr.sh"
