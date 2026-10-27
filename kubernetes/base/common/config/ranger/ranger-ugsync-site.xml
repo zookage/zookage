@@ -66,11 +66,7 @@
 
   <property>
     <name>ranger.usersync.policymanager.baseURL</name>
-{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
     <value>http://ranger-admin.zookage.svc.cluster.local:6080</value>
-{{- else }}
-    <value>http://ranger-admin:6080</value>
-{{- end }}
   </property>
 {{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
   <property>
