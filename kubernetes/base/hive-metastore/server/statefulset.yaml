@@ -89,11 +89,9 @@ spec:
         - configMapRef:
             name: java-env
         readinessProbe:
-          exec:
-            command:
-            - /bin/sh
-            - -c
-            - ss -Hltn 'sport = :9083' | grep -q .
+          # A bare connection to the SASL Thrift port is logged as an error.
+          tcpSocket:
+            port: 9001
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
