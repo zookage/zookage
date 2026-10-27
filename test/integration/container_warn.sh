@@ -20,6 +20,8 @@ kerberos_warnings='^$'
 if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   # Tez job tokens are deliberately not renewable.
   kerberos_warnings='pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind tez\.job$'
+  # Ranger Usersync uses Hadoop's default auth_to_local rule mechanism.
+  kerberos_warnings+='|pod/ranger-usersync-.* WARN  - auth_to_local rule mechanism not set\.Using default of hadoop$'
 fi
 readonly kerberos_warnings
 

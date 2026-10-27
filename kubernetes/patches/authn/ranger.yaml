@@ -13,6 +13,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: ranger-usersync
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-kdc
+        image: zookage-util
+        args:
+        - wait-for-rollout
+        - deployment/kerberos-kdc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: ranger-admin
 spec:
   template:
