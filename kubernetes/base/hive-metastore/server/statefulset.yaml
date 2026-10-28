@@ -94,7 +94,6 @@ spec:
             -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
             --add-opens=java.base/java.lang=ALL-UNNAMED
             -Djavax.net.ssl.trustStore=/etc/hadoop/conf/zookage-truststore.jks
-            -Djavax.net.ssl.trustStorePassword=zookage
         readinessProbe:
           # A bare connection to the SASL Thrift port is logged as an error.
           tcpSocket:
