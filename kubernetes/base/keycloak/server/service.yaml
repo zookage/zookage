@@ -18,5 +18,5 @@ spec:
   type: LoadBalancer
   selector: {}
   ports:
-  - name: http
-    port: 8080
+  - name: https
+    port: 8443

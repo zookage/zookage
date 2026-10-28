@@ -36,10 +36,17 @@ spec:
         envFrom:
         - configMapRef:
             name: java-env
+        env:
+        - name: KC_HTTPS_KEY_STORE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-server-secret
+              key: KC_HTTPS_KEY_STORE_PASSWORD
         readinessProbe:
           httpGet:
             path: /health/ready
             port: 9000
+            scheme: HTTPS
         volumeMounts:
         - name: keycloak-conf
           mountPath: /etc/keycloak/conf/keycloak.conf
@@ -47,7 +54,13 @@ spec:
         - name: keycloak-conf
           mountPath: /opt/keycloak/data/import/realm-export.json
           subPath: realm-export.json
+        - name: keycloak-server-secret
+          mountPath: /etc/secrets/keycloak-server
+          readOnly: true
       volumes:
       - name: keycloak-conf
         configMap:
           name: keycloak-conf
+      - name: keycloak-server-secret
+        secret:
+          secretName: keycloak-server-secret

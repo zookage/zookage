@@ -132,5 +132,6 @@ else
   check "http://localhost:18080/"
 fi
 check "http://localhost:8090/ui/"
-check "http://localhost:8080/admin/master/console/"
+check "https://localhost:8443/admin/master/console/" "200 307" \
+  curl --cacert "${base_dir}/kubernetes/base/common/config/tls/zookage-ca.crt"
 check "http://localhost:6080/login.jsp"
