@@ -86,6 +86,9 @@ spec:
         volumeMounts:
         - name: hive-conf
           mountPath: /etc/hive/conf
+        - name: shared-files
+          mountPath: /etc/zookage/shared
+          readOnly: true
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
@@ -97,6 +100,9 @@ spec:
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
       volumes:
+      - name: shared-files
+        configMap:
+          name: shared-files
       - name: hive-conf
         configMap:
           name: hive-conf

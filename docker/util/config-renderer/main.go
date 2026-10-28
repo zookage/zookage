@@ -30,8 +30,6 @@ type pluginConfig struct {
 	APIVersion      string `yaml:"apiVersion"`
 	Kind            string `yaml:"kind"`
 	ValuesConfigMap string `yaml:"valuesConfigMap"`
-	SharedConfigMap string `yaml:"sharedConfigMap"`
-	SharedMountPath string `yaml:"sharedMountPath"`
 }
 
 func main() {
@@ -129,9 +127,6 @@ func run(configPath string, input io.Reader, output io.Writer) error {
 			}
 			value.Value = rendered
 		}
-	}
-	if err := mountSharedConfig(documents, namedConfigMaps, config.SharedConfigMap, config.SharedMountPath); err != nil {
-		return err
 	}
 
 	// Keep the original YAML nodes so all resources, annotations, binaryData,
@@ -271,170 +266,4 @@ func validateXML(data []byte) error {
 		return fmt.Errorf("expected one XML root element, got %d", roots)
 	}
 	return nil
-}
-
-func mountSharedConfig(documents []*yaml.Node, configMaps map[string][]*yaml.Node, name, mountPath string) error {
-	if name == "" && mountPath == "" {
-		return nil
-	}
-	if name == "" || !strings.HasPrefix(mountPath, "/") {
-		return errors.New("sharedConfigMap and absolute sharedMountPath must both be set")
-	}
-	// Kustomize may already have appended the generator hash when an exec
-	// transformer runs. Use the rendered name so changing the ConfigMap also
-	// changes the Pod template's volume reference.
-	var configMapName string
-	for candidate, matches := range configMaps {
-		if candidate != name && !isGeneratedName(candidate, name) {
-			continue
-		}
-		if len(matches) != 1 || configMapName != "" {
-			return fmt.Errorf("expected one shared ConfigMap named %s", name)
-		}
-		configMapName = candidate
-	}
-	if configMapName == "" {
-		return fmt.Errorf("shared ConfigMap %s not found", name)
-	}
-
-	for _, document := range documents {
-		kind := scalar(field(document, "kind"))
-		var podSpec *yaml.Node
-		switch kind {
-		case "Pod":
-			podSpec = field(document, "spec")
-		case "Deployment", "StatefulSet", "DaemonSet", "Job":
-			podSpec = field(field(field(document, "spec"), "template"), "spec")
-		case "CronJob":
-			podSpec = field(field(field(field(field(document, "spec"), "jobTemplate"), "spec"), "template"), "spec")
-		default:
-			continue
-		}
-		resourceName := scalar(field(field(document, "metadata"), "name"))
-		if podSpec == nil || podSpec.Kind != yaml.MappingNode {
-			return fmt.Errorf("%s %s has no Pod spec", kind, resourceName)
-		}
-		if err := ensureSharedVolume(podSpec, name, configMapName); err != nil {
-			return fmt.Errorf("%s %s: %w", kind, resourceName, err)
-		}
-		for _, containerField := range []string{"containers", "initContainers", "ephemeralContainers"} {
-			containers := field(podSpec, containerField)
-			if containers == nil {
-				continue
-			}
-			if containers.Kind != yaml.SequenceNode {
-				return fmt.Errorf("%s %s: %s must be a sequence", kind, resourceName, containerField)
-			}
-			for _, container := range containers.Content {
-				containerName := scalar(field(container, "name"))
-				if container.Kind != yaml.MappingNode || containerName == "" {
-					return fmt.Errorf("%s %s: %s contains a container without a name", kind, resourceName, containerField)
-				}
-				if err := ensureSharedMount(container, name, mountPath); err != nil {
-					return fmt.Errorf("%s %s %s %s: %w", kind, resourceName, containerField, containerName, err)
-				}
-			}
-		}
-	}
-	return nil
-}
-
-func isGeneratedName(candidate, base string) bool {
-	if !strings.HasPrefix(candidate, base+"-") || len(candidate) != len(base)+11 {
-		return false
-	}
-	for _, char := range candidate[len(base)+1:] {
-		if char < '0' || char > '9' {
-			if char < 'a' || char > 'z' {
-				return false
-			}
-		}
-	}
-	return true
-}
-
-func ensureSharedVolume(podSpec *yaml.Node, name, configMapName string) error {
-	volumes, err := sequenceField(podSpec, "volumes")
-	if err != nil {
-		return err
-	}
-	var found bool
-	for _, volume := range volumes.Content {
-		if scalar(field(volume, "name")) != name {
-			continue
-		}
-		configMap := field(volume, "configMap")
-		volumeConfigMap := scalar(field(configMap, "name"))
-		if found || (volumeConfigMap != name && volumeConfigMap != configMapName) || field(configMap, "items") != nil {
-			return fmt.Errorf("volume %s conflicts with shared ConfigMap %s", name, configMapName)
-		}
-		found = true
-	}
-	if !found {
-		volume := mappingNode()
-		addField(volume, "name", stringNode(name))
-		configMap := mappingNode()
-		addField(configMap, "name", stringNode(configMapName))
-		addField(volume, "configMap", configMap)
-		volumes.Content = append(volumes.Content, volume)
-	}
-	return nil
-}
-
-func ensureSharedMount(container *yaml.Node, name, mountPath string) error {
-	mounts, err := sequenceField(container, "volumeMounts")
-	if err != nil {
-		return err
-	}
-	var found bool
-	for _, mount := range mounts.Content {
-		mountName := scalar(field(mount, "name"))
-		path := scalar(field(mount, "mountPath"))
-		if mountName != name && path != mountPath {
-			continue
-		}
-		if found || mountName != name || path != mountPath || field(mount, "subPath") != nil || field(mount, "subPathExpr") != nil {
-			return fmt.Errorf("mount %s at %s conflicts with shared mount", mountName, path)
-		}
-		readOnly := field(mount, "readOnly")
-		if readOnly != nil && (readOnly.Tag != "!!bool" || readOnly.Value != "true") {
-			return fmt.Errorf("mount %s at %s is not read-only", name, mountPath)
-		}
-		if readOnly == nil {
-			addField(mount, "readOnly", &yaml.Node{Kind: yaml.ScalarNode, Tag: "!!bool", Value: "true"})
-		}
-		found = true
-	}
-	if !found {
-		mount := mappingNode()
-		addField(mount, "name", stringNode(name))
-		addField(mount, "mountPath", stringNode(mountPath))
-		addField(mount, "readOnly", &yaml.Node{Kind: yaml.ScalarNode, Tag: "!!bool", Value: "true"})
-		mounts.Content = append(mounts.Content, mount)
-	}
-	return nil
-}
-
-func sequenceField(node *yaml.Node, name string) (*yaml.Node, error) {
-	sequence := field(node, name)
-	if sequence == nil {
-		sequence = &yaml.Node{Kind: yaml.SequenceNode, Tag: "!!seq"}
-		addField(node, name, sequence)
-	}
-	if sequence.Kind != yaml.SequenceNode {
-		return nil, fmt.Errorf("%s must be a sequence", name)
-	}
-	return sequence, nil
-}
-
-func mappingNode() *yaml.Node {
-	return &yaml.Node{Kind: yaml.MappingNode, Tag: "!!map"}
-}
-
-func stringNode(value string) *yaml.Node {
-	return &yaml.Node{Kind: yaml.ScalarNode, Tag: "!!str", Value: value}
-}
-
-func addField(node *yaml.Node, name string, value *yaml.Node) {
-	node.Content = append(node.Content, stringNode(name), value)
 }

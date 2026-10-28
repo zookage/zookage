@@ -19,7 +19,7 @@ labels:
 resources:
 - config-values.yaml
 configMapGenerator:
-# Files listed here are mounted in every container at /etc/zookage/shared.
+# Mount these files at /etc/zookage/shared in workloads that need them.
 - files:
   - shared/zookage-truststore.jks
   name: shared-files

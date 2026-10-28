@@ -55,6 +55,9 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
+        - name: shared-files
+          mountPath: /etc/zookage/shared
+          readOnly: true
         - name: hadoop-secret
           mountPath: /etc/secrets/hadoop
         - name: hdfs-secret
@@ -91,6 +94,9 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
+        - name: shared-files
+          mountPath: /etc/zookage/shared
+          readOnly: true
         - name: hadoop-secret
           mountPath: /etc/secrets/hadoop
         - name: hdfs-secret
@@ -102,6 +108,9 @@ spec:
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
       volumes:
+      - name: shared-files
+        configMap:
+          name: shared-files
       - name: hadoop-conf
         projected:
           sources:

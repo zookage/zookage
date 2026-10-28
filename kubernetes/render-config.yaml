@@ -15,5 +15,3 @@ kind: RenderConfig
 metadata:
   name: render-config
 valuesConfigMap: config-values
-sharedConfigMap: shared-files
-sharedMountPath: /etc/zookage/shared

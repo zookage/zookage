@@ -47,6 +47,9 @@ spec:
         volumeMounts:
         - name: zookeeper-conf
           mountPath: /etc/zookeeper/conf
+        - name: shared-files
+          mountPath: /etc/zookage/shared
+          readOnly: true
         - name: mnt
           mountPath: /mnt
       containers:
@@ -72,10 +75,16 @@ spec:
           mountPath: /etc/secrets/zookeeper
         - name: zookeeper-conf
           mountPath: /etc/zookeeper/conf
+        - name: shared-files
+          mountPath: /etc/zookage/shared
+          readOnly: true
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
       volumes:
+      - name: shared-files
+        configMap:
+          name: shared-files
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
