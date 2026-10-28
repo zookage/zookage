@@ -76,7 +76,7 @@ if [[ -z ${secret_dir} ]]; then
 fi
 readonly secret_dir
 
-for input in "${ca_store}" "${public_dir}/zookage-ca.crt" "${shared_dir}/zookage-truststore.jks"; do
+for input in "${ca_store}" "${shared_dir}/zookage-ca.crt" "${shared_dir}/zookage-truststore.jks"; do
   if [[ ! -f "${input}" ]]; then
     echo "Missing ZooKage CA file: ${input}. Restore the checked-in CA files before issuing certificates." >&2
     exit 1
@@ -91,7 +91,7 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
   --user "$(id -u):$(id -g)" \
   --mount "type=bind,source=${temp_dir},target=/output" \
   --mount "type=bind,source=${ca_store},target=/ca/zookage-ca.jks,readonly" \
-  --mount "type=bind,source=${public_dir}/zookage-ca.crt,target=/ca/zookage-ca.crt,readonly" \
+  --mount "type=bind,source=${shared_dir}/zookage-ca.crt,target=/ca/zookage-ca.crt,readonly" \
   --env "TLS_SERVICE=${service}" --env "TLS_SAN=${san}" \
   --env "TLS_EXTENDED_KEY_USAGE=${extended_key_usage}" \
   "${util_image}" /bin/bash -eu <<'SCRIPT'

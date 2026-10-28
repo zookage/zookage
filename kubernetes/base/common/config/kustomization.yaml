@@ -21,11 +21,9 @@ resources:
 configMapGenerator:
 # Mount these files at /etc/zookage/shared in workloads that need them.
 - files:
+  - shared/zookage-ca.crt
   - shared/zookage-truststore.jks
   name: shared-files
-- files:
-  - tls/zookage-ca.crt
-  name: tls-conf
 - files:
   - hadoop/container-executor.cfg
   name: yarn-container-executor-conf
@@ -118,7 +116,7 @@ configMapGenerator:
 - files:
   - kerberos/.k5.ZOOKAGE.LOCAL
   - kerberos/kdc.conf
-  - kerberos/krb5.conf
+  - shared/krb5.conf
   - kerberos/service.keyfile
   name: kerberos-conf
 - files:
