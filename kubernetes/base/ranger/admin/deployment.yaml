@@ -88,7 +88,6 @@ spec:
           mountPath: /etc/hive/conf
         - name: shared-files
           mountPath: /etc/zookage/shared
-          readOnly: true
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf

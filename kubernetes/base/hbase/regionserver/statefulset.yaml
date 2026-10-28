@@ -57,7 +57,6 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: shared-files
           mountPath: /etc/zookage/shared
-          readOnly: true
         - name: hadoop-secret
           mountPath: /etc/secrets/hadoop
         - name: hbase-conf
