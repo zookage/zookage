@@ -61,13 +61,11 @@
     <value>false</value>
   </property>
 {{- end }}
-{{- if and (eq (index .Values "hadoop_security_authentication") "kerberos") (eq (index .Values "trino_access_control_config_files") "/etc/trino/conf/access-control-ranger.properties") }}
-  <!-- Trust the Kerberos-authenticated Trino service; Trino enforces user access through Ranger. -->
+  <!-- Trust the Trino service for Metastore authorization. -->
   <property>
     <name>hadoop.proxyuser.trino.hosts</name>
     <value>*</value>
   </property>
-{{- end }}
   <property>
     <name>metastore.kerberos.principal</name>
     <value>hive/hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
