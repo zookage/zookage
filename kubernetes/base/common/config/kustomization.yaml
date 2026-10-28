@@ -19,6 +19,10 @@ labels:
 resources:
 - config-values.yaml
 configMapGenerator:
+# Files listed here are mounted in every container at /etc/zookage/shared.
+- files:
+  - shared/zookage-truststore.jks
+  name: shared-files
 - files:
   - tls/zookage-ca.crt
   name: tls-conf
@@ -72,7 +76,6 @@ configMapGenerator:
   - hdfs/ranger-hdfs-audit.xml
   - hdfs/ranger-hdfs-policymgr-ssl.xml
   - hdfs/ranger-hdfs-security.xml
-  - tls/zookage-truststore.jks
   name: hdfs-conf
 - files:
   - mapreduce/mapred-site.xml
@@ -202,7 +205,6 @@ configMapGenerator:
   - trino/ranger-trino-security.xml
   name: trino-conf
 - files:
-  - tls/zookage-truststore.jks
   - zookeeper/log4j.properties
   - zookeeper/server-jaas.conf
   - zookeeper/zoo.cfg
