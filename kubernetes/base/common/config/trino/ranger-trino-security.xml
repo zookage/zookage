@@ -25,6 +25,24 @@
     <name>ranger.plugin.trino.use.only.rangerGroups</name>
     <value>true</value>
   </property>
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+  <property>
+    <name>ranger.plugin.trino.ugi.initialize</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>ranger.plugin.trino.ugi.login.type</name>
+    <value>keytab</value>
+  </property>
+  <property>
+    <name>ranger.plugin.trino.ugi.keytab.principal</name>
+    <value>trino/trino-coordinator.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>ranger.plugin.trino.ugi.keytab.file</name>
+    <value>/etc/secrets/trino-kerberos/trino.keytab</value>
+  </property>
+{{- end }}
   <property>
     <name></name>
     <value></value>

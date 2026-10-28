@@ -17,6 +17,12 @@
     <name>beeline.hs2.connection.hosts</name>
     <value>hive-hiveserver2:10000</value>
   </property>
+{{- if eq (index .Values "hive_server2_authentication") "KERBEROS" }}
+  <property>
+    <name>beeline.hs2.connection.principal</name>
+    <value>hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+{{- else }}
   <property>
     <name>beeline.hs2.connection.user</name>
     <value>zookage</value>
@@ -25,4 +31,5 @@
     <name>beeline.hs2.connection.password</name>
     <value>dummy</value>
   </property>
+{{- end }}
 </configuration>

@@ -508,6 +508,39 @@ userPassword: hive
 krbPrincipalName: hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL
 krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAHqmlebTLARkI2fP3Z7scf8GPTYU+/RJ+GpkA5Y+ug4NkDJo+TM/b6qV/gu/3vanittZtTgTc+aoDkCVtjBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAMzA2y3LUW46nHk8MxyfavAD1cMpFCVxbCuDlxbeiF4lvTtQDnARtA7G8KTs=
 
+dn: uid=http-hive-hiveserver2.zookage.svc.cluster.local,ou=hive,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hive-hiveserver2.zookage.svc.cluster.local
+userPassword: hive
+krbPrincipalName: HTTP/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gACWZJcJzC+s45auxlW7iGnqPd569gHRPC6NnHLIexzbAKqUmY0LwKwbD5VVi2BIsnLI7oCnOOXlnbB4HKQ==
+
+dn: uid=http-hive-llap-0.hive-llap.zookage.svc.cluster.local,ou=hive,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hive-llap-0.hive-llap.zookage.svc.cluster.local
+userPassword: hive
+krbPrincipalName: HTTP/hive-llap-0.hive-llap.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAMsXJkc4yZF+dvtKB6y5VTGVVDEOOPvIkprpqZ9ZBtk9S1ID12Yv/6ddhl7mmGwmpbFnWpqjmsENe5WzcQ==
+
+dn: uid=http-hive-llap-1.hive-llap.zookage.svc.cluster.local,ou=hive,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-hive-llap-1.hive-llap.zookage.svc.cluster.local
+userPassword: hive
+krbPrincipalName: HTTP/hive-llap-1.hive-llap.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gANd/jCv0oPq2F0gI9uXnhP1dKGW9PuCNTSS/lsN5hwtxjx7CTIFlde16e0sFMkiUt7wVoQAL5Bm/tdcapg==
+
 dn: ou=ranger,ou=kerberos,dc=example,dc=com
 objectClass: top
 objectClass: organizationalUnit

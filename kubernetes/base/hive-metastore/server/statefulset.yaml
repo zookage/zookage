@@ -89,8 +89,9 @@ spec:
         - configMapRef:
             name: java-env
         readinessProbe:
+          # A bare connection to the SASL Thrift port is logged as an error.
           tcpSocket:
-            port: 9083
+            port: 9001
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf

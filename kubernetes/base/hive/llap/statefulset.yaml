@@ -96,8 +96,15 @@ spec:
           mountPath: /etc/secrets/hadoop
         - name: hive-conf
           mountPath: /etc/hive/conf
+        - name: hive-secret
+          mountPath: /etc/secrets/hive
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
         - name: tez-conf
           mountPath: /etc/tez/conf
+        - name: zookeeper-client-secret
+          mountPath: /etc/secrets/zookeeper-client
         - name: mnt
           mountPath: /mnt
         - name: hadoop-src
@@ -109,17 +116,35 @@ spec:
       terminationGracePeriodSeconds: 5
       volumes:
       - name: hadoop-conf
-        configMap:
-          name: hadoop-conf
+        projected:
+          sources:
+          - configMap:
+              name: hadoop-client-conf
+          - configMap:
+              name: hdfs-conf
+          - configMap:
+              name: mapreduce-conf
+          - configMap:
+              name: yarn-conf
       - name: hadoop-secret
         secret:
           secretName: hadoop-secret
       - name: hive-conf
         configMap:
           name: hive-conf
+      - name: hive-secret
+        secret:
+          secretName: hive-secret
+          defaultMode: 0444
+      - name: kerberos-conf
+        configMap:
+          name: kerberos-conf
       - name: tez-conf
         configMap:
           name: tez-conf
+      - name: zookeeper-client-secret
+        secret:
+          secretName: zookeeper-client-secret
       - name: mnt
         emptyDir: {}
       - name: hadoop-src

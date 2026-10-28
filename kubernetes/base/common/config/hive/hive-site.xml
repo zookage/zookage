@@ -17,6 +17,16 @@
     <name>hive.metastore.uris</name>
     <value>thrift://hive-metastore-server-0.hive-metastore-server:9083</value>
   </property>
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+  <property>
+    <name>hive.metastore.sasl.enabled</name>
+    <value>true</value>
+  </property>
+{{- end }}
+  <property>
+    <name>hive.metastore.kerberos.principal</name>
+    <value>hive/hive-metastore-server.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
   <property>
     <name>hive.reloadable.aux.jars.path</name>
     <value>/mnt</value>
@@ -37,6 +47,50 @@
     <name>hive.zookeeper.quorum</name>
     <value>zookeeper-server-0.zookeeper-server:2181,zookeeper-server-1.zookeeper-server:2181,zookeeper-server-2.zookeeper-server:2181</value>
   </property>
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+  <property>
+    <name>hive.zookeeper.ssl.client.enable</name>
+    <value>true</value>
+  </property>
+{{- end }}
+  <property>
+    <name>hive.zookeeper.ssl.keystore.location</name>
+    <value>/etc/secrets/hive/hive-zookeeper-client.jks</value>
+  </property>
+  <property>
+    <name>hive.zookeeper.ssl.truststore.location</name>
+    <value>/etc/hadoop/conf/zookage-truststore.jks</value>
+  </property>
+{{- if and (eq (index .Values "hadoop_security_authentication") "kerberos") (eq (index .Values "hive_execution_mode") "llap") }}
+  <!-- Keep Hive's default hidden keys except the Tez AM's ZooKeeper TLS paths, and hide LLAP TLS passwords. -->
+  <property>
+    <name>hive.conf.hidden.list</name>
+    <value>javax.jdo.option.ConnectionPassword,
+      hive.server2.keystore.password,
+      hive.server2.webui.keystore.password,
+      hive.druid.metadata.password,
+      fs.s3.awsAccessKeyId,
+      fs.s3.awsSecretAccessKey,
+      fs.s3n.awsAccessKeyId,
+      fs.s3n.awsSecretAccessKey,
+      fs.s3a.access.key,
+      fs.s3a.secret.key,
+      fs.s3a.proxy.password,
+      dfs.adls.oauth2.credential,
+      fs.adl.oauth2.credential,
+      fs.azure.account.oauth2.client.secret,
+      iceberg.vended.storage.credentials,
+      s3.access-key-id,
+      s3.secret-access-key,
+      s3.session-token,
+      hive.zookeeper.ssl.keystore.password,
+      hive.zookeeper.ssl.truststore.password,
+      hive.llap.zk.sm.ssl.keystore.password,
+      hive.llap.zk.sm.ssl.truststore.password,
+      hadoop.zk.ssl.keystore.password,
+      hadoop.zk.ssl.truststore.password</value>
+  </property>
+{{- end }}
 
   <property>
     <name>hive.compactor.worker.threads</name>
@@ -51,6 +105,10 @@
     <value>false</value>
   </property>
   <property>
+    <name>hive.server2.authentication</name>
+    <value>{{ or (index .Values "hive_server2_authentication") "NONE" | html }}</value>
+  </property>
+  <property>
     <name>hive.server2.authentication.kerberos.principal</name>
     <value>hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
   </property>
@@ -60,6 +118,20 @@
   </property>
   <property>
     <name>hive.server2.authentication.kerberos.keytab</name>
+    <value>/etc/secrets/hive/hive.keytab</value>
+  </property>
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+  <property>
+    <name>hive.server2.webui.use.spnego</name>
+    <value>true</value>
+  </property>
+{{- end }}
+  <property>
+    <name>hive.server2.webui.spnego.principal</name>
+    <value>HTTP/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hive.server2.webui.spnego.keytab</name>
     <value>/etc/secrets/hive/hive.keytab</value>
   </property>
   <property>
@@ -96,6 +168,93 @@
     <name>hive.llap.daemon.service.hosts</name>
     <value>{{ or (index .Values "hive_llap_daemon_service_hosts") "" | html }}</value>
   </property>
+  <!-- HS2, LLAP daemons, and Tez AM use the shared keytab; _HOST would resolve to each Pod hostname. -->
+  <property>
+    <name>hive.llap.daemon.service.principal</name>
+    <value>hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hive.llap.daemon.keytab.file</name>
+    <value>/etc/secrets/hive/hive.keytab</value>
+  </property>
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+  <property>
+    <name>hive.llap.auto.auth</name>
+    <value>true</value>
+  </property>
+{{- if eq (index .Values "hive_execution_mode") "llap" }}
+  <property>
+    <name>hive.llap.management.acl</name>
+    <value>hive</value>
+  </property>
+  <!-- Tez does not sign LLAP fragments; keep signing required for callers other than the LLAP owner. -->
+  <property>
+    <name>hive.llap.remote.token.requires.signing</name>
+    <value>except_llap_owner</value>
+  </property>
+{{- end }}
+{{- end }}
+  <property>
+    <name>hive.llap.webui.spnego.principal</name>
+    <value>HTTP/_HOST@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hive.llap.webui.spnego.keytab</name>
+    <value>/etc/secrets/hive/hive.keytab</value>
+  </property>
+  <property>
+    <name>hive.llap.task.scheduler.am.registry.principal</name>
+    <value>hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
+  </property>
+  <property>
+    <name>hive.llap.task.scheduler.am.registry.keytab.file</name>
+    <value>/etc/secrets/hive/hive.keytab</value>
+  </property>
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+  <property>
+    <name>hive.llap.zk.sm.connectionString</name>
+    <value>zookeeper-server-0.zookeeper-server:2181,zookeeper-server-1.zookeeper-server:2181,zookeeper-server-2.zookeeper-server:2181</value>
+  </property>
+  <property>
+    <name>hive.llap.zk.sm.ssl.enabled</name>
+    <value>true</value>
+  </property>
+{{- end }}
+  <property>
+    <name>hive.llap.zk.sm.ssl.keystore.location</name>
+    <value>/etc/secrets/hive/hive-zookeeper-client.jks</value>
+  </property>
+  <property>
+    <name>hive.llap.zk.sm.ssl.truststore.location</name>
+    <value>/etc/hadoop/conf/zookage-truststore.jks</value>
+  </property>
+{{- if and (eq (index .Values "hadoop_security_authentication") "kerberos") (eq (index .Values "hive_execution_mode") "llap") }}
+  <property>
+    <name>hive.llap.zk.sm.ssl.keystore.password</name>
+    <value>zookage</value>
+  </property>
+  <property>
+    <name>hive.llap.zk.sm.ssl.truststore.password</name>
+    <value>zookage</value>
+  </property>
+  <!-- Hadoop's ZooKeeper client reads these keys when LLAP starts its token SecretManager. -->
+  <property>
+    <name>hadoop.zk.ssl.keystore.location</name>
+    <value>/etc/secrets/hive/hive-zookeeper-client.jks</value>
+  </property>
+  <property>
+    <name>hadoop.zk.ssl.keystore.password</name>
+    <value>zookage</value>
+  </property>
+  <property>
+    <name>hadoop.zk.ssl.truststore.location</name>
+    <value>/etc/hadoop/conf/zookage-truststore.jks</value>
+  </property>
+  <property>
+    <name>hadoop.zk.ssl.truststore.password</name>
+    <value>zookage</value>
+  </property>
+{{- end }}
   <property>
     <name>hive.execution.mode</name>
     <value>{{ or (index .Values "hive_execution_mode") "container" | html }}</value>

@@ -18,8 +18,8 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
 kerberos_warnings='^$'
 if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
-  # Tez job tokens are deliberately not renewable.
-  kerberos_warnings='pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind tez\.job$'
+  # Tez job and LLAP tokens are deliberately not renewable.
+  kerberos_warnings='pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind (tez\.job|LLAP_TOKEN)$'
   # Ranger Usersync uses Hadoop's default auth_to_local rule mechanism.
   kerberos_warnings+='|pod/ranger-usersync-.* WARN  - auth_to_local rule mechanism not set\.Using default of hadoop$'
 fi
@@ -76,10 +76,13 @@ readonly kerberos_warnings
   | grep -v 'pod/yarn-resourcemanager-.* ha.ActiveStandbyElector: Ignoring stale result from old client with sessionId' \
   | grep -v 'pod/yarn-resourcemanager-.* zookeeper.ClientCnxn: Session 0x0 .* Attempting reconnect except it is a SessionExpiredException\.' \
   | grep -v 'pod/hive-hiveserver2-.* conf.HiveConf: HiveConf of name hive.cluster.id does not exist' \
+  | grep -v 'pod/hive-hiveserver2-.* zookeeper.Login: TGT renewal thread has been interrupted and will exit\.' \
   | grep -v 'pod/hive-hiveserver2-.* exec.FunctionRegistry: UDF Class org.apache.hadoop.hive.ql.udf.generic.GenericUDFToJson does not have description\.' \
   | grep -v "pod/hive-hiveserver2-.* tez.TezConfigurationFactory: Skip adding 'tez.application.tags' to dagConf, as it's an AM scoped property" \
   | grep -v 'pod/hive-hiveserver2-.* authorizer.RangerHiveAuthorizerBase: RangerHiveAuthorizerBase\.RangerHiveAuthorizerBase(): hiveAuthenticator\.getUserName() returned null/empty' \
   | grep -v 'pod/hive-llap-.* impl.LlapDaemon: NodeManager host/port not found in environment\. Values retrieved: host=null, port=null' \
+  | grep -v 'pod/hive-llap-.* zookeeper.Login: TGT renewal thread has been interrupted and will exit\.' \
+  | grep -v 'pod/hive-llap-.* impl.ZkRegistryBase: The ACL 31,s.*x509.*CN=hive-zookeeper-client%2CO=ZooKage' \
   | grep -v 'pod/hive-llap-.* conf.HiveConf: HiveConf of name hive.cluster.id does not exist' \
   | grep -v 'pod/hive-llap-.* exec.FunctionRegistry: UDF Class org.apache.hadoop.hive.ql.udf.generic.GenericUDFToJson does not have description\.' \
   | grep -v 'pod/hive-llap-.* objectinspector.StandardStructObjectInspector: Trying to access' \

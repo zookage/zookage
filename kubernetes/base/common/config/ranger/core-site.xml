@@ -14,7 +14,17 @@
 
 <configuration>
   <!--
-    Ranger Admin expects classpath:core-site.xml during startup. Keep this
-    file empty so it does not inherit Hadoop credential provider settings.
+    Ranger Admin expects classpath:core-site.xml during startup. Only include
+    the authentication settings it needs, without Hadoop's credential provider.
   -->
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+  <property>
+    <name>hadoop.security.authentication</name>
+    <value>kerberos</value>
+  </property>
+  <property>
+    <name>hadoop.rpc.protection</name>
+    <value>{{ index .Values "hadoop_rpc_protection" | html }}</value>
+  </property>
+{{- end }}
 </configuration>

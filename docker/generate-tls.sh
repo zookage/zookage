@@ -57,7 +57,23 @@ readonly repo_dir=$(cd "${base_dir}/.."; pwd)
 readonly util_image=${ZOOKAGE_UTIL_IMAGE:-zookage/zookage-util:experimental}
 readonly ca_store="${base_dir}/tls/zookage-ca.jks"
 readonly public_dir="${repo_dir}/kubernetes/base/common/config/tls"
-readonly secret_dir="${repo_dir}/kubernetes/base/common/secret/${service}"
+readonly secret_root="${repo_dir}/kubernetes/base/common/secret"
+# Reissue existing certificates in place, including those in shared Secrets.
+secret_dir=
+for existing_jks in "${secret_root}"/*/"${service}.jks"; do
+  if [[ ! -f ${existing_jks} ]]; then
+    continue
+  fi
+  if [[ -n ${secret_dir} ]]; then
+    echo "Multiple existing JKS files for ${service}." >&2
+    exit 1
+  fi
+  secret_dir=${existing_jks%/*}
+done
+if [[ -z ${secret_dir} ]]; then
+  secret_dir="${secret_root}/${service}"
+fi
+readonly secret_dir
 
 for input in "${ca_store}" "${public_dir}/zookage-ca.crt" "${public_dir}/zookage-truststore.jks"; do
   if [[ ! -f "${input}" ]]; then
