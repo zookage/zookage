@@ -49,7 +49,7 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
-        - name: shared-files
+        - name: shared-conf
           mountPath: /etc/zookage/shared
         - name: hadoop-secret
           mountPath: /etc/secrets/hadoop
@@ -70,9 +70,9 @@ spec:
           subPath: opt/tez
       terminationGracePeriodSeconds: 5
       volumes:
-      - name: shared-files
+      - name: shared-conf
         configMap:
-          name: shared-files
+          name: shared-conf
       - name: hadoop-conf
         projected:
           sources:

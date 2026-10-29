@@ -23,7 +23,7 @@ configMapGenerator:
 - files:
   - shared/zookage-ca.crt
   - shared/zookage-truststore.jks
-  name: shared-files
+  name: shared-conf
 - files:
   - hadoop/container-executor.cfg
   name: yarn-container-executor-conf
