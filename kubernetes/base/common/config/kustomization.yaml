@@ -19,7 +19,6 @@ labels:
 resources:
 - config-values.yaml
 configMapGenerator:
-# Mount these files at /etc/zookage/shared in workloads that need them.
 - files:
   - shared/zookage-ca.crt
   - shared/zookage-truststore.jks
@@ -116,7 +115,7 @@ configMapGenerator:
 - files:
   - kerberos/.k5.ZOOKAGE.LOCAL
   - kerberos/kdc.conf
-  - shared/krb5.conf
+  - kerberos/krb5.conf
   - kerberos/service.keyfile
   name: kerberos-conf
 - files:
