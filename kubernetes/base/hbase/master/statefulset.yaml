@@ -66,6 +66,8 @@ spec:
           mountPath: /etc/secrets/hadoop
         - name: hbase-conf
           mountPath: /etc/hbase/conf
+        - name: logs
+          mountPath: /opt/hbase/logs
         - name: mnt
           mountPath: /mnt
         - name: hadoop-src
@@ -97,6 +99,8 @@ spec:
       - name: hbase-conf
         configMap:
           name: hbase-conf
+      - name: logs
+        emptyDir: {}
       - name: mnt
         emptyDir: {}
       - name: hadoop-src

@@ -112,6 +112,7 @@ readonly kerberos_warnings
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.NIOServerCnxn -- Close of session 0x0' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.ZKDatabase -- Unable to find proposals from txnlog for zxid: 0x0' \
   `# Initialization` \
+  | grep -v 'pod/hbase-.* http\.ProfilerBackend: async-profiler library not available (ClassNotFoundException); falling back to BinaryBackend or DisabledServlet\. Cause: one\.profiler\.AsyncProfiler' \
   | grep -v 'pod/hbase-master-.* hdfs.DataStreamer: DataStreamer Exception' \
   | grep -v 'pod/hbase-master-.* region.MasterRegion: failed to clean up initializing flag' \
   | grep -v 'pod/hbase-master-.* assignment.AssignmentManager: No servers available; cannot place' \
