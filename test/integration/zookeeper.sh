@@ -40,11 +40,11 @@ for i in {0..2}; do
     expect_failure "AdminServer access without a client certificate" \
       "${base_dir}/bin/kubectl" exec client-node-0 -- \
       curl --fail --silent --show-error --max-time 10 \
-      --cacert /etc/zookeeper/conf/zookage-ca.crt \
+      --cacert /etc/hadoop/conf/zookage-ca.crt \
       "${admin_url}"
     monitor_response=$("${base_dir}/bin/kubectl" exec client-node-0 -- \
       curl --fail --silent --show-error --max-time 10 \
-      --cacert /etc/zookeeper/conf/zookage-ca.crt \
+      --cacert /etc/hadoop/conf/zookage-ca.crt \
       --cert-type P12 \
       --cert /etc/secrets/zookeeper-client/zookeeper-client.p12:zookage \
       "${admin_url}")

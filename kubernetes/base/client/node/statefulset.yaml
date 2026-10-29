@@ -77,8 +77,6 @@ spec:
         - name: trino-conf
           mountPath: /etc/trino/conf/cli.properties
           subPath: cli.properties
-        - name: zookeeper-client-conf
-          mountPath: /etc/zookeeper/conf
         - name: hadoop-src
           mountPath: /opt/hadoop
           subPath: opt/hadoop
@@ -134,7 +132,7 @@ spec:
           secretName: hadoop-secret
       - name: hbase-conf
         configMap:
-          name: hbase-client-conf
+          name: hbase-conf
       - name: hbase-src
         image:
           reference: zookage-hbase
@@ -169,9 +167,6 @@ spec:
       - name: trino-conf
         configMap:
           name: trino-conf
-      - name: zookeeper-client-conf
-        configMap:
-          name: zookeeper-client-conf
       - name: zookeeper-src
         image:
           reference: zookage-zookeeper
