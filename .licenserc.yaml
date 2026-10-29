@@ -42,7 +42,6 @@ header:
   - "kubernetes/base/common/config/kerberos/.k5.ZOOKAGE.LOCAL"
   - "kubernetes/base/common/config/kerberos/service.keyfile"
   - "kubernetes/base/common/config/shared/zookage-ca.crt"
-  - "kubernetes/base/common/config/tls/*.crt"
   - "kubernetes/base/common/config/trino/jvm.config"
   - "kubernetes/base/common/secret/client/client.keytab"
   - "kubernetes/base/common/secret/hadoop/hadoop.jceks"

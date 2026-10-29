@@ -56,7 +56,6 @@ readonly san
 readonly repo_dir=$(cd "${base_dir}/.."; pwd)
 readonly util_image=${ZOOKAGE_UTIL_IMAGE:-zookage/zookage-util:experimental}
 readonly ca_store="${base_dir}/tls/zookage-ca.jks"
-readonly public_dir="${repo_dir}/kubernetes/base/common/config/tls"
 readonly shared_dir="${repo_dir}/kubernetes/base/common/config/shared"
 readonly secret_root="${repo_dir}/kubernetes/base/common/secret"
 # Reissue existing certificates in place, including those in shared Secrets.
@@ -118,9 +117,6 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
   keytool -importcert -noprompt -alias "${TLS_SERVICE}" \
     -file /output/service-reply.crt \
     -keystore /output/service.jks -storepass zookage -keypass zookage
-  keytool -exportcert -rfc -alias "${TLS_SERVICE}" \
-    -keystore /output/service.jks -storepass zookage \
-    -file /output/service.crt
   if [[ ${TLS_EXTENDED_KEY_USAGE} == clientAuth ]]; then
     keytool -importkeystore -noprompt \
       -srckeystore /output/service.jks -srcstorepass zookage \
@@ -128,10 +124,8 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
   fi
 SCRIPT
 
-tr -d '\r' < "${temp_dir}/service.crt" > "${temp_dir}/service.pem"
 mkdir -p "${secret_dir}"
 install -m 0600 "${temp_dir}/service.jks" "${secret_dir}/${service}.jks"
 if [[ ${extended_key_usage} == clientAuth ]]; then
   install -m 0600 "${temp_dir}/service.p12" "${secret_dir}/${service}.p12"
 fi
-install -m 0644 "${temp_dir}/service.pem" "${public_dir}/${service}.crt"
