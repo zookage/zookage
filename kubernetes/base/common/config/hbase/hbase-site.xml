@@ -36,6 +36,10 @@
     <value>zookeeper-server-0.zookeeper-server.zookage.svc.cluster.local,zookeeper-server-1.zookeeper-server.zookage.svc.cluster.local,zookeeper-server-2.zookeeper-server.zookage.svc.cluster.local</value>
   </property>
   <property>
+    <name>hbase.client.registry.impl</name>
+    <value>org.apache.hadoop.hbase.client.RpcConnectionRegistry</value>
+  </property>
+  <property>
     <name>hbase.client.bootstrap.servers</name>
     <value>hbase-regionserver-0.hbase-regionserver.zookage.svc.cluster.local:16020,hbase-regionserver-1.hbase-regionserver.zookage.svc.cluster.local:16020</value>
   </property>
