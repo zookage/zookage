@@ -20,7 +20,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
 # shellcheck disable=SC2016
 "${base_dir}/bin/logs" \
-  | awk -v auth="${ZOOKAGE_TEST_MODE:-}" '
+  | awk -v auth="${ZOOKAGE_AUTH_TEST:-}" '
     function flushCuratorErrors() {
       if (curatorError != "") print curatorError
       if (listenerError != "") print listenerError
@@ -46,7 +46,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
           else curatorError = listenerError = curatorPod = curatorKind = ""
         }
       }
-      if (auth == "auth" && $0 ~ / ERROR / &&
+      if (auth == "1" && $0 ~ / ERROR / &&
           ($1 ~ /^pod\/hive-hiveserver2-[^:]+:$/ || $1 ~ /^pod\/hive-llap-[0-9]+:$/) &&
           /delegation\.ZKDelegationTokenSecretManager: Error while processing Curator (keyCacheListener|tokenCacheListener) NODE_CREATED \/ NODE_CHANGED event$/) {
         curatorError = $0
@@ -59,13 +59,13 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
     END { flushCuratorErrors() }
   ' \
   | grep ' ERROR ' \
-  | awk -v auth="${ZOOKAGE_TEST_MODE:-}" '
+  | awk -v auth="${ZOOKAGE_AUTH_TEST:-}" '
     # Hive registers the query-routing appender before starting it at startup.
     $1 ~ /^pod\/hive-hiveserver2-[^:]+:$/ &&
         / Log4j2-TF-[0-9]+-AsyncLogger\[AsyncContext@[0-9a-f]+\]-[0-9]+ ERROR Attempted to append to non-started appender query-routing$/ {
       if (++seen[$1 SUBSEP "query-routing"] == 1) next
     }
-    auth == "auth" && $1 ~ /^pod\/ozone-(datanode|om|recon|scm)-[0-9]+:$/ && /\[main\] ERROR/ {
+    auth == "1" && $1 ~ /^pod\/ozone-(datanode|om|recon|scm)-[0-9]+:$/ && /\[main\] ERROR/ {
       kind = ""
       if (/CertificateClient: Default certificate serial id is not set\. Can.t locate the default certificate for this client\.$/) kind = "serial"
       else if ($1 ~ /^pod\/ozone-scm-/ && /keys\.KeyStorage: Failed to read the public key\.$/) kind = "key"

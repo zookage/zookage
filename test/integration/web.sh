@@ -36,7 +36,7 @@ check () {
   fi
 }
 
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
   check "http://localhost:14000/webhdfs/v1/?op=liststatus&user.name=zookage" "401"
   check "http://hdfs-httpfs.zookage.svc.cluster.local:14000/webhdfs/v1/?op=liststatus" "200" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
@@ -52,7 +52,7 @@ else
   check "http://localhost:9870/dfshealth.html"
 fi
 check "http://localhost:3000/"
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
   for endpoint in \
     "ozone-om-0.ozone-om.zookage.svc.cluster.local:9874" \
     "ozone-scm-0.ozone-scm.zookage.svc.cluster.local:9876" \
@@ -70,28 +70,28 @@ else
 fi
 check "http://localhost:8088/cluster"
 check "http://localhost:8088/ui2/"
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
   check "http://localhost:8188/applicationhistory" "401"
   check "http://yarn-timelineserver-0.yarn-timelineserver.zookage.svc.cluster.local:8188/applicationhistory" "200" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
 else
   check "http://localhost:8188/applicationhistory"
 fi
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
   check "http://localhost:19888/jobhistory" "401"
   check "http://mapreduce-historyserver-0.mapreduce-historyserver.zookage.svc.cluster.local:19888/jobhistory" "200" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
 else
   check "http://localhost:19888/jobhistory"
 fi
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
   check "http://localhost:9999/tez-ui/" "401"
   check "http://tez-ui.zookage.svc.cluster.local:9999/tez-ui/" "200" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
 else
   check "http://localhost:9999/tez-ui/"
 fi
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
   check "http://localhost:10002/" "401"
   check "http://hive-hiveserver2.zookage.svc.cluster.local:10002/" "200" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- curl --negotiate -u :
@@ -107,7 +107,7 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
 else
   check "http://localhost:10002/"
 fi
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
   check "http://localhost:16010/master.jsp" "401"
   for ordinal in 0 1; do
     for endpoint in \
@@ -122,7 +122,7 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
 else
   check "http://localhost:16010/master.jsp"
 fi
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
   check "http://localhost:18080/" "403"
   # Regenerate this fixture if SPARK_JWS_SECRET_KEY changes; it expires in 2100.
   readonly valid_spark_jws=$(< "${integration_dir}/spark-jws.jwt")

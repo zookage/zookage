@@ -33,7 +33,7 @@ run_wordcount_job() {
 
   "${integration_dir}/run.sh" hadoop fs -rm -r -f "${input}"
   "${integration_dir}/run.sh" hadoop fs -put /etc/hosts "${input}"
-  if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+  if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
     spark_options=(
       --principal zookage@ZOOKAGE.LOCAL
       --keytab /etc/secrets/client/client.keytab
@@ -44,15 +44,15 @@ run_wordcount_job() {
   # shellcheck disable=SC2016
   "${integration_dir}/run.sh" bash -c '
     input=$1
-    mode=$2
+    auth_test=$2
     shift 2
-    if [[ ${mode} == "auth" ]]; then
+    if [[ ${auth_test} == "1" ]]; then
       # The job must acquire Kerberos credentials from its keytab.
       export KRB5CCNAME="FILE:/tmp/zookage-spark-no-ticket-$$-${RANDOM}"
       test ! -e "${KRB5CCNAME#FILE:}" || exit 1
     fi
     spark-submit "$@" /opt/spark/examples/jars/spark-examples_*.jar "${input}"
-  ' _ "${input}" "${ZOOKAGE_TEST_MODE:-}" "${spark_options[@]}"
+  ' _ "${input}" "${ZOOKAGE_AUTH_TEST:-}" "${spark_options[@]}"
   "${integration_dir}/divider.sh" "Finished running ${name}"
   echo "${success_message}"
   echo

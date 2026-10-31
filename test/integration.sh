@@ -15,11 +15,17 @@ set -eu
 
 readonly test_dir=$(cd "$(dirname "$0")"; pwd)
 readonly repo_dir=$(cd "${test_dir}/.."; pwd)
-readonly kustomization_name=${1:-${ZOOKAGE_TEST_MODE:-}}
-case "${kustomization_name}" in
-  auth-llap) export ZOOKAGE_TEST_MODE=auth ;;
-  *) export ZOOKAGE_TEST_MODE="${kustomization_name}" ;;
-esac
+readonly kustomization_name=${1:-}
+if [[ $# -ge 1 ]]; then
+  case "${kustomization_name}" in
+    auth|llap-auth) export ZOOKAGE_AUTH_TEST=1 ;;
+    *) export ZOOKAGE_AUTH_TEST=0 ;;
+  esac
+  case "${kustomization_name}" in
+    llap|llap-auth) export ZOOKAGE_LLAP_TEST=1 ;;
+    *) export ZOOKAGE_LLAP_TEST=0 ;;
+  esac
+fi
 
 run_test() {
   local name=$1
@@ -43,7 +49,7 @@ if [[ $# -ge 1 ]]; then
   "${repo_dir}/bin/up"
 fi
 
-if [[ ${ZOOKAGE_TEST_MODE} == "auth" ]]; then
+if [[ ${ZOOKAGE_AUTH_TEST:-0} == 1 ]]; then
   "${test_dir}/integration/run.sh" kinit \
     -kt /etc/secrets/client/client.keytab \
     zookage@ZOOKAGE.LOCAL
@@ -51,7 +57,7 @@ fi
 
 run_test "HDFS permissions" "${test_dir}/integration/hdfs_permissions.sh"
 
-if [[ ${kustomization_name} != "llap" ]]; then
+if [[ ${ZOOKAGE_LLAP_TEST:-0} != 1 ]]; then
   run_test "Web" "${test_dir}/integration/web.sh"
   run_test "MR" "${test_dir}/integration/mr.sh"
   run_test "Spark" "${test_dir}/integration/spark.sh"

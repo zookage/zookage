@@ -30,7 +30,7 @@ expect_failure() {
 
 for i in {0..2}; do
   zookeeper_host="zookeeper-server-${i}.zookeeper-server.zookage.svc.cluster.local"
-  if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+  if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
     expect_failure "AdminServer access" \
       "${base_dir}/bin/kubectl" exec client-node-0 -- \
       curl --fail --silent --show-error --max-time 5 \

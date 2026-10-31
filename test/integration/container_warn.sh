@@ -17,7 +17,7 @@ readonly integration_dir=$(cd "$(dirname "$0")" || exit; pwd)
 readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
 kerberos_warnings='^$'
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
   # Tez job and LLAP tokens are deliberately not renewable.
   kerberos_warnings='pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind (tez\.job|LLAP_TOKEN)$'
   # Ranger Usersync uses Hadoop's default auth_to_local rule mechanism.
@@ -31,8 +31,8 @@ readonly kerberos_warnings
 
 # shellcheck disable=SC2016
 "${base_dir}/bin/logs" | grep WARN \
-  | awk -v auth="${ZOOKAGE_TEST_MODE:-}" '
-    auth == "auth" && $1 ~ /^pod\/ozone-scm-[0-9]+:$/ &&
+  | awk -v auth="${ZOOKAGE_AUTH_TEST:-}" '
+    auth == "1" && $1 ~ /^pod\/ozone-scm-[0-9]+:$/ &&
       / WARN ha\.SequenceIdGenerator: Failed to allocate a batch for CertificateId, expected lastId is 0, actual lastId is [0-9]+\.$/ {
       if (++seen[$1] == 1) next
     }
