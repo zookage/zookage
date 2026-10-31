@@ -30,7 +30,8 @@ readonly kerberos_warnings
 "${integration_dir}/divider.sh" "Start fetching warnings of all containers"
 
 # shellcheck disable=SC2016
-"${base_dir}/bin/logs" | grep WARN \
+"${base_dir}/bin/logs" \
+  | grep WARN \
   | awk -v auth="${ZOOKAGE_AUTH_TEST:-}" '
     auth == "1" && $1 ~ /^pod\/ozone-scm-[0-9]+:$/ &&
       / WARN ha\.SequenceIdGenerator: Failed to allocate a batch for CertificateId, expected lastId is 0, actual lastId is [0-9]+\.$/ {
@@ -128,11 +129,14 @@ readonly kerberos_warnings
   | grep -v 'pod/\(hbase\|ozone\)-.* conditionevaluator.RangerScriptConditionEvaluator: initScriptEngineCreator(): failed to create engine using plugin-class-loader by creator org.apache.ranger.plugin.util.JavaScriptEngineCreator' \
   | grep -v 'pod/\(hbase\|ozone\)-.* conditionevaluator.RangerScriptConditionEvaluator: createScriptEngine(serviceType=tag): failed to create script engine' \
   | grep -v 'pod/ozone-.*: STARTUP_MSG:' \
-  | grep -v 'pod/ozone-recon-.* scm.ReconPipelineManager: Pipeline PipelineID=.* already exists in Recon pipeline metadata' \
+  | grep -v 'pod/ozone-recon-.* scm.ReconPipelineManager: Pipeline \(PipelineID=\)\{0,1\}.* already exists in Recon pipeline metadata' \
+  | grep -vF 'WARN tasks.ReconTaskControllerImpl: Failed to cleanup pre-existing checkpoint directories' \
   | grep -v 'pod/ozone-recon-.* ipc.Server: IPC Server handler .* org.apache.hadoop.ozone.protocol.ReconDatanodeProtocol.submitRequest .*: output error' \
   | grep -v 'pod/ozone-datanode-.* statemachine.EndpointStateMachine: Unable to communicate to Recon server at .* for past 0 seconds\.' \
   | grep -v 'pod/ozone-.* util.JvmPauseMonitor: JvmPauseMonitor-.* Detected pause in JVM or host machine approximately .*' \
   | grep -v 'pod/ozone-.* impl.FollowerState: Unexpected long sleep: sleep .* but took extra .*ns (> threshold = .*ms)' \
+  `# SCM assumes an empty queue until a DataNode reports its first command count.` \
+  | grep -v 'pod/ozone-scm-.* WARN node\.SCMNodeManager: No command count information for datanode .* and command deleteBlocksCommand\. Assuming zero$' \
   | grep -v 'pod/ozone-scm-.* balancer.ContainerBalancer: Could not find persisted configuration for ContainerBalancer when checking if ContainerBalancer should run. ContainerBalancer should not run now.' \
   | grep -v 'pod/ozone-scm-.* ha.SequenceIdGenerator: Failed to allocate a batch for localId, expected lastId is 0, actual lastId is' \
   | grep -v 'pod/ozone-scm-.* scm.SCMCommonPlacementPolicy: Unable to find enough nodes that meet the space requirement of' \

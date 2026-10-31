@@ -133,6 +133,8 @@ configMapGenerator:
   - ozone/hadoop-metrics2-storagecontainermanager.properties
   - ozone/hadoop-metrics2-xceiverclientmetrics.properties
   - ozone/log4j.properties
+  - ozone/log4j2.component.properties
+  - ozone/log4j2.properties
   - ozone/om-audit-log4j2.properties
   - ozone/ozone-site.xml
   - ozone/s3g-audit-log4j2.properties

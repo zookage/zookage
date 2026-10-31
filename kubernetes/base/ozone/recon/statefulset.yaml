@@ -35,6 +35,9 @@ spec:
         - /opt/ozone/bin/ozone
         args:
         - recon
+        readinessProbe:
+          tcpSocket:
+            port: 9891
         envFrom:
         - configMapRef:
             name: java-env
