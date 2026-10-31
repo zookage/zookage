@@ -154,13 +154,9 @@ readonly kerberos_warnings
   | grep -v 'pod/spark-historyserver-.* WARNING: Using incubator modules: jdk.incubator.vector' \
   | grep -v '^pod/tez-ui-.* WARNING \[main\] org\.apache\.catalina\.util\.SessionIdGeneratorBase\.createSecureRandom Creation of SecureRandom instance for session ID generation using \[SHA1PRNG\] took \[[0-9][0-9]*\] milliseconds\.$' \
   | grep -v 'pod/trino-coordinator-.* WARNING: Using incubator modules: jdk.incubator.vector' \
-  | grep -v 'pod/trino-coordinator-.* # WARNING: Unable to attach Serviceability Agent\.' \
   | grep -v 'pod/trino-coordinator-.*io.trino.memory.RemoteNodeMemory.*Memory info update request to http://.* has not returned in .*' \
   | grep -v 'pod/trino-coordinator-.*io.trino.memory.RemoteNodeMemory.*Error fetching memory info from http://.* returned status 503' \
-  | grep -v "pod/trino-.*\\[engine\\] WARNING: The Truffle API JAR is missing the 'truffleattach' resource, likely due to issues when Truffle was repackaged into a fat JAR\." \
-  | grep -v 'pod/trino-.*\[engine\] WARNING: The polyglot engine uses a fallback runtime that does not support runtime compilation to native code\.' \
   | grep -v 'pod/trino-worker-.* WARNING: Using incubator modules: jdk.incubator.vector' \
-  | grep -v 'pod/trino-worker-.* # WARNING: Unable to attach Serviceability Agent\.' \
   | grep -v 'pod/trino-.*io.trino.node.AnnounceNodeAnnouncer.*Failed to announce node state to http://.*: 503' \
   | grep -v 'pod/zookeeper-server-.* io.netty.util.concurrent.DefaultPromise -- An exception was thrown by org.apache.zookeeper.server.NettyServerCnxnFactory\$CertificateVerifier.operationComplete()'
 

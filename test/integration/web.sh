@@ -131,6 +131,16 @@ if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
 else
   check "http://localhost:18080/"
 fi
-check "http://localhost:8090/ui/"
+if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
+  readonly coordinator_host=trino-coordinator.zookage.svc.cluster.local
+  check "https://${coordinator_host}:8443/ui/" "401" \
+    curl --noproxy "${coordinator_host}" --resolve "${coordinator_host}:8443:127.0.0.1" \
+    --cacert "${base_dir}/kubernetes/base/common/config/shared/zookage-ca.crt"
+  check "https://${coordinator_host}:8443/ui/" "200 307" \
+    "${base_dir}/bin/kubectl" exec client-node-0 -- \
+    curl --cacert /etc/zookage/shared/zookage-ca.crt --negotiate -u :
+else
+  check "http://localhost:8090/ui/"
+fi
 check "http://localhost:8080/admin/master/console/"
 check "http://localhost:6080/login.jsp"

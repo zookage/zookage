@@ -30,6 +30,15 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
+      containers:
+      - name: coordinator
+        volumeMounts:
+        - name: trino-secret
+          mountPath: /etc/secrets/trino
+      volumes:
+      - name: trino-secret
+        secret:
+          secretName: trino-secret
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -44,3 +53,12 @@ spec:
         args:
         - wait-for-rollout
         - deployment/kerberos-kdc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trino-coordinator
+spec:
+  ports:
+  - name: https
+    port: 8443

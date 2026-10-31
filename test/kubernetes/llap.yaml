@@ -74,7 +74,7 @@ images:
   newTag: 0.10.5-zookage-0.5
 - name: zookage-trino
   newName: zookage/zookage-trino
-  newTag: 479-zookage-0.5
+  newTag: experimental
 - name: zookage-zookeeper
   newName: zookage/zookage-zookeeper
   newTag: 3.9.4-zookage-0.5
