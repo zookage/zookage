@@ -17,6 +17,7 @@ if [[ $# -lt 1 || $# -gt 2 ]]; then
   echo "Usage: $0 <service> [SAN]" >&2
   echo "When SAN is omitted, read docker/tls/<service>.san (optional for client certificates)." >&2
   echo "Set TLS_EXTENDED_KEY_USAGE=clientAuth for a client certificate." >&2
+  echo "Set TLS_KEYSTORE_PASSWORD to override the service keystore password (default: zookage)." >&2
   echo "Example: $0 hive-metastore dns:hive-metastore,dns:localhost,ip:127.0.0.1" >&2
   exit 1
 fi
@@ -30,6 +31,11 @@ fi
 readonly extended_key_usage=${TLS_EXTENDED_KEY_USAGE:-serverAuth}
 if [[ ${extended_key_usage} != serverAuth && ${extended_key_usage} != clientAuth ]]; then
   echo "TLS_EXTENDED_KEY_USAGE must be serverAuth or clientAuth." >&2
+  exit 1
+fi
+readonly keystore_password=${TLS_KEYSTORE_PASSWORD:-zookage}
+if [[ ${#keystore_password} -lt 6 ]]; then
+  echo "TLS_KEYSTORE_PASSWORD must be at least six characters." >&2
   exit 1
 fi
 
@@ -93,14 +99,15 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
   --mount "type=bind,source=${shared_dir}/zookage-ca.crt,target=/ca/zookage-ca.crt,readonly" \
   --env "TLS_SERVICE=${service}" --env "TLS_SAN=${san}" \
   --env "TLS_EXTENDED_KEY_USAGE=${extended_key_usage}" \
+  --env "TLS_KEYSTORE_PASSWORD=${keystore_password}" \
   "${util_image}" /bin/bash -eu <<'SCRIPT'
   keytool -genkeypair \
     -alias "${TLS_SERVICE}" -keyalg RSA -keysize 2048 -sigalg SHA256withRSA \
     -dname "CN=${TLS_SERVICE},O=ZooKage" -validity 3650 \
     -keystore /output/service.jks -storetype JKS \
-    -storepass zookage -keypass zookage
+    -storepass "${TLS_KEYSTORE_PASSWORD}" -keypass "${TLS_KEYSTORE_PASSWORD}"
   keytool -certreq -alias "${TLS_SERVICE}" \
-    -keystore /output/service.jks -storepass zookage -keypass zookage \
+    -keystore /output/service.jks -storepass "${TLS_KEYSTORE_PASSWORD}" -keypass "${TLS_KEYSTORE_PASSWORD}" \
     -file /output/service.csr
   san_extension=()
   if [[ -n ${TLS_SAN} ]]; then
@@ -113,14 +120,14 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
     -ext "EKU=${TLS_EXTENDED_KEY_USAGE}" "${san_extension[@]}"
   keytool -importcert -noprompt -alias zookage-ca \
     -file /ca/zookage-ca.crt \
-    -keystore /output/service.jks -storepass zookage
+    -keystore /output/service.jks -storepass "${TLS_KEYSTORE_PASSWORD}"
   keytool -importcert -noprompt -alias "${TLS_SERVICE}" \
     -file /output/service-reply.crt \
-    -keystore /output/service.jks -storepass zookage -keypass zookage
+    -keystore /output/service.jks -storepass "${TLS_KEYSTORE_PASSWORD}" -keypass "${TLS_KEYSTORE_PASSWORD}"
   if [[ ${TLS_EXTENDED_KEY_USAGE} == clientAuth ]]; then
     keytool -importkeystore -noprompt \
-      -srckeystore /output/service.jks -srcstorepass zookage \
-      -destkeystore /output/service.p12 -deststoretype PKCS12 -deststorepass zookage
+      -srckeystore /output/service.jks -srcstorepass "${TLS_KEYSTORE_PASSWORD}" \
+      -destkeystore /output/service.p12 -deststoretype PKCS12 -deststorepass "${TLS_KEYSTORE_PASSWORD}"
   fi
 SCRIPT
 
