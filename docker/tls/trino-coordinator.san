@@ -17,5 +17,3 @@ dns:trino-coordinator.zookage.svc.cluster.local
 dns:trino-coordinator-0
 dns:trino-coordinator-0.trino-coordinator
 dns:trino-coordinator-0.trino-coordinator.zookage.svc.cluster.local
-dns:localhost
-ip:127.0.0.1

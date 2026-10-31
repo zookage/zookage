@@ -132,9 +132,11 @@ else
   check "http://localhost:18080/"
 fi
 if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
-  check "https://localhost:8443/ui/" "401" \
-    curl --cacert "${base_dir}/kubernetes/base/common/config/shared/zookage-ca.crt"
-  check "https://trino-coordinator.zookage.svc.cluster.local:8443/ui/" "200 307" \
+  readonly coordinator_host=trino-coordinator.zookage.svc.cluster.local
+  check "https://${coordinator_host}:8443/ui/" "401" \
+    curl --noproxy "${coordinator_host}" --resolve "${coordinator_host}:8443:127.0.0.1" \
+    --cacert "${base_dir}/kubernetes/base/common/config/shared/zookage-ca.crt"
+  check "https://${coordinator_host}:8443/ui/" "200 307" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- \
     curl --cacert /etc/zookage/shared/zookage-ca.crt --negotiate -u :
 else
