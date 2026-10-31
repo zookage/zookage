@@ -73,6 +73,9 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
       else if (/utils\.SelfSignedCertificate: Invalid domain ozone-.*\.zookage\.svc\.cluster\.local$/) kind = "self"
       if (kind != "" && ++seen[$1 SUBSEP kind] == 1) next
     }
+    # The ZooKeeper integration check deliberately attempts a client connection without SASL.
+    auth == "auth" && $1 ~ /^pod\/zookeeper-server-[0-9]+:$/ &&
+        /org\.apache\.zookeeper\.server\.AuthenticationHelper -- Client authentication scheme\(s\) \[ip\] does not match with any of the expected authentication scheme \[sasl\], closing session\.$/ { next }
     { print }
   ' \
   | grep -v 'pod/hive-llap-.* impl.LlapDaemon: Cannot find CONTAINER_ID; LLAP tokens may grant access to subsequent instances of the cluster with the same name' \

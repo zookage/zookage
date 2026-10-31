@@ -68,7 +68,6 @@ if grep '\[WARN\]' "${logs_file}" \
       auth == "auth" {
         if (/\|ipc\.Client\|: Exception encountered while connecting to the server hive-llap-[0-9]+\.hive-llap\.zookage\.svc\.cluster\.local\/.*:15004$/ && ++ignored["rpc"] == 1) next
         if (/\|security\.LlapTokenClient\|: Exception while getting delegation token, trying with kerberos login$/ && ++ignored["token"] == 1) next
-        if (/\|impl\.ZkRegistryBase\|: The ACL 31,s.*x509.*CN=hive-zookeeper-client%2CO=ZooKage\}$/ && ++ignored["acl"] <= 2) next
         if (/\|zookeeper\.Login\|: TGT renewal thread has been interrupted and will exit\.$/ && ++ignored["renewal"] <= 2) next
       }
       { print; found = 1 }

@@ -28,38 +28,63 @@ expect_failure() {
   fi
 }
 
+if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
+  "${base_dir}/bin/kubectl" exec -i client-node-0 -- sh -c \
+    'umask 077; cat > /tmp/zookeeper-client-jaas.conf' <<'JAAS'
+Client {
+  com.sun.security.auth.module.Krb5LoginModule required
+  useKeyTab=true
+  storeKey=true
+  useTicketCache=false
+  keyTab="/etc/secrets/client/client.keytab"
+  principal="zookage@ZOOKAGE.LOCAL";
+};
+JAAS
+fi
+
+zk_stat() {
+  local -r host=$1
+  local -r client_flags=$2
+
+  "${base_dir}/bin/kubectl" exec client-node-0 -- env \
+    ZOOCFGDIR=/opt/zookeeper/conf \
+    CLIENT_JVMFLAGS="${client_flags}" \
+    timeout 20 /opt/zookeeper/bin/zkCli.sh -server "${host}:2181" stat /
+}
+
 for i in {0..2}; do
   zookeeper_host="zookeeper-server-${i}.zookeeper-server.zookage.svc.cluster.local"
   if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
-    admin_url="https://${zookeeper_host}:8080/commands/monitor"
-
-    expect_failure "Plain HTTP AdminServer access" \
+    expect_failure "AdminServer access" \
       "${base_dir}/bin/kubectl" exec client-node-0 -- \
-      curl --fail --silent --show-error --max-time 10 \
+      curl --fail --silent --show-error --max-time 5 \
       "http://${zookeeper_host}:8080/commands/monitor"
-    expect_failure "AdminServer access without a client certificate" \
-      "${base_dir}/bin/kubectl" exec client-node-0 -- \
-      curl --fail --silent --show-error --max-time 10 \
-      --cacert /etc/hadoop/conf/zookage-ca.crt \
-      "${admin_url}"
-    monitor_response=$("${base_dir}/bin/kubectl" exec client-node-0 -- \
-      curl --fail --silent --show-error --max-time 10 \
-      --cacert /etc/hadoop/conf/zookage-ca.crt \
-      --cert-type P12 \
-      --cert /etc/secrets/zookeeper-client/zookeeper-client.p12:zookage \
-      "${admin_url}")
+    if ! stat_response=$(zk_stat "${zookeeper_host}" \
+      "-Djava.security.auth.login.config=/tmp/zookeeper-client-jaas.conf" 2>&1) ||
+      ! grep -Eq 'cZxid = ' <<< "${stat_response}"; then
+      echo "Kerberos-authenticated ZooKeeper access failed: ${stat_response}" >&2
+      exit 1
+    fi
+    unauth_response=$(zk_stat "${zookeeper_host}" \
+      "-Dzookeeper.sasl.client=false" 2>&1) || true
+    if grep -Eq 'cZxid = ' <<< "${unauth_response}" ||
+      ! grep -Eq 'AuthFailed|Session closed' <<< "${unauth_response}"; then
+      echo "Unauthenticated ZooKeeper access was not rejected: ${unauth_response}" >&2
+      exit 1
+    fi
+    echo "Kerberos authentication succeeded and unauthenticated access was rejected by ${zookeeper_host}"
   else
     admin_url="http://${zookeeper_host}:8080/commands/monitor"
     monitor_response=$("${base_dir}/bin/kubectl" exec client-node-0 -- \
       curl --fail --silent --show-error --max-time 10 \
       "${admin_url}")
+    if ! grep -Eq '"error"[[:space:]]*:[[:space:]]*null' <<< "${monitor_response}" ||
+      ! grep -Eq '"server_state"[[:space:]]*:[[:space:]]*"(leader|follower)"' <<< "${monitor_response}"; then
+      echo "ZooKeeper server ${i} is not serving as a leader or follower: ${monitor_response}" >&2
+      exit 1
+    fi
+    echo "${monitor_response}"
   fi
-  if ! grep -Eq '"error"[[:space:]]*:[[:space:]]*null' <<< "${monitor_response}" ||
-    ! grep -Eq '"server_state"[[:space:]]*:[[:space:]]*"(leader|follower)"' <<< "${monitor_response}"; then
-    echo "ZooKeeper server ${i} is not serving as a leader or follower: ${monitor_response}" >&2
-    exit 1
-  fi
-  echo "${monitor_response}"
 done
 
 "${integration_dir}/divider.sh" "Finished checking ZooKeeper"
