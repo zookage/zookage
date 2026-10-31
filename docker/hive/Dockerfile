@@ -29,27 +29,51 @@ RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   mvn --threads 1C ${clean} install \
     -Pdist \
     -DskipTests \
-    -Dmaven.javadoc.skip=true \
-  && mv \
+    -Dmaven.javadoc.skip=true
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  mv \
     "./packaging/target/apache-hive-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-bin/apache-hive-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-bin" \
-    ./packaging/target/hive \
-  && mv \
+    ./packaging/target/hive
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  mv \
     "./standalone-metastore/packaging/target/hive-standalone-metastore-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-bin/apache-hive-metastore-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-bin" \
-    ./standalone-metastore/packaging/target/hive-metastore \
-  && mvn dependency:get "-Dartifact=org.postgresql:postgresql:$(mvn help:evaluate -Dexpression=postgres.version -q -DforceStdout)" \
-  && cp \
+    ./standalone-metastore/packaging/target/hive-metastore
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  mvn dependency:get "-Dartifact=org.postgresql:postgresql:$(mvn help:evaluate -Dexpression=postgres.version -q -DforceStdout)"
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  cp \
     "/root/.m2/repository/org/postgresql/postgresql/$(mvn help:evaluate -Dexpression=postgres.version -q -DforceStdout)/postgresql-$(mvn help:evaluate -Dexpression=postgres.version -q -DforceStdout).jar" \
-    ./packaging/target/hive/lib \
-  && cp \
+    ./packaging/target/hive/lib
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  cp \
     "/root/.m2/repository/org/postgresql/postgresql/$(mvn help:evaluate -Dexpression=postgres.version -q -DforceStdout)/postgresql-$(mvn help:evaluate -Dexpression=postgres.version -q -DforceStdout).jar" \
-    ./standalone-metastore/packaging/target/hive-metastore/lib \
-  && unzip "./packaging/target/hive/lib/postgresql-$(mvn help:evaluate -Dexpression=postgres.version -q -DforceStdout).jar" "META-INF/LICENSE" "META-INF/licenses/**/LICENSE" -d /tmp/postgresql \
-  && mkdir ./packaging/target/hive/licenses/postgresql \
-  && mkdir ./standalone-metastore/packaging/target/hive-metastore/licenses/postgresql \
-  && cp /tmp/postgresql/META-INF/LICENSE ./packaging/target/hive/licenses/postgresql \
-  && cp /tmp/postgresql/META-INF/LICENSE ./standalone-metastore/packaging/target/hive-metastore/licenses/postgresql \
-  && cp -R /tmp/postgresql/META-INF/licenses ./packaging/target/hive/licenses/postgresql \
-  && cp -R /tmp/postgresql/META-INF/licenses ./standalone-metastore/packaging/target/hive-metastore/licenses/postgresql
+    ./standalone-metastore/packaging/target/hive-metastore/lib
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  unzip "./packaging/target/hive/lib/postgresql-$(mvn help:evaluate -Dexpression=postgres.version -q -DforceStdout).jar" "META-INF/LICENSE" "META-INF/licenses/**/LICENSE" -d /tmp/postgresql
+
+RUN mkdir ./packaging/target/hive/licenses/postgresql
+
+# Keep builder steps separate; these layers are not included in the runtime image.
+# hadolint ignore=DL3059
+RUN mkdir ./standalone-metastore/packaging/target/hive-metastore/licenses/postgresql
+
+# hadolint ignore=DL3059
+RUN cp /tmp/postgresql/META-INF/LICENSE ./packaging/target/hive/licenses/postgresql
+
+# hadolint ignore=DL3059
+RUN cp /tmp/postgresql/META-INF/LICENSE ./standalone-metastore/packaging/target/hive-metastore/licenses/postgresql
+
+# hadolint ignore=DL3059
+RUN cp -R /tmp/postgresql/META-INF/licenses ./packaging/target/hive/licenses/postgresql
+
+# hadolint ignore=DL3059
+RUN cp -R /tmp/postgresql/META-INF/licenses ./standalone-metastore/packaging/target/hive-metastore/licenses/postgresql
 
 # hadolint ignore=DL3006
 FROM ${jdk_image} AS hive

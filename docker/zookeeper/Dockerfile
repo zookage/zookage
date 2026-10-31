@@ -39,10 +39,14 @@ RUN \
   && rm -rf /var/lib/apt/lists/*
 
 RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
-  mvn ${clean} install -DskipTests -Dmaven.javadoc.skip=true \
-  && tar -zxvf \
-    "./zookeeper-assembly/target/apache-zookeeper-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-bin.tar.gz" \
-  && mv \
+  mvn ${clean} install -DskipTests -Dmaven.javadoc.skip=true
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  tar -zxvf \
+    "./zookeeper-assembly/target/apache-zookeeper-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-bin.tar.gz"
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  mv \
     "./apache-zookeeper-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-bin" \
     ./apache-zookeeper-bin
 
