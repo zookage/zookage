@@ -60,7 +60,7 @@ spec:
         - configMapRef:
             name: ozone-env
         - secretRef:
-            name: aws-secret
+            name: aws-secret-env
         env:
         - name: HADOOP_USER_NAME
           value: ozone

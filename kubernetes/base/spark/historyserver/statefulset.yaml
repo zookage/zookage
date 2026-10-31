@@ -41,6 +41,8 @@ spec:
             name: java-env
         - configMapRef:
             name: spark-env
+        - secretRef:
+            name: spark-secret-env
         readinessProbe:
           tcpSocket:
             port: 18080
