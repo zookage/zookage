@@ -84,7 +84,6 @@ readonly kerberos_warnings
   | grep -v 'pod/hive-hiveserver2-.* authorizer.RangerHiveAuthorizerBase: RangerHiveAuthorizerBase\.RangerHiveAuthorizerBase(): hiveAuthenticator\.getUserName() returned null/empty' \
   | grep -v 'pod/hive-llap-.* impl.LlapDaemon: NodeManager host/port not found in environment\. Values retrieved: host=null, port=null' \
   | grep -v 'pod/hive-llap-.* zookeeper.Login: TGT renewal thread has been interrupted and will exit\.' \
-  | grep -v 'pod/hive-llap-.* impl.ZkRegistryBase: The ACL 31,s.*x509.*CN=hive-zookeeper-client%2CO=ZooKage' \
   | grep -v 'pod/hive-llap-.* conf.HiveConf: HiveConf of name hive.cluster.id does not exist' \
   | grep -v 'pod/hive-llap-.* exec.FunctionRegistry: UDF Class org.apache.hadoop.hive.ql.udf.generic.GenericUDFToJson does not have description\.' \
   | grep -v 'pod/hive-llap-.* objectinspector.StandardStructObjectInspector: Trying to access' \

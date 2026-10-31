@@ -47,51 +47,6 @@
     <name>hive.zookeeper.quorum</name>
     <value>zookeeper-server-0.zookeeper-server:2181,zookeeper-server-1.zookeeper-server:2181,zookeeper-server-2.zookeeper-server:2181</value>
   </property>
-{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
-  <property>
-    <name>hive.zookeeper.ssl.client.enable</name>
-    <value>true</value>
-  </property>
-{{- end }}
-  <property>
-    <name>hive.zookeeper.ssl.keystore.location</name>
-    <value>/etc/secrets/hive/hive-zookeeper-client.jks</value>
-  </property>
-  <property>
-    <name>hive.zookeeper.ssl.truststore.location</name>
-    <value>/etc/hadoop/conf/zookage-truststore.jks</value>
-  </property>
-{{- if and (eq (index .Values "hadoop_security_authentication") "kerberos") (eq (index .Values "hive_execution_mode") "llap") }}
-  <!-- Keep Hive's default hidden keys except the Tez AM's ZooKeeper TLS paths, and hide LLAP TLS passwords. -->
-  <property>
-    <name>hive.conf.hidden.list</name>
-    <value>javax.jdo.option.ConnectionPassword,
-      hive.server2.keystore.password,
-      hive.server2.webui.keystore.password,
-      hive.druid.metadata.password,
-      fs.s3.awsAccessKeyId,
-      fs.s3.awsSecretAccessKey,
-      fs.s3n.awsAccessKeyId,
-      fs.s3n.awsSecretAccessKey,
-      fs.s3a.access.key,
-      fs.s3a.secret.key,
-      fs.s3a.proxy.password,
-      dfs.adls.oauth2.credential,
-      fs.adl.oauth2.credential,
-      fs.azure.account.oauth2.client.secret,
-      iceberg.vended.storage.credentials,
-      s3.access-key-id,
-      s3.secret-access-key,
-      s3.session-token,
-      hive.zookeeper.ssl.keystore.password,
-      hive.zookeeper.ssl.truststore.password,
-      hive.llap.zk.sm.ssl.keystore.password,
-      hive.llap.zk.sm.ssl.truststore.password,
-      hadoop.zk.ssl.keystore.password,
-      hadoop.zk.ssl.truststore.password</value>
-  </property>
-{{- end }}
-
   <property>
     <name>hive.compactor.worker.threads</name>
     <value>1</value>
@@ -214,45 +169,6 @@
   <property>
     <name>hive.llap.zk.sm.connectionString</name>
     <value>zookeeper-server-0.zookeeper-server:2181,zookeeper-server-1.zookeeper-server:2181,zookeeper-server-2.zookeeper-server:2181</value>
-  </property>
-  <property>
-    <name>hive.llap.zk.sm.ssl.enabled</name>
-    <value>true</value>
-  </property>
-{{- end }}
-  <property>
-    <name>hive.llap.zk.sm.ssl.keystore.location</name>
-    <value>/etc/secrets/hive/hive-zookeeper-client.jks</value>
-  </property>
-  <property>
-    <name>hive.llap.zk.sm.ssl.truststore.location</name>
-    <value>/etc/hadoop/conf/zookage-truststore.jks</value>
-  </property>
-{{- if and (eq (index .Values "hadoop_security_authentication") "kerberos") (eq (index .Values "hive_execution_mode") "llap") }}
-  <property>
-    <name>hive.llap.zk.sm.ssl.keystore.password</name>
-    <value>zookage</value>
-  </property>
-  <property>
-    <name>hive.llap.zk.sm.ssl.truststore.password</name>
-    <value>zookage</value>
-  </property>
-  <!-- Hadoop's ZooKeeper client reads these keys when LLAP starts its token SecretManager. -->
-  <property>
-    <name>hadoop.zk.ssl.keystore.location</name>
-    <value>/etc/secrets/hive/hive-zookeeper-client.jks</value>
-  </property>
-  <property>
-    <name>hadoop.zk.ssl.keystore.password</name>
-    <value>zookage</value>
-  </property>
-  <property>
-    <name>hadoop.zk.ssl.truststore.location</name>
-    <value>/etc/hadoop/conf/zookage-truststore.jks</value>
-  </property>
-  <property>
-    <name>hadoop.zk.ssl.truststore.password</name>
-    <value>zookage</value>
   </property>
 {{- end }}
   <property>

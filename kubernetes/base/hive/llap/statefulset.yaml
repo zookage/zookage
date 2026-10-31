@@ -103,8 +103,6 @@ spec:
           subPath: krb5.conf
         - name: tez-conf
           mountPath: /etc/tez/conf
-        - name: zookeeper-client-secret
-          mountPath: /etc/secrets/zookeeper-client
         - name: mnt
           mountPath: /mnt
         - name: hadoop-src
@@ -142,9 +140,6 @@ spec:
       - name: tez-conf
         configMap:
           name: tez-conf
-      - name: zookeeper-client-secret
-        secret:
-          secretName: zookeeper-client-secret
       - name: mnt
         emptyDir: {}
       - name: hadoop-src
