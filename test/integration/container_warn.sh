@@ -22,6 +22,8 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   kerberos_warnings='pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind (tez\.job|LLAP_TOKEN)$'
   # Ranger Usersync uses Hadoop's default auth_to_local rule mechanism.
   kerberos_warnings+='|pod/ranger-usersync-.* WARN  - auth_to_local rule mechanism not set\.Using default of hadoop$'
+  # HBase Web checks can log rejected replayed SPNEGO tokens before returning 200.
+  kerberos_warnings+='|pod/hbase-(master|regionserver)-[0-9]+: .* WARN  .* server\.AuthenticationFilter: Authentication exception: GSSException: Failure unspecified at GSS-API level \(Mechanism level: Request is a replay \(34\)\)$'
 fi
 readonly kerberos_warnings
 
@@ -112,6 +114,7 @@ readonly kerberos_warnings
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.NIOServerCnxn -- Close of session 0x0' \
   | grep -v 'pod/zookeeper-server-.* org.apache.zookeeper.server.ZKDatabase -- Unable to find proposals from txnlog for zxid: 0x0' \
   `# Initialization` \
+  | grep -v 'pod/hbase-.* http\.ProfilerBackend: async-profiler library not available (ClassNotFoundException); falling back to BinaryBackend or DisabledServlet\. Cause: one\.profiler\.AsyncProfiler' \
   | grep -v 'pod/hbase-master-.* hdfs.DataStreamer: DataStreamer Exception' \
   | grep -v 'pod/hbase-master-.* region.MasterRegion: failed to clean up initializing flag' \
   | grep -v 'pod/hbase-master-.* assignment.AssignmentManager: No servers available; cannot place' \

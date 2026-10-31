@@ -44,7 +44,7 @@ images:
   newTag: experimental
 - name: zookage-hbase
   newName: zookage/zookage-hbase
-  newTag: 2.6.3-zookage-0.5
+  newTag: experimental
 - name: zookage-hive
   newName: zookage/zookage-hive
   newTag: experimental
