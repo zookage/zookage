@@ -24,10 +24,6 @@
   </property>
 
   <property>
-    <name>ozone.scm.block.client.address</name>
-    <value>ozone-scm-0.ozone-scm</value>
-  </property>
-  <property>
     <name>ozone.scm.client.address</name>
     <value>ozone-scm-0.ozone-scm</value>
   </property>
@@ -69,12 +65,17 @@
     <value>/mnt/ozone/om/ratis/snapshot</value>
   </property>
 
+  <!-- DataNodes share the Kubernetes node filesystem with other services. -->
+  <property>
+    <name>hdds.datanode.dir.du.reserved.percent</name>
+    <value>0</value>
+  </property>
   <property>
     <name>ozone.scm.datanode.id.dir</name>
     <value>/mnt/ozone/datanode/id</value>
   </property>
   <property>
-    <name>dfs.container.ratis.datanode.storage.dir</name>
+    <name>hdds.container.ratis.datanode.storage.dir</name>
     <value>/mnt/ozone/datanode/ratis</value>
   </property>
 

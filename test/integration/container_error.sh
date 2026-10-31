@@ -20,61 +20,13 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
 # shellcheck disable=SC2016
 "${base_dir}/bin/logs" \
-  | awk -v auth="${ZOOKAGE_AUTH_TEST:-}" '
-    function flushCuratorErrors() {
-      if (curatorError != "") print curatorError
-      if (listenerError != "") print listenerError
-      curatorError = listenerError = curatorPod = curatorKind = ""
-    }
-    # Hadoop 3.4.1 tries to parse the root of each LLAP token cache as a token.
-    # Suppress only the startup exception identified by its stack trace.
-    {
-      if (curatorError != "") {
-        if ($1 != curatorPod) flushCuratorErrors()
-        else if ($0 ~ / ERROR /) {
-          if (listenerError == "" &&
-              /listen\.MappingListenerManager: Listener \(org\.apache\.curator\.framework\.recipes\.cache\.CuratorCacheListenerBuilderImpl\$2@[0-9a-f]+\) threw an exception$/) {
-            listenerError = $0
-            next
-          }
-          flushCuratorErrors()
-        } else if (listenerError != "" && /Caused by:/) {
-          if (curatorKind == "key") expectedCause = /Caused by: java\.io\.EOFException$/
-          else expectedCause = /Caused by: java\.io\.IOException: Unknown version of delegation token 49$/
-          max = curatorPod ~ /^pod\/hive-llap-/ ? 2 : 1
-          if (!expectedCause || ++rootEvents[curatorPod SUBSEP curatorKind] > max) flushCuratorErrors()
-          else curatorError = listenerError = curatorPod = curatorKind = ""
-        }
-      }
-      if (auth == "1" && $0 ~ / ERROR / &&
-          ($1 ~ /^pod\/hive-hiveserver2-[^:]+:$/ || $1 ~ /^pod\/hive-llap-[0-9]+:$/) &&
-          /delegation\.ZKDelegationTokenSecretManager: Error while processing Curator (keyCacheListener|tokenCacheListener) NODE_CREATED \/ NODE_CHANGED event$/) {
-        curatorError = $0
-        curatorPod = $1
-        curatorKind = /keyCacheListener/ ? "key" : "token"
-        next
-      }
-      print
-    }
-    END { flushCuratorErrors() }
-  ' \
   | grep ' ERROR ' \
-  | awk -v auth="${ZOOKAGE_AUTH_TEST:-}" '
-    # Hive registers the query-routing appender before starting it at startup.
-    $1 ~ /^pod\/hive-hiveserver2-[^:]+:$/ &&
-        / Log4j2-TF-[0-9]+-AsyncLogger\[AsyncContext@[0-9a-f]+\]-[0-9]+ ERROR Attempted to append to non-started appender query-routing$/ {
-      if (++seen[$1 SUBSEP "query-routing"] == 1) next
-    }
-    auth == "1" && $1 ~ /^pod\/ozone-(datanode|om|recon|scm)-[0-9]+:$/ && /\[main\] ERROR/ {
-      kind = ""
-      if (/CertificateClient: Default certificate serial id is not set\. Can.t locate the default certificate for this client\.$/) kind = "serial"
-      else if ($1 ~ /^pod\/ozone-scm-/ && /keys\.KeyStorage: Failed to read the public key\.$/) kind = "key"
-      else if (/utils\.CertificateSignRequest: Invalid domain ozone-.*\.zookage\.svc\.cluster\.local$/) kind = "csr"
-      else if (/utils\.SelfSignedCertificate: Invalid domain ozone-.*\.zookage\.svc\.cluster\.local$/) kind = "self"
-      if (kind != "" && ++seen[$1 SUBSEP kind] == 1) next
-    }
-    { print }
-  ' \
+  | grep -Ev 'pod/hive-(hiveserver2-[^:]+|llap-[0-9]+): .*delegation\.ZKDelegationTokenSecretManager: Error while processing Curator (keyCacheListener|tokenCacheListener) NODE_CREATED / NODE_CHANGED event$' \
+  | grep -Ev 'pod/hive-(hiveserver2-[^:]+|llap-[0-9]+): .*listen\.MappingListenerManager: Listener \(org\.apache\.curator\.framework\.recipes\.cache\.CuratorCacheListenerBuilderImpl\$2@[0-9a-f]+\) threw an exception$' \
+  | grep -Ev 'pod/ozone-(datanode|om|recon|scm)-[0-9]+: .*\[main\] ERROR .*CertificateClient: Default certificate serial id is not set\. Can.t locate the default certificate for this client\.$' \
+  | grep -Ev 'pod/ozone-scm-[0-9]+: .*\[main\] ERROR keys\.KeyStorage: Failed to read the public key\.$' \
+  | grep -Ev 'pod/ozone-(datanode|om|recon|scm)-[0-9]+: .*\[main\] ERROR utils\.(CertificateSignRequest|SelfSignedCertificate): Invalid domain ozone-.*\.zookage\.svc\.cluster\.local$' \
+  | grep -v 'pod/hive-hiveserver2-.* ERROR Attempted to append to non-started appender query-routing$' \
   | grep -v 'pod/hive-llap-.* impl.LlapDaemon: Cannot find CONTAINER_ID; LLAP tokens may grant access to subsequent instances of the cluster with the same name' \
   | grep -v 'pod/hive-llap-.* impl.QueryTracker: Ignore this\. Log line to interact with logger\. Query complete:' \
   | grep -v 'pod/hive-metastore-server-.*:   "CQ_ERROR_MESSAGE"' \
