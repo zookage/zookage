@@ -17,17 +17,6 @@ metadata:
 spec:
   template:
     spec:
-      containers:
-      - name: historyserver
-        envFrom:
-        - configMapRef:
-            name: hadoop-env
-        - configMapRef:
-            name: java-env
-        - configMapRef:
-            name: spark-env
-        - secretRef:
-            name: spark-secret-env
       initContainers:
       - name: wait-for-kdc
         image: zookage-util
