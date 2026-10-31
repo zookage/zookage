@@ -27,7 +27,7 @@
   </property>
   <property>
     <name>ssl.server.truststore.location</name>
-    <value>/etc/hadoop/conf/zookage-truststore.jks</value>
+    <value>/etc/zookage/shared/zookage-truststore.jks</value>
   </property>
   <property>
     <name>ssl.server.truststore.password</name>

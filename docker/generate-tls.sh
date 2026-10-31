@@ -56,7 +56,7 @@ readonly san
 readonly repo_dir=$(cd "${base_dir}/.."; pwd)
 readonly util_image=${ZOOKAGE_UTIL_IMAGE:-zookage/zookage-util:experimental}
 readonly ca_store="${base_dir}/tls/zookage-ca.jks"
-readonly public_dir="${repo_dir}/kubernetes/base/common/config/tls"
+readonly shared_dir="${repo_dir}/kubernetes/base/common/config/shared"
 readonly secret_root="${repo_dir}/kubernetes/base/common/secret"
 # Reissue existing certificates in place, including those in shared Secrets.
 secret_dir=
@@ -75,7 +75,7 @@ if [[ -z ${secret_dir} ]]; then
 fi
 readonly secret_dir
 
-for input in "${ca_store}" "${public_dir}/zookage-ca.crt" "${public_dir}/zookage-truststore.jks"; do
+for input in "${ca_store}" "${shared_dir}/zookage-ca.crt" "${shared_dir}/zookage-truststore.jks"; do
   if [[ ! -f "${input}" ]]; then
     echo "Missing ZooKage CA file: ${input}. Restore the checked-in CA files before issuing certificates." >&2
     exit 1
@@ -90,7 +90,7 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
   --user "$(id -u):$(id -g)" \
   --mount "type=bind,source=${temp_dir},target=/output" \
   --mount "type=bind,source=${ca_store},target=/ca/zookage-ca.jks,readonly" \
-  --mount "type=bind,source=${public_dir}/zookage-ca.crt,target=/ca/zookage-ca.crt,readonly" \
+  --mount "type=bind,source=${shared_dir}/zookage-ca.crt,target=/ca/zookage-ca.crt,readonly" \
   --env "TLS_SERVICE=${service}" --env "TLS_SAN=${san}" \
   --env "TLS_EXTENDED_KEY_USAGE=${extended_key_usage}" \
   "${util_image}" /bin/bash -eu <<'SCRIPT'
@@ -117,9 +117,6 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
   keytool -importcert -noprompt -alias "${TLS_SERVICE}" \
     -file /output/service-reply.crt \
     -keystore /output/service.jks -storepass zookage -keypass zookage
-  keytool -exportcert -rfc -alias "${TLS_SERVICE}" \
-    -keystore /output/service.jks -storepass zookage \
-    -file /output/service.crt
   if [[ ${TLS_EXTENDED_KEY_USAGE} == clientAuth ]]; then
     keytool -importkeystore -noprompt \
       -srckeystore /output/service.jks -srcstorepass zookage \
@@ -127,10 +124,8 @@ docker run --rm -i --network=none --read-only --tmpfs /tmp \
   fi
 SCRIPT
 
-tr -d '\r' < "${temp_dir}/service.crt" > "${temp_dir}/service.pem"
 mkdir -p "${secret_dir}"
 install -m 0600 "${temp_dir}/service.jks" "${secret_dir}/${service}.jks"
 if [[ ${extended_key_usage} == clientAuth ]]; then
   install -m 0600 "${temp_dir}/service.p12" "${secret_dir}/${service}.p12"
 fi
-install -m 0644 "${temp_dir}/service.pem" "${public_dir}/${service}.crt"

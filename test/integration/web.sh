@@ -43,10 +43,10 @@ if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
   readonly namenode_host=hdfs-namenode.zookage.svc.cluster.local
   check "https://${namenode_host}:9871/dfshealth.html" "401" \
     curl --noproxy "${namenode_host}" --resolve "${namenode_host}:9871:127.0.0.1" \
-    --cacert "${base_dir}/kubernetes/base/common/config/tls/zookage-ca.crt"
+    --cacert "${base_dir}/kubernetes/base/common/config/shared/zookage-ca.crt"
   check "https://hdfs-namenode-0.hdfs-namenode.zookage.svc.cluster.local:9871/dfshealth.html" "200" \
     "${base_dir}/bin/kubectl" exec client-node-0 -- \
-    curl --cacert /etc/hadoop/conf/zookage-ca.crt --negotiate -u :
+    curl --cacert /etc/zookage/shared/zookage-ca.crt --negotiate -u :
 else
   check "http://localhost:14000/webhdfs/v1/?op=liststatus&user.name=zookage"
   check "http://localhost:9870/dfshealth.html"

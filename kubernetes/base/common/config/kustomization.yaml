@@ -20,8 +20,9 @@ resources:
 - config-values.yaml
 configMapGenerator:
 - files:
-  - tls/zookage-ca.crt
-  name: tls-conf
+  - shared/zookage-ca.crt
+  - shared/zookage-truststore.jks
+  name: shared-conf
 - files:
   - hadoop/container-executor.cfg
   name: yarn-container-executor-conf
@@ -72,7 +73,6 @@ configMapGenerator:
   - hdfs/ranger-hdfs-audit.xml
   - hdfs/ranger-hdfs-policymgr-ssl.xml
   - hdfs/ranger-hdfs-security.xml
-  - tls/zookage-truststore.jks
   name: hdfs-conf
 - files:
   - mapreduce/mapred-site.xml
@@ -202,7 +202,6 @@ configMapGenerator:
   - trino/ranger-trino-security.xml
   name: trino-conf
 - files:
-  - tls/zookage-truststore.jks
   - zookeeper/log4j.properties
   - zookeeper/server-jaas.conf
   - zookeeper/zoo.cfg
