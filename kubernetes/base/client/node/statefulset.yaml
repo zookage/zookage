@@ -45,7 +45,9 @@ spec:
         - configMapRef:
             name: zookeeper-env
         - secretRef:
-            name: aws-secret
+            name: aws-secret-env
+        - secretRef:
+            name: spark-secret-env
         env:
         - name: HADOOP_CLASSPATH
           value: $(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*

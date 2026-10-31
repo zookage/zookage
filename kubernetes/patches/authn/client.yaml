@@ -18,19 +18,3 @@ data:
   hadoop_security_authentication: kerberos
   hadoop_rpc_protection: privacy
   hadoop_ipc_client_fallback_to_simple_auth_allowed: "true"
----
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: client-node
-spec:
-  template:
-    spec:
-      containers:
-      - name: sleep
-        env:
-        - name: SPARK_JWS_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: spark-secret
-              key: SPARK_JWS_SECRET_KEY

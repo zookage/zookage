@@ -44,9 +44,9 @@ spec:
         - configMapRef:
             name: trino-env
         - secretRef:
-            name: aws-secret
+            name: aws-secret-env
         - secretRef:
-            name: trino-secret
+            name: trino-secret-env
         env:
         - name: POD_NAME
           valueFrom:

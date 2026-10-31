@@ -17,14 +17,6 @@ metadata:
 spec:
   template:
     spec:
-      containers:
-      - name: historyserver
-        env:
-        - name: SPARK_JWS_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: spark-secret
-              key: SPARK_JWS_SECRET_KEY
       initContainers:
       - name: wait-for-kdc
         image: zookage-util
