@@ -23,6 +23,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
@@ -43,34 +44,27 @@ public class PodService {
     int nameWidth =
         Math.max(
             4, pods.stream().mapToInt(pod -> pod.getMetadata().getName().length()).max().orElse(4));
-    StringBuilder output = new StringBuilder();
-    appendRow(output, nameWidth, "NAME", "READY", "STATUS", "RESTARTS", "AGE");
-    pods.stream()
-        .sorted(Comparator.comparing(pod -> pod.getMetadata().getName()))
-        .forEach(
-            pod ->
-                appendRow(
-                    output,
-                    nameWidth,
-                    pod.getMetadata().getName(),
-                    ready(pod),
-                    status(pod),
-                    Integer.toString(restarts(pod)),
-                    age(pod, now)));
-    return output.toString();
+    String header = formatRow(nameWidth, "NAME", "READY", "STATUS", "RESTARTS", "AGE");
+    String rows =
+        pods.stream()
+            .sorted(Comparator.comparing(pod -> pod.getMetadata().getName()))
+            .map(
+                pod ->
+                    formatRow(
+                        nameWidth,
+                        pod.getMetadata().getName(),
+                        ready(pod),
+                        status(pod),
+                        Integer.toString(restarts(pod)),
+                        age(pod, now)))
+            .collect(Collectors.joining());
+    return header + rows;
   }
 
-  private static void appendRow(
-      StringBuilder output,
-      int nameWidth,
-      String name,
-      String ready,
-      String status,
-      String restarts,
-      String age) {
-    output.append(
-        ("%-" + nameWidth + "s  %-5s  %-20s  %-8s  %s%n")
-            .formatted(name, ready, status, restarts, age));
+  private static String formatRow(
+      int nameWidth, String name, String ready, String status, String restarts, String age) {
+    return ("%-" + nameWidth + "s  %-5s  %-20s  %-8s  %s%n")
+        .formatted(name, ready, status, restarts, age);
   }
 
   private static String ready(Pod pod) {
