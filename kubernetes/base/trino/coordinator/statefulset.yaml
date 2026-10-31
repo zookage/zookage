@@ -61,8 +61,6 @@ spec:
           mountPath: /etc/secrets/trino-kerberos
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
-        - name: shared-conf
-          mountPath: /etc/zookage/shared
         - name: trino-catalog
           mountPath: /etc/trino/catalog
         - name: trino-conf
@@ -71,9 +69,6 @@ spec:
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
       volumes:
-      - name: shared-conf
-        configMap:
-          name: shared-conf
       - name: kerberos-conf
         configMap:
           name: kerberos-conf

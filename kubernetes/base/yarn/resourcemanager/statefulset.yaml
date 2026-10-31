@@ -48,8 +48,6 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
-        - name: shared-conf
-          mountPath: /etc/zookage/shared
         - name: hadoop-secret
           mountPath: /etc/secrets/hadoop
         - name: kerberos-conf
@@ -61,9 +59,6 @@ spec:
           mountPath: /mnt
       terminationGracePeriodSeconds: 5
       volumes:
-      - name: shared-conf
-        configMap:
-          name: shared-conf
       - name: hadoop-conf
         projected:
           sources:

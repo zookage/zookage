@@ -69,8 +69,6 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
-        - name: shared-conf
-          mountPath: /etc/zookage/shared
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
@@ -101,8 +99,6 @@ spec:
         volumeMounts:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
-        - name: shared-conf
-          mountPath: /etc/zookage/shared
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf

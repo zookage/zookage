@@ -60,8 +60,6 @@ spec:
           mountPath: /etc/secrets/hbase
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
-        - name: shared-conf
-          mountPath: /etc/zookage/shared
         - name: hadoop-secret
           mountPath: /etc/secrets/hadoop
         - name: hbase-conf
@@ -73,9 +71,6 @@ spec:
           subPath: opt/hadoop
       terminationGracePeriodSeconds: 5
       volumes:
-      - name: shared-conf
-        configMap:
-          name: shared-conf
       - name: kerberos-conf
         configMap:
           name: kerberos-conf
