@@ -33,10 +33,10 @@ spec:
       containers:
       - name: coordinator
         volumeMounts:
-        - name: trino-tls
+        - name: trino-secret
           mountPath: /etc/secrets/trino
       volumes:
-      - name: trino-tls
+      - name: trino-secret
         secret:
           secretName: trino-secret
 ---
