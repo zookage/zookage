@@ -99,6 +99,10 @@ patches:
 - path: patches/authn/ozone.yaml
 - path: patches/authn/ranger.yaml
 - path: patches/authn/spark.yaml
+- path: patches/authn/spark-secret-env.yaml
+  target:
+    kind: StatefulSet
+    name: '^(client-node|spark-historyserver)$'
 - path: patches/authn/tez.yaml
 - path: patches/authn/trino.yaml
 - path: patches/authn/yarn.yaml

@@ -40,9 +40,6 @@ spec:
         secret:
           secretName: trino-secret
           defaultMode: 0444
-          items:
-          - key: trino-coordinator.jks
-            path: trino-coordinator.jks
 ---
 apiVersion: apps/v1
 kind: Deployment
