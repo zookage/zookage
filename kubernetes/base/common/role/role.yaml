@@ -15,6 +15,9 @@ kind: Role
 metadata:
   name: waiter
 rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["list"]
 - apiGroups: ["apps"]
   resources: ["statefulsets"]
   verbs: ["get", "list", "watch"]
