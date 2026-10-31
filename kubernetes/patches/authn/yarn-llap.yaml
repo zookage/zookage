@@ -22,13 +22,8 @@ spec:
         volumeMounts:
         - name: hive-secret
           mountPath: /etc/secrets/hive
-        - name: zookeeper-client-secret
-          mountPath: /etc/secrets/zookeeper-client
       volumes:
       - name: hive-secret
         secret:
           secretName: hive-secret
           defaultMode: 0444
-      - name: zookeeper-client-secret
-        secret:
-          secretName: zookeeper-client-secret
