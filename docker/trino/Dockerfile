@@ -35,6 +35,11 @@ RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
     "./client/trino-cli/target/trino-cli-executable.jar"
 
 RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  tar -xzf \
+    "./core/trino-server/target/trino-server-$(./mvnw --quiet help:evaluate -Dexpression=project.version -DforceStdout).tar.gz" \
+    -C ./core/trino-server/target
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   mv \
     "./core/trino-server/target/trino-server-$(./mvnw --quiet help:evaluate -Dexpression=project.version -DforceStdout)" \
     "./core/trino-server/target/trino-server"

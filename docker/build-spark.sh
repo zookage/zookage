@@ -17,6 +17,11 @@ set -eu
 source ./docker/prepare.sh SPARK_SOURCE_DIR
 
 docker build \
+  --tag "spark-rm-base:latest" \
+  --file "${SPARK_SOURCE_DIR}/dev/create-release/spark-rm/Dockerfile.base" \
+  "${SPARK_SOURCE_DIR}/dev/create-release/spark-rm"
+
+docker build \
   --tag "${DOCKER_IMAGE_NAME_PREFIX}/spark-rm:${image_tag}" \
   --build-arg UID=999 \
   --file "${SPARK_SOURCE_DIR}/dev/create-release/spark-rm/Dockerfile" \
