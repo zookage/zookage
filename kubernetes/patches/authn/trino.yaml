@@ -34,12 +34,11 @@ spec:
       - name: coordinator
         volumeMounts:
         - name: trino-tls
-          mountPath: /etc/secrets/trino-tls
+          mountPath: /etc/secrets/trino
       volumes:
       - name: trino-tls
         secret:
           secretName: trino-secret
-          defaultMode: 0444
 ---
 apiVersion: apps/v1
 kind: Deployment
