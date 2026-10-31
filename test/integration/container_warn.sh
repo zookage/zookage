@@ -16,17 +16,14 @@ set -u
 readonly integration_dir=$(cd "$(dirname "$0")" || exit; pwd)
 readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
-kerberos_warnings='^$'
-if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
-  # Tez job and LLAP tokens are deliberately not renewable.
-  kerberos_warnings='pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind (tez\.job|LLAP_TOKEN)$'
-  # Ranger Usersync uses Hadoop's default auth_to_local rule mechanism.
-  kerberos_warnings+='|pod/ranger-usersync-.* WARN  - auth_to_local rule mechanism not set\.Using default of hadoop$'
-  # HBase Web checks can log rejected replayed SPNEGO tokens before returning 200.
-  kerberos_warnings+='|pod/hbase-(master|regionserver)-[0-9]+: .* WARN  .* server\.AuthenticationFilter: Authentication exception: GSSException: Failure unspecified at GSS-API level \(Mechanism level: Request is a replay \(34\)\)$'
-  # SCM may race while allocating its first certificate ID batch.
-  kerberos_warnings+='|pod/ozone-scm-[0-9]+: .* WARN ha\.SequenceIdGenerator: Failed to allocate a batch for CertificateId, expected lastId is 0, actual lastId is [0-9]+\.$'
-fi
+# Tez job and LLAP tokens are deliberately not renewable.
+kerberos_warnings='pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind (tez\.job|LLAP_TOKEN)$'
+# Ranger Usersync uses Hadoop's default auth_to_local rule mechanism.
+kerberos_warnings+='|pod/ranger-usersync-.* WARN  - auth_to_local rule mechanism not set\.Using default of hadoop$'
+# HBase Web checks can log rejected replayed SPNEGO tokens before returning 200.
+kerberos_warnings+='|pod/hbase-(master|regionserver)-[0-9]+: .* WARN  .* server\.AuthenticationFilter: Authentication exception: GSSException: Failure unspecified at GSS-API level \(Mechanism level: Request is a replay \(34\)\)$'
+# SCM may race while allocating its first certificate ID batch.
+kerberos_warnings+='|pod/ozone-scm-[0-9]+: .* WARN ha\.SequenceIdGenerator: Failed to allocate a batch for CertificateId, expected lastId is 0, actual lastId is [0-9]+\.$'
 readonly kerberos_warnings
 
 "${integration_dir}/divider.sh" "Start fetching warnings of all containers"

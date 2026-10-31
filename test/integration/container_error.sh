@@ -16,17 +16,14 @@ set -u
 readonly integration_dir=$(cd "$(dirname "$0")" || exit; pwd)
 readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
-kerberos_errors='^$'
-if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
-  # Hadoop parses the root of each LLAP token cache as a token at startup.
-  kerberos_errors='pod/hive-(hiveserver2-[^:]+|llap-[0-9]+): .*delegation\.ZKDelegationTokenSecretManager: Error while processing Curator (keyCacheListener|tokenCacheListener) NODE_CREATED / NODE_CHANGED event$'
-  # shellcheck disable=SC2016
-  kerberos_errors+='|pod/hive-(hiveserver2-[^:]+|llap-[0-9]+): .*listen\.MappingListenerManager: Listener \(org\.apache\.curator\.framework\.recipes\.cache\.CuratorCacheListenerBuilderImpl\$2@[0-9a-f]+\) threw an exception$'
-  # Ozone creates certificates and keys on the first secure startup.
-  kerberos_errors+='|pod/ozone-(datanode|om|recon|scm)-[0-9]+: .*\[main\] ERROR .*CertificateClient: Default certificate serial id is not set\. Can.t locate the default certificate for this client\.$'
-  kerberos_errors+='|pod/ozone-scm-[0-9]+: .*\[main\] ERROR keys\.KeyStorage: Failed to read the public key\.$'
-  kerberos_errors+='|pod/ozone-(datanode|om|recon|scm)-[0-9]+: .*\[main\] ERROR utils\.(CertificateSignRequest|SelfSignedCertificate): Invalid domain ozone-.*\.zookage\.svc\.cluster\.local$'
-fi
+# Hadoop parses the root of each LLAP token cache as a token at startup.
+kerberos_errors='pod/hive-(hiveserver2-[^:]+|llap-[0-9]+): .*delegation\.ZKDelegationTokenSecretManager: Error while processing Curator (keyCacheListener|tokenCacheListener) NODE_CREATED / NODE_CHANGED event$'
+# shellcheck disable=SC2016
+kerberos_errors+='|pod/hive-(hiveserver2-[^:]+|llap-[0-9]+): .*listen\.MappingListenerManager: Listener \(org\.apache\.curator\.framework\.recipes\.cache\.CuratorCacheListenerBuilderImpl\$2@[0-9a-f]+\) threw an exception$'
+# Ozone creates certificates and keys on the first secure startup.
+kerberos_errors+='|pod/ozone-(datanode|om|recon|scm)-[0-9]+: .*\[main\] ERROR .*CertificateClient: Default certificate serial id is not set\. Can.t locate the default certificate for this client\.$'
+kerberos_errors+='|pod/ozone-scm-[0-9]+: .*\[main\] ERROR keys\.KeyStorage: Failed to read the public key\.$'
+kerberos_errors+='|pod/ozone-(datanode|om|recon|scm)-[0-9]+: .*\[main\] ERROR utils\.(CertificateSignRequest|SelfSignedCertificate): Invalid domain ozone-.*\.zookage\.svc\.cluster\.local$'
 readonly kerberos_errors
 
 "${integration_dir}/divider.sh" "Start fetching errors of all containers"

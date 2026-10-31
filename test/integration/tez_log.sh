@@ -47,12 +47,9 @@ fi
 "${integration_dir}/divider.sh" "Finished checking errors of a Tez job"
 echo "No error is found."
 
-kerberos_warnings='^$'
-if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
-  kerberos_warnings='\|ipc\.Client\|: Exception encountered while connecting to the server hive-llap-[0-9]+\.hive-llap\.zookage\.svc\.cluster\.local/.*:15004$'
-  kerberos_warnings+='|\|security\.LlapTokenClient\|: Exception while getting delegation token, trying with kerberos login$'
-  kerberos_warnings+='|\|zookeeper\.Login\|: TGT renewal thread has been interrupted and will exit\.$'
-fi
+kerberos_warnings='\|ipc\.Client\|: Exception encountered while connecting to the server hive-llap-[0-9]+\.hive-llap\.zookage\.svc\.cluster\.local/.*:15004$'
+kerberos_warnings+='|\|security\.LlapTokenClient\|: Exception while getting delegation token, trying with kerberos login$'
+kerberos_warnings+='|\|zookeeper\.Login\|: TGT renewal thread has been interrupted and will exit\.$'
 readonly kerberos_warnings
 
 "${integration_dir}/divider.sh" "Start checking warnings of a Tez job"
