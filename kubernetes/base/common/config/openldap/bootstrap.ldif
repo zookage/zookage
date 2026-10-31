@@ -1223,6 +1223,21 @@ userPassword: trino
 krbPrincipalName: trino/trino-coordinator.zookage.svc.cluster.local@ZOOKAGE.LOCAL
 krbPrincipalKey:: MIG2oAMCAQGhAwIBAaIDAgEBowMCAQGkgZ8wgZwwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAAlwv9XEbRPtl2xsMWSki6saQhZ1k01QlTRIeKkxrGzaD3ivKQ/obU7yTPLE41vurEm7NbW5M0mY5/8H8jBEoAcwBaADAgEAoTkwN6ADAgERoTAELhAAiozQD3f6Lx9QkO+h2S38epwBcWvBgY33ggwPpRRt6kuJ6eBKRiz6St9RU8Q=
 
+dn: uid=http-trino-coordinator.zookage.svc.cluster.local,ou=trino,ou=kerberos,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+objectClass: krbPrincipalAux
+objectClass: krbTicketPolicyAux
+uid: http-trino-coordinator.zookage.svc.cluster.local
+userPassword: trino
+krbLoginFailedCount: 0
+krbPrincipalName: HTTP/trino-coordinator.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+krbPrincipalKey:: MG6gAwIBAaEDAgEBogMCAQGjAwIBAaRYMFYwVKAHMAWgAwIBAKFJMEegAwIBEqFABD4gAKEUvlqLxWA+AmjcKLlxEZKdAMJ8s+aPtHhTVtBDCuGfrBbpoj8ArdK8Qcwei2sufcqd9EFtoZkj3AyD9g==
+krbLastPwdChange: 20261028120306Z
+krbExtraData:: AAJ65OFqa2RjL2FkbWluQFpPT0tBR0UuTE9DQUwA
+krbExtraData:: AAgBAA==
+
 dn: ou=zookeeper,ou=kerberos,dc=example,dc=com
 objectClass: top
 objectClass: organizationalUnit

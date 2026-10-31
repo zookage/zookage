@@ -14,8 +14,30 @@
 set -eu
 
 readonly integration_dir=$(cd "$(dirname "$0")"; pwd)
+readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 # shellcheck source=/mnt/test/integration/s3.sh
 source "${integration_dir}/s3.sh"
+
+if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
+  response=$("${base_dir}/bin/kubectl" exec client-node-0 -- \
+    curl --silent --show-error --output /dev/null --write-out '%{http_code}' \
+      --header 'X-Trino-User: zookage' --data 'SELECT 1' \
+      http://trino-coordinator.zookage.svc.cluster.local:8090/v1/statement)
+  if [[ ${response} != 403 ]]; then
+    echo "Insecure Trino query returned ${response}, expected 403" >&2
+    exit 1
+  fi
+
+  response=$("${base_dir}/bin/kubectl" exec client-node-0 -- \
+    curl --cacert /etc/zookage/shared/zookage-ca.crt \
+      --silent --show-error --output /dev/null --write-out '%{http_code}' \
+      --header 'X-Trino-User: zookage' --data 'SELECT 1' \
+      https://trino-coordinator.zookage.svc.cluster.local:8443/v1/statement)
+  if [[ ${response} != 401 ]]; then
+    echo "Unauthenticated Trino query returned ${response}, expected 401" >&2
+    exit 1
+  fi
+fi
 
 run_trino_queries() {
   local location_prefix=${1:-}
