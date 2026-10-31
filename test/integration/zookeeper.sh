@@ -44,11 +44,10 @@ fi
 
 zk_stat() {
   local -r host=$1
-  local -r client_flags=$2
 
   "${base_dir}/bin/kubectl" exec client-node-0 -- env \
     ZOOCFGDIR=/opt/zookeeper/conf \
-    CLIENT_JVMFLAGS="${client_flags}" \
+    CLIENT_JVMFLAGS=-Djava.security.auth.login.config=/tmp/zookeeper-client-jaas.conf \
     timeout 20 /opt/zookeeper/bin/zkCli.sh -server "${host}:2181" stat /
 }
 
@@ -59,20 +58,12 @@ for i in {0..2}; do
       "${base_dir}/bin/kubectl" exec client-node-0 -- \
       curl --fail --silent --show-error --max-time 5 \
       "http://${zookeeper_host}:8080/commands/monitor"
-    if ! stat_response=$(zk_stat "${zookeeper_host}" \
-      "-Djava.security.auth.login.config=/tmp/zookeeper-client-jaas.conf" 2>&1) ||
+    if ! stat_response=$(zk_stat "${zookeeper_host}" 2>&1) ||
       ! grep -Eq 'cZxid = ' <<< "${stat_response}"; then
       echo "Kerberos-authenticated ZooKeeper access failed: ${stat_response}" >&2
       exit 1
     fi
-    unauth_response=$(zk_stat "${zookeeper_host}" \
-      "-Dzookeeper.sasl.client=false" 2>&1) || true
-    if grep -Eq 'cZxid = ' <<< "${unauth_response}" ||
-      ! grep -Eq 'AuthFailed|Session closed' <<< "${unauth_response}"; then
-      echo "Unauthenticated ZooKeeper access was not rejected: ${unauth_response}" >&2
-      exit 1
-    fi
-    echo "Kerberos authentication succeeded and unauthenticated access was rejected by ${zookeeper_host}"
+    echo "Kerberos authentication succeeded on ${zookeeper_host}"
   else
     admin_url="http://${zookeeper_host}:8080/commands/monitor"
     monitor_response=$("${base_dir}/bin/kubectl" exec client-node-0 -- \

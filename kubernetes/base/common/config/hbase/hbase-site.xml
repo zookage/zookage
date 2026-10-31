@@ -80,16 +80,14 @@
     <name>hbase.regionserver.keytab.file</name>
     <value>/etc/secrets/hbase/hbase.keytab</value>
   </property>
-{{- if index .Values "hbase_zookeeper_client_keytab_file" }}
   <property>
     <name>hbase.zookeeper.client.keytab.file</name>
-    <value>{{ index .Values "hbase_zookeeper_client_keytab_file" | html }}</value>
+    <value>/etc/secrets/hbase/hbase.keytab</value>
   </property>
   <property>
     <name>hbase.zookeeper.client.kerberos.principal</name>
-    <value>{{ index .Values "hbase_zookeeper_client_kerberos_principal" | html }}</value>
+    <value>hbase/_HOST@ZOOKAGE.LOCAL</value>
   </property>
-{{- end }}
   <property>
     <name>hbase.coprocessor.master.classes</name>
     <value>{{ or (index .Values "hbase_coprocessor_classes") "" | html }}</value>
