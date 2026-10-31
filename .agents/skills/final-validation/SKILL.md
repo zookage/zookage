@@ -23,7 +23,7 @@ Run the repo's expensive parameterized integration flow in a circular order, usi
   - `./.agents/skills/final-validation/scripts/run_all_variants.sh`
 - Start a confirmation cycle at the repaired variant:
   - `./.agents/skills/final-validation/scripts/run_all_variants.sh --start-at auth`
-  - With the current matrix, this runs `auth → ha → llap → all`, then stops.
+  - With the current matrix, this runs `auth → ha → llap-auth → llap → all`, then stops.
 - Run the full sweep and collect every failing variant:
   - `./.agents/skills/final-validation/scripts/run_all_variants.sh --continue-on-failure`
 - Preview the commands without touching the cluster:
@@ -52,7 +52,7 @@ Run the repo's expensive parameterized integration flow in a circular order, usi
    - Use `./.agents/skills/final-validation/scripts/run_all_variants.sh --start-at <failing-variant>` to confirm the repaired variant first, then continue through the remaining variants in circular order.
    - Do not run the repaired variant separately and then repeat it in the wrapper. If it has already passed after the fix, count that result and execute only the remaining variants with `./test/integration.sh <variant>`; preserve and restore the original kustomization and cluster as the wrapper does.
    - If another variant fails, fix it and make that variant the start of the new confirmation cycle. Results from before the latest functional fix do not complete that new cycle.
-   - Stop when every variant has passed once in the current cycle. For example: `all` passes, `auth` fails, fix, then `auth → ha → llap → all` passes: validation is complete, without another `auth` run or full sweep.
+   - Stop when every variant has passed once in the current cycle. For example: `all` passes, `auth` fails, fix, then `auth → ha → llap-auth → llap → all` passes: validation is complete, without another `auth` run or full sweep.
    - Re-run `./test/lint.sh` once code changes settle.
 7. Summarize the outcome.
    - Report which variant failed, what changed, and the successful confirmation cycle, including passes collected across separate commands.
