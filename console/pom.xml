@@ -56,14 +56,6 @@ limitations under the License.
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-health</artifactId>
     </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-rest</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-kubernetes-client</artifactId>
-    </dependency>
 
     <dependency>
       <groupId>io.quarkus</groupId>

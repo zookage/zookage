@@ -19,46 +19,20 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-import io.fabric8.kubernetes.client.KubernetesClientException;
-import io.quarkus.test.junit.QuarkusMock;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest
 class ConsoleApplicationTest {
   @Test
-  void listsPodsAtTheRootPath() {
-    QuarkusMock.installMockForType(
-        new PodService() {
-          @Override
-          public String list() {
-            return "NAME          READY  STATUS   RESTARTS  AGE\nclient-node-0  1/1    Running  0         1h\n";
-          }
-        },
-        PodService.class);
-
+  void rendersHelloWorldHomePage() {
     given()
         .when()
         .get("/")
         .then()
         .statusCode(200)
-        .contentType(containsString("text/plain"))
-        .body(containsString("NAME"))
-        .body(containsString("client-node-0  1/1    Running"));
-  }
-
-  @Test
-  void reportsPodListFailure() {
-    QuarkusMock.installMockForType(
-        new PodService() {
-          @Override
-          public String list() {
-            throw new KubernetesClientException("API unavailable");
-          }
-        },
-        PodService.class);
-
-    given().when().get("/").then().statusCode(503).body(equalTo("Could not list pods.\n"));
+        .body(containsString("ZooKage Console"))
+        .body(containsString("Hello World"));
   }
 
   @Test
