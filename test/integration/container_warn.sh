@@ -22,6 +22,8 @@ if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
   kerberos_warnings='pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind (tez\.job|LLAP_TOKEN)$'
   # Ranger Usersync uses Hadoop's default auth_to_local rule mechanism.
   kerberos_warnings+='|pod/ranger-usersync-.* WARN  - auth_to_local rule mechanism not set\.Using default of hadoop$'
+  # HBase Web checks can log rejected replayed SPNEGO tokens before returning 200.
+  kerberos_warnings+='|pod/hbase-(master|regionserver)-[0-9]+: .* WARN  .* server\.AuthenticationFilter: Authentication exception: GSSException: Failure unspecified at GSS-API level \(Mechanism level: Request is a replay \(34\)\)$'
 fi
 readonly kerberos_warnings
 
