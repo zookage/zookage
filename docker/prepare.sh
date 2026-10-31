@@ -19,10 +19,6 @@ source ./docker/build.env
 # Load tracked pins after local settings so copied build.env files cannot hide updates.
 # shellcheck source=/mnt/docker/images.env
 source ./docker/images.env
-if [ -f ./docker/images.local.env ]; then
-  # shellcheck source=/dev/null
-  source ./docker/images.local.env
-fi
 
 readonly workspace=$(eval echo \$"${1}")
 readonly branch_name=$(git -C "${workspace}" branch --show-current)

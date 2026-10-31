@@ -21,7 +21,7 @@ This document defines how AI coding agents should be used safely and consistentl
 - Focused lint checks (same tools as `./test/lint.sh`): `./test/hadolint.sh`, `./test/shellcheck.sh`, `./test/yamllint.sh`, `./test/license.sh`
 - To run the console module formatting checks and tests: `mvn -f console/pom.xml test`
 - To auto-fix license headers: `./test/licensefix.sh`
-- To configure local Docker image builds, copy `docker/sample-build.env` to `docker/build.env` and adjust source directories and the output image name prefix. Shared base-image pins are in `docker/images.env`; build scripts load them after `docker/build.env`, so old image pins in existing local copies do not override updates. For local image overrides, put assignments in the ignored `docker/images.local.env`.
+- To configure local Docker image builds, copy `docker/sample-build.env` to `docker/build.env` and adjust source directories and the output image name prefix. Shared base-image pins are in `docker/images.env`; build scripts load them after `docker/build.env`, so old image pins in existing local copies do not override updates.
 - To refresh the SHA256 digests for the tags in `docker/images.env`, run `./docker/update-image-digests.sh [IMAGE_VARIABLE ...]`; omit variables to refresh all images. Use `--dry-run` to preview changes.
 - To build a Docker image, run the matching `docker/build-<component>.sh` script (for example, `docker/build-console.sh` or `docker/build-hadoop.sh`).
 - Before dependency bumps, run `./.agents/skills/update-dependencies/scripts/find_dependency_refs.sh [pattern]` to find repo-local pins and mirrored consumers.
