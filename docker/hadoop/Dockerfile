@@ -34,8 +34,10 @@ ARG clean
 ARG active_profiles
 
 # YARN-UI v2 build requires a non-root user.
-RUN groupadd --gid 999 hadoop-build \
-  && useradd --create-home --uid 999 --gid hadoop-build hadoop-build
+RUN groupadd --gid 999 hadoop-build
+# Keep builder steps separate; these layers are not included in the runtime image.
+# hadolint ignore=DL3059
+RUN useradd --create-home --uid 999 --gid hadoop-build hadoop-build
 
 USER hadoop-build:hadoop-build
 WORKDIR /home/hadoop-build/hadoop
@@ -50,14 +52,17 @@ RUN \
     -P${active_profiles} \
     -DskipTests \
     -Dtar \
-    -Dmaven.javadoc.skip=true \
-  && mv \
+    -Dmaven.javadoc.skip=true
+
+RUN --mount=type=cache,target=/home/hadoop-build/.m2,uid=999,gid=999 \
+  mv \
     "./hadoop-dist/target/hadoop-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" \
     ./hadoop-dist/target/hadoop
 
 # LinuxContainerExecutor and its native dependencies are only required by the native profile.
-RUN mkdir /home/hadoop-build/runtime-libs \
-  && case ",${active_profiles}," in \
+RUN mkdir /home/hadoop-build/runtime-libs
+
+RUN case ",${active_profiles}," in \
     *,native,*) \
       test -x ./hadoop-dist/target/hadoop/bin/container-executor \
       && cp /usr/lib/*-linux-gnu/libcrypto.so.1.1 /home/hadoop-build/runtime-libs/ ;; \

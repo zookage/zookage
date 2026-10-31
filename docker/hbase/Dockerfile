@@ -23,17 +23,25 @@ WORKDIR /root/hbase
 COPY . .
 RUN \
   --mount=type=cache,id=zookage-m2,target=/root/.m2 \
-  mvn -Dhadoop.profile=3.0 install assembly:single -DskipTests -Dcheckstyle.skip=true -Prelease \
-  && tar -zxvf \
+  mvn -Dhadoop.profile=3.0 install assembly:single -DskipTests -Dcheckstyle.skip=true -Prelease
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  tar -zxvf \
     "./hbase-assembly/target/hbase-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-bin.tar.gz" \
-    --directory=./hbase-assembly/target \
-  && mv \
+    --directory=./hbase-assembly/target
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  mv \
     "./hbase-assembly/target/hbase-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" \
-    "./hbase-assembly/target/hbase" \
-  && tar -zxvf \
+    "./hbase-assembly/target/hbase"
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  tar -zxvf \
     "./hbase-assembly/target/hbase-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-client-bin.tar.gz" \
-    --directory=./hbase-assembly/target \
-  && mv \
+    --directory=./hbase-assembly/target
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  mv \
     "./hbase-assembly/target/hbase-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-client" \
     "./hbase-assembly/target/hbase-client"
 

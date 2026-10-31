@@ -31,22 +31,42 @@ RUN \
     -Ptools \
     -Dallow.root.build \
     -DskipTests \
-    -Dmaven.javadoc.skip=true \
-  && mkdir apache-tez-bin \
-  && tar -C apache-tez-bin \
-    -zxvf "/root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-minimal.tar.gz" \
-  && mkdir tmp-tez-full \
-  && tar -C tmp-tez-full \
-    -zxvf "/root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).tar.gz" \
-  && cp tmp-tez-full/LICENSE* apache-tez-bin/ \
-  && cp tmp-tez-full/NOTICE* apache-tez-bin/ \
-  && rm -rf tmp-tez-full \
-  && mkdir apache-tez-bin/share \
-  && cp "/root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).tar.gz" \
-    apache-tez-bin/share/tez.tar.gz \
-  && cp "tez-ui/target/tez-ui-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).war" \
-    apache-tez-bin/share/tez-ui.war \
-  && cp \
+    -Dmaven.javadoc.skip=true
+
+RUN mkdir apache-tez-bin
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  tar -C apache-tez-bin \
+    -zxvf "/root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-minimal.tar.gz"
+
+RUN mkdir tmp-tez-full
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  tar -C tmp-tez-full \
+    -zxvf "/root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).tar.gz"
+
+RUN cp tmp-tez-full/LICENSE* apache-tez-bin/
+
+# Keep builder steps separate; these layers are not included in the runtime image.
+# hadolint ignore=DL3059
+RUN cp tmp-tez-full/NOTICE* apache-tez-bin/
+
+# hadolint ignore=DL3059
+RUN rm -rf tmp-tez-full
+
+# hadolint ignore=DL3059
+RUN mkdir apache-tez-bin/share
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  cp "/root/tez/tez-dist/target/tez-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).tar.gz" \
+    apache-tez-bin/share/tez.tar.gz
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  cp "tez-ui/target/tez-ui-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).war" \
+    apache-tez-bin/share/tez-ui.war
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  cp \
     "/root/tez/tez-plugins/tez-aux-services/target/tez-aux-services-$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout).jar" \
     apache-tez-bin/share/tez-aux-services.jar
 

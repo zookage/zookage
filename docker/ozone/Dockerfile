@@ -51,13 +51,16 @@ RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
       -Dclassifier=linux-aarch_64 \
       -Dpackaging=exe \
       -Dfile=/usr/local/protobuf-2.5.0/bin/protoc.exe \
-    && rm -rf /var/lib/apt/lists/* \
-    && cd /root/ozone; \
-  fi \
-  && mvn --threads 1C ${clean} install ${native_option} \
+    && rm -rf /var/lib/apt/lists/*; \
+  fi
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  mvn --threads 1C ${clean} install ${native_option} \
     -Dmaven.javadoc.skip=true \
-    -DskipTests=true \
-  && mv \
+    -DskipTests=true
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  mv \
     "./hadoop-ozone/dist/target/ozone-$(mvn help:evaluate -Dexpression=ozone.version -q -DforceStdout)" \
     ./hadoop-ozone/dist/target/ozone
 

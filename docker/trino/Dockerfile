@@ -27,11 +27,15 @@ COPY . .
 RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   ./mvnw ${clean} install \
     -pl '!:trino-docs' \
-    -DskipTests \
-  && mv \
+    -DskipTests
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  mv \
     "./client/trino-cli/target/trino-cli-$(./mvnw --quiet help:evaluate -Dexpression=project.version -DforceStdout)-executable.jar" \
-    "./client/trino-cli/target/trino-cli-executable.jar" \
-  && mv \
+    "./client/trino-cli/target/trino-cli-executable.jar"
+
+RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
+  mv \
     "./core/trino-server/target/trino-server-$(./mvnw --quiet help:evaluate -Dexpression=project.version -DforceStdout)" \
     "./core/trino-server/target/trino-server"
 

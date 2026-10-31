@@ -38,21 +38,37 @@ RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
     -not -name "ranger-${ranger_version}-src.tar.gz" \
     -exec tar -zxvf {} --directory=./tmp \; \
   && find ./tmp -type d -name "ranger-${ranger_version}-*" \
-    -exec bash -c 'for f; do mv "$f" "${f//-$0/}"; done' "$ranger_version" {} + \
-  && ln -s ./conf.dist ./tmp/ranger-admin/ews/webapp/WEB-INF/classes/conf \
-  && mkdir ./zookage \
-  && mv ./tmp/ranger-* ./zookage
+    -exec bash -c 'for f; do mv "$f" "${f//-$0/}"; done' "$ranger_version" {} +
+
+RUN ln -s ./conf.dist ./tmp/ranger-admin/ews/webapp/WEB-INF/classes/conf
+
+# Keep builder steps separate; these layers are not included in the runtime image.
+# hadolint ignore=DL3059
+RUN mkdir ./zookage
+
+# hadolint ignore=DL3059
+RUN mv ./tmp/ranger-* ./zookage
+
+# hadolint ignore=DL3059
+RUN mkdir ./zookage/lib
+
 RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
-  mkdir ./zookage/lib \
-  && postgres_version=42.7.8 \
+  postgres_version=42.7.8 \
   && mvn dependency:get "-Dartifact=org.postgresql:postgresql:$postgres_version" \
   && cp \
     "/root/.m2/repository/org/postgresql/postgresql/$postgres_version/postgresql-$postgres_version.jar" \
-    ./zookage/lib/postgresql.jar \
-  && unzip ./zookage/lib/postgresql.jar "META-INF/LICENSE" "META-INF/licenses/**/LICENSE" -d /tmp/postgresql \
-  && mkdir -p ./zookage/licenses/postgresql \
-  && cp /tmp/postgresql/META-INF/LICENSE ./zookage/licenses/postgresql \
-  && cp -R /tmp/postgresql/META-INF/licenses ./zookage/licenses/postgresql
+    ./zookage/lib/postgresql.jar
+
+RUN unzip ./zookage/lib/postgresql.jar "META-INF/LICENSE" "META-INF/licenses/**/LICENSE" -d /tmp/postgresql
+
+# hadolint ignore=DL3059
+RUN mkdir -p ./zookage/licenses/postgresql
+
+# hadolint ignore=DL3059
+RUN cp /tmp/postgresql/META-INF/LICENSE ./zookage/licenses/postgresql
+
+# hadolint ignore=DL3059
+RUN cp -R /tmp/postgresql/META-INF/licenses ./zookage/licenses/postgresql
 
 # hadolint ignore=DL3006
 FROM ${jdk_image}
