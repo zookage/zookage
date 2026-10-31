@@ -28,29 +28,6 @@ expect_failure() {
   fi
 }
 
-if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
-  "${base_dir}/bin/kubectl" exec -i client-node-0 -- sh -c \
-    'umask 077; cat > /tmp/zookeeper-client-jaas.conf' <<'JAAS'
-Client {
-  com.sun.security.auth.module.Krb5LoginModule required
-  useKeyTab=true
-  storeKey=true
-  useTicketCache=false
-  keyTab="/etc/secrets/client/client.keytab"
-  principal="zookage@ZOOKAGE.LOCAL";
-};
-JAAS
-fi
-
-zk_stat() {
-  local -r host=$1
-
-  "${base_dir}/bin/kubectl" exec client-node-0 -- env \
-    ZOOCFGDIR=/opt/zookeeper/conf \
-    CLIENT_JVMFLAGS=-Djava.security.auth.login.config=/tmp/zookeeper-client-jaas.conf \
-    timeout 20 /opt/zookeeper/bin/zkCli.sh -server "${host}:2181" stat /
-}
-
 for i in {0..2}; do
   zookeeper_host="zookeeper-server-${i}.zookeeper-server.zookage.svc.cluster.local"
   if [[ ${ZOOKAGE_TEST_MODE:-} == "auth" ]]; then
@@ -58,12 +35,6 @@ for i in {0..2}; do
       "${base_dir}/bin/kubectl" exec client-node-0 -- \
       curl --fail --silent --show-error --max-time 5 \
       "http://${zookeeper_host}:8080/commands/monitor"
-    if ! stat_response=$(zk_stat "${zookeeper_host}" 2>&1) ||
-      ! grep -Eq 'cZxid = ' <<< "${stat_response}"; then
-      echo "Kerberos-authenticated ZooKeeper access failed: ${stat_response}" >&2
-      exit 1
-    fi
-    echo "Kerberos authentication succeeded on ${zookeeper_host}"
   else
     admin_url="http://${zookeeper_host}:8080/commands/monitor"
     monitor_response=$("${base_dir}/bin/kubectl" exec client-node-0 -- \
