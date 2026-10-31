@@ -16,22 +16,16 @@ set -u
 readonly integration_dir=$(cd "$(dirname "$0")" || exit; pwd)
 readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 
-# Hadoop parses the root of each LLAP token cache as a token at startup.
-kerberos_errors='pod/hive-(hiveserver2-[^:]+|llap-[0-9]+): .*delegation\.ZKDelegationTokenSecretManager: Error while processing Curator (keyCacheListener|tokenCacheListener) NODE_CREATED / NODE_CHANGED event$'
-# shellcheck disable=SC2016
-kerberos_errors+='|pod/hive-(hiveserver2-[^:]+|llap-[0-9]+): .*listen\.MappingListenerManager: Listener \(org\.apache\.curator\.framework\.recipes\.cache\.CuratorCacheListenerBuilderImpl\$2@[0-9a-f]+\) threw an exception$'
-# Ozone creates certificates and keys on the first secure startup.
-kerberos_errors+='|pod/ozone-(datanode|om|recon|scm)-[0-9]+: .*\[main\] ERROR .*CertificateClient: Default certificate serial id is not set\. Can.t locate the default certificate for this client\.$'
-kerberos_errors+='|pod/ozone-scm-[0-9]+: .*\[main\] ERROR keys\.KeyStorage: Failed to read the public key\.$'
-kerberos_errors+='|pod/ozone-(datanode|om|recon|scm)-[0-9]+: .*\[main\] ERROR utils\.(CertificateSignRequest|SelfSignedCertificate): Invalid domain ozone-.*\.zookage\.svc\.cluster\.local$'
-readonly kerberos_errors
-
 "${integration_dir}/divider.sh" "Start fetching errors of all containers"
 
 # shellcheck disable=SC2016
 "${base_dir}/bin/logs" \
   | grep ' ERROR ' \
-  | grep -Ev "${kerberos_errors}" \
+  | grep -Ev 'pod/hive-(hiveserver2-[^:]+|llap-[0-9]+): .*delegation\.ZKDelegationTokenSecretManager: Error while processing Curator (keyCacheListener|tokenCacheListener) NODE_CREATED / NODE_CHANGED event$' \
+  | grep -Ev 'pod/hive-(hiveserver2-[^:]+|llap-[0-9]+): .*listen\.MappingListenerManager: Listener \(org\.apache\.curator\.framework\.recipes\.cache\.CuratorCacheListenerBuilderImpl\$2@[0-9a-f]+\) threw an exception$' \
+  | grep -Ev 'pod/ozone-(datanode|om|recon|scm)-[0-9]+: .*\[main\] ERROR .*CertificateClient: Default certificate serial id is not set\. Can.t locate the default certificate for this client\.$' \
+  | grep -Ev 'pod/ozone-scm-[0-9]+: .*\[main\] ERROR keys\.KeyStorage: Failed to read the public key\.$' \
+  | grep -Ev 'pod/ozone-(datanode|om|recon|scm)-[0-9]+: .*\[main\] ERROR utils\.(CertificateSignRequest|SelfSignedCertificate): Invalid domain ozone-.*\.zookage\.svc\.cluster\.local$' \
   | grep -v 'pod/hive-hiveserver2-.* ERROR Attempted to append to non-started appender query-routing$' \
   | grep -v 'pod/hive-llap-.* impl.LlapDaemon: Cannot find CONTAINER_ID; LLAP tokens may grant access to subsequent instances of the cluster with the same name' \
   | grep -v 'pod/hive-llap-.* impl.QueryTracker: Ignore this\. Log line to interact with logger\. Query complete:' \
