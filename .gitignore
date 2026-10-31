@@ -11,4 +11,5 @@
 # limitations under the License.
 
 docker/build.env
+docker/images.local.env
 console/target/

@@ -1,6 +1,6 @@
 ---
 name: update-dependencies
-description: Update pinned dependency versions in this repository. Use when Codex needs to bump Docker base-image digests, lint/test container images, Kubernetes image tags, GitHub Actions workflow pins, or Maven dependency and tooling versions in `docker/sample-build.env`, `docker/*/Dockerfile`, `docker/build-*.sh`, `kubernetes/kustomization.yaml`, `test/kubernetes/*.yaml`, `test/*.sh`, `.github/workflows/ci.yaml`, or `console/pom.xml`. Prefer the latest upstream LTS release when the dependency publishes one; otherwise prefer the latest upstream release that stays on the current OS or image variant unless the user asks to change tracks.
+description: Update pinned dependency versions in this repository. Use when Codex needs to bump Docker base-image digests, lint/test container images, Kubernetes image tags, GitHub Actions workflow pins, or Maven dependency and tooling versions in `docker/images.env`, `docker/*/Dockerfile`, `docker/build-*.sh`, `kubernetes/kustomization.yaml`, `test/kubernetes/*.yaml`, `test/*.sh`, `.github/workflows/ci.yaml`, or `console/pom.xml`. Prefer the latest upstream LTS release when the dependency publishes one; otherwise prefer the latest upstream release that stays on the current OS or image variant unless the user asks to change tracks.
 ---
 
 # Update Dependencies
@@ -15,7 +15,8 @@ Use this skill to make small, consistent dependency bumps in this repository. Tr
    - Prefer the narrowest source of truth instead of editing every match blindly.
 
 2. Update the source of truth.
-   - Edit `docker/sample-build.env` for pinned base-image digests and upstream builder images.
+   - Edit `docker/images.env` for pinned base-image digests and upstream builder images.
+   - For digest-only refreshes of existing tags, run `./docker/update-image-digests.sh [IMAGE_VARIABLE ...]` instead of editing digests by hand.
    - Edit `kubernetes/kustomization.yaml` for runtime image tags resolved through Kustomize.
    - Edit `test/hadolint.sh`, `test/license.sh`, or similar test scripts for tooling containers used only in checks.
    - Edit `.github/workflows/ci.yaml` for GitHub Actions `uses:` pins and workflow-local Java or toolchain versions such as `actions/setup-java` `java-version`.
@@ -26,7 +27,7 @@ Use this skill to make small, consistent dependency bumps in this repository. Tr
 3. Choose the target version conservatively.
    - Prefer the newest available upstream LTS release when the dependency publishes one. If there is no designated LTS line, prefer the newest available upstream release that stays on the current track or variant.
    - Keep distro and runtime qualifiers unless the user asks to change them. Examples: keep `noble`, `24.04`, `jdk21-temurin`, `ubuntu-24.04`, or similar suffixes and prefixes.
-   - For digest-pinned images in `docker/sample-build.env`, keep the human-readable tag family shown in the preceding comment and refresh only the digest.
+   - For digest-pinned images in `docker/images.env`, keep the human-readable tag family and refresh only the digest when the tag is intentionally fixed.
    - For tags that combine multiple dimensions, move only the version component that is clearly intended to float. Example: `tomcat:11.0.18-jdk21-temurin` should usually become a newer Tomcat release that still uses `jdk21-temurin`.
    - For GitHub Actions refs such as `actions/setup-java@v4`, keep the action family stable and bump only the version suffix unless the user explicitly asks to change the major track or swap actions.
    - When the current pin is on a non-LTS stream and the upstream project publishes a separate LTS line, prefer moving to the newest released patch on the LTS line instead of the newest non-LTS release. Example: prefer Quarkus `3.33.x` LTS over `3.34.x`.
@@ -34,8 +35,8 @@ Use this skill to make small, consistent dependency bumps in this repository. Tr
 
 4. Propagate coupled changes.
    - Keep `test/kubernetes/all.yaml`, `test/kubernetes/ha.yaml`, and `test/kubernetes/llap.yaml` aligned with `kubernetes/kustomization.yaml`; `test/integration.sh` can copy those fixtures over the main kustomization during test runs.
-   - When changing a value in `docker/sample-build.env`, verify which `docker/build-*.sh` passes it into which Dockerfile before deciding the bump is complete.
-   - When changing the console Java level in `console/pom.xml`, check `.github/workflows/ci.yaml`, `docker/sample-build.env`, and `docker/build-console.sh` and keep them aligned when the requested bump is a toolchain move.
+   - When changing a value in `docker/images.env`, verify which `docker/build-*.sh` passes it into which Dockerfile before deciding the bump is complete.
+   - When changing the console Java level in `console/pom.xml`, check `.github/workflows/ci.yaml`, `docker/images.env`, and `docker/build-console.sh` and keep them aligned when the requested bump is a toolchain move.
    - When `console/pom.xml` exposes a version through `<properties>`, update the property once and keep the plugin or dependency consumers pointed at that property.
    - Preserve quoting and the existing tag-or-digest style unless the user explicitly asks to change it.
 
@@ -46,7 +47,7 @@ Use this skill to make small, consistent dependency bumps in this repository. Tr
 
 ## Repo Map
 
-- Base build images: `docker/sample-build.env`
+- Base build images: `docker/images.env`
 - Build-arg wiring: `docker/build-*.sh`
 - Direct Dockerfile version args: `docker/*/Dockerfile`
 - Runtime image tags: `kubernetes/kustomization.yaml`
@@ -61,7 +62,7 @@ Use this skill to make small, consistent dependency bumps in this repository. Tr
 - Run `./.agents/skills/update-dependencies/scripts/find_dependency_refs.sh` to print the common pin locations.
 - Run `./.agents/skills/update-dependencies/scripts/find_dependency_refs.sh hadolint` to find a named dependency quickly.
 - Use `rg -n "newTag:" kubernetes/kustomization.yaml test/kubernetes` when aligning runtime tags.
-- Use `rg -n "^[A-Z0-9_]+_IMAGE=" docker/sample-build.env` when auditing base-image digests.
+- Use `rg -n "^[A-Z0-9_]+_IMAGE=" docker/images.env` when auditing base-image digests.
 - Use `rg -n "uses:|java-version:" .github/workflows/ci.yaml` when checking CI workflow pins.
 - Use `rg -n "<[^/][^>]*version>|<maven.compiler.release>" console/pom.xml` when auditing console Maven versions.
 

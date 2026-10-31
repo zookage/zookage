@@ -55,7 +55,7 @@ if [ "$#" -eq 1 ]; then
 fi
 
 echo "Base build image pins"
-rg -n "^(DOCKER_IMAGE_NAME_PREFIX|[A-Z0-9_]+_IMAGE)=" docker/sample-build.env || true
+rg -n "^[A-Z0-9_]+_IMAGE=" docker/images.env || true
 echo
 
 echo "Dockerfile-local version arguments and base images"
