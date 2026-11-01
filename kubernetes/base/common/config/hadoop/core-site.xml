@@ -60,10 +60,6 @@
     <name>hadoop.rpc.protection</name>
     <value>{{ or (index .Values "hadoop_rpc_protection") "authentication" | html }}</value>
   </property>
-  <property>
-    <name>ipc.client.fallback-to-simple-auth-allowed</name>
-    <value>{{ or (index .Values "hadoop_ipc_client_fallback_to_simple_auth_allowed") "false" | html }}</value>
-  </property>
 {{- if index .Values "hadoop_http_filter_initializers" }}
   <property>
     <name>hadoop.http.filter.initializers</name>
