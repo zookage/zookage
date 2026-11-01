@@ -73,9 +73,9 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: hadoop-secret
-          mountPath: /etc/secrets/hadoop
+          mountPath: /run/secrets/zookage/hadoop
         - name: hdfs-secret
-          mountPath: /etc/secrets/hdfs
+          mountPath: /run/secrets/zookage/hdfs
         - name: mnt
           mountPath: /mnt
       - name: wait-for-journalnode
@@ -103,8 +103,8 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: hadoop-secret
-          mountPath: /etc/secrets/hadoop
+          mountPath: /run/secrets/zookage/hadoop
         - name: hdfs-secret
-          mountPath: /etc/secrets/hdfs
+          mountPath: /run/secrets/zookage/hdfs
         - name: mnt
           mountPath: /mnt

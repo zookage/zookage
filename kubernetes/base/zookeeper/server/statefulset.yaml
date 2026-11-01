@@ -69,7 +69,7 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: zookeeper-secret
-          mountPath: /etc/secrets/zookeeper
+          mountPath: /run/secrets/zookage/zookeeper
         - name: zookeeper-conf
           mountPath: /etc/zookeeper/conf
         - name: mnt

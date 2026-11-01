@@ -34,7 +34,7 @@ spec:
       - name: coordinator
         volumeMounts:
         - name: trino-secret
-          mountPath: /etc/secrets/trino
+          mountPath: /run/secrets/zookage/trino
       volumes:
       - name: trino-secret
         secret:

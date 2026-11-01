@@ -46,7 +46,7 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: yarn-secret
-          mountPath: /etc/secrets/yarn
+          mountPath: /run/secrets/zookage/yarn
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5

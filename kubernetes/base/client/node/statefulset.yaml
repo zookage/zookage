@@ -59,13 +59,13 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: client-secret
-          mountPath: /etc/secrets/client
+          mountPath: /run/secrets/zookage/client
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: shared-conf
           mountPath: /etc/zookage/shared
         - name: hadoop-secret
-          mountPath: /etc/secrets/hadoop
+          mountPath: /run/secrets/zookage/hadoop
         - name: hbase-conf
           mountPath: /etc/hbase/conf
         - name: hive-conf

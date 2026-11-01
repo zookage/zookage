@@ -51,7 +51,7 @@ fi
 
 if [[ ${ZOOKAGE_AUTH_TEST:-0} == 1 ]]; then
   "${test_dir}/integration/run.sh" kinit \
-    -kt /etc/secrets/client/client.keytab \
+    -kt /run/secrets/zookage/client/client.keytab \
     zookage@ZOOKAGE.LOCAL
 fi
 

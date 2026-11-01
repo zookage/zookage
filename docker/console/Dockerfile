@@ -30,7 +30,7 @@ FROM ${jdk_image}
 
 RUN groupadd --gid 1001 zookage \
   && useradd --create-home --uid 1001 --gid zookage zookage \
-  && install -d -o zookage -g zookage -m 0700 /etc/secrets
+  && install -d -o zookage -g zookage -m 0700 /run/secrets/zookage
 
 COPY --from=builder /root/console/target/quarkus-app /opt/zookage-console/quarkus-app
 

@@ -97,7 +97,7 @@ RUN groupadd --gid 1010 hadoop \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1012 --gid yarn --groups hadoop yarn \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1013 --gid mapred --groups hadoop mapred \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1014 --gid httpfs httpfs \
-  && install -d -o root -g hadoop -m 0750 /etc/secrets \
+  && install -d -o root -g hadoop -m 0750 /run/secrets/zookage \
   && case ",${active_profiles}," in \
     *,native,*) \
       chown root:hadoop /opt/hadoop/bin/container-executor \

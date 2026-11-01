@@ -73,7 +73,7 @@
   </property>
   <property>
     <name>hive.server2.authentication.kerberos.keytab</name>
-    <value>/etc/secrets/hive/hive.keytab</value>
+    <value>/run/secrets/zookage/hive/hive.keytab</value>
   </property>
 {{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
   <property>
@@ -87,7 +87,7 @@
   </property>
   <property>
     <name>hive.server2.webui.spnego.keytab</name>
-    <value>/etc/secrets/hive/hive.keytab</value>
+    <value>/run/secrets/zookage/hive/hive.keytab</value>
   </property>
   <property>
     <name>tez.staging-dir</name>
@@ -130,7 +130,7 @@
   </property>
   <property>
     <name>hive.llap.daemon.keytab.file</name>
-    <value>/etc/secrets/hive/hive.keytab</value>
+    <value>/run/secrets/zookage/hive/hive.keytab</value>
   </property>
 {{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
   <property>
@@ -155,7 +155,7 @@
   </property>
   <property>
     <name>hive.llap.webui.spnego.keytab</name>
-    <value>/etc/secrets/hive/hive.keytab</value>
+    <value>/run/secrets/zookage/hive/hive.keytab</value>
   </property>
   <property>
     <name>hive.llap.task.scheduler.am.registry.principal</name>
@@ -163,7 +163,7 @@
   </property>
   <property>
     <name>hive.llap.task.scheduler.am.registry.keytab.file</name>
-    <value>/etc/secrets/hive/hive.keytab</value>
+    <value>/run/secrets/zookage/hive/hive.keytab</value>
   </property>
 {{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
   <property>

@@ -31,7 +31,7 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* \
   && groupadd --gid 1001 zookage \
   && useradd --create-home --uid 1001 --gid zookage zookage \
-  && install -d -o zookage -g zookage -m 0700 /etc/secrets
+  && install -d -o zookage -g zookage -m 0700 /run/secrets/zookage
 
 ARG TARGETARCH
 RUN curl \

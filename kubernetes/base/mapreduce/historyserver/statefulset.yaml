@@ -50,7 +50,7 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: mapreduce-secret
-          mountPath: /etc/secrets/mapreduce
+          mountPath: /run/secrets/zookage/mapreduce
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: mnt

@@ -49,12 +49,12 @@ spec:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
-          mountPath: /etc/secrets/hadoop
+          mountPath: /run/secrets/zookage/hadoop
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: yarn-secret
-          mountPath: /etc/secrets/yarn
+          mountPath: /run/secrets/zookage/yarn
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5

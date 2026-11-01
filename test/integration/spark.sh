@@ -36,7 +36,7 @@ run_wordcount_job() {
   if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
     spark_options=(
       --principal zookage@ZOOKAGE.LOCAL
-      --keytab /etc/secrets/client/client.keytab
+      --keytab /run/secrets/zookage/client/client.keytab
       "${spark_options[@]}"
     )
   fi

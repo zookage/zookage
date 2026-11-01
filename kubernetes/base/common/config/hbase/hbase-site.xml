@@ -62,7 +62,7 @@
   </property>
   <property>
     <name>hbase.security.authentication.spnego.kerberos.keytab</name>
-    <value>/etc/secrets/hbase/hbase.keytab</value>
+    <value>/run/secrets/zookage/hbase/hbase.keytab</value>
   </property>
   <property>
     <name>hbase.master.kerberos.principal</name>
@@ -70,7 +70,7 @@
   </property>
   <property>
     <name>hbase.master.keytab.file</name>
-    <value>/etc/secrets/hbase/hbase.keytab</value>
+    <value>/run/secrets/zookage/hbase/hbase.keytab</value>
   </property>
   <property>
     <name>hbase.regionserver.kerberos.principal</name>
@@ -78,11 +78,11 @@
   </property>
   <property>
     <name>hbase.regionserver.keytab.file</name>
-    <value>/etc/secrets/hbase/hbase.keytab</value>
+    <value>/run/secrets/zookage/hbase/hbase.keytab</value>
   </property>
   <property>
     <name>hbase.zookeeper.client.keytab.file</name>
-    <value>/etc/secrets/hbase/hbase.keytab</value>
+    <value>/run/secrets/zookage/hbase/hbase.keytab</value>
   </property>
   <property>
     <name>hbase.zookeeper.client.kerberos.principal</name>

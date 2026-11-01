@@ -72,7 +72,7 @@
   </property>
   <property>
     <name>ranger.lookup.kerberos.keytab</name>
-    <value>/etc/secrets/ranger/ranger.keytab</value>
+    <value>/run/secrets/zookage/ranger/ranger.keytab</value>
   </property>
 {{- end }}
   <property>

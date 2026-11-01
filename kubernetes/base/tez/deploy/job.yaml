@@ -51,7 +51,7 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: tez-secret
-          mountPath: /etc/secrets/tez
+          mountPath: /run/secrets/zookage/tez
         - name: tez-src
           mountPath: /opt/tez
           subPath: opt/tez
