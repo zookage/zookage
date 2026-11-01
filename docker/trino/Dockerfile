@@ -10,7 +10,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# syntax=docker/dockerfile:experimental
 ARG jdk_image
 
 # hadolint ignore=DL3006

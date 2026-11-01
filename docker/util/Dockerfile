@@ -10,7 +10,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# syntax=docker/dockerfile:experimental
 ARG jdk_image
 ARG go_image
 ARG kubectl_version=v1.35.2
