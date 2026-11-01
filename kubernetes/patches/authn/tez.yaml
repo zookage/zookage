@@ -10,6 +10,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-values
+data:
+  tez_ui_authentication: kerberos
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -56,7 +63,7 @@ spec:
         configMap:
           name: tez-ui-conf
           items:
-          - key: tez-ui-auth.xml
+          - key: tez-ui.xml
             path: tez-ui.xml
           - key: jaas.conf
             path: auth/jaas.conf

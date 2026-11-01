@@ -12,10 +12,17 @@
   ~ limitations under the License.
 -->
 
-<Context docBase="/opt/tez/share/tez-ui.war" unpackWAR="false">
+<Context docBase="/opt/tez/share/tez-ui.war" unpackWAR="false"
+{{- if eq (index .Values "tez_ui_authentication") "kerberos" }}
+         altDDName="/usr/local/tomcat/conf/Catalina/localhost/auth/web.xml"
+{{- end }}
+>
   <Resources>
     <PreResources className="org.apache.catalina.webresources.FileResourceSet"
                   base="/etc/tez-ui-conf/configs.js"
                   webAppMount="/config/configs.js" />
   </Resources>
+{{- if eq (index .Values "tez_ui_authentication") "kerberos" }}
+  <Realm className="org.apache.catalina.realm.AuthenticatedUserRealm" />
+{{- end }}
 </Context>
