@@ -10,7 +10,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# syntax=docker/dockerfile:experimental
 ARG maven_image
 ARG jdk_image
 
@@ -23,7 +22,7 @@ WORKDIR /root/hbase
 COPY . .
 RUN \
   --mount=type=cache,id=zookage-m2,target=/root/.m2 \
-  mvn -Dhadoop.profile=3.0 install assembly:single -DskipTests -Dcheckstyle.skip=true -Prelease
+  mvn ${clean} -Dhadoop.profile=3.0 install assembly:single -DskipTests -Dcheckstyle.skip=true -Prelease
 
 RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   tar -zxvf \

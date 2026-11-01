@@ -10,7 +10,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# syntax=docker/dockerfile:experimental
 ARG tez_build_image
 ARG jdk_image
 
