@@ -15,7 +15,6 @@ kind: ConfigMap
 metadata:
   name: config-values
 data:
-  hadoop_security_authorization: "true"
   hadoop_dfs_namenode_inode_attributes_provider_class: org.apache.ranger.authorization.hadoop.RangerHdfsAuthorizer
 ---
 apiVersion: apps/v1

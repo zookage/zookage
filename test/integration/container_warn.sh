@@ -134,6 +134,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'ozone-s3g-.* impl.MetricsSystemImpl: S3Gateway metrics system already initialized!' \
   | grep -v 'pod/ranger-admin-.*DefaultJoranConfigurator@.*logback.xml.*' \
   | grep -v 'pod/ranger-admin-.* WARN  - Unable to load native-hadoop library for your platform\.\.\. using builtin-java classes where applicable' \
+  | grep -v 'pod/ranger-admin-.*: WARNING: Creation of SecureRandom instance for session ID generation using \[SHA1PRNG\] took \[[0-9][0-9]*\] milliseconds\.' \
   | grep -v "pod/ranger-admin-.* WARNING: Config 'ranger.keystore.file' or 'ranger.service.https.attrib.keystore.file' is not found or contains blank value" \
   | grep -v "pod/ranger-admin-.* WARNING: Config 'ranger.truststore.file' is not found or contains blank value!" \
   | grep -v "pod/ranger-admin-.* WARNING: A context path must either be an empty string or start with a '/' and do not end with a '/'. The path \\[/\\] does not meet these criteria and has been changed to \\[\\]" \

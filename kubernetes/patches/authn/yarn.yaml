@@ -15,7 +15,6 @@ kind: ConfigMap
 metadata:
   name: yarn-config-values
 data:
-  hadoop_security_authorization: "false"
   hadoop_security_authentication: kerberos
   hadoop_rpc_protection: privacy
 ---

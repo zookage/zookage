@@ -43,8 +43,4 @@
     <value>/etc/secrets/trino-kerberos/trino.keytab</value>
   </property>
 {{- end }}
-  <property>
-    <name></name>
-    <value></value>
-  </property>
 </configuration>

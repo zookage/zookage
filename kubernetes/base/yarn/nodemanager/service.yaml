@@ -16,4 +16,5 @@ metadata:
   name: yarn-nodemanager
 spec:
   clusterIP: None
+  publishNotReadyAddresses: true
   selector: {}

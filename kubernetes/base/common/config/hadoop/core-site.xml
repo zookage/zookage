@@ -46,7 +46,7 @@
 
   <property>
     <name>hadoop.security.authorization</name>
-    <value>{{ or (index .Values "hadoop_security_authorization") "false" | html }}</value>
+    <value>true</value>
   </property>
   <property>
     <name>hadoop.security.authentication</name>
