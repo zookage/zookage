@@ -65,7 +65,7 @@ images:
   newTag: experimental
 - name: zookage-ozone
   newName: zookage/zookage-ozone
-  newTag: 2.0.0-zookage-0.5
+  newTag: experimental
 - name: zookage-postgres
   newName: postgres
   newTag: '18.3'

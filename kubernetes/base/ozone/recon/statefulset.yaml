@@ -35,6 +35,12 @@ spec:
         - /opt/ozone/bin/ozone
         args:
         - recon
+        readinessProbe:
+          tcpSocket:
+            port: 9891
+        env:
+        - name: OZONE_RECON_OPTS
+          value: -Dlog4j.configurationFile=/etc/ozone/conf/recon-log4j2.properties
         envFrom:
         - configMapRef:
             name: java-env

@@ -135,6 +135,7 @@ configMapGenerator:
   - ozone/log4j.properties
   - ozone/om-audit-log4j2.properties
   - ozone/ozone-site.xml
+  - ozone/recon-log4j2.properties
   - ozone/s3g-audit-log4j2.properties
   - ozone/scm-audit-log4j2.properties
   - ozone/ranger-ozone-audit.xml

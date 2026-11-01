@@ -64,15 +64,9 @@ if grep '\[WARN\]' "${logs_file}" \
     | grep -v 'does not have description. Please annotate the class with' \
     | grep -v '|exec.FunctionRegistry|: iceberg_bucket function could not be registered' \
     | grep -v '|util.LoggingUtils|: Cannot set log4j global MDC' \
-    | awk -v auth="${ZOOKAGE_AUTH_TEST:-}" '
-      auth == "1" {
-        if (/\|ipc\.Client\|: Exception encountered while connecting to the server hive-llap-[0-9]+\.hive-llap\.zookage\.svc\.cluster\.local\/.*:15004$/ && ++ignored["rpc"] == 1) next
-        if (/\|security\.LlapTokenClient\|: Exception while getting delegation token, trying with kerberos login$/ && ++ignored["token"] == 1) next
-        if (/\|zookeeper\.Login\|: TGT renewal thread has been interrupted and will exit\.$/ && ++ignored["renewal"] <= 2) next
-      }
-      { print; found = 1 }
-      END { if (!found) exit 1 }
-    '; then
+    | grep -Ev '\|ipc\.Client\|: Exception encountered while connecting to the server hive-llap-[0-9]+\.hive-llap\.zookage\.svc\.cluster\.local/.*:15004$' \
+    | grep -Ev '\|security\.LlapTokenClient\|: Exception while getting delegation token, trying with kerberos login$' \
+    | grep -Ev '\|zookeeper\.Login\|: TGT renewal thread has been interrupted and will exit\.$'; then
   exit 1
 fi
 "${integration_dir}/divider.sh" "Finished checking warnings of a Tez job"

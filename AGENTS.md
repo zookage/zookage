@@ -18,6 +18,7 @@ This document defines how AI coding agents should be used safely and consistentl
 
 ## Guidance for Developers
 - Primary quality gate: `./test/lint.sh`
+- In all log-checking tests (including `test/integration/container_error.sh`, `container_warn.sh`, `mr_log.sh`, `spark_log.sh`, and `tez_log.sh`), write error and warning exclusions only as simple, line-by-line string or regular-expression matches using `grep -v`, `grep -vF`, or `grep -Ev`. Write each exclusion directly in the `grep` chain and apply it regardless of the authentication profile; do not collect patterns in variables. Do not use stateful `awk` filters, occurrence counts, or multiline/stack-trace matching.
 - Focused lint checks (same tools as `./test/lint.sh`): `./test/hadolint.sh`, `./test/shellcheck.sh`, `./test/yamllint.sh`, `./test/license.sh`
 - To run the console module formatting checks and tests: `mvn -f console/pom.xml test`
 - To auto-fix license headers: `./test/licensefix.sh`
