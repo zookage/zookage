@@ -14,6 +14,10 @@
 
 <configuration>
   <property>
+    <name>ranger.add-yarn-authorization</name>
+    <value>false</value>
+  </property>
+  <property>
     <name>ranger.plugin.yarn.service.name</name>
     <value>yarn</value>
   </property>
