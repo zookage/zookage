@@ -119,7 +119,16 @@ spec:
         projected:
           sources:
           - configMap:
-              name: hadoop-client-conf
+              name: hadoop-conf
+              items:
+              - key: core-site-client.xml
+                path: core-site.xml
+              - key: core-site.xml
+                path: core-site-common.xml
+              - key: hadoop-metrics2.properties
+                path: hadoop-metrics2.properties
+              - key: log4j.properties
+                path: log4j.properties
           - configMap:
               name: hdfs-conf
           - configMap:
@@ -145,11 +154,11 @@ spec:
           - configMap:
               name: ozone-conf
           - configMap:
-              name: hadoop-client-conf
+              name: hadoop-conf
               items:
-              - key: core-site.xml
+              - key: core-site-client.xml
                 path: core-site.xml
-              - key: core-site-common.xml
+              - key: core-site.xml
                 path: core-site-common.xml
       - name: ozone-src
         image:

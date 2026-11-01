@@ -68,7 +68,16 @@ spec:
         projected:
           sources:
           - configMap:
-              name: hadoop-mapreduce-conf
+              name: hadoop-conf
+              items:
+              - key: core-site-mapreduce.xml
+                path: core-site.xml
+              - key: core-site.xml
+                path: core-site-common.xml
+              - key: hadoop-metrics2.properties
+                path: hadoop-metrics2.properties
+              - key: log4j.properties
+                path: log4j.properties
           - configMap:
               name: hdfs-conf
           - configMap:

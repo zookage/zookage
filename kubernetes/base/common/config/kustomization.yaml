@@ -28,33 +28,13 @@ configMapGenerator:
   name: yarn-container-executor-conf
 - files:
   - hadoop/core-site.xml
-  - hadoop/hadoop-metrics2.properties
-  - hadoop/log4j.properties
-  name: hadoop-conf
-- files:
-  - core-site.xml=hdfs/core-site.xml
-  - core-site-common.xml=hadoop/core-site.xml
-  - hadoop/hadoop-metrics2.properties
-  - hadoop/log4j.properties
-  name: hadoop-hdfs-conf
-- files:
-  - core-site.xml=mapreduce/core-site.xml
-  - core-site-common.xml=hadoop/core-site.xml
-  - hadoop/hadoop-metrics2.properties
-  - hadoop/log4j.properties
-  name: hadoop-mapreduce-conf
-- files:
-  - hadoop/core-site.xml
+  - core-site-hdfs.xml=hdfs/core-site.xml
+  - core-site-mapreduce.xml=mapreduce/core-site.xml
+  - core-site-client.xml=client/core-site.xml
   - hadoop/hadoop-metrics2.properties
   - hadoop/log4j.properties
   - hadoop/tez-am-jaas.conf
-  name: hadoop-yarn-conf
-- files:
-  - core-site.xml=client/core-site.xml
-  - core-site-common.xml=hadoop/core-site.xml
-  - hadoop/hadoop-metrics2.properties
-  - hadoop/log4j.properties
-  name: hadoop-client-conf
+  name: hadoop-conf
 - files:
   - hdfs/hdfs-site.xml
   - hdfs/ssl-server.xml
