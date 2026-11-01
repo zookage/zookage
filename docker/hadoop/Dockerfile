@@ -51,6 +51,7 @@ RUN \
     -P${active_profiles} \
     -DskipTests \
     -Dtar \
+    -Dhadoop-aws-package \
     -Dmaven.javadoc.skip=true
 
 RUN --mount=type=cache,target=/home/hadoop-build/.m2,uid=999,gid=999 \
