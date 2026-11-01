@@ -24,7 +24,7 @@ configMapGenerator:
   - shared/zookage-truststore.jks
   name: shared-conf
 - files:
-  - hadoop/container-executor.cfg
+  - yarn/container-executor.cfg
   name: yarn-container-executor-conf
 - files:
   - hadoop/core-site.xml
@@ -96,6 +96,7 @@ configMapGenerator:
   - hive/beeline-hs2-connection.xml
   - hive/hive-log4j2.properties
   - hive/hive-site.xml
+  - hive/llap-daemon-log4j2.properties
   - hive/llap-udfs.lst
   - hive/ranger-hive-audit.xml
   - hive/ranger-hive-policymgr-ssl.xml
@@ -179,7 +180,6 @@ configMapGenerator:
 - files:
   - tez/ui/configs.js
   - tez/ui/tez-ui.xml
-  - tez/ui/tez-ui-auth.xml
   - tez/ui/jaas.conf
   - tez/ui/web.xml
   name: tez-ui-conf
@@ -196,8 +196,7 @@ configMapGenerator:
   - trino/jvm.config
   - trino/log.properties
   - trino/node.properties
-  - trino/access-control-default.properties
-  - trino/access-control-ranger.properties
+  - trino/access-control.properties
   - trino/ranger-trino-audit.xml
   - trino/ranger-trino-policymgr-ssl.xml
   - trino/ranger-trino-security.xml
