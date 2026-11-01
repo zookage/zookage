@@ -18,7 +18,6 @@ data:
   hadoop_security_authorization: "false"
   hadoop_security_authentication: kerberos
   hadoop_rpc_protection: privacy
-  hadoop_ipc_client_fallback_to_simple_auth_allowed: "true"
 ---
 apiVersion: v1
 kind: ConfigMap
