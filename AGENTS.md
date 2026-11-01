@@ -8,6 +8,7 @@ This document defines how AI coding agents should be used safely and consistentl
 - Prefer repository scripts and established conventions over custom workflows.
 - Do not run destructive git/history actions unless explicitly requested.
 - Preserve existing style and license-header expectations.
+- Write PR titles and descriptions around the final diff: explain the problem, resulting changes, and relevant validation. Omit unchanged behavior, abandoned approaches, reverted intermediate changes, and conversation history unless they are necessary to explain a reviewer-relevant tradeoff.
 
 ## Guidance for Repository Users
 - Run `./bin/up` to spin up a Hadoop cluster; it builds manifests with the ConfigMap template Transformer in a local `zookage-util` Docker container before applying them, without saving evaluated configuration files locally. Set `ZOOKAGE_UTIL_IMAGE` to select a locally built renderer image.
