@@ -42,6 +42,22 @@
     <value>yarn-resourcemanager-1.yarn-resourcemanager.zookage.svc.cluster.local:8088</value>
   </property>
 
+{{- if index .Values "hadoop_yarn_security_authentication" }}
+  <property>
+    <name>hadoop.security.authentication</name>
+    <value>{{ index .Values "hadoop_yarn_security_authentication" | html }}</value>
+  </property>
+{{- end }}
+{{- if index .Values "hadoop_yarn_rpc_protection" }}
+  <property>
+    <name>hadoop.rpc.protection</name>
+    <value>{{ index .Values "hadoop_yarn_rpc_protection" | html }}</value>
+  </property>
+{{- end }}
+  <property>
+    <name>hadoop.http.filter.initializers</name>
+    <value>org.apache.hadoop.security.HttpCrossOriginFilterInitializer</value>
+  </property>
   <property>
     <name>hadoop.http.authentication.signer.secret.provider</name>
     <value>random</value>

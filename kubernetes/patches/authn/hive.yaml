@@ -16,14 +16,8 @@ metadata:
   name: config-values
 data:
   hive_server2_authentication: KERBEROS
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: client-config-values
-data:
-  hadoop_security_authentication: kerberos
-  hadoop_rpc_protection: privacy
+  hadoop_client_security_authentication: kerberos
+  hadoop_client_rpc_protection: privacy
 ---
 apiVersion: apps/v1
 kind: Deployment

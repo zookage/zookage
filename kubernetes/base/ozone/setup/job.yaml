@@ -96,6 +96,8 @@ spec:
               items:
               - key: core-site.xml
                 path: core-site.xml
+              - key: core-site-common.xml
+                path: core-site-common.xml
       - name: ozone-src
         image:
           reference: zookage-ozone
