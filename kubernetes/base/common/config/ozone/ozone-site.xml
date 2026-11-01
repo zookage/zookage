@@ -236,6 +236,10 @@
     <value>ozone</value>
   </property>
   <property>
+    <name>ozone.readonly.administrators</name>
+    <value>recon</value>
+  </property>
+  <property>
     <name>ozone.s3.administrators</name>
     <value>ozone</value>
   </property>
