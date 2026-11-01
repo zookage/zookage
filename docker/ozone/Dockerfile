@@ -23,11 +23,9 @@ WORKDIR /root/ozone
 COPY . .
 # hadolint ignore=DL3008,DL3015
 RUN \
-  if [ -n "${native_option}" ]; then \
-    apt-get update \
-    && apt-get install -y cmake g++ patch \
-    && rm -rf /var/lib/apt/lists/*; \
-  fi
+  apt-get update \
+  && apt-get install -y cmake g++ patch \
+  && rm -rf /var/lib/apt/lists/*
 
 RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   mvn --threads 1C ${clean} install ${native_option} \
