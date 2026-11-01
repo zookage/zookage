@@ -10,7 +10,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# syntax=docker/dockerfile:experimental
 ARG maven_image
 ARG jdk_image
 
@@ -24,9 +23,11 @@ WORKDIR /root/ozone
 COPY . .
 # hadolint ignore=DL3008,DL3015
 RUN \
-  apt-get update \
-  && apt-get install -y cmake g++ patch \
-  && rm -rf /var/lib/apt/lists/*
+  if [ -n "${native_option}" ]; then \
+    apt-get update \
+    && apt-get install -y cmake g++ patch \
+    && rm -rf /var/lib/apt/lists/*; \
+  fi
 
 RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   mvn --threads 1C ${clean} install ${native_option} \
