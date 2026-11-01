@@ -59,13 +59,13 @@ spec:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
-          mountPath: /etc/secrets/hadoop
+          mountPath: /run/secrets/zookage/hadoop
         - name: hive-metastore-conf
           mountPath: /etc/hive-metastore/conf
         - name: hive-metastore-secret
-          mountPath: /etc/secrets/hive-metastore
+          mountPath: /run/secrets/zookage/hive-metastore
         - name: hive-secret
-          mountPath: /etc/secrets/hive
+          mountPath: /run/secrets/zookage/hive
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
@@ -96,13 +96,13 @@ spec:
         - name: hadoop-conf
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
-          mountPath: /etc/secrets/hadoop
+          mountPath: /run/secrets/zookage/hadoop
         - name: hive-metastore-conf
           mountPath: /etc/hive-metastore/conf
         - name: hive-metastore-secret
-          mountPath: /etc/secrets/hive-metastore
+          mountPath: /run/secrets/zookage/hive-metastore
         - name: hive-secret
-          mountPath: /etc/secrets/hive
+          mountPath: /run/secrets/zookage/hive
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf

@@ -60,7 +60,7 @@ spec:
         - name: ranger-conf
           mountPath: /etc/ranger/conf
         - name: ranger-secret
-          mountPath: /etc/secrets/ranger
+          mountPath: /run/secrets/zookage/ranger
       containers:
       - name: ranger-admin
         image: zookage-ranger
@@ -92,7 +92,7 @@ spec:
         - name: ranger-conf
           mountPath: /etc/ranger/conf
         - name: ranger-secret
-          mountPath: /etc/secrets/ranger
+          mountPath: /run/secrets/zookage/ranger
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5

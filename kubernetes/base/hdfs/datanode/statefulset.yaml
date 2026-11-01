@@ -55,7 +55,7 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: hdfs-secret
-          mountPath: /etc/secrets/hdfs
+          mountPath: /run/secrets/zookage/hdfs
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5

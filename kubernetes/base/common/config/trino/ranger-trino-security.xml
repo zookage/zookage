@@ -40,7 +40,7 @@
   </property>
   <property>
     <name>ranger.plugin.trino.ugi.keytab.file</name>
-    <value>/etc/secrets/trino-kerberos/trino.keytab</value>
+    <value>/run/secrets/zookage/trino-kerberos/trino.keytab</value>
   </property>
 {{- end }}
 </configuration>

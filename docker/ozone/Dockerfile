@@ -43,5 +43,5 @@ FROM ${jdk_image}
 COPY --from=builder /root/ozone/hadoop-ozone/dist/target/ozone /opt/ozone
 RUN groupadd --gid 1070 ozone \
   && useradd --system --no-log-init --shell /sbin/nologin --uid 1070 --gid ozone ozone \
-  && install -d -o ozone -g ozone -m 0700 /etc/secrets
+  && install -d -o ozone -g ozone -m 0700 /run/secrets/zookage
 USER ozone:ozone

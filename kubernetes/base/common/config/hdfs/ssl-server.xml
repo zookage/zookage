@@ -15,7 +15,7 @@
 <configuration>
   <property>
     <name>ssl.server.keystore.location</name>
-    <value>/etc/secrets/hdfs/hdfs.jks</value>
+    <value>/run/secrets/zookage/hdfs/hdfs.jks</value>
   </property>
   <property>
     <name>ssl.server.keystore.password</name>

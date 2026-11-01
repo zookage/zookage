@@ -58,9 +58,9 @@ spec:
         - name: shared-conf
           mountPath: /etc/zookage/shared
         - name: hadoop-secret
-          mountPath: /etc/secrets/hadoop
+          mountPath: /run/secrets/zookage/hadoop
         - name: hdfs-secret
-          mountPath: /etc/secrets/hdfs
+          mountPath: /run/secrets/zookage/hdfs
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
@@ -96,9 +96,9 @@ spec:
         - name: shared-conf
           mountPath: /etc/zookage/shared
         - name: hadoop-secret
-          mountPath: /etc/secrets/hadoop
+          mountPath: /run/secrets/zookage/hadoop
         - name: hdfs-secret
-          mountPath: /etc/secrets/hdfs
+          mountPath: /run/secrets/zookage/hdfs
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf

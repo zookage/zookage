@@ -21,7 +21,7 @@ spec:
       - name: nodemanager
         volumeMounts:
         - name: hive-secret
-          mountPath: /etc/secrets/hive
+          mountPath: /run/secrets/zookage/hive
       volumes:
       - name: hive-secret
         secret:

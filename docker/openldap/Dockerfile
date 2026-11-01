@@ -39,7 +39,7 @@ RUN apt-get update \
 
 COPY entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh \
-  && install -d -o openldap -g openldap -m 0700 /etc/secrets
+  && install -d -o openldap -g openldap -m 0700 /run/secrets/zookage
 
 USER openldap:openldap
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

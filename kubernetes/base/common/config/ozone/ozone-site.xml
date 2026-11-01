@@ -103,7 +103,7 @@
 
   <property>
     <name>hadoop.http.authentication.signature.secret.file</name>
-    <value>/etc/secrets/ozone/ozone-http-auth-signature.secret</value>
+    <value>/run/secrets/zookage/ozone/ozone-http-auth-signature.secret</value>
   </property>
   <property>
     <name>hdds.scm.kerberos.principal</name>
@@ -111,7 +111,7 @@
   </property>
   <property>
     <name>hdds.scm.kerberos.keytab.file</name>
-    <value>/etc/secrets/ozone/ozone.keytab</value>
+    <value>/run/secrets/zookage/ozone/ozone.keytab</value>
   </property>
   <property>
     <name>ozone.om.kerberos.principal</name>
@@ -119,7 +119,7 @@
   </property>
   <property>
     <name>ozone.om.kerberos.keytab.file</name>
-    <value>/etc/secrets/ozone/ozone.keytab</value>
+    <value>/run/secrets/zookage/ozone/ozone.keytab</value>
   </property>
   <property>
     <name>hdds.datanode.kerberos.principal</name>
@@ -127,7 +127,7 @@
   </property>
   <property>
     <name>hdds.datanode.kerberos.keytab.file</name>
-    <value>/etc/secrets/ozone/ozone.keytab</value>
+    <value>/run/secrets/zookage/ozone/ozone.keytab</value>
   </property>
   <property>
     <name>ozone.recon.kerberos.principal</name>
@@ -135,7 +135,7 @@
   </property>
   <property>
     <name>ozone.recon.kerberos.keytab.file</name>
-    <value>/etc/secrets/ozone/ozone.keytab</value>
+    <value>/run/secrets/zookage/ozone/ozone.keytab</value>
   </property>
   <property>
     <name>ozone.s3g.kerberos.principal</name>
@@ -143,7 +143,7 @@
   </property>
   <property>
     <name>ozone.s3g.kerberos.keytab.file</name>
-    <value>/etc/secrets/ozone/ozone.keytab</value>
+    <value>/run/secrets/zookage/ozone/ozone.keytab</value>
   </property>
   <property>
     <name>hdds.scm.http.auth.kerberos.principal</name>
@@ -151,7 +151,7 @@
   </property>
   <property>
     <name>hdds.scm.http.auth.kerberos.keytab</name>
-    <value>/etc/secrets/ozone/ozone.keytab</value>
+    <value>/run/secrets/zookage/ozone/ozone.keytab</value>
   </property>
   <property>
     <name>ozone.om.http.auth.kerberos.principal</name>
@@ -159,7 +159,7 @@
   </property>
   <property>
     <name>ozone.om.http.auth.kerberos.keytab</name>
-    <value>/etc/secrets/ozone/ozone.keytab</value>
+    <value>/run/secrets/zookage/ozone/ozone.keytab</value>
   </property>
   <property>
     <name>hdds.datanode.http.auth.kerberos.principal</name>
@@ -167,7 +167,7 @@
   </property>
   <property>
     <name>hdds.datanode.http.auth.kerberos.keytab</name>
-    <value>/etc/secrets/ozone/ozone.keytab</value>
+    <value>/run/secrets/zookage/ozone/ozone.keytab</value>
   </property>
   <property>
     <name>ozone.recon.http.auth.kerberos.principal</name>
@@ -175,7 +175,7 @@
   </property>
   <property>
     <name>ozone.recon.http.auth.kerberos.keytab</name>
-    <value>/etc/secrets/ozone/ozone.keytab</value>
+    <value>/run/secrets/zookage/ozone/ozone.keytab</value>
   </property>
   <property>
     <name>ozone.s3g.http.auth.kerberos.principal</name>
@@ -183,7 +183,7 @@
   </property>
   <property>
     <name>ozone.s3g.http.auth.kerberos.keytab</name>
-    <value>/etc/secrets/ozone/ozone.keytab</value>
+    <value>/run/secrets/zookage/ozone/ozone.keytab</value>
   </property>
 {{- if eq (index .Values "ozone_security_enabled") "true" }}
   <property>

@@ -23,7 +23,7 @@ FROM ${keycloak_image}
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 USER 0
-RUN mkdir -p /etc/secrets \
-  && chown 1000:0 /etc/secrets \
-  && chmod 0700 /etc/secrets
+RUN mkdir -p /run/secrets/zookage \
+  && chown 1000:0 /run/secrets/zookage \
+  && chmod 0700 /run/secrets/zookage
 USER 1000

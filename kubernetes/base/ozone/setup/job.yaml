@@ -35,7 +35,7 @@ spec:
 
           security_enabled=$(/opt/ozone/bin/ozone getconf -confKey ozone.security.enabled)
           if [[ ${security_enabled} == true ]]; then
-            kinit -kt /etc/secrets/ozone/ozone.keytab \
+            kinit -kt /run/secrets/zookage/ozone/ozone.keytab \
               ozone/ozone-om-0.ozone-om.zookage.svc.cluster.local@ZOOKAGE.LOCAL
           fi
 
@@ -69,7 +69,7 @@ spec:
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
         - name: ozone-secret
-          mountPath: /etc/secrets/ozone
+          mountPath: /run/secrets/zookage/ozone
         - name: ozone-conf
           mountPath: /etc/ozone/conf
         - name: ozone-src

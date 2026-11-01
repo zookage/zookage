@@ -45,7 +45,7 @@ spec:
         - name: ozone-conf
           mountPath: /etc/ozone/conf
         - name: ozone-secret
-          mountPath: /etc/secrets/ozone
+          mountPath: /run/secrets/zookage/ozone
         - name: mnt
           mountPath: /mnt
       terminationGracePeriodSeconds: 5

@@ -79,7 +79,7 @@
   </property>
   <property>
     <name>ranger.usersync.kerberos.keytab</name>
-    <value>/etc/secrets/ranger/ranger.keytab</value>
+    <value>/run/secrets/zookage/ranger/ranger.keytab</value>
   </property>
 {{- else }}
   <property>
