@@ -29,7 +29,9 @@ RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
     -Pall \
     -DskipTests \
     -DskipJSTests \
-    -Dmaven.javadoc.skip=true
+    -Dmaven.javadoc.skip=true \
+    -Denunciate.disable.sourcepath=true
+
 RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   ranger_version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout) \
   && mkdir ./tmp \
