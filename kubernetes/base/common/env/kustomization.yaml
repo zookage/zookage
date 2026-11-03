@@ -69,7 +69,6 @@ configMapGenerator:
 - literals:
   - TEZ_JARS=/opt/tez
   - TEZ_CONF_DIR=/etc/tez/conf
-  - HADOOP_USER_CLASSPATH_FIRST="true"
   name: tez-env
 - literals:
   - TRINO_HOME=/opt/trino

@@ -70,6 +70,7 @@ spec:
         - -Dservername=rangeradmin
         - -Dlogdir=/mnt/log
         - -Dcatalina.base=$(RANGER_HOME)/ranger-admin/ews
+        - -Dsun.io.useCanonCaches=false
         - org.apache.ranger.server.tomcat.EmbeddedServer
         envFrom:
         - configMapRef:

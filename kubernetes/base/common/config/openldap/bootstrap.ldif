@@ -24,6 +24,7 @@ objectClass: krbTicketPolicyAux
 uid: zookage
 cn: ZooKage
 sn: ZooKage
+mail: zookage@example.com
 uidNumber: 1001
 gidNumber: 1001
 homeDirectory: /home/zookage

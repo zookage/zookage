@@ -41,8 +41,12 @@ spec:
         volumeMounts:
         - name: openldap-conf
           mountPath: /etc/openldap/conf
+        - name: slapd-run
+          mountPath: /run/slapd
       terminationGracePeriodSeconds: 5
       volumes:
       - name: openldap-conf
         configMap:
           name: openldap-conf
+      - name: slapd-run
+        emptyDir: {}

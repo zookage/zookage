@@ -19,7 +19,7 @@
   </property>
   <property>
     <name>tez.cluster.additional.classpath.prefix</name>
-    <value>/etc/hadoop/conf:/opt/hadoop/share/hadoop/tools/lib/*</value>
+    <value>/etc/hadoop/conf:/opt/hadoop/share/hadoop/common/*:/opt/hadoop/share/hadoop/common/lib/*</value>
   </property>
   <property>
     <name>tez.am.shuffle.auxiliary-service.id</name>

@@ -112,6 +112,8 @@ spec:
         - name: sssd-conf
           mountPath: /etc/sssd/sssd.conf
           subPath: sssd.conf
+        - name: sssd-run
+          mountPath: /run/sssd
         - name: sssd-pipes
           mountPath: /var/lib/sss/pipes
       volumes:
@@ -119,6 +121,8 @@ spec:
         configMap:
           name: sssd-conf
           defaultMode: 0600
+      - name: sssd-run
+        emptyDir: {}
       - name: sssd-pipes
         emptyDir: {}
 ---

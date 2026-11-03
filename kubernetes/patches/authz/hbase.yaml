@@ -34,7 +34,9 @@ spec:
       - name: master
         env:
         - name: HBASE_CLASSPATH
-          value: $(HADOOP_CONF_DIR):/opt/ranger/ranger-hbase-plugin/lib/*
+          # Keep Ranger and Jersey providers in the same class loader.
+          # yamllint disable-line rule:line-length
+          value: $(HADOOP_CONF_DIR):/opt/ranger/ranger-hbase-plugin/lib/ranger-hbase-plugin-impl/*:/opt/ranger/ranger-hbase-plugin/lib/*
         volumeMounts:
         - name: ranger-src
           mountPath: /opt/ranger
@@ -62,7 +64,9 @@ spec:
       - name: regionserver
         env:
         - name: HBASE_CLASSPATH
-          value: $(HADOOP_CONF_DIR):/opt/ranger/ranger-hbase-plugin/lib/*
+          # Keep Ranger and Jersey providers in the same class loader.
+          # yamllint disable-line rule:line-length
+          value: $(HADOOP_CONF_DIR):/opt/ranger/ranger-hbase-plugin/lib/ranger-hbase-plugin-impl/*:/opt/ranger/ranger-hbase-plugin/lib/*
         volumeMounts:
         - name: ranger-src
           mountPath: /opt/ranger

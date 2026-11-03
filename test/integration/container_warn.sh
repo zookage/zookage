@@ -21,7 +21,8 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 # shellcheck disable=SC2016
 "${base_dir}/bin/logs" \
   | grep WARN \
-  | grep -Ev 'pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind (tez\.job|LLAP_TOKEN)$' \
+  `# S3A Full tokens do not support renewal and remain unmanaged.` \
+  | grep -Ev 'pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind (tez\.job|LLAP_TOKEN|S3ADelegationToken/Full)$' \
   | grep -Ev 'pod/ranger-usersync-.* WARN  - auth_to_local rule mechanism not set\.Using default of hadoop$' \
   | grep -Ev 'pod/hbase-(master|regionserver)-[0-9]+: .* WARN  .* server\.AuthenticationFilter: Authentication exception: GSSException: Failure unspecified at GSS-API level \(Mechanism level: Request is a replay \(34\)\)$' \
   | grep -Ev 'pod/ozone-scm-[0-9]+: .* WARN ha\.SequenceIdGenerator: Failed to allocate a batch for CertificateId, expected lastId is 0, actual lastId is [0-9]+\.$' \
@@ -110,6 +111,7 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
   | grep -v 'pod/hbase-regionserver-.* hbase.HbaseUserUtilsImpl: HbaseUserUtilsImpl\.initialize: Unexpected: initialization called more than once!' \
   | grep -v 'pod/hbase-regionserver-.* regionserver.HRegionServer: reportForDuty failed; sleeping 3000 ms and then retrying\.' \
   `# Initialization` \
+  | grep -v 'pod/\(hbase\|ozone\)-.* util\.GraalScriptEngineCreator: GraalScriptEngineCreator(): failed to initialize$' \
   | grep -v 'pod/\(hbase\|ozone\)-.* conditionevaluator.RangerScriptConditionEvaluator: initScriptEngineCreator(): failed to create engine using plugin-class-loader by creator org.apache.ranger.plugin.util.GraalScriptEngineCreator' \
   | grep -v 'pod/\(hbase\|ozone\)-.* conditionevaluator.RangerScriptConditionEvaluator: initScriptEngineCreator(): failed to create engine using plugin-class-loader by creator org.apache.ranger.plugin.util.JavaScriptEngineCreator' \
   | grep -v 'pod/\(hbase\|ozone\)-.* conditionevaluator.RangerScriptConditionEvaluator: createScriptEngine(serviceType=tag): failed to create script engine' \
