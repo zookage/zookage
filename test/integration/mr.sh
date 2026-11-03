@@ -40,7 +40,7 @@ run_wordcount_job() {
     jar \
     /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-*.jar \
     wordcount \
-    -libjars \"\$(printf '%s,%s' /opt/hadoop/share/hadoop/tools/lib/hadoop-aws-*.jar /opt/hadoop/share/hadoop/tools/lib/bundle-*.jar)\" \
+    -libjars \"\$(printf '%s,%s' /opt/hadoop/share/hadoop/common/lib/hadoop-aws-*.jar /opt/hadoop/share/hadoop/common/lib/bundle-*.jar)\" \
     ${input} \
     ${output}
   "
