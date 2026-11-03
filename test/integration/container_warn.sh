@@ -21,7 +21,6 @@ readonly base_dir=$(dirname "$(dirname "${integration_dir}")")
 # shellcheck disable=SC2016
 "${base_dir}/bin/logs" \
   | grep WARN \
-  `# S3A Full tokens do not support renewal and remain unmanaged.` \
   | grep -Ev 'pod/yarn-resourcemanager-.* WARN token\.Token: No TokenRenewer defined for token kind (tez\.job|LLAP_TOKEN|S3ADelegationToken/Full)$' \
   | grep -Ev 'pod/ranger-usersync-.* WARN  - auth_to_local rule mechanism not set\.Using default of hadoop$' \
   | grep -Ev 'pod/hbase-(master|regionserver)-[0-9]+: .* WARN  .* server\.AuthenticationFilter: Authentication exception: GSSException: Failure unspecified at GSS-API level \(Mechanism level: Request is a replay \(34\)\)$' \
