@@ -130,7 +130,8 @@
   </property>
   <property>
     <name>hive.llap.daemon.keytab.file</name>
-    <value>/run/secrets/zookage/hive/hive.keytab</value>
+    <!-- The Tez AM overrides this path with its localized keytab. -->
+    <value>${env.HIVE_LLAP_KEYTAB:-/run/secrets/zookage/hive/hive.keytab}</value>
   </property>
 {{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
   <property>
@@ -163,7 +164,7 @@
   </property>
   <property>
     <name>hive.llap.task.scheduler.am.registry.keytab.file</name>
-    <value>/run/secrets/zookage/hive/hive.keytab</value>
+    <value>${hive.llap.daemon.keytab.file}</value>
   </property>
 {{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
   <property>

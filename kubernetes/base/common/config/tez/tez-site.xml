@@ -17,6 +17,12 @@
     <name>tez.lib.uris</name>
     <value>hdfs:///lib/tez/tez.tar.gz</value>
   </property>
+{{- if and (eq (index .Values "hadoop_security_authentication") "kerberos") (eq (index .Values "hive_execution_mode") "llap") }}
+  <property>
+    <name>tez.aux.uris</name>
+    <value>hdfs:///user/hive/.llap/hive.keytab</value>
+  </property>
+{{- end }}
   <property>
     <name>tez.cluster.additional.classpath.prefix</name>
     <value>/etc/hadoop/conf:/opt/hadoop/share/hadoop/common/*:/opt/hadoop/share/hadoop/common/lib/*</value>
@@ -57,7 +63,7 @@
 
   <property>
     <name>tez.am.launch.env</name>
-    <value>JAVA_HOME=/opt/java/jdk21</value>
+    <value>JAVA_HOME=/opt/java/jdk21{{ if and (eq (index .Values "hadoop_security_authentication") "kerberos") (eq (index .Values "hive_execution_mode") "llap") }},HIVE_LLAP_KEYTAB=hive.keytab{{ end }}</value>
   </property>
   <property>
     <name>tez.task.launch.env</name>

@@ -28,3 +28,39 @@ spec:
         args:
         - wait-for-rollout
         - statefulset/zookeeper-server
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hive-hiveserver2
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: upload-llap-keytab
+        image: zookage-util
+        command:
+        - /bin/bash
+        - -euc
+        args:
+        - |
+          docker-entrypoint.sh wait-for-job hdfs-mkdir
+          kinit -kt /run/secrets/zookage/hive/hive.keytab hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL
+          "${HADOOP_HOME}/bin/hdfs" dfs -mkdir -p /user/hive/.llap
+          "${HADOOP_HOME}/bin/hdfs" dfs -chmod 700 /user/hive/.llap
+          "${HADOOP_HOME}/bin/hdfs" dfs -put -f /run/secrets/zookage/hive/hive.keytab /user/hive/.llap/hive.keytab
+          "${HADOOP_HOME}/bin/hdfs" dfs -chmod 600 /user/hive/.llap/hive.keytab
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        volumeMounts:
+        - name: hadoop-conf
+          mountPath: /etc/hadoop/conf
+        - name: kerberos-conf
+          mountPath: /etc/krb5.conf
+          subPath: krb5.conf
+        - name: hive-secret
+          mountPath: /run/secrets/zookage/hive
+        - name: hadoop-src
+          mountPath: /opt/hadoop
+          subPath: opt/hadoop
