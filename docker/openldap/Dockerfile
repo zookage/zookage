@@ -38,8 +38,7 @@ RUN apt-get update \
   && rm -rf /tmp/kerberos.openldap.ldif /var/lib/apt/lists/*
 
 COPY entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh \
-  && install -d -o openldap -g openldap -m 0700 /run/secrets/zookage
+RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh
 
 USER openldap:openldap
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

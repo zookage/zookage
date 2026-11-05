@@ -82,6 +82,5 @@ RUN apt-get update \
 
 COPY --from=builder /root/ranger/zookage /opt/ranger
 RUN groupadd --gid 1100 ranger \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1100 --gid ranger ranger \
-  && install -d -o ranger -g ranger -m 0700 /run/secrets/zookage
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1100 --gid ranger ranger
 USER ranger:ranger

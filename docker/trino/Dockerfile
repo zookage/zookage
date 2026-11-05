@@ -52,8 +52,7 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* \
   && update-alternatives --install /usr/bin/python python /usr/bin/python3 1 \
   && groupadd --gid 1080 trino \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1080 --gid trino trino \
-  && install -d -o trino -g trino -m 0700 /run/secrets/zookage
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1080 --gid trino trino
 
 COPY --from=builder --chmod=755 /root/trino/client/trino-cli/target/trino-cli-executable.jar /opt/trino/trino-cli/bin/trino
 COPY --from=builder /root/trino/core/trino-server/target/trino-server /opt/trino/trino-server
