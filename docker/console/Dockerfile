@@ -29,8 +29,7 @@ RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
 FROM ${jdk_image}
 
 RUN groupadd --gid 1001 zookage \
-  && useradd --create-home --uid 1001 --gid zookage zookage \
-  && install -d -o zookage -g zookage -m 0700 /run/secrets/zookage
+  && useradd --create-home --uid 1001 --gid zookage zookage
 
 COPY --from=builder /root/console/target/quarkus-app /opt/zookage-console/quarkus-app
 

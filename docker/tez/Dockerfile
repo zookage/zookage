@@ -74,6 +74,5 @@ FROM ${jdk_image}
 
 COPY --from=builder /root/tez/apache-tez-bin /opt/tez
 RUN groupadd --gid 1030 tez \
-  && useradd --system --no-log-init --shell /sbin/nologin --uid 1030 --gid tez tez \
-  && install -d -o tez -g tez -m 0700 /run/secrets/zookage
+  && useradd --system --no-log-init --shell /sbin/nologin --uid 1030 --gid tez tez
 USER tez:tez
