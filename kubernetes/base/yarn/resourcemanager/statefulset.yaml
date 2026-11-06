@@ -34,6 +34,8 @@ spec:
         - $(HADOOP_HOME)/bin/yarn
         args:
         - resourcemanager
+        - -D
+        - hadoop.security.credential.provider.path=localjceks://file/run/secrets/zookage/hadoop/ldap.jceks
         envFrom:
         - configMapRef:
             name: hadoop-env

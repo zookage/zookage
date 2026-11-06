@@ -27,8 +27,8 @@ The create command reads key-value pairs from <jceks-file>.properties.
 The Hadoop image is read from kubernetes/kustomization.yaml.
 
 Examples:
-  $0 show secret/hadoop/hadoop.jceks
-  $0 create secret/hadoop/hadoop.jceks
+  $0 show secret/hadoop/ldap.jceks
+  $0 create secret/hadoop/s3a.jceks
 EOF
 }
 

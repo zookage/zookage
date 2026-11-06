@@ -109,6 +109,9 @@ configMapGenerator:
   - hive-metastore/ranger-hive-policymgr-ssl.xml
   - hive-metastore/ranger-hive-security.xml
   name: hive-metastore-conf
+  options:
+    annotations:
+      zookage.io/config-values: hive-metastore-config-values
 - files:
   - keycloak/keycloak.conf
   - keycloak/realm-export.json

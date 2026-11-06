@@ -22,6 +22,8 @@ spec:
   replicas: 3
   template:
     spec:
+      securityContext:
+        fsGroup: 1010
       initContainers:
       - name: wait-for-resourcemanager
         image: zookage-util
@@ -35,6 +37,8 @@ spec:
         - $(HADOOP_HOME)/bin/yarn
         args:
         - nodemanager
+        - -D
+        - hadoop.security.credential.provider.path=localjceks://file/run/secrets/zookage/hadoop/ldap.jceks
         envFrom:
         - configMapRef:
             name: hadoop-env
@@ -54,14 +58,14 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
           mountPath: /run/secrets/zookage/hadoop
+        - name: yarn-secret
+          mountPath: /run/secrets/zookage/yarn
         - name: yarn-container-executor-conf
           mountPath: /opt/hadoop/etc/hadoop/container-executor.cfg
           subPath: container-executor.cfg
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
-        - name: yarn-secret
-          mountPath: /run/secrets/zookage/yarn
         - name: mnt
           mountPath: /mnt
         - name: tez-src
@@ -81,6 +85,7 @@ spec:
       - name: hadoop-secret
         secret:
           secretName: hadoop-secret
+          defaultMode: 0440
       - name: yarn-container-executor-conf
         configMap:
           name: yarn-container-executor-conf
@@ -91,7 +96,7 @@ spec:
       - name: yarn-secret
         secret:
           secretName: yarn-secret
-          defaultMode: 0444
+          defaultMode: 0440
       - name: mnt
         emptyDir: {}
       - name: tez-src

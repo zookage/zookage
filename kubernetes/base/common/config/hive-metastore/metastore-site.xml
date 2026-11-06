@@ -15,7 +15,7 @@
 <configuration>
   <property>
     <name>hadoop.security.credential.provider.path</name>
-    <value>localjceks://file/run/secrets/zookage/hadoop/hadoop.jceks,localjceks://file/run/secrets/zookage/hive-metastore/hive-metastore.jceks</value>
+    <value>{{ index .Values "hadoop_credential_provider_path" | html }}</value>
   </property>
 
   <property>
