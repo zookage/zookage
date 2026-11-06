@@ -14,11 +14,6 @@
 
 <configuration>
   <property>
-    <name>hadoop.security.credential.provider.path</name>
-    <value>{{ index .Values "hadoop_credential_provider_path" | html }}</value>
-  </property>
-
-  <property>
     <name>javax.jdo.option.ConnectionDriverName</name>
     <value>org.postgresql.Driver</value>
   </property>
