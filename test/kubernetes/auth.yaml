@@ -57,13 +57,13 @@ images:
   newTag: experimental
 - name: zookage-hive-metastore
   newName: zookage/zookage-hive-metastore
-  newTag: experimental
+  newTag: 4.2.0-zookage-0.5
 - name: zookage-kdc
   newName: zookage/zookage-kdc
   newTag: experimental
 - name: zookage-keycloak
   newName: zookage/zookage-keycloak
-  newTag: experimental
+  newTag: 26.5-zookage-0.5
 - name: zookage-openldap
   newName: zookage/zookage-openldap
   newTag: experimental
@@ -75,19 +75,19 @@ images:
   newTag: '18.3'
 - name: zookage-ranger
   newName: zookage/zookage-ranger
-  newTag: experimental
+  newTag: 2.7.0-zookage-0.5
 - name: zookage-spark
   newName: zookage/zookage-spark
   newTag: experimental
 - name: zookage-tez
   newName: zookage/zookage-tez
-  newTag: experimental
+  newTag: 0.10.5-zookage-0.5
 - name: zookage-trino
   newName: zookage/zookage-trino
   newTag: experimental
 - name: zookage-zookeeper
   newName: zookage/zookage-zookeeper
-  newTag: experimental
+  newTag: 3.9.4-zookage-0.5
 patches:
 - path: patches/authn/client.yaml
 - path: patches/authn/hbase.yaml

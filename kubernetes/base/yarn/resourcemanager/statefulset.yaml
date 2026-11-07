@@ -34,13 +34,9 @@ spec:
         - $(HADOOP_HOME)/bin/yarn
         args:
         - resourcemanager
-        - -D
-        - hadoop.security.credential.provider.path=$(HADOOP_CREDENTIAL_PROVIDER_PATH)
         envFrom:
         - configMapRef:
             name: hadoop-env
-        - configMapRef:
-            name: yarn-credential-provider-env
         - configMapRef:
             name: java-env
         readinessProbe:

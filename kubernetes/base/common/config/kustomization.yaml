@@ -26,12 +26,6 @@ configMapGenerator:
 - files:
   - yarn/container-executor.cfg
   name: yarn-container-executor-conf
-- literals:
-  - 'HADOOP_CREDENTIAL_PROVIDER_PATH={{ index .Values "hadoop_credential_provider_path" }}'
-  name: yarn-credential-provider-env
-  options:
-    annotations:
-      zookage.io/config-values: yarn-daemon-config-values
 - files:
   - hadoop/core-site.xml
   - hadoop/hadoop-metrics2.properties

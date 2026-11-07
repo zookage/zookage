@@ -43,14 +43,6 @@ metadata:
     config.kubernetes.io/local-config: 'true'
 data:
   hadoop_http_filter_initializers: org.apache.hadoop.security.HttpCrossOriginFilterInitializer
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: yarn-daemon-config-values
-  annotations:
-    config.kubernetes.io/local-config: 'true'
-data:
   hadoop_credential_provider_path: localjceks://file/run/secrets/zookage/hadoop/hadoop.jceks
 ---
 apiVersion: v1

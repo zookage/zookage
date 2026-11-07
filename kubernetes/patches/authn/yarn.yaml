@@ -85,8 +85,7 @@ spec:
           until getent passwd zookage > /dev/null; do
             sleep 1
           done
-          exec "${HADOOP_HOME}/bin/yarn" nodemanager \
-            -D hadoop.security.credential.provider.path=localjceks://file/run/secrets/zookage/hadoop/hadoop.jceks
+          exec "${HADOOP_HOME}/bin/yarn" nodemanager
         env:
         - name: JAVA_TOOL_OPTIONS
           value: --add-opens=java.base/java.lang=ALL-UNNAMED
