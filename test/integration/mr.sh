@@ -23,15 +23,10 @@ run_wordcount_job() {
   local success_message="The test job succeeded."
   local input="${path_prefix}/mr-wordcount-input"
   local output="${path_prefix}/mr-wordcount-output"
-  local s3_auth=0
-  local job_script
 
   if [[ "${path_prefix}" != "/user/zookage" ]]; then
     name="${name} on ${path_prefix}"
     success_message="The S3 test job succeeded on ${path_prefix}."
-    if [[ "${ZOOKAGE_AUTH_TEST:-0}" == "1" ]]; then
-      s3_auth=1
-    fi
   fi
 
   "${integration_dir}/divider.sh" "Start running ${name}"
@@ -40,27 +35,15 @@ run_wordcount_job() {
   "${integration_dir}/run.sh" hadoop fs -rm -r -f "${output}"
   "${integration_dir}/run.sh" hadoop fs -put /etc/hosts "${input}"
 
-  job_script=$(cat <<'SCRIPT'
-    set -eu
-    input=$1
-    output=$2
-    s3_auth=$3
-    job_options=()
-    if [[ "${s3_auth}" == "1" ]]; then
-      token_dir=$(mktemp -d)
-      token_file="${token_dir}/s3a.dt"
-      trap 'rm -f "${token_file}" "${token_dir}/.s3a.dt.crc"; rmdir "${token_dir}"' EXIT
-      hadoop dtutil get s3a://test "${token_file}"
-      export HADOOP_TOKEN_FILE_LOCATION="${token_file}"
-      job_options=(-D hadoop.security.credential.provider.path=user:/// -D "mapreduce.job.credentials.binary=${token_file}")
-    fi
-    hadoop jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-*.jar \
-      wordcount \
-      -libjars "$(printf "%s,%s" /opt/hadoop/share/hadoop/common/lib/hadoop-aws-*.jar /opt/hadoop/share/hadoop/common/lib/bundle-*.jar)" \
-      "${job_options[@]}" "${input}" "${output}"
-SCRIPT
-  )
-  "${integration_dir}/run.sh" bash -c "${job_script}" _ "${input}" "${output}" "${s3_auth}"
+  "${integration_dir}/run.sh" bash -c "
+    hadoop \
+    jar \
+    /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-*.jar \
+    wordcount \
+    -libjars \"\$(printf '%s,%s' /opt/hadoop/share/hadoop/common/lib/hadoop-aws-*.jar /opt/hadoop/share/hadoop/common/lib/bundle-*.jar)\" \
+    ${input} \
+    ${output}
+  "
   "${integration_dir}/run.sh" hadoop fs -cat "${output}/part-r-00000"
 
   "${integration_dir}/divider.sh" "Finished running ${name}"
