@@ -63,12 +63,18 @@ spec:
         - |
           install -d -o 0 -g 0 -m 0755 /var/lib/sss/pipes
           install -d -o 0 -g 0 -m 0700 /var/lib/sss/pipes/private
+          install -o 0 -g 0 -m 0600 /source/sssd/sssd.conf /staged/sssd.conf
         securityContext:
           runAsUser: 0
           runAsGroup: 0
         volumeMounts:
         - name: sssd-pipes
           mountPath: /var/lib/sss/pipes
+        - name: sssd-conf
+          mountPath: /source/sssd
+          readOnly: true
+        - name: sssd-conf-staged
+          mountPath: /staged
       containers:
       - name: nodemanager
         command:
@@ -109,7 +115,7 @@ spec:
           runAsUser: 0
           runAsGroup: 0
         volumeMounts:
-        - name: sssd-conf
+        - name: sssd-conf-staged
           mountPath: /etc/sssd/sssd.conf
           subPath: sssd.conf
         - name: sssd-run
@@ -121,6 +127,9 @@ spec:
         configMap:
           name: sssd-conf
           defaultMode: 0600
+      - name: sssd-conf-staged
+        emptyDir:
+          medium: Memory
       - name: sssd-run
         emptyDir: {}
       - name: sssd-pipes

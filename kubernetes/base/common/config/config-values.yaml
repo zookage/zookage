@@ -24,7 +24,8 @@ metadata:
   name: hdfs-config-values
   annotations:
     config.kubernetes.io/local-config: 'true'
-data: {}
+data:
+  hadoop_credential_provider_path: localjceks://file/run/secrets/zookage/hadoop/hadoop.jceks
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -42,6 +43,7 @@ metadata:
     config.kubernetes.io/local-config: 'true'
 data:
   hadoop_http_filter_initializers: org.apache.hadoop.security.HttpCrossOriginFilterInitializer
+  hadoop_credential_provider_path: localjceks://file/run/secrets/zookage/hadoop/hadoop.jceks
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -49,4 +51,15 @@ metadata:
   name: client-config-values
   annotations:
     config.kubernetes.io/local-config: 'true'
-data: {}
+data:
+  hadoop_credential_provider_path: localjceks://file/run/secrets/zookage/hadoop/hadoop.jceks
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hive-metastore-config-values
+  annotations:
+    config.kubernetes.io/local-config: 'true'
+data:
+  hadoop_credential_provider_path: "localjceks://file/run/secrets/zookage/hadoop/hadoop.jceks,\
+    localjceks://file/run/secrets/zookage/hive-metastore/hive-metastore.jceks"

@@ -22,6 +22,8 @@ spec:
   replicas: 3
   template:
     spec:
+      securityContext:
+        fsGroup: 1010
       initContainers:
       - name: wait-for-resourcemanager
         image: zookage-util
@@ -81,6 +83,7 @@ spec:
       - name: hadoop-secret
         secret:
           secretName: hadoop-secret
+          defaultMode: 0440
       - name: yarn-container-executor-conf
         configMap:
           name: yarn-container-executor-conf
@@ -91,7 +94,7 @@ spec:
       - name: yarn-secret
         secret:
           secretName: yarn-secret
-          defaultMode: 0444
+          defaultMode: 0440
       - name: mnt
         emptyDir: {}
       - name: tez-src

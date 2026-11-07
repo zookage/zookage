@@ -22,11 +22,12 @@
     <name>hadoop.tmp.dir</name>
     <value>/mnt/hadoop</value>
   </property>
+{{- if index .Values "hadoop_credential_provider_path" }}
   <property>
     <name>hadoop.security.credential.provider.path</name>
-    <value>localjceks://file/run/secrets/zookage/hadoop/hadoop.jceks</value>
+    <value>{{ index .Values "hadoop_credential_provider_path" | html }}</value>
   </property>
-
+{{- end }}
   <property>
     <name>hadoop.proxyuser.httpfs.hosts</name>
     <value>*</value>

@@ -92,7 +92,7 @@ spec:
           - configMap:
               name: ozone-conf
           - configMap:
-              name: hadoop-client-conf
+              name: hadoop-conf
               items:
               - key: core-site.xml
                 path: core-site.xml

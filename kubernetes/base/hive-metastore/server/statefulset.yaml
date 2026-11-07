@@ -117,7 +117,7 @@ spec:
         projected:
           sources:
           - configMap:
-              name: hadoop-conf
+              name: hadoop-hive-metastore-conf
           - configMap:
               name: hdfs-conf
       - name: hadoop-secret

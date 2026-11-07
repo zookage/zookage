@@ -17,13 +17,38 @@ metadata:
 spec:
   template:
     spec:
+      initContainers:
+      - name: initialize-hive-secret
+        image: zookage-hadoop
+        command:
+        - /bin/sh
+        - -ec
+        args:
+        - |
+          chown 1020:1020 /staged
+          chmod 0700 /staged
+          install -o 1020 -g 1020 -m 0400 \
+            /source/hive/hive.keytab /staged/hive.keytab
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+        volumeMounts:
+        - name: hive-secret-staged
+          mountPath: /staged
+        - name: hive-secret
+          mountPath: /source/hive
+          readOnly: true
       containers:
       - name: nodemanager
         volumeMounts:
-        - name: hive-secret
+        - name: hive-secret-staged
           mountPath: /run/secrets/zookage/hive
+          readOnly: true
       volumes:
       - name: hive-secret
         secret:
           secretName: hive-secret
-          defaultMode: 0444
+          defaultMode: 0400
+      - name: hive-secret-staged
+        emptyDir:
+          medium: Memory
