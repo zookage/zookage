@@ -126,12 +126,8 @@ spec:
           - configMap:
               name: hdfs-conf
       - name: hadoop-secret
-        projected:
-          sources:
-          - secret:
-              name: hadoop-secret
-          - secret:
-              name: s3a-secret
+        secret:
+          secretName: hadoop-secret
       - name: hive-metastore-conf
         configMap:
           name: hive-metastore-conf

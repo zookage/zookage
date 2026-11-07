@@ -86,7 +86,7 @@ spec:
             sleep 1
           done
           exec "${HADOOP_HOME}/bin/yarn" nodemanager \
-            -D hadoop.security.credential.provider.path=localjceks://file/run/secrets/zookage/hadoop/ldap.jceks
+            -D hadoop.security.credential.provider.path=localjceks://file/run/secrets/zookage/hadoop/hadoop.jceks
         env:
         - name: JAVA_TOOL_OPTIONS
           value: --add-opens=java.base/java.lang=ALL-UNNAMED

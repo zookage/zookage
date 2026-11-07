@@ -25,7 +25,7 @@ metadata:
   annotations:
     config.kubernetes.io/local-config: 'true'
 data:
-  hadoop_credential_provider_path: localjceks://file/run/secrets/zookage/hadoop/ldap.jceks
+  hadoop_credential_provider_path: localjceks://file/run/secrets/zookage/hadoop/hadoop.jceks
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -51,7 +51,7 @@ metadata:
   annotations:
     config.kubernetes.io/local-config: 'true'
 data:
-  hadoop_credential_provider_path: localjceks://file/run/secrets/zookage/hadoop/ldap.jceks
+  hadoop_credential_provider_path: localjceks://file/run/secrets/zookage/hadoop/hadoop.jceks
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -60,8 +60,7 @@ metadata:
   annotations:
     config.kubernetes.io/local-config: 'true'
 data:
-  hadoop_credential_provider_path: "localjceks://file/run/secrets/zookage/hadoop/ldap.jceks,\
-    localjceks://file/run/secrets/zookage/hadoop/s3a.jceks"
+  hadoop_credential_provider_path: localjceks://file/run/secrets/zookage/hadoop/hadoop.jceks
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -70,6 +69,5 @@ metadata:
   annotations:
     config.kubernetes.io/local-config: 'true'
 data:
-  hadoop_credential_provider_path: "localjceks://file/run/secrets/zookage/hadoop/ldap.jceks,\
-    localjceks://file/run/secrets/zookage/hadoop/s3a.jceks,\
+  hadoop_credential_provider_path: "localjceks://file/run/secrets/zookage/hadoop/hadoop.jceks,\
     localjceks://file/run/secrets/zookage/hive-metastore/hive-metastore.jceks"

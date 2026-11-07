@@ -127,12 +127,8 @@ spec:
           - configMap:
               name: yarn-conf
       - name: hadoop-secret
-        projected:
-          sources:
-          - secret:
-              name: hadoop-secret
-          - secret:
-              name: s3a-secret
+        secret:
+          secretName: hadoop-secret
       - name: hbase-conf
         configMap:
           name: hbase-conf
