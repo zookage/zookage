@@ -30,16 +30,11 @@ spec:
       - name: create-hive-database
         image: zookage-postgres
         command:
-        - /bin/bash
+        - psql
         args:
+        - 'postgresql://admin:admin@postgres-database-0.postgres-database:5432'
         - -c
-        - |
-          set -euo pipefail
-
-          postgres_url='postgresql://admin:admin@postgres-database-0.postgres-database:5432'
-          if ! psql "${postgres_url}" -tc "SELECT 1 FROM pg_database WHERE datname = 'hive'" | grep -q 1; then
-            psql "${postgres_url}" -c 'CREATE DATABASE hive'
-          fi
+        - 'CREATE DATABASE hive'
       - name: wait-for-warehouse-dir
         image: zookage-util
         args:
@@ -50,7 +45,7 @@ spec:
         command:
         - $(METASTORE_HOME)/bin/schematool
         args:
-        - -initOrUpgradeSchema
+        - -initSchema
         - -dbType
         - postgres
         envFrom:

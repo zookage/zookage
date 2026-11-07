@@ -56,14 +56,14 @@ spec:
           mountPath: /etc/hadoop/conf
         - name: hadoop-secret
           mountPath: /run/secrets/zookage/hadoop
-        - name: yarn-secret
-          mountPath: /run/secrets/zookage/yarn
         - name: yarn-container-executor-conf
           mountPath: /opt/hadoop/etc/hadoop/container-executor.cfg
           subPath: container-executor.cfg
         - name: kerberos-conf
           mountPath: /etc/krb5.conf
           subPath: krb5.conf
+        - name: yarn-secret
+          mountPath: /run/secrets/zookage/yarn
         - name: mnt
           mountPath: /mnt
         - name: tez-src
