@@ -13,16 +13,6 @@
 -->
 
 <configuration>
-{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
-  <property>
-    <name>hive.conf.hidden.list</name>
-    <value>javax.jdo.option.ConnectionPassword,hive.server2.keystore.password,hive.server2.webui.keystore.password,hive.druid.metadata.password,fs.s3.awsAccessKeyId,fs.s3.awsSecretAccessKey,fs.s3n.awsAccessKeyId,fs.s3n.awsSecretAccessKey,fs.s3a.access.key,fs.s3a.secret.key,fs.s3a.proxy.password,dfs.adls.oauth2.credential,fs.adl.oauth2.credential,fs.azure.account.oauth2.client.secret,hive.zookeeper.ssl.keystore.location,hive.zookeeper.ssl.keystore.password,hive.zookeeper.ssl.truststore.location,hive.zookeeper.ssl.truststore.password,hadoop.security.credential.provider.path</value>
-  </property>
-  <property>
-    <name>hive.server2.job.credential.provider.path</name>
-    <value>user:///</value>
-  </property>
-{{- end }}
   <property>
     <name>hive.metastore.uris</name>
     <value>thrift://hive-metastore-server-0.hive-metastore-server:9083</value>
