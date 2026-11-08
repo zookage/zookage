@@ -53,6 +53,7 @@ metadata:
     config.kubernetes.io/local-config: 'true'
 data:
   hadoop_credential_provider_path: localjceks://file/run/secrets/zookage/hadoop/hadoop.jceks
+  hadoop_group_mapping: org.apache.hadoop.security.ShellBasedUnixGroupsMapping
 ---
 apiVersion: v1
 kind: ConfigMap

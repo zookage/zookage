@@ -27,9 +27,11 @@ check_errors () {
 }
 
 check_warnings () {
+  # ContainerLocalizer runs as the job user and cannot read the NodeManager's LDAP JCEKS.
   ! "${integration_dir}/run.sh" yarn logs -applicationId "${id}" | grep WARN \
     | grep -v -- '-Dhadoop.metrics.log.level=WARN' \
     | grep -v 'log4j:WARN' \
+    | grep -vF 'org.apache.hadoop.security.LdapGroupsMapping: Exception while trying to get password for alias' \
     | grep -v 'org.apache.hadoop.metrics2.impl.MetricsSystemImpl: ReduceTask metrics system already initialized'
 }
 

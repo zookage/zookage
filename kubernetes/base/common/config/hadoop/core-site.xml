@@ -87,7 +87,7 @@
 {{- end }}
   <property>
     <name>hadoop.security.group.mapping</name>
-    <value>org.apache.hadoop.security.LdapGroupsMapping</value>
+    <value>{{ or (index .Values "hadoop_group_mapping") "org.apache.hadoop.security.LdapGroupsMapping" | html }}</value>
   </property>
   <property>
     <name>hadoop.security.group.mapping.ldap.url</name>

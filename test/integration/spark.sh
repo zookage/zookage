@@ -27,6 +27,13 @@ run_wordcount_job() {
   if [[ "${path_prefix}" != "/user/zookage" ]]; then
     name="${name} on ${path_prefix}"
     success_message="The S3 test job succeeded on ${path_prefix}."
+    if [[ ${ZOOKAGE_AUTH_TEST:-} == "1" ]]; then
+      spark_options=(
+        --conf "spark.kerberos.access.hadoopFileSystems=${path_prefix}"
+        --conf spark.hadoop.hadoop.security.credential.provider.path=user:///
+        "${spark_options[@]}"
+      )
+    fi
   fi
 
   "${integration_dir}/divider.sh" "Start running ${name}"

@@ -63,6 +63,12 @@
     <name>hive.server2.authentication</name>
     <value>{{ or (index .Values "hive_server2_authentication") "NONE" | html }}</value>
   </property>
+{{- if eq (index .Values "hadoop_security_authentication") "kerberos" }}
+  <property>
+    <name>hive.server2.job.credential.provider.path</name>
+    <value>user:///</value>
+  </property>
+{{- end }}
   <property>
     <name>hive.server2.authentication.kerberos.principal</name>
     <value>hive/hive-hiveserver2.zookage.svc.cluster.local@ZOOKAGE.LOCAL</value>
