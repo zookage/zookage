@@ -15,7 +15,7 @@
 <configuration>
   <property>
     <name>hadoop.security.credential.provider.path</name>
-    <value>localjceks://file/run/secrets/zookage/hadoop/ldap.jceks,localjceks://file/run/secrets/zookage/hadoop/s3a.jceks,localjceks://file/run/secrets/zookage/hive-metastore/hive-metastore.jceks</value>
+    <value>localjceks://file/run/secrets/zookage/hive-metastore/hive-metastore.jceks,localjceks://file/run/secrets/zookage/hadoop/ldap.jceks</value>
   </property>
 
   <property>
