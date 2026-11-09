@@ -72,7 +72,7 @@ spec:
         projected:
           sources:
           - configMap:
-              name: hadoop-client-conf
+              name: hadoop-conf
           - configMap:
               name: hdfs-conf
           - configMap:

@@ -90,7 +90,6 @@ images:
   newTag: experimental
 ### Extensions ###
 patches:
-# - path: patches/authn/client.yaml
 # - path: patches/authn/hbase.yaml
 # - path: patches/authn/hdfs.yaml
 # - path: patches/authn/hive.yaml
