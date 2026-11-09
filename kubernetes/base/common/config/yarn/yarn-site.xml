@@ -46,6 +46,10 @@
     <name>hadoop.http.authentication.signer.secret.provider</name>
     <value>random</value>
   </property>
+  <property>
+    <name>hadoop.http.filter.initializers</name>
+    <value>org.apache.hadoop.security.HttpCrossOriginFilterInitializer</value>
+  </property>
 
   <property>
     <name>yarn.acl.enable</name>
