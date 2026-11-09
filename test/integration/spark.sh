@@ -22,7 +22,11 @@ run_wordcount_job() {
   local name="a Spark job"
   local success_message="The test job succeeded."
   local input="${path_prefix}/spark-wordcount-input"
-  local -a spark_options=(--class org.apache.spark.examples.JavaWordCount)
+  # YARN may still be localizing an executor when spark-submit cleans up staging files.
+  local -a spark_options=(
+    --conf spark.yarn.preserve.staging.files=true
+    --class org.apache.spark.examples.JavaWordCount
+  )
 
   if [[ "${path_prefix}" != "/user/zookage" ]]; then
     name="${name} on ${path_prefix}"
