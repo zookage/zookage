@@ -41,7 +41,8 @@ RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
 RUN --mount=type=cache,id=zookage-m2,target=/root/.m2 \
   mv \
     "./core/trino-server/target/trino-server-$(./mvnw --quiet help:evaluate -Dexpression=project.version -DforceStdout)" \
-    "./core/trino-server/target/trino-server"
+    "./core/trino-server/target/trino-server" \
+  && rm -rf /root/.m2/repository/io/trino/trino-*
 
 # hadolint ignore=DL3006
 FROM ${jdk_image}
