@@ -95,7 +95,7 @@ patches:
 - path: patches/client/hive.yaml
 # - path: patches/client/ozone.yaml
 # - path: patches/client/spark.yaml
-- path: patches/client/tez.yaml
+# - path: patches/client/tez.yaml
 # - path: patches/client/trino.yaml
 # - path: patches/client/zookeeper.yaml
 # - path: patches/authn/hbase.yaml
