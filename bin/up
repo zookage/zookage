@@ -16,7 +16,7 @@ set -u
 readonly NAMESPACE=zookage
 readonly bin_dir=$(cd "$(dirname "$0")"; pwd)
 readonly repo_dir=$(cd "${bin_dir}/.."; pwd)
-readonly util_image=${ZOOKAGE_UTIL_IMAGE:-zookage/zookage-util:experimental}
+readonly util_image=${ZOOKAGE_UTIL_IMAGE:-zookage/zookage-util:0.6.0}
 
 # Complete template evaluation and hashing before changing the cluster.
 manifest=$(docker run --rm --network=none --read-only --tmpfs /tmp \
