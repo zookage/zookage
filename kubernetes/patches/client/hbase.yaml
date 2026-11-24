@@ -20,10 +20,15 @@ spec:
       containers:
       - name: sleep
         volumeMounts:
+        - name: hbase-conf
+          mountPath: /etc/hbase/conf
         - name: hbase-src
           mountPath: /opt/hbase
           subPath: opt/hbase-client
       volumes:
+      - name: hbase-conf
+        configMap:
+          name: hbase-conf
       - name: hbase-src
         image:
           reference: zookage-hbase

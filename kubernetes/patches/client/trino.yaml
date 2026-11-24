@@ -20,10 +20,16 @@ spec:
       containers:
       - name: sleep
         volumeMounts:
+        - name: trino-conf
+          mountPath: /etc/trino/conf/cli.properties
+          subPath: cli.properties
         - name: trino-src
           mountPath: /opt/trino
           subPath: opt/trino
       volumes:
+      - name: trino-conf
+        configMap:
+          name: trino-conf
       - name: trino-src
         image:
           reference: zookage-trino

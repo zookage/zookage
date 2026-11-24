@@ -20,10 +20,22 @@ spec:
       containers:
       - name: sleep
         volumeMounts:
+        - name: ozone-conf
+          mountPath: /etc/ozone/conf
         - name: ozone-src
           mountPath: /opt/ozone
           subPath: opt/ozone
       volumes:
+      - name: ozone-conf
+        projected:
+          sources:
+          - configMap:
+              name: ozone-conf
+          - configMap:
+              name: hadoop-conf
+              items:
+              - key: core-site.xml
+                path: core-site.xml
       - name: ozone-src
         image:
           reference: zookage-ozone

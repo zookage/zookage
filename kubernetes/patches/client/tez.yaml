@@ -23,10 +23,15 @@ spec:
         - name: HADOOP_CLASSPATH
           value: $(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*
         volumeMounts:
+        - name: tez-conf
+          mountPath: /etc/tez/conf
         - name: tez-src
           mountPath: /opt/tez
           subPath: opt/tez
       volumes:
+      - name: tez-conf
+        configMap:
+          name: tez-conf
       - name: tez-src
         image:
           reference: zookage-tez

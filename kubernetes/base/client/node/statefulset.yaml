@@ -64,19 +64,6 @@ spec:
           mountPath: /etc/zookage/shared
         - name: hadoop-secret
           mountPath: /run/secrets/zookage/hadoop
-        - name: hbase-conf
-          mountPath: /etc/hbase/conf
-        - name: hive-conf
-          mountPath: /etc/hive/conf
-        - name: ozone-conf
-          mountPath: /etc/ozone/conf
-        - name: spark-conf
-          mountPath: /etc/spark/conf
-        - name: tez-conf
-          mountPath: /etc/tez/conf
-        - name: trino-conf
-          mountPath: /etc/trino/conf/cli.properties
-          subPath: cli.properties
         - name: hadoop-src
           mountPath: /opt/hadoop
           subPath: opt/hadoop
@@ -106,31 +93,6 @@ spec:
       - name: hadoop-secret
         secret:
           secretName: hadoop-secret
-      - name: hbase-conf
-        configMap:
-          name: hbase-conf
-      - name: hive-conf
-        configMap:
-          name: hive-conf
-      - name: ozone-conf
-        projected:
-          sources:
-          - configMap:
-              name: ozone-conf
-          - configMap:
-              name: hadoop-conf
-              items:
-              - key: core-site.xml
-                path: core-site.xml
-      - name: spark-conf
-        configMap:
-          name: spark-conf
-      - name: tez-conf
-        configMap:
-          name: tez-conf
-      - name: trino-conf
-        configMap:
-          name: trino-conf
       - name: hadoop-src
         image:
           reference: zookage-hadoop

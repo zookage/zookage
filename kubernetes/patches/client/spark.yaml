@@ -20,10 +20,21 @@ spec:
       containers:
       - name: sleep
         volumeMounts:
+        # Spark SQL needs the Hive metastore connection and authentication settings.
+        - name: hive-conf
+          mountPath: /etc/hive/conf
+        - name: spark-conf
+          mountPath: /etc/spark/conf
         - name: spark-src
           mountPath: /opt/spark
           subPath: opt/spark
       volumes:
+      - name: hive-conf
+        configMap:
+          name: hive-conf
+      - name: spark-conf
+        configMap:
+          name: spark-conf
       - name: spark-src
         image:
           reference: zookage-spark

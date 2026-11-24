@@ -20,10 +20,15 @@ spec:
       containers:
       - name: sleep
         volumeMounts:
+        - name: hive-conf
+          mountPath: /etc/hive/conf
         - name: hive-src
           mountPath: /opt/hive
           subPath: opt/hive
       volumes:
+      - name: hive-conf
+        configMap:
+          name: hive-conf
       - name: hive-src
         image:
           reference: zookage-hive
