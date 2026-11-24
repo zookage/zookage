@@ -80,4 +80,8 @@ images:
   newTag: 3.9.7-zookage-0.6
 ### Extensions ###
 patches:
+- path: patches/client/hive.yaml
+- path: patches/client/ozone.yaml
+- path: patches/client/tez.yaml
+- path: patches/client/zookeeper.yaml
 - path: patches/llap/hive.yaml
