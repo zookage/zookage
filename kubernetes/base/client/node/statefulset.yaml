@@ -49,8 +49,6 @@ spec:
         - secretRef:
             name: spark-secret-env
         env:
-        - name: HADOOP_CLASSPATH
-          value: $(TEZ_CONF_DIR):$(TEZ_JARS)/*:$(TEZ_JARS)/lib/*
         - name: PATH
           # yamllint disable-line rule:line-length
           value: $(TRINO_HOME)/trino-cli/bin:$(HBASE_HOME)/bin:$(HIVE_HOME)/bin:$(OZONE_HOME)/bin:$(SPARK_HOME)/bin:$(HADOOP_HOME)/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -66,43 +64,9 @@ spec:
           mountPath: /etc/zookage/shared
         - name: hadoop-secret
           mountPath: /run/secrets/zookage/hadoop
-        - name: hbase-conf
-          mountPath: /etc/hbase/conf
-        - name: hive-conf
-          mountPath: /etc/hive/conf
-        - name: ozone-conf
-          mountPath: /etc/ozone/conf
-        - name: spark-conf
-          mountPath: /etc/spark/conf
-        - name: tez-conf
-          mountPath: /etc/tez/conf
-        - name: trino-conf
-          mountPath: /etc/trino/conf/cli.properties
-          subPath: cli.properties
         - name: hadoop-src
           mountPath: /opt/hadoop
           subPath: opt/hadoop
-        - name: hbase-src
-          mountPath: /opt/hbase
-          subPath: opt/hbase-client
-        - name: hive-src
-          mountPath: /opt/hive
-          subPath: opt/hive
-        - name: ozone-src
-          mountPath: /opt/ozone
-          subPath: opt/ozone
-        - name: spark-src
-          mountPath: /opt/spark
-          subPath: opt/spark
-        - name: tez-src
-          mountPath: /opt/tez
-          subPath: opt/tez
-        - name: trino-src
-          mountPath: /opt/trino
-          subPath: opt/trino
-        - name: zookeeper-src
-          mountPath: /opt/zookeeper
-          subPath: opt/zookeeper
         workingDir: /home/zookage
       terminationGracePeriodSeconds: 0
       volumes:
@@ -129,60 +93,7 @@ spec:
       - name: hadoop-secret
         secret:
           secretName: hadoop-secret
-      - name: hbase-conf
-        configMap:
-          name: hbase-conf
-      - name: hbase-src
-        image:
-          reference: zookage-hbase
-          pullPolicy: IfNotPresent
-      - name: hive-conf
-        configMap:
-          name: hive-conf
-      - name: ozone-conf
-        projected:
-          sources:
-          - configMap:
-              name: ozone-conf
-          - configMap:
-              name: hadoop-conf
-              items:
-              - key: core-site.xml
-                path: core-site.xml
-      - name: ozone-src
-        image:
-          reference: zookage-ozone
-          pullPolicy: IfNotPresent
-      - name: spark-src
-        image:
-          reference: zookage-spark
-          pullPolicy: IfNotPresent
-      - name: spark-conf
-        configMap:
-          name: spark-conf
-      - name: tez-conf
-        configMap:
-          name: tez-conf
-      - name: trino-conf
-        configMap:
-          name: trino-conf
-      - name: zookeeper-src
-        image:
-          reference: zookage-zookeeper
-          pullPolicy: IfNotPresent
       - name: hadoop-src
         image:
           reference: zookage-hadoop
-          pullPolicy: IfNotPresent
-      - name: hive-src
-        image:
-          reference: zookage-hive
-          pullPolicy: IfNotPresent
-      - name: tez-src
-        image:
-          reference: zookage-tez
-          pullPolicy: IfNotPresent
-      - name: trino-src
-        image:
-          reference: zookage-trino
           pullPolicy: IfNotPresent
