@@ -16,6 +16,7 @@ This document defines how AI coding agents should be used safely and consistentl
 - Run `./bin/kubectl <args...>` to run `kubectl` in the `zookage` namespace
 - Run `./bin/logs [<pod name>]` to tail logs from all pods or a specific pod
 - Run `./bin/ssh [<pod name>] [<container name>]` to log in to a container (defaults to `client-node-0`)
+- To enable optional client tools in `client-node-0`, uncomment the corresponding `patches/client/<component>.yaml` entries in `kubernetes/kustomization.yaml` and run `./bin/up`. Client distributions and configuration mounts are selected independently from server `resources`.
 
 ## Guidance for Developers
 - Primary quality gate: `./test/lint.sh`
